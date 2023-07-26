@@ -15,4 +15,11 @@ class StockController extends BaseController
         
     }
 
+    public function index()
+    {
+        $data['content'] = 'stock/index';
+        $data['title'] = ' สต๊อกสินค้า';
+        echo view('/app', $data);
+    }
+
 }
