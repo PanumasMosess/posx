@@ -40,7 +40,7 @@ $routes->get('/dashboard', 'Dashboard::index',
 $routes->group('stock',
 // ['filter' => 'employeeAuth'],
 function ($routes) {
-
+    $routes->get('index', 'StockController::index');
 });
 
 /*
