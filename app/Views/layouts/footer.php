@@ -75,8 +75,11 @@
 <script src="<?php echo base_url('vendors/chart_am/kelly.js'); ?>"></script>
 <script src="<?php echo base_url('vendors/chart_am/chart-custom.js'); ?>"></script>
 
+<script src="<?php echo base_url('vendors/parsleyjs/parsley.min.js'); ?>"></script>
+
 <script src="<?php echo base_url('js/dashboard_init.js'); ?>"></script>
 <script src="<?php echo base_url('js/custom.js'); ?>"></script>
+
 <script>
     (function($) {
         let theme_status = localStorage.getItem('theme');
@@ -96,6 +99,9 @@
         localStorage.setItem('theme', false);
     }
 </script>
+<?php if (isset($js_critical)) {
+    echo $js_critical;
+}; ?>
 </body>
 
 </html>

@@ -4,11 +4,10 @@
             <div class="col-12">
                 <div class="white_card mb_30">
                     <div class="white_card_header">
-
                         <div class="bulder_tab_wrapper">
                             <ul class="nav" id="stockTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="Stock-tab" data-bs-toggle="tab" href="#Stock" role="tab" aria-controls="Stock" aria-selected="true">Stock Product</a>
+                                    <a class="nav-link active" id="Stock-tab" data-bs-toggle="tab" href="#Stock" role="tab" aria-controls="Stock" aria-selected="true">สต๊อกสินค้า</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="formular-tab" data-bs-toggle="tab" href="#formular" role="tab" aria-controls="formular" aria-selected="false">สูตรตัดสต๊อก</a>
@@ -18,11 +17,11 @@
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                     <div class="white_card_body">
                         <div class="tab-content" id="stockTabContent">
                             <div class="tab-pane fade show active" id="Stock" role="tabpanel" aria-labelledby="Stock-tab">
+                                <div class=" justify-content-end d-flex"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
                                 <div class="QA_section">
                                     <div class="QA_table mb_30">
                                         <table class="table lms_table_active3">
@@ -38,138 +37,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <a href="#" class="question_content">
-                                                            title here 1</a>
-                                                    </th>
-                                                    <td>Category name</td>
-                                                    <td>Teacher James</td>
-                                                    <td>Lessons name</td>
-                                                    <td>16</td>
-                                                    <td>$25.00</td>
-                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -177,86 +45,55 @@
                             </div>
                             <div class="tab-pane fade" id="formular" role="tabpanel" aria-labelledby="formular-tab">
                                 <div class="builder_select">
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-6">
-                                            <label class="form-label" for="#">Page Loader:</label>
-                                            <div class="common_select">
-                                                <select class="nice_Select wide mb_30" style="display: none;">
-                                                    <option value="">Disabled</option>
-                                                    <option value="">Spiners</option>
-                                                </select>
-                                                <div class="nice-select nice_Select wide mb_30" tabindex="0"><span class="current">Disabled</span>
-                                                    <div class="nice-select-search-box"><input type="text" class="nice-select-search" placeholder="Search..."></div>
-                                                    <ul class="list">
-                                                        <li data-value="" class="option selected">Disabled</li>
-                                                        <li data-value="" class="option">Spiners</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="sumary" role="tabpanel" aria-labelledby="sumary-tab">
                                 <div class="builder_select">
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-6">
-                                            <label class="form-label" for="#">Desktop Fixed Header:</label>
-                                            <div class="common_select">
-                                                <select class="nice_Select wide mb_30" style="display: none;">
-                                                    <option value="">Fixed</option>
-                                                    <option value="">absolute</option>
-                                                </select>
-                                                <div class="nice-select nice_Select wide mb_30" tabindex="0"><span class="current">Fixed</span>
-                                                    <div class="nice-select-search-box"><input type="text" class="nice-select-search" placeholder="Search..."></div>
-                                                    <ul class="list">
-                                                        <li data-value="" class="option selected">Fixed</li>
-                                                        <li data-value="" class="option">absolute</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-6">
-                                            <label class="form-label" for="#">Header Width:</label>
-                                            <div class="common_select">
-                                                <select class="nice_Select wide mb_30" style="display: none;">
-                                                    <option value="">Fluid</option>
-                                                    <option value="">Fixed</option>
-                                                </select>
-                                                <div class="nice-select nice_Select wide mb_30" tabindex="0"><span class="current">Fluid</span>
-                                                    <div class="nice-select-search-box"><input type="text" class="nice-select-search" placeholder="Search..."></div>
-                                                    <ul class="list">
-                                                        <li data-value="" class="option selected">Fluid</li>
-                                                        <li data-value="" class="option">Fixed</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-6">
-                                            <label class="form-label" for="#">Menu Arrows:</label>
-                                            <div class="common_select">
-                                                <select class="nice_Select wide mb_30" style="display: none;">
-                                                    <option value="">Yes</option>
-                                                    <option value="">No</option>
-                                                </select>
-                                                <div class="nice-select nice_Select wide mb_30" tabindex="0"><span class="current">Yes</span>
-                                                    <div class="nice-select-search-box"><input type="text" class="nice-select-search" placeholder="Search..."></div>
-                                                    <ul class="list">
-                                                        <li data-value="" class="option selected">Yes</li>
-                                                        <li data-value="" class="option">No</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Model Add Product -->
+<div class="modal fade bd-add-product" tabindex="-1" role="dialog" aria-labelledby="productModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="closeModalAddStock();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class="box_header m-0">
+                            <div class="main-title">
+                                <h3 class="m-0">เพิ่มสต๊อก</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="addStock">
+                        <div class="white_card_body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <span class id="basic-addon1">ชื่อสินค้า</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="product name" aria-label="Username" aria-describedby="basic-addon1" />
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <span class id="basic-addon1">จำนวน</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="pcs" aria-label="Username" aria-describedby="basic-addon1" />
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
