@@ -41,6 +41,7 @@ $routes->group('stock',
 // ['filter' => 'employeeAuth'],
 function ($routes) {
     $routes->get('index', 'StockController::index');
+    $routes->post('insertProduct', 'StockController::insertproduct');
 });
 
 /*

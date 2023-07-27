@@ -39,6 +39,12 @@
 
     <link rel="stylesheet" href="<?php echo base_url('css/style1.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('css/colors/default.css'); ?>" id="colorSkinCSS" />
+    <?php if (isset($css_critical)) {
+        echo $css_critical;
+    } ?>
+    <script>
+        var serverUrl = '<?php echo base_url(); ?>'
+    </script>
 </head>
 
 <body class="crm_body_bg">
@@ -52,8 +58,8 @@
         </div>
         <ul id="sidebar_menu">
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'stock') {
-                            echo 'active';
-                        } ?>">
+                                echo 'active';
+                            } ?>">
                 <a class="has-arrow" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt />
@@ -76,14 +82,14 @@
                         <span>Stock Products</span>
                     </div>
                 </a>
-                <ul >
-                    <li><a class="" href="<?php echo base_url('/stock/index'); ?>" >Stock</a>
+                <ul>
+                    <li><a class="" href="<?php echo base_url('/stock/index'); ?>">Stock</a>
                     </li>
                 </ul>
             </li>
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'stock') {
-                            echo 'active';
-                        } ?>">
+                                echo 'active';
+                            } ?>">
                 <a class="has-arrow" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/10.svg'); ?>" alt />
