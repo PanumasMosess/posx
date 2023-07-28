@@ -39,9 +39,11 @@
       }
     }
   });
+
   $(".bell_notification_clicker").on("click", function () {
     $(".Menu_NOtification_Wrap").toggleClass("active");
   });
+
   $(document).click(function (event) {
     if (
       !$(event.target).closest(
@@ -51,6 +53,7 @@
       $("body").find(".Menu_NOtification_Wrap").removeClass("active");
     }
   });
+
   $(".CHATBOX_open").on("click", function () {
     $(".CHAT_MESSAGE_POPUPBOX").toggleClass("active");
   });

@@ -135,7 +135,6 @@
                                         <img src="<?php echo base_url('img/icon/bell.svg'); ?>" alt />
                                         <span>2</span>
                                     </a>
-
                                     <div class="Menu_NOtification_Wrap">
                                         <div class="notification_Header">
                                             <h4>Notifications</h4>
