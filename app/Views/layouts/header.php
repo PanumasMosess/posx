@@ -92,9 +92,9 @@
                     </li>
                 </ul>
             </li>
-            <li class="mm-<?php if (service('uri')->getSegment(1) == 'stock') {
-                                echo 'active';
-                            } ?>">
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'setings') {
+                            echo 'active';
+                        } ?>">
                 <a class="has-arrow" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/10.svg'); ?>" alt />
@@ -104,7 +104,7 @@
                     </div>
                 </a>
                 <ul>
-                    <li><a href="Products.html">Group Product</a></li>
+                    <li><a href="<?php echo base_url('/setting/group_product'); ?>">Group Product</a></li>
                 </ul>
             </li>
         </ul>
