@@ -1,5 +1,5 @@
-var itemsArray;
-var itemsArrayOffline;
+var itemsArray = [];
+var itemsArrayOffline = [];
 var isOnline;
 (function ($) {
   isOnline = window.navigator.onLine;
@@ -44,11 +44,11 @@ $("#addStock").submit(function (e) {
     max.isValid() &&
     min.isValid()
   ) {
-    localStorage.removeItem("productsNew");
-    //   itemsArray = [];
+    isOnline = window.navigator.onLine;
+
     arr_product = [
       {
-        name_product: $("#productname").val(),
+        productname: $("#productname").val(),
         category: $("#category").val(),
         price: $("#price").val(),
         pcs: $("#pcs").val(),
@@ -58,28 +58,61 @@ $("#addStock").submit(function (e) {
     ];
 
     if (isOnline) {
+      console.log("Online");
+      //old from table
       itemsArray.push(arr_product);
       localStorage.setItem("productsOld", JSON.stringify(itemsArray));
-      product = JSON.parse(localStorage.productsOld);
-      console.log("Online");
-    } else {
+
+      // new
       itemsArrayOffline.push(arr_product);
       localStorage.setItem("productsNew", JSON.stringify(itemsArrayOffline));
-      product = JSON.parse(localStorage.productsNew);
+
+      productNew = JSON.parse(localStorage.productsNew);
+
+      $.ajax({
+        url: serverUrl + "stock/insertProduct",
+        method: "post",
+        data: {
+          data: productNew,
+        },
+        cache: false,
+        success: function (response) {
+          if(response.message = 'เพิ่มรายการสำเร็จ')
+          {       
+            localStorage.removeItem("productsNew");
+            productNew = [];
+            itemsArrayOffline = [];
+            notif({
+              type: "success",
+              msg: "เพิ่มรายการสำเร็จ!",
+              position: "right",
+              fade: true,
+              time: 300,
+            });
+            $(".bd-add-product").modal("hide");
+            $("#addStock")[0].reset();
+            $("#addStock").parsley().reset();
+            $("#addStock .parsley-required").hide();
+          }
+          else {
+           
+          }
+        
+        },
+      });
+
+    } else {
       console.log("Offline");
+      //old from table
+      itemsArray.push(arr_product);
+      localStorage.setItem("productsOld", JSON.stringify(itemsArray));
+
+      // new
+      itemsArrayOffline.push(arr_product);
+      localStorage.setItem("productsNew", JSON.stringify(itemsArrayOffline));
     }
 
     //   var fields__product = $(this).serialize();
-
-    $.ajax({
-      url: serverUrl + "/stock/insertProduct",
-      method: "post",
-      data: {
-        data: product,
-      },
-      cache: false,
-      success: function (response) {},
-    });
   } else {
     productname.validate();
     category.validate();

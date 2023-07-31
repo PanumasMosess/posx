@@ -102,6 +102,10 @@
 <?php if (isset($js_critical)) {
     echo $js_critical;
 }; ?>
+
+<!-- iziToast -->
+<script src="<?php echo base_url('js/izitoast/iziToast.min.js'); ?>" type="text/javascript"></script>
+
 </body>
 
 </html>
