@@ -39,6 +39,11 @@
 
     <link rel="stylesheet" href="<?php echo base_url('css/style1.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('css/colors/default.css'); ?>" id="colorSkinCSS" />
+     <!-- iziToast css -->
+     <link href="<?php echo base_url('css/izitoast/iziToast.min.css'); ?>" rel="stylesheet">
+         <!-- Plugins css -->
+    <link href="<?php echo base_url('/css/plugins.css'); ?>" rel="stylesheet">
+
     <?php if (isset($css_critical)) {
         echo $css_critical;
     } ?>
