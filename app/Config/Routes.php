@@ -36,6 +36,11 @@ $routes->get('/dashboard', 'Dashboard::index',
 // ['filter' => 'employeeAuth']
 );
 
+$routes->group('setting',  function ($routes) {
+    $routes->get('group_product', 'SettingController::group_product');
+    $routes->post('insertGroupProduct', 'SettingController::insertgroupproduct');
+});
+
 // stock management
 $routes->group('stock',
 // ['filter' => 'employeeAuth'],
