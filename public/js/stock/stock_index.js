@@ -29,12 +29,14 @@ function closeModalAddStock() {
 $("#addStock").submit(function (e) {
   e.preventDefault();
   let product;
+  let baseFileProduct;
   var productname = $("#productname").parsley();
   var category = $("#category").parsley();
   var price = $("#price").parsley();
   var pcs = $("#pcs").parsley();
   var max = $("#max").parsley();
   var min = $("#min").parsley();
+  var file_product = $("#file_product").parsley();
 
   if (
     productname.isValid() &&
@@ -42,7 +44,8 @@ $("#addStock").submit(function (e) {
     price.isValid() &&
     pcs.isValid() &&
     max.isValid() &&
-    min.isValid()
+    min.isValid() &&
+    file_product.isValid()
   ) {
     isOnline = window.navigator.onLine;
 
@@ -54,6 +57,7 @@ $("#addStock").submit(function (e) {
         pcs: $("#pcs").val(),
         max: $("#max").val(),
         min: $("#min").val(),
+        file_product: $("#file_product_base64").val(),
       },
     ];
 
@@ -77,8 +81,7 @@ $("#addStock").submit(function (e) {
         },
         cache: false,
         success: function (response) {
-          if(response.message = 'เพิ่มรายการสำเร็จ')
-          {       
+          if ((response.message = "เพิ่มรายการสำเร็จ")) {
             localStorage.removeItem("productsNew");
             productNew = [];
             itemsArrayOffline = [];
@@ -93,14 +96,10 @@ $("#addStock").submit(function (e) {
             $("#addStock")[0].reset();
             $("#addStock").parsley().reset();
             $("#addStock .parsley-required").hide();
+          } else {
           }
-          else {
-           
-          }
-        
         },
       });
-
     } else {
       console.log("Offline");
       //old from table
@@ -110,6 +109,19 @@ $("#addStock").submit(function (e) {
       // new
       itemsArrayOffline.push(arr_product);
       localStorage.setItem("productsNew", JSON.stringify(itemsArrayOffline));
+
+      notif({
+        type: "success",
+        msg: "เพิ่มรายการสำเร็จ!",
+        position: "right",
+        fade: true,
+        time: 300,
+      });
+      $(".bd-add-product").modal("hide");
+      $("#addStock")[0].reset();
+      $("#addStock").parsley().reset();
+      $("#addStock .parsley-required").hide();
+      
     }
 
     //   var fields__product = $(this).serialize();
@@ -120,5 +132,15 @@ $("#addStock").submit(function (e) {
     pcs.validate();
     max.validate();
     min.validate();
+    file_product.validate();
   }
 });
+
+function encodeImgtoBase64(element) {
+  var img = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function () {
+    $("#file_product_base64").val(reader.result);
+  };
+  reader.readAsDataURL(img);
+}

@@ -78,19 +78,19 @@
                             </div>
                         </div>
                     </div>
-                    <form id="addStock"  name="addStock" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                    <form id="addStock" name="addStock" action="#" method="POST" enctype="multipart/form-data" novalidate>
                         <div class="white_card_body">
                             <div class="input-group mb-3">
                                 <div class="input-group-text">
                                     <span class id="basic-addon1">ชื่อสินค้า</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="product name" aria-label="product name" id="productname" name="productname"  required/>
+                                <input type="text" class="form-control" placeholder="product name" aria-label="product name" id="productname" name="productname" required />
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-text">
                                     <span class id="basic-addon1">หมวดหมู่สินค้า</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category"  required/>
+                                <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required />
                             </div>
                             <div class="row g-12">
                                 <div class="col-6">
@@ -126,6 +126,12 @@
                                         </div>
                                         <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="min" name="min" placeholder="MIN" required>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row g-12">
+                                <div class="input-group mb-3">
+                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);" required/>
+                                    <input type="hidden"  id="file_product_base64"  name="file_product_base64" />
                                 </div>
                             </div>
                             <div class="col-auto justify-content-end" style="display: flex;">

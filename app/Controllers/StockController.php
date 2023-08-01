@@ -13,7 +13,7 @@ class StockController extends BaseController
     public function __construct()
     {
         // Model
-        $this->StockModel = new \App\Models\StockModel();;
+        $this->StockModel = new \App\Models\StockModel();
     }
 
     public function index()
@@ -23,6 +23,7 @@ class StockController extends BaseController
         $data['css_critical'] = '<link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />';
         $data['js_critical'] = ' 
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script>
+            <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>
             <script src="' . base_url('/js/stock/stock_index.js?v=' . time()) . '"></script>
         ';
         echo view('/app', $data);
@@ -50,6 +51,18 @@ class StockController extends BaseController
             $sprintf_stock_code = sprintf("%08d", $sum_stock_code);
             $stock_running_code = "POXS" . $sprintf_stock_code;
 
+            $file = $data[0]['file_product'];
+
+            $new_file = explode(";", $file);
+            $new_file_move = explode(",", $file);
+            $type = $new_file[0];
+            $type_real = explode("/", $type);
+
+            // var_dump($type_real[1]);
+            // exit;
+
+            file_put_contents('uploads/temps_stock/' . $stock_running_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+
             //data stock table
             $data_stock = [
                 'stock_code' => $stock_running_code,
@@ -59,7 +72,7 @@ class StockController extends BaseController
                 'price' =>  $data[0]['price'],
                 'pcs' =>  $data[0]['pcs'],
                 'status_stock' => 'IN_STOCK',
-                'src_picture' => '',
+                'src_picture' => 'uploads/temps_stock/' . $stock_running_code . '.' . $type_real[1],
                 'created_by' => 'Admin'
             ];
 
