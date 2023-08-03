@@ -39,6 +39,12 @@ $routes->get('/dashboard', 'Dashboard::index',
 $routes->group('setting',  function ($routes) {
     $routes->get('group_product', 'SettingController::group_product');
     $routes->post('insertGroupProduct', 'SettingController::insertgroupproduct');
+
+    $routes->get('supplier', 'SettingController::supplier');
+    $routes->post('addSupplier', 'SettingController::addSupplier');
+    // $routes->get('editSupplier/(:num)', 'SettingController::editSupplier/$1');
+    // $routes->post('updateSupplier', 'SettingController::updateSupplier');
+    // $routes->get('deleteSupplier/(:num)', 'SettingController::deleteSupplier/$1');
 });
 
 // stock management

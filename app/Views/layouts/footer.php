@@ -80,6 +80,8 @@
 <script src="<?php echo base_url('js/dashboard_init.js'); ?>"></script>
 <script src="<?php echo base_url('js/custom.js'); ?>"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
+
 <script>
     (function($) {
         let theme_status = localStorage.getItem('theme');
