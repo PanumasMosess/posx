@@ -47,6 +47,8 @@ $routes->group('stock',
 function ($routes) {
     $routes->get('index', 'StockController::index');
     $routes->post('insertProduct', 'StockController::insertproduct');
+    $routes->post('dataStock', 'StockController::fetchDataStock');  
+    $routes->get('getTempOffline', 'StockController::fetchDataStockOffline'); 
 });
 
 /*

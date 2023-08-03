@@ -51,7 +51,7 @@ class StockController extends BaseController
             $sprintf_stock_code = sprintf("%08d", $sum_stock_code);
             $stock_running_code = "POXS" . $sprintf_stock_code;
 
-            $file = $data[0]['file_product'];
+            $file = $data[0]['src_picture'];
 
             $new_file = explode(";", $file);
             $new_file_move = explode(",", $file);
@@ -66,9 +66,9 @@ class StockController extends BaseController
             //data stock table
             $data_stock = [
                 'stock_code' => $stock_running_code,
-                'name' => $data[0]['productname'],
-                'MAX' => $data[0]['max'],
-                'MIN' => $data[0]['min'],
+                'name' => $data[0]['name'],
+                'MAX' => $data[0]['MAX'],
+                'MIN' => $data[0]['MIN'],
                 'price' =>  $data[0]['price'],
                 'pcs' =>  $data[0]['pcs'],
                 'status_stock' => 'IN_STOCK',
@@ -102,5 +102,31 @@ class StockController extends BaseController
         } else {
             //  ว่าง
         }
+    }
+
+    public function fetchDataStock()
+    {
+        $datas_stock = $this->StockModel->_getAllDataStock($_POST);
+
+        $datas_count = $this->StockModel->countAllDataStock();
+
+        $filter = $this->StockModel->getAllDataStockFilter();
+
+        $total_records = $datas_count;
+
+        return $this->response->setJSON([
+            'draw' => $_POST['draw'],
+            'recordsTotal' => $total_records,
+            'recordsFiltered' => count($filter),
+            "data" => $datas_stock,
+        ]);
+    }
+
+    public function fetchDataStockOffline()
+    {
+        $datas_stock = $this->StockModel->getAllDataStockFilter();
+        return $this->response->setJSON([
+            "data" => $datas_stock,
+        ]);
     }
 }
