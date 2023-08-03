@@ -21,19 +21,21 @@
                     <div class="white_card_body">
                         <div class="tab-content" id="stockTabContent">
                             <div class="tab-pane fade show active" id="Stock" role="tabpanel" aria-labelledby="Stock-tab">
-                                <div class=" justify-content-end d-flex"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
+                                <div class=" justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
                                 <div class="QA_section">
                                     <div class="QA_table mb_30">
-                                        <table class="table lms_table_active3">
+                                        <table class="table" id="stockTable">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">title</th>
-                                                    <th scope="col">Category</th>
-                                                    <th scope="col">Teacher</th>
-                                                    <th scope="col">Lesson</th>
-                                                    <th scope="col">Enrolled</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Status</th>
+                                                    <th scope="col">No.</th>
+                                                    <th scope="col">สินค้า</th>
+                                                    <th scope="col">หมวดหมู่สินค้า</th>
+                                                    <th scope="col">จำนวน (Balance)</th>
+                                                    <th scope="col">Minimum</th>
+                                                    <th scope="col">ราคา / หน่วย</th>
+                                                    <th scope="col">Last Update</th>
+                                                    <th scope="col">Transaction</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -130,8 +132,8 @@
                             </div>
                             <div class="row g-12">
                                 <div class="input-group mb-3">
-                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);" required/>
-                                    <input type="hidden"  id="file_product_base64"  name="file_product_base64" />
+                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);" required />
+                                    <input type="hidden" id="file_product_base64" name="file_product_base64" />
                                 </div>
                             </div>
                             <div class="col-auto justify-content-end" style="display: flex;">
