@@ -19,9 +19,7 @@ class SettingController extends BaseController
     {
         $data['content'] = 'setting/group_product';
         $data['title'] = 'หมวดสินค้า';
-        $data['js_critical'] = ' 
-        <script src="' . base_url('/js/setting/group_product.js?v=' . time()) . '"></script>
-    ';
+        $data['js_critical'] = '<script src="' . base_url('/js/setting/group_product.js?v=' . time()) . '"></script>';
         echo view('/app', $data);
     }
 
@@ -66,5 +64,113 @@ class SettingController extends BaseController
             //  ว่าง
         }
     }
+
+    public function supplier()
+    {
+        $this->SupplierModel = new \App\Models\SupplierModel();
+        $data['suppliers'] = $this->SupplierModel->getSupplierAll();
+
+        $data['content'] = 'setting/supplier';
+        $data['title'] = 'supplier';
+        $data['js_critical'] = '<script src="' . base_url('/js/setting/supplier.js?v=' . time()) . '"></script>';
+        echo view('/app', $data);
+    }
+
+    // addSupplier data 
+    public function addSupplier()
+    {
+        $this->SupplierModel = new \App\Models\SupplierModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            // HANDLE REQUEST
+            $create = $this->SupplierModel->insertSupplier([
+                'supplier_name' => $this->request->getVar('supplier_name'),
+                'created_by' => 'Test',
+                'updated_by' => '',
+
+            ]);
+            // return redirect()->to('/employee/list');
+            if ($create) {
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม Supplier สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม Supplier ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+    // //edit Supplier
+    // public function editSupplier($id = null)
+    // {
+    //     $this->SupplierModel = new \App\Models\SupplierModel();
+    //     $data = $this->SupplierModel->getSupplierByID($id);
+
+    //     if ($data) {
+    //         echo json_encode(array("status" => true, 'data' => $data));
+    //     } else {
+    //         echo json_encode(array("status" => false));
+    //     }
+    // }
+
+    // //updateSupplier
+    // public function updateSupplier()
+    // {
+    //     $this->SupplierModel = new \App\Models\SupplierModel();
+
+    //     try {
+    //         // SET CONFIG
+    //         $status = 500;
+    //         $response['success'] = 0;
+    //         $response['message'] = '';
+    //         $id = $this->request->getVar('BranchId');
+
+    //         // HANDLE REQUEST
+    //         $update = $this->SupplierModel->updateSupplierByID($id, [
+    //             'branch_name' => $this->request->getVar('editBranch'),
+    //             'updated_at' => date('Y-m-d H:i:s')
+    //         ]);
+
+    //         if ($update) {
+    //             $status = 200;
+    //             $response['success'] = 1;
+    //             $response['message'] = 'แก้ไข สาขา สำเร็จ';
+    //         } else {
+    //             $status = 200;
+    //             $response['success'] = 0;
+    //             $response['message'] = 'แก้ไข สาขา ไม่สำเร็จ';
+    //         }
+
+    //         return $this->response
+    //             ->setStatusCode($status)
+    //             ->setContentType('application/json')
+    //             ->setJSON($response);
+    //     } catch (\Exception $e) {
+    //         echo $e->getMessage() . ' ' . $e->getLine();
+    //     }
+    // }
+
+    // // delete Branch
+    // public function deleteSupplier($id = null)
+    // {
+    //     $this->SupplierModel = new \App\Models\SupplierModel();
+    //     $this->SupplierModel->updateSupplierByID($id, [
+    //         'deleted_at' => date('Y-m-d H:i:s')
+    //     ]);
+
+    // }
 
 }
