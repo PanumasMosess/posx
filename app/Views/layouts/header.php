@@ -111,6 +111,7 @@
                 </a>
                 <ul>
                     <li><a href="<?php echo base_url('/setting/group_product'); ?>">Group Product</a></li>
+                    <li><a href="<?php echo base_url('/setting/supplier'); ?>">Supplier</a></li>
                 </ul>
             </li>
         </ul>
