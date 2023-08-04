@@ -212,4 +212,11 @@ class StockModel
 
         return $builder->where('id', $id)->update($stock_data);
     }
+
+    public function deleteStock($stock_data, $id)
+    {
+        $builder = $this->db->table('stock_posx');
+
+        return $builder->where('id', $id)->update($stock_data);
+    }
 }

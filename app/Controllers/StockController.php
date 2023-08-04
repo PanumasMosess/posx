@@ -219,4 +219,45 @@ class StockController extends BaseController
             //  ว่าง
         }
     }
+
+    public function deleteproduct()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+            
+            $data_stock = [
+                'status_stock' => 'CANCEL_STOCK',
+                'updated_by' => 'Admin',
+                'deleted_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->StockModel->deleteStock($data_stock, $data[0]['id']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ลบรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
 }
