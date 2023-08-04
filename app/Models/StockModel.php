@@ -205,4 +205,11 @@ class StockModel
         $builder = $this->db->query($sql);
         return $builder->getRow();
     }
+
+    public function updateStock($stock_data, $id)
+    {
+        $builder = $this->db->table('stock_posx');
+
+        return $builder->where('id', $id)->update($stock_data);
+    }
 }

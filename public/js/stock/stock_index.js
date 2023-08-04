@@ -63,6 +63,7 @@ $("#addStock").submit(function (e) {
         MAX: $("#max").val(),
         MIN: $("#min").val(),
         src_picture: $("#file_product_base64").val(),
+        updated_at: '',
       },
     ];
 
@@ -116,6 +117,11 @@ $("#addStock").submit(function (e) {
       itemsArrayOffline.push(arr_product);
       localStorage.setItem("productsNew", JSON.stringify(itemsArrayOffline));
 
+      $(".bd-add-product").modal("hide");
+      $("#addStock")[0].reset();
+      $("#addStock").parsley().reset();
+      $("#addStock .parsley-required").hide();
+
       notif({
         type: "success",
         msg: "เพิ่มรายการสำเร็จ!",
@@ -123,10 +129,8 @@ $("#addStock").submit(function (e) {
         fade: true,
         time: 300,
       });
-      $(".bd-add-product").modal("hide");
-      $("#addStock")[0].reset();
-      $("#addStock").parsley().reset();
-      $("#addStock .parsley-required").hide();
+
+ 
 
       loadTableStock();
     }
@@ -333,6 +337,7 @@ function offlineTemp() {
             MAX: response.data[index].MAX,
             MIN: response.data[index].MIN,
             src_picture: response.data[index].src_picture,
+            updated_at: response.data[index].updated_at,
           },
         ];
 
@@ -366,7 +371,22 @@ function updateStockData(data) {
       },
     });
   } else {
-    
+    $(".bd-add-product").modal("show");
+    array_temp_update = [];
+    array_temp_update.push(JSON.parse(localStorage.productsOld));
+    array_temp_update = array_temp_update[0];
+    for (i_temp = 0; i_temp < array_temp_update.length; i_temp++) {
+      if (array_temp_update[i_temp]["id"] == data) {
+        $("#productname").val(array_temp_update[i_temp]["name"]);
+        $("#category").val(array_temp_update[i_temp]["group_id"]);
+        $("#price").val(array_temp_update[i_temp]["price"]);
+        $("#pcs").val(array_temp_update[i_temp]["pcs"]);
+        $("#max").val(array_temp_update[i_temp]["MAX"]);
+        $("#min").val(array_temp_update[i_temp]["MIN"]);
+        $("#file_oldname").val(array_temp_update[i_temp]["src_picture"]);
+        $("#id_db").val(data);
+      }
+    }
   }
 }
 
@@ -387,13 +407,44 @@ function submitDataUpdate() {
     },
   ];
 
-  if (isOnline) {
+  itemsArrayUpdate.push(arr_product_update);
 
-    //clear after update 
-    itemsArrayUpdate = [];
-    loadTableStock.removeItem("productsOldUpdate");
+  if (isOnline) {
+    $.ajax({
+      url: serverUrl + "stock/updateProduct",
+      method: "post",
+      data: {
+        data: itemsArrayUpdate,
+      },
+      cache: false,
+      success: function (response) {
+        if ((response.message = "แก้ไขรายการสำเร็จ")) {
+          notif({
+            type: "success",
+            msg: "แก้ไขรายการสำเร็จ!",
+            position: "right",
+            fade: true,
+            time: 300,
+          });
+          //clear after update
+          itemsArrayUpdate = [];
+          localStorage.removeItem("productsOldUpdate");
+          $(".bd-add-product").modal("hide");
+          $("#addStock")[0].reset();
+          $("#addStock").parsley().reset();
+          $("#addStock .parsley-required").hide();
+          loadTableStock();
+        } else {
+        }
+      },
+    });
   } else {
-    itemsArrayUpdate.push(arr_product_update[0]);
+    itemsArrayUpdate.push(arr_product_update);
     localStorage.setItem("productsOldUpdate", JSON.stringify(itemsArrayUpdate));
+    $(".bd-add-product").modal("hide");
+    $("#addStock")[0].reset();
+    $("#addStock").parsley().reset();
+    $("#addStock .parsley-required").hide();
+    loadTableStock();
   }
 }
