@@ -1,5 +1,6 @@
 var itemsArray = [];
 var itemsArrayOffline = [];
+var itemsArrayUpdate = [];
 var isOnline;
 (function ($) {
   isOnline = window.navigator.onLine;
@@ -19,10 +20,13 @@ var isOnline;
 
 function openModalProduct() {
   $(".bd-add-product").modal("show");
+  $("#save_stock_btn").show();
+  $("#update_stock_btn").hide();
 }
 
 function closeModalAddStock() {
   $(".bd-add-product").modal("hide");
+  $("#update_stock_btn").hide();
   $("#addStock")[0].reset();
   $("#addStock").parsley().reset();
   $("#addStock .parsley-required").hide();
@@ -51,6 +55,7 @@ $("#addStock").submit(function (e) {
 
     arr_product = [
       {
+        id: "",
         name: $("#productname").val(),
         group_id: $("#category").val(),
         price: $("#price").val(),
@@ -124,7 +129,6 @@ $("#addStock").submit(function (e) {
       $("#addStock .parsley-required").hide();
 
       loadTableStock();
-
     }
 
     //   var fields__product = $(this).serialize();
@@ -197,21 +201,21 @@ function loadTableStock() {
         {
           data: null,
           render: function (data, type, row, meta) {
-            return '<a href="#" class="btn btn-link">View Transaction</a>';
+            return '<a href="#" >View Transaction</a>';
           },
         },
         {
           data: null,
           render: function (data, type, row, meta) {
-            return '<button type="button" class="btn btn-outline-primary mr_10"><i class="far fa-edit"></i></button><button type="button"  class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>';
+            return (
+              "<a herf='javascript:void(0);' type='button' class='action_btn' onclick='updateStockData(this.id);' id='" +
+              data["id"] +
+              "' data-toggle='tooltip' data-placement='top' title='แก้ไขข้อมูล'><i class='far fa-edit'></i></a><a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' title='ลบข้อมูล'><i class='fas fa-trash'></i></a>"
+            );
           },
         },
       ],
       columnDefs: [
-        {
-          targets: 7,
-          className: "text-center",
-        },
         {
           targets: 8,
           className: "text-center",
@@ -245,7 +249,7 @@ function loadTableStock() {
         },
       },
       order: [],
-      data:  JSON.parse(localStorage.productsOld),
+      data: JSON.parse(localStorage.productsOld),
       columns: [
         {
           data: null,
@@ -269,29 +273,26 @@ function loadTableStock() {
           data: "price",
         },
         {
+          data: "updated_at",
+        },
+        {
           data: null,
           render: function (data, type, row, meta) {
-            return '<p>Offline.</p>';
+            return '<a href="#" >View Transaction</a>';
           },
         },
         {
           data: null,
           render: function (data, type, row, meta) {
-            return '<a href="#" class="btn btn-link">View Transaction</a>';
-          },
-        },
-        {
-          data: null,
-          render: function (data, type, row, meta) {
-            return '<button type="button" class="btn btn-outline-primary mr_10"><i class="far fa-edit"></i></button><button type="button"  class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>';
+            return (
+              "<a herf='javascript:void(0);' type='button' class='action_btn' onclick='updateStockData(this.id);' id='" +
+              data["id"] +
+              "' data-toggle='tooltip' data-placement='top' title='แก้ไขข้อมูล'><i class='far fa-edit'></i></a>&nbsp;<a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' title='ลบข้อมูล'><i class='fas fa-trash'></i></a>"
+            );
           },
         },
       ],
       columnDefs: [
-        {
-          targets: 7,
-          className: "text-center",
-        },
         {
           targets: 8,
           className: "text-center",
@@ -313,18 +314,18 @@ function loadTableStock() {
 }
 
 function offlineTemp() {
+  $("#update_stock_btn").hide();
   // localStorage.removeItem("productsOld");
-  let  arr_temp = [];
-  localStorage.removeItem('productsOld');
+  let arr_temp = [];
+  localStorage.removeItem("productsOld");
   $.ajax({
     url: serverUrl + "/stock/getTempOffline",
     method: "get",
     success: function (response) {
-     
-      for(index = 0; index < response.data.length; index++)
-      {
+      for (index = 0; index < response.data.length; index++) {
         arr_temp = [
           {
+            id: response.data[index].id,
             name: response.data[index].name,
             group_id: response.data[index].group_id,
             price: response.data[index].price,
@@ -337,8 +338,62 @@ function offlineTemp() {
 
         itemsArray.push(arr_temp[0]);
       }
- 
+
       localStorage.setItem("productsOld", JSON.stringify(itemsArray));
     },
   });
+}
+
+function updateStockData(data) {
+  $("#save_stock_btn").hide();
+  $("#update_stock_btn").show();
+  isOnline = window.navigator.onLine;
+  if (isOnline) {
+    $.ajax({
+      url: serverUrl + "/stock/getTempUpdate/" + +data,
+      method: "get",
+      success: function (response) {
+        $(".bd-add-product").modal("show");
+
+        $("#productname").val(response.data.name);
+        $("#category").val(response.data.group_id);
+        $("#price").val(response.data.price);
+        $("#pcs").val(response.data.pcs);
+        $("#max").val(response.data.MAX);
+        $("#min").val(response.data.MIN);
+        $("#file_oldname").val(response.data.src_picture);
+        $("#id_db").val(response.data.id);
+      },
+    });
+  } else {
+    
+  }
+}
+
+function submitDataUpdate() {
+  isOnline = window.navigator.onLine;
+
+  arr_product_update = [
+    {
+      id: $("#id_db").val(),
+      name: $("#productname").val(),
+      group_id: $("#category").val(),
+      price: $("#price").val(),
+      pcs: $("#pcs").val(),
+      MAX: $("#max").val(),
+      MIN: $("#min").val(),
+      src_picture: $("#file_product_base64").val(),
+      old_src_picture: $("#file_oldname").val(),
+    },
+  ];
+
+  if (isOnline) {
+
+    //clear after update 
+    itemsArrayUpdate = [];
+    loadTableStock.removeItem("productsOldUpdate");
+  } else {
+    itemsArrayUpdate.push(arr_product_update[0]);
+    localStorage.setItem("productsOldUpdate", JSON.stringify(itemsArrayUpdate));
+  }
 }

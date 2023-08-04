@@ -86,6 +86,7 @@ class StockModel
         $builder = $this->db->table('stock_posx');
 
         $builder->select("
+        id,
         stock_code, 
         name, 
         group_id, 
@@ -158,6 +159,7 @@ class StockModel
 
         $sql = "            
         SELECT
+        id,
         stock_code, 
         name, 
         group_id, 
@@ -194,5 +196,13 @@ class StockModel
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
+    }
+
+    public function getDataUpdate($id)
+    {
+        $sql = "SELECT * FROM stock_posx where id = '$id'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
     }
 }

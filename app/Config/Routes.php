@@ -55,6 +55,7 @@ function ($routes) {
     $routes->post('insertProduct', 'StockController::insertproduct');
     $routes->post('dataStock', 'StockController::fetchDataStock');  
     $routes->get('getTempOffline', 'StockController::fetchDataStockOffline'); 
+    $routes->get('getTempUpdate/(:any)', 'StockController::fetchUpdateStock/$1');  
 });
 
 /*

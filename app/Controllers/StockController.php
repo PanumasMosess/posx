@@ -129,4 +129,16 @@ class StockController extends BaseController
             "data" => $datas_stock,
         ]);
     }
+
+    public function fetchUpdateStock($id = null)
+    {
+        $look_data = $this->StockModel->getDataUpdate($id);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
+
+    }
 }
