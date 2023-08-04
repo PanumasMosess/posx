@@ -1,12 +1,14 @@
 var itemsArray = [];
 var itemsArrayOffline = [];
 var itemsArrayUpdate = [];
+var itemsArrayDelete = [];
 var isOnline;
 (function ($) {
   isOnline = window.navigator.onLine;
 
   if (isOnline) {
     offlineTemp();
+    updateStoreToOnline();
     itemsArray = localStorage.getItem("productsOld")
       ? JSON.parse(localStorage.getItem("productsOld"))
       : [];
@@ -63,7 +65,7 @@ $("#addStock").submit(function (e) {
         MAX: $("#max").val(),
         MIN: $("#min").val(),
         src_picture: $("#file_product_base64").val(),
-        updated_at: '',
+        updated_at: "",
       },
     ];
 
@@ -129,8 +131,6 @@ $("#addStock").submit(function (e) {
         fade: true,
         time: 300,
       });
-
- 
 
       loadTableStock();
     }
@@ -214,7 +214,9 @@ function loadTableStock() {
             return (
               "<a herf='javascript:void(0);' type='button' class='action_btn' onclick='updateStockData(this.id);' id='" +
               data["id"] +
-              "' data-toggle='tooltip' data-placement='top' title='แก้ไขข้อมูล'><i class='far fa-edit'></i></a><a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' title='ลบข้อมูล'><i class='fas fa-trash'></i></a>"
+              "' data-toggle='tooltip' data-placement='top' title='แก้ไขข้อมูล'><i class='far fa-edit'></i></a><a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' id='" +
+              data["id"] +
+              "' onclick='deleteStock(this.id)' title='ลบข้อมูล'><i class='fas fa-trash'></i></a>"
             );
           },
         },
@@ -291,7 +293,9 @@ function loadTableStock() {
             return (
               "<a herf='javascript:void(0);' type='button' class='action_btn' onclick='updateStockData(this.id);' id='" +
               data["id"] +
-              "' data-toggle='tooltip' data-placement='top' title='แก้ไขข้อมูล'><i class='far fa-edit'></i></a>&nbsp;<a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' title='ลบข้อมูล'><i class='fas fa-trash'></i></a>"
+              "' data-toggle='tooltip' data-placement='top' title='แก้ไขข้อมูล'><i class='far fa-edit'></i></a><a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' id='" +
+              data["id"] +
+              "' onclick='deleteStock(this.id)' title='ลบข้อมูล'><i class='fas fa-trash'></i></a>"
             );
           },
         },
@@ -446,5 +450,129 @@ function submitDataUpdate() {
     $("#addStock").parsley().reset();
     $("#addStock .parsley-required").hide();
     loadTableStock();
+  }
+}
+
+function deleteStock(id) {
+  isOnline = window.navigator.onLine;
+  Swal.fire({
+    title: "ยกเลิกรายการ",
+    text: "คุณต้องยกเลิกรายการนี้ !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "ปิด",
+    confirmButtonText: "ตกลง",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      itemsArrayDeleteTemp = [
+        {
+          id: id,
+        },
+      ];
+
+      itemsArrayDelete.push(itemsArrayDeleteTemp);
+
+      if (isOnline) {
+        $.ajax({
+          url: serverUrl + "stock/deleteProduct",
+          method: "post",
+          data: {
+            data: itemsArrayDelete,
+          },
+          cache: false,
+          success: function (response) {
+            if ((response.message = "ลบรายการสำเร็จ")) {
+              notif({
+                type: "success",
+                msg: "ลบรายการสำเร็จ!",
+                position: "right",
+                fade: true,
+                time: 300,
+              });
+              //clear after update
+              itemsArrayDelete = [];
+              itemsArrayDeleteTemp = [];
+              localStorage.removeItem("productsOldDelete");
+              loadTableStock();
+            } else {
+            }
+          },
+        });
+      } else {
+        itemsArrayDelete.push(itemsArrayDeleteTemp);
+        localStorage.setItem(
+          "productsOldDelete",
+          JSON.stringify(itemsArrayDelete)
+        );
+        loadTableStock();
+      }
+    }
+  });
+}
+
+function updateStoreToOnline() {
+  productsNew = JSON.parse(localStorage.getItem("productsNew"))
+    ? JSON.parse(localStorage.getItem("productsNew"))
+    : [];
+  productsOldUpdate = JSON.parse(localStorage.getItem("productsOldUpdate"))
+    ? JSON.parse(localStorage.getItem("productsOldUpdate"))
+    : [];
+  productsOldDelete = JSON.parse(localStorage.getItem("productsOldDelete"))
+    ? JSON.parse(localStorage.getItem("productsOldDelete"))
+    : [];
+
+  if (productsNew.length != 0) {
+    $.ajax({
+      url: serverUrl + "stock/insertProduct",
+      method: "post",
+      data: {
+        data: productsNew,
+      },
+      cache: false,
+      success: function (response) {
+        if ((response.message = "เพิ่มรายการสำเร็จ")) {
+          localStorage.removeItem("productsNew");
+          productsNew = [];
+          itemsArrayOffline = [];
+          loadTableStock();
+        } else {
+        }
+      },
+    });
+    productsNew = [];
+  } else if (productsOldUpdate != 0) {
+    $.ajax({
+      url: serverUrl + "stock/updateProduct",
+      method: "post",
+      data: {
+        data: productsOldUpdate,
+      },
+      cache: false,
+      success: function (response) {
+        if ((response.message = "แก้ไขรายการสำเร็จ")) {
+          itemsArrayUpdate = [];
+          localStorage.removeItem("productsOldUpdate");
+          loadTableStock();
+        } else {
+        }
+      },
+    });
+    productsOldUpdate = [];
+  } else if (productsOldDelete != 0) {
+    $.ajax({
+      url: serverUrl + "stock/deleteProduct",
+      method: "post",
+      data: {
+        data: productsOldDelete,
+      },
+      cache: false,
+      success: function (response) {
+        localStorage.removeItem("productsOldDelete");
+        itemsArrayDelete = [];
+        productsOldUpdate = [];
+      },
+    });
   }
 }
