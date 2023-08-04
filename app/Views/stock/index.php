@@ -21,21 +21,21 @@
                     <div class="white_card_body">
                         <div class="tab-content" id="stockTabContent">
                             <div class="tab-pane fade show active" id="Stock" role="tabpanel" aria-labelledby="Stock-tab">
-                                <div class=" justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
+                                <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
                                 <div class="QA_section">
                                     <div class="QA_table mb_30">
-                                        <table class="table" id="stockTable">
+                                        <table class="table lms_table_active3" id="stockTable">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">No.</th>
-                                                    <th scope="col">สินค้า</th>
-                                                    <th scope="col">หมวดหมู่สินค้า</th>
-                                                    <th scope="col">จำนวน (Balance)</th>
-                                                    <th scope="col">Minimum</th>
-                                                    <th scope="col">ราคา / หน่วย</th>
-                                                    <th scope="col">Last Update</th>
-                                                    <th scope="col">Transaction</th>
-                                                    <th scope="col">Action</th>
+                                                    <th>No.</th>
+                                                    <th>สินค้า</th>
+                                                    <th>หมวดหมู่สินค้า</th>
+                                                    <th>จำนวน (Balance)</th>
+                                                    <th>Minimum</th>
+                                                    <th>ราคา / หน่วย</th>
+                                                    <th>Last Update</th>
+                                                    <th>Transaction</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -44,6 +44,7 @@
                                         </table>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="tab-pane fade" id="formular" role="tabpanel" aria-labelledby="formular-tab">
                                 <div class="builder_select">
@@ -86,6 +87,7 @@
                                 <div class="input-group-text">
                                     <span class id="basic-addon1">ชื่อสินค้า</span>
                                 </div>
+                                <input type="hidden" id="id_db" name="id_db" />
                                 <input type="text" class="form-control" placeholder="product name" aria-label="product name" id="productname" name="productname" required />
                             </div>
                             <div class="input-group mb-3">
@@ -134,13 +136,17 @@
                                 <div class="input-group mb-3">
                                     <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);" required />
                                     <input type="hidden" id="file_product_base64" name="file_product_base64" />
+                                    <input type="hidden" id="file_oldname" name="file_oldname" />
                                 </div>
                             </div>
                             <div class="col-auto justify-content-end" style="display: flex;">
                                 <button type="button" onclick="closeModalAddStock();" class="btn btn-outline-danger m-1">
                                     ยกเลิก
                                 </button>
-                                <button type="submit" class="btn btn-outline-success m-1">
+                                <button type="submit" id='save_stock_btn' class="btn btn-outline-success m-1">
+                                    ยืนยัน
+                                </button>
+                                <button type="button" id='update_stock_btn' class="btn btn-outline-warning m-1" onclick="submitDataUpdate();">
                                     ยืนยัน
                                 </button>
                             </div>

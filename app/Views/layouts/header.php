@@ -39,14 +39,20 @@
 
     <link rel="stylesheet" href="<?php echo base_url('css/style1.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('css/colors/default.css'); ?>" id="colorSkinCSS" />
-     <!-- iziToast css -->
-     <link href="<?php echo base_url('css/izitoast/iziToast.min.css'); ?>" rel="stylesheet">
-         <!-- Plugins css -->
+    <!-- iziToast css -->
+    <link href="<?php echo base_url('css/izitoast/iziToast.min.css'); ?>" rel="stylesheet">
+    <!-- Plugins css -->
     <link href="<?php echo base_url('/css/plugins.css'); ?>" rel="stylesheet">
 
     <?php if (isset($css_critical)) {
         echo $css_critical;
     } ?>
+    <style type="text/css">
+        div.scroll {
+            width: 100%;
+            overflow-x: auto;
+        }
+    </style>
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
     </script>
@@ -93,8 +99,8 @@
                 </ul>
             </li>
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'setings') {
-                            echo 'active';
-                        } ?>">
+                                echo 'active';
+                            } ?>">
                 <a class="has-arrow" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/10.svg'); ?>" alt />
