@@ -260,4 +260,15 @@ class StockController extends BaseController
             //  ว่าง
         }
     }
+
+    public function fetchGroupData()
+    {
+        $data = $this->StockModel->getGroupData();
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $data
+        ]);
+    }
 }
