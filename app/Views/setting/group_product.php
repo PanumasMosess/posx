@@ -15,7 +15,7 @@
               <div class="white_box_tittle list_header mt-3">
                 <h4>Group Product</h4>
                 <div class="box_right d-flex lms_block">
-                  <div class="serach_field_2 mt-1">
+                  <!-- <div class="serach_field_2 mt-1">
                     <div class="search_inner">
                       <form active="#">
                         <div class="search_field">
@@ -26,7 +26,7 @@
                         </button>
                       </form>
                     </div>
-                  </div>
+                  </div> -->
                   <!-- <div class="add_button ms-2">
                     <a href="#" data-toggle="modal" data-target="#addGroupProduct" class="btn_1">Add New</a>
                   </div> -->
@@ -46,7 +46,33 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    <?php if ($group_products) : ?>
+                      <?php $i = 0 ?>
+                      <?php foreach ($group_products as $group_product) : ?>
+                        <?php $i++ ?>
+
+                        <tr id="<?php echo $group_product->id; ?>">
+                          <td><?php echo $i; ?></td>
+                          <td><?php echo $group_product->name; ?></td>
+                          <td><?php echo $group_product->unit; ?></td>
+                          <td class="text-center"> <?php echo $group_product->created_at; ?></td>
+                          <?php if ($group_product->updated_at == '') {
+                            $updated = $group_product->created_at;
+                          } else {
+                            $updated = $group_product->updated_at;
+                          }
+                          ?>
+                          <td class="text-center"><?php echo $updated; ?></td>
+                          <td>
+                            <div class="action_btns d-flex" style="justify-content: center;">
+                              <a href="#" class="action_btn btnEditGroupProduct mr_10" data-id="<?php echo $group_product->id; ?>"> <i class="far fa-edit"></i> </a>
+                              <a href="#" class="action_btn btnDeleteGroupProduct" data-id="<?php echo $group_product->id; ?>"> <i class="fas fa-trash"></i> </a>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                    <!-- <tr>
                       <th class="text-center">1</th>
                       <td class="text-center">เครื่องดื่ม</td>
                       <td class="text-center">ขวด</td>
@@ -58,7 +84,7 @@
                           <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
                         </div>
                       </td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -69,48 +95,94 @@
     </div>
   </div>
 </div>
-<!-- Model Add Product -->
-<div class="modal fade bd-add-group-product" tabindex="-1" role="dialog" aria-labelledby="productModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content p-4">
-            <div class="col-lg-12">
-                <div class="white_card card_height_100 mb_30">
-                    <button type="button" class="close" aria-label="Close" onclick="closeModalAddGroupProduct();">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="white_card_header">
-                        <div class=" m-0">
-                            <div class="justify-content-center" style="display:flex;">
-                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่มหมวดสินค้า</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <form id="addGroupProduct"  name="addGroupProduct" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                        <div class="white_card_body">
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <span class id="basic-addon1">หมวดหมู่สินค้า</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="หมวดหมู่สินค้า" aria-label="category_name" id="category_name" name="category_name"  required/>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <span class id="basic-addon1">หน่วยสินค้า</span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="หน่วยสินค้า" aria-label="product unit" id="productunit" name="productunit"  required/>
-                            </div>
-                            <div class="col-auto justify-content-end" style="display: flex;">
-                                <button type="button" onclick="closeModalAddGroupProduct();" class="btn btn-outline-danger m-1">
-                                    ยกเลิก
-                                </button>
-                                <button type="submit" class="btn btn-outline-success m-1">
-                                    ยืนยัน
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<!-- Model Add GroupProduct -->
+<div class="modal fade bd-add-group-product" tabindex="-1" role="dialog" aria-labelledby="GroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100 mb_30">
+          <button type="button" class="close" aria-label="Close" onclick="closeModalAddGroupProduct();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่มหมวดสินค้า</h3>
+              </div>
             </div>
+          </div>
+          <form id="addGroupProduct" name="addGroupProduct" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body">
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">หมวดหมู่สินค้า</span>
+                </div>
+                <input type="text" class="form-control" placeholder="หมวดหมู่สินค้า" aria-label="category_name" id="category_name" name="category_name" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">หน่วยสินค้า</span>
+                </div>
+                <input type="text" class="form-control" placeholder="หน่วยสินค้า" aria-label="product unit" id="productunit" name="productunit" required />
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" onclick="closeModalAddGroupProduct();" class="btn btn-outline-danger m-1">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnSaveGroupProduct">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
+</div>
+<!-- Model Edit GroupProduct -->
+<div class="modal fade bd-edit-group-product" tabindex="-1" role="dialog" aria-labelledby="GroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100 mb_30">
+          <button type="button" class="close" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่มหมวดสินค้า</h3>
+              </div>
+            </div>
+          </div>
+          <form id="editGroupProduct" name="editGroupProduct" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <input type="hidden" name="GroupProductId" id="GroupProductId" />
+            <div class="white_card_body">
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">หมวดหมู่สินค้า</span>
+                </div>
+                <input type="text" class="form-control" placeholder="หมวดหมู่สินค้า" aria-label="category_name" id="category_name" name="category_name" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">หน่วยสินค้า</span>
+                </div>
+                <input type="text" class="form-control" placeholder="หน่วยสินค้า" aria-label="product unit" id="productunit" name="productunit" required />
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" class="btn btn-outline-danger m-1" aria-label="Close" data-bs-dismiss="modal">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnSaveEditGroupProduct">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
