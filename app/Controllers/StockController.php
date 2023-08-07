@@ -67,6 +67,7 @@ class StockController extends BaseController
             $data_stock = [
                 'stock_code' => $stock_running_code,
                 'name' => $data[0]['name'],
+                'group_id' => $data[0]['group_id'],
                 'MAX' => $data[0]['MAX'],
                 'MIN' => $data[0]['MIN'],
                 'price' =>  $data[0]['price'],
@@ -169,6 +170,7 @@ class StockController extends BaseController
                 $data_stock = [
                     'stock_code' => $stock_running_code->stock_code,
                     'name' => $data[0]['name'],
+                    'group_id' => $data[0]['group_id'],
                     'MAX' => $data[0]['MAX'],
                     'MIN' => $data[0]['MIN'],
                     'price' =>  $data[0]['price'],
@@ -185,6 +187,7 @@ class StockController extends BaseController
                 $data_stock = [
                     'stock_code' => $stock_running_code->stock_code,
                     'name' => $data[0]['name'],
+                    'group_id' => $data[0]['group_id'],
                     'MAX' => $data[0]['MAX'],
                     'MIN' => $data[0]['MIN'],
                     'price' =>  $data[0]['price'],

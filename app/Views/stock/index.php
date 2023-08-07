@@ -170,7 +170,7 @@
 </div>
 
 <!-- Modal Adjust Product -->
-<div class="modal fade bd-adjust-product" tabindex="-1" role="dialog" aria-labelledby="productModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-adjust-product" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content p-4">
             <div class="col-lg-12">
@@ -179,7 +179,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="white_card_header">
-                        <div class=" m-0">
+                        <div class="m-0">
                             <div class="justify-content-center" style="display:flex;">
                                 <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameForm">เพิ่ม/ปรับสต็อก</h3>
                             </div>
@@ -187,35 +187,21 @@
                     </div>
                     <form id="adjustStock" name="adjustStock" action="#" method="POST" enctype="multipart/form-data" novalidate>
                         <div class="white_card_body">
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <span class id="basic-addon1">ชื่อสินค้า</span>
-                                </div>
-                                <input type="hidden" id="id_db" name="id_db" />
-                                <input type="text" class="form-control" placeholder="product name" aria-label="product name" id="productname" name="productname" required />
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <span class id="basic-addon1">หมวดหมู่สินค้า</span>
-                                </div>
-                                <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
-                                <select class="nice_Select2 nice_Select_line wide" required>
-                                    <option value="1">Role</option>
-                                    <option value="1">Role 1</option>
-                                    <option value="1">Role2</option>
-                                </select>
-                            </div>
                             <div class="row g-12">
                                 <div class="col-6">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-text">
-                                            <div class="">ราคา</div>
-                                        </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
+                                    <div class="input-group mb-2">
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" required>
+                                            <option value="">เลือกการปรับสต็อก</option>
+                                            <option value="add">Add / รับสินค้า</option>
+                                            <option value="adjustPlus">Adjust + / เพิ่มจำนวน</option>
+                                            <option value="adjustMinus">Adjust - / ลดจำนวน</option>
+                                            <option value="withdraw">Withdraw / จ่ายออก</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="input-group mb-3">
+                                    <div class="input-group mb-2">
                                         <div class="input-group-text">
                                             <div class="">จำนวน</div>
                                         </div>
@@ -223,39 +209,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-12">
-                                <div class="col-6">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-text">
-                                            <div class="">ค่า MAX</div>
-                                        </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="max" name="max" placeholder="MAX" required>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-text">
-                                            <div class="">ค่า MIN</div>
-                                        </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="min" name="min" placeholder="MIN" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row g-12">
-                                <div class="input-group mb-3">
-                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);" required />
-                                    <input type="hidden" id="file_product_base64" name="file_product_base64" />
-                                    <input type="hidden" id="file_oldname" name="file_oldname" />
-                                </div>
-                            </div>
                             <div class="col-auto justify-content-end" style="display: flex;">
-                                <button type="button" onclick="closeModalAddStock();" class="btn btn-outline-danger m-1">
+                                <button type="button" onclick="closeModalAdjustStock();" class="btn btn-outline-danger m-1">
                                     ยกเลิก
                                 </button>
                                 <button type="submit" id='save_stock_btn' class="btn btn-outline-success m-1">
-                                    ยืนยัน
-                                </button>
-                                <button type="button" id='update_stock_btn' class="btn btn-outline-warning m-1" onclick="submitDataUpdate();">
                                     ยืนยัน
                                 </button>
                             </div>

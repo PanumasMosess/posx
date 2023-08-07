@@ -32,12 +32,6 @@ function closeModalAddStock() {
   $("#addStock")[0].reset();
   $("#pcs").prop("disabled", false);
   $("#addStock").parsley().reset();
-  $(".custom-select").val(null).select2();
-  $(".custom-select").select2({
-    dropdownParent: $(".bd-add-product"),
-    placeholder: "โปรดเลือก",
-    searchInputPlaceholder: "Search",
-  });
   $("#nameForm").html("<h3>เพิ่มสต็อก</h3>");
   $("#addStock .parsley-required").hide();
 }
@@ -549,6 +543,7 @@ function deleteStock(id) {
 }
 
 function adjustStockData(id) {
+  $(".bd-adjust-product").modal("show");  
   $.ajax({
     url: serverUrl + "/stock/getTempAdjust/" + id,
     method: "get",
@@ -622,4 +617,9 @@ function updateStoreToOnline() {
       },
     });
   }
+}
+
+function closeModalAdjustStock(){
+  $(".bd-adjust-product").modal("hide");
+  $("#adjustStock")[0].reset();
 }
