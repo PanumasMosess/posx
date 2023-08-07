@@ -219,4 +219,12 @@ class StockModel
 
         return $builder->where('id', $id)->update($stock_data);
     }
+
+    public function getGroupData()
+    {
+        $sql = "SELECT * FROM group_product order by id asc";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
 }
