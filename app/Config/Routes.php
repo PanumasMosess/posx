@@ -60,9 +60,11 @@ function ($routes) {
     $routes->post('dataStock', 'StockController::fetchDataStock');  
     $routes->get('getTempOffline', 'StockController::fetchDataStockOffline'); 
     $routes->get('getTempUpdate/(:any)', 'StockController::fetchUpdateStock/$1');  
+    $routes->get('getTempAdjust/(:any)', 'StockController::fetchUpdateStock/$1');  
     $routes->get('groupData', 'StockController::fetchGroupData');  
     $routes->post('updateProduct', 'StockController::updateproduct'); 
     $routes->post('deleteProduct', 'StockController::deleteproduct');    
+    $routes->post('updateAdjust', 'StockController::updateAdjust'); 
 });
 
 /*

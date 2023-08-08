@@ -188,10 +188,10 @@
                     <form id="adjustStock" name="adjustStock" action="#" method="POST" enctype="multipart/form-data" novalidate>
                         <div class="white_card_body">
                             <div class="row g-12">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="input-group mb-2">
                                         <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
-                                        <select class="form-select" required>
+                                        <select class="form-select" id="select_adjust" name="select_adjust" required>
                                             <option value="">เลือกการปรับสต็อก</option>
                                             <option value="add">Add / รับสินค้า</option>
                                             <option value="adjustPlus">Adjust + / เพิ่มจำนวน</option>
@@ -200,12 +200,23 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row g-12">
                                 <div class="col-6">
                                     <div class="input-group mb-2">
                                         <div class="input-group-text">
-                                            <div class="">จำนวน</div>
+                                            <div class="">ปัจจุบัน</div>
+                                        </div>
+                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="pcs_curent" name="pcs_curent" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text">
+                                            <div class="">จำนวนที่ต้องการ</div>
                                         </div>
                                         <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="pcs_adjust" name="pcs_adjust" placeholder="pcs" required>
+                                        <input type="hidden" id="id_adjust" name="id_adjust" />
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +224,7 @@
                                 <button type="button" onclick="closeModalAdjustStock();" class="btn btn-outline-danger m-1">
                                     ยกเลิก
                                 </button>
-                                <button type="submit" id='save_stock_btn' class="btn btn-outline-success m-1">
+                                <button type="submit" id='save_adjust_btn' class="btn btn-outline-success m-1">
                                     ยืนยัน
                                 </button>
                             </div>
