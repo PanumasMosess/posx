@@ -208,7 +208,17 @@ function loadTableStock() {
         {
           data: null,
           render: function (data, type, row, meta) {
-            return '<a href="#" >View Transaction</a>';
+            return (
+              '<a href="' +
+              serverUrl +
+              "stock/listTransection/" +
+              data["stock_code"] +
+              '" target="popup" onclick=window.open("' +
+              serverUrl +
+              "stock/listTransection/" +
+              data["stock_code"] +
+              '","popup","width=900,height=600"); return false; " >View Transaction</a>'
+            );
           },
         },
         {
@@ -289,7 +299,17 @@ function loadTableStock() {
         {
           data: null,
           render: function (data, type, row, meta) {
-            return '<a href="#" >View Transaction</a>';
+            return (
+              '<a href="' +
+              serverUrl +
+              "stock/listTransection/" +
+              data["stock_code"] +
+              '" target="popup" onclick=window.open("' +
+              serverUrl +
+              "stock/listTransection/" +
+              data["stock_code"] +
+              '","popup","width=900,height=600"); return false; " >View Transaction</a>'
+            );
           },
         },
         {
@@ -573,7 +593,7 @@ function updateStoreToOnline() {
   productsOldDelete = JSON.parse(localStorage.getItem("productsOldDelete"))
     ? JSON.parse(localStorage.getItem("productsOldDelete"))
     : [];
-    productsAdjust = JSON.parse(localStorage.getItem("productsAdjust"))
+  productsAdjust = JSON.parse(localStorage.getItem("productsAdjust"))
     ? JSON.parse(localStorage.getItem("productsAdjust"))
     : [];
 
@@ -628,7 +648,7 @@ function updateStoreToOnline() {
         productsOldUpdate = [];
       },
     });
-  } else if (productsAdjust != 0 ){
+  } else if (productsAdjust != 0) {
     $.ajax({
       url: serverUrl + "stock/updateAdjust",
       method: "post",
@@ -670,7 +690,7 @@ $("#adjustStock").submit(function (e) {
     ];
 
     if (isOnline) {
-      //arr data public 
+      //arr data public
       itemsArrayAdjust.push(arr_adjust);
       localStorage.setItem("productsAdjust", JSON.stringify(itemsArrayAdjust));
 
@@ -700,7 +720,7 @@ $("#adjustStock").submit(function (e) {
             $("#adjustStock")[0].reset();
             $("#adjustStock").parsley().reset();
             $("#adjustStock .parsley-required").hide();
-            //load table 
+            //load table
             loadTableStock();
           } else {
           }

@@ -30,13 +30,10 @@ class StockModel
             'stock_posx.stock_code',
             'stock_posx.name',
             'group_product.name',
-            'stock_posx.MAX',
+            'stock_posx.pcs',
             'stock_posx.MIN',
             'stock_posx.price',
-            'stock_posx.pcs',
-            'stock_posx.status_stock',
-            'stock_posx.created_by',
-            'stock_posx.created_at'
+            'stock_posx.updated_at'
         ];
 
         // Set default order
@@ -177,7 +174,9 @@ class StockModel
         stock_posx.updated_by,
         stock_posx.created_at, 
         stock_posx.updated_at, 
-        stock_posx.deleted_at
+        stock_posx.deleted_at,
+        group_product.name as group_name,
+        group_product.unit
         FROM stock_posx
         left join group_product on 
         group_product.id = stock_posx.group_id
@@ -196,7 +195,10 @@ class StockModel
         SELECT COUNT(a.id) 
         AS count_data
        FROM stock_posx  a  
-       ORDER BY stock_code DESC
+       left join group_product b 
+       on  b.id = a.group_id
+       where a.status_stock not in ('CANCEL_STOCK')
+       ORDER BY a.stock_code DESC
         ";
 
         $builder = $this->db->query($sql);
