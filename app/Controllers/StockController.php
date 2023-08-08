@@ -109,15 +109,11 @@ class StockController extends BaseController
     {
         $datas_stock = $this->StockModel->_getAllDataStock($_POST);
 
-        $datas_count = $this->StockModel->countAllDataStock();
-
         $filter = $this->StockModel->getAllDataStockFilter();
-
-        $total_records = $datas_count;
 
         return $this->response->setJSON([
             'draw' => $_POST['draw'],
-            'recordsTotal' => $total_records,
+            'recordsTotal' => count($filter),
             'recordsFiltered' => count($filter),
             "data" => $datas_stock,
         ]);
@@ -353,5 +349,17 @@ class StockController extends BaseController
         } else {
             //  ว่าง
         }
+    }
+
+    public function getTransectionByStockCode($code = null)
+    {
+        $data['title'] = "Stock Transction.";
+        $data['css_critical'] = '';
+        $data['js_critical'] = '
+        <script src="' . base_url('/js/stock/stock_transections.js?v=' . time()) . '"></script>    
+        ';
+        $data['codeStock'] = $code;
+
+        echo view('/stock/stock_transection', $data);
     }
 }

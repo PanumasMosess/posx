@@ -65,6 +65,7 @@ function ($routes) {
     $routes->post('updateProduct', 'StockController::updateproduct'); 
     $routes->post('deleteProduct', 'StockController::deleteproduct');    
     $routes->post('updateAdjust', 'StockController::updateAdjust'); 
+    $routes->get('listTransection/(:any)', 'StockController::getTransectionByStockCode/$1');
 });
 
 /*
