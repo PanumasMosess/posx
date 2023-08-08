@@ -232,7 +232,7 @@ class StockController extends BaseController
         $check_arr_count = count($datas);
 
         foreach ($datas as $data) {
-            
+
             $data_stock = [
                 'status_stock' => 'CANCEL_STOCK',
                 'updated_by' => 'Admin',
@@ -273,5 +273,85 @@ class StockController extends BaseController
             'error' => false,
             'data' => $data
         ]);
+    }
+
+    public function updateAdjust()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+            // var_dump($data[0]['productname']. "->" . $data[0]['category']. "->" . $data[0]['price']);    
+
+            $new_stock_codes = $this->StockModel->getDataUpdate($data[0]['id']);
+
+            $id = $new_stock_codes->id;
+            $balance_data = 0;
+            $add = 0;
+            $plus = 0;
+            $minus = 0;
+            $withdraw = 0;
+            $adjust_data = 0;
+
+
+            if ($data[0]['typeadjust'] == 'add') {
+                $add =  $data[0]['pcs'];
+                $balance_data =  $data[0]['pcs'] + $new_stock_codes->pcs;
+            } else if ($data[0]['typeadjust'] == 'adjustPlus') {
+                $plus =  $data[0]['pcs'];
+                $adjust_data = $plus;
+                $balance_data = $data[0]['pcs'] + $new_stock_codes->pcs;
+            } else if ($data[0]['typeadjust'] == 'adjustMinus') {
+                $minus =    0 - $data[0]['pcs'];
+                $adjust_data = $minus;
+                $balance_data =  $new_stock_codes->pcs - $data[0]['pcs'];
+            } else {
+                $withdraw =  $data[0]['pcs'];
+                $balance_data = $new_stock_codes->pcs - $data[0]['pcs'];
+            }
+
+
+            //data stock table
+            $data_stock = [
+                'pcs' =>  $balance_data,
+                'updated_at' => $buffer_datetime,
+                'created_by' => 'Admin'
+            ];
+
+            $data_stock_transaction = [
+                'stock_code' => $new_stock_codes->stock_code,
+                'begin' =>  $data[0]['pcs'],
+                'add' => $add,
+                'adjust' => $adjust_data,
+                'withdraw' => $withdraw,
+                'balance' =>  $balance_data,
+                'created_at' => $buffer_datetime
+            ];
+
+            $confirm_new = $this->StockModel->insertAdjust($id, $data_stock, $data_stock_transaction);
+
+            if ($confirm_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'เพิ่มไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'เพิ่มรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
     }
 }

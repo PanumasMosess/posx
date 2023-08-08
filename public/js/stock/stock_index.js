@@ -2,6 +2,7 @@ var itemsArray = [];
 var itemsArrayOffline = [];
 var itemsArrayUpdate = [];
 var itemsArrayDelete = [];
+var itemsArrayAdjust = [];
 var isOnline;
 (function ($) {
   isOnline = window.navigator.onLine;
@@ -190,10 +191,10 @@ function loadTableStock() {
           data: "name",
         },
         {
-          data: "group_id",
+          data: "group_name",
         },
         {
-          data: "MIN",
+          data: "pcs",
         },
         {
           data: "MIN",
@@ -271,10 +272,10 @@ function loadTableStock() {
           data: "name",
         },
         {
-          data: "group_id",
+          data: "group_name",
         },
         {
-          data: "MIN",
+          data: "pcs",
         },
         {
           data: "MIN",
@@ -473,6 +474,13 @@ function submitDataUpdate() {
   } else {
     itemsArrayUpdate.push(arr_product_update);
     localStorage.setItem("productsOldUpdate", JSON.stringify(itemsArrayUpdate));
+    notif({
+      type: "success",
+      msg: "แก้ไขรายการสำเร็จ!",
+      position: "right",
+      fade: true,
+      time: 300,
+    });
     $(".bd-add-product").modal("hide");
     $("#addStock")[0].reset();
     $("#addStock").parsley().reset();
@@ -543,13 +551,14 @@ function deleteStock(id) {
 }
 
 function adjustStockData(id) {
-  $(".bd-adjust-product").modal("show");  
+  $(".bd-adjust-product").modal("show");
   $.ajax({
     url: serverUrl + "/stock/getTempAdjust/" + id,
     method: "get",
     success: function (response) {
-      $(".bd-adjust-product").modal("show");  
-      $("#pcs_adjust").val(response.data.pcs);
+      $(".bd-adjust-product").modal("show");
+      $("#pcs_curent").val(response.data.pcs);
+      $("#id_adjust").val(id);
     },
   });
 }
@@ -563,6 +572,9 @@ function updateStoreToOnline() {
     : [];
   productsOldDelete = JSON.parse(localStorage.getItem("productsOldDelete"))
     ? JSON.parse(localStorage.getItem("productsOldDelete"))
+    : [];
+    productsAdjust = JSON.parse(localStorage.getItem("productsAdjust"))
+    ? JSON.parse(localStorage.getItem("productsAdjust"))
     : [];
 
   if (productsNew.length != 0) {
@@ -616,10 +628,101 @@ function updateStoreToOnline() {
         productsOldUpdate = [];
       },
     });
+  } else if (productsAdjust != 0 ){
+    $.ajax({
+      url: serverUrl + "stock/updateAdjust",
+      method: "post",
+      data: {
+        data: productsAdjust,
+      },
+      cache: false,
+      success: function (response) {
+        if ((response.message = "เพิ่มรายการสำเร็จ")) {
+          localStorage.removeItem("productsAdjust");
+          arr_adjust = [];
+          itemsArrayAdjust = [];
+        } else {
+        }
+      },
+    });
   }
 }
 
-function closeModalAdjustStock(){
+function closeModalAdjustStock() {
   $(".bd-adjust-product").modal("hide");
   $("#adjustStock")[0].reset();
+  $("#adjustStock").parsley().reset();
 }
+
+$("#adjustStock").submit(function (e) {
+  e.preventDefault();
+  var select_adjust = $("#select_adjust").parsley();
+  var pcs_adjust = $("#pcs_adjust").parsley();
+  if (select_adjust.isValid() && pcs_adjust.isValid()) {
+    isOnline = window.navigator.onLine;
+    //arr data
+    arr_adjust = [
+      {
+        id: $("#id_adjust").val(),
+        pcs: $("#pcs_adjust").val(),
+        typeadjust: $("#select_adjust").val(),
+      },
+    ];
+
+    if (isOnline) {
+      //arr data public 
+      itemsArrayAdjust.push(arr_adjust);
+      localStorage.setItem("productsAdjust", JSON.stringify(itemsArrayAdjust));
+
+      arr_adjust = [];
+      arr_adjust = JSON.parse(localStorage.productsAdjust);
+
+      $.ajax({
+        url: serverUrl + "stock/updateAdjust",
+        method: "post",
+        data: {
+          data: arr_adjust,
+        },
+        cache: false,
+        success: function (response) {
+          if ((response.message = "เพิ่มรายการสำเร็จ")) {
+            localStorage.removeItem("productsAdjust");
+            arr_adjust = [];
+            itemsArrayAdjust = [];
+            notif({
+              type: "success",
+              msg: "ดำเนินการสำเร็จ!",
+              position: "right",
+              fade: true,
+              time: 300,
+            });
+            $(".bd-adjust-product").modal("hide");
+            $("#adjustStock")[0].reset();
+            $("#adjustStock").parsley().reset();
+            $("#adjustStock .parsley-required").hide();
+            //load table 
+            loadTableStock();
+          } else {
+          }
+        },
+      });
+    } else {
+      itemsArrayAdjust.push(arr_adjust);
+      localStorage.setItem("productsAdjust", JSON.stringify(itemsArrayAdjust));
+      notif({
+        type: "success",
+        msg: "แก้ไขรายการสำเร็จ!",
+        position: "right",
+        fade: true,
+        time: 300,
+      });
+      $(".bd-adjust-product").modal("hide");
+      $("#adjustStock")[0].reset();
+      $("#adjustStock").parsley().reset();
+      $("#adjustStock .parsley-required").hide();
+    }
+  } else {
+    select_adjust.validate();
+    pcs_adjust.validate();
+  }
+});
