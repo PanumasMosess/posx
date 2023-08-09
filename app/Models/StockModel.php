@@ -245,4 +245,31 @@ class StockModel
 
         return ($builder_stock_status && $builder_running_status) ? true : false;
     }
+
+
+    public function getTransectionByCode($code)
+    {
+        $sql = "SELECT 
+        a.id ,
+        a.stock_code ,
+        a.begin ,
+        a.add ,
+        a.sold, 
+        a.adjust, 
+        a.withdraw ,
+        a.return ,
+        a.balance, 
+        a.created_at, 
+        b.name as name_product,
+        c.name as name_group
+        FROM stock_transaction  a 
+        left join stock_posx b 
+        on a.stock_code = b.stock_code  
+        left join group_product c 
+        on b.group_id = c.id
+        where a.stock_code = '$code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
 }
