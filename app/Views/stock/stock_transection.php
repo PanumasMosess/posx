@@ -82,9 +82,11 @@
                                         <th>Begin</th>
                                         <th>add</th>
                                         <th>sold</th>
+                                        <th>adjust</th>
                                         <th>WithDraw</th>
                                         <th>Return</th>
                                         <th>Balance</th>
+                                        <th>วันที</th>
                                     </tr>
                                 </thead>
                                 <tbody>

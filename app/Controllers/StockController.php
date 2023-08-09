@@ -362,4 +362,15 @@ class StockController extends BaseController
 
         echo view('/stock/stock_transection', $data);
     }
+
+    public function getTableTransectionByStockCode($code = null)
+    {
+        $transection_data = $this->StockModel->getTransectionByCode($code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $transection_data
+        ]);
+    }
 }

@@ -217,7 +217,7 @@ function loadTableStock() {
               serverUrl +
               "stock/listTransection/" +
               data["stock_code"] +
-              '","popup","width=900,height=600"); return false; " >View Transaction</a>'
+              '","popup","width=1024,height=600"); return false; " >View Transaction</a>'
             );
           },
         },
@@ -308,7 +308,7 @@ function loadTableStock() {
               serverUrl +
               "stock/listTransection/" +
               data["stock_code"] +
-              '","popup","width=900,height=600"); return false; " >View Transaction</a>'
+              '","popup","width=1024,height=600"); return false; " >View Transaction</a>'
             );
           },
         },
