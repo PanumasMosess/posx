@@ -44,10 +44,95 @@
                                         </table>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="tab-pane fade" id="formular" role="tabpanel" aria-labelledby="formular-tab">
                                 <div class="builder_select">
+                                    <div class="board_wrapper">
+                                        <div class="single_board">
+                                            <div class="main_board_card">
+                                                <div class="col-lg-6">
+                                                    <div class="white_card card_height_100 mb_10">
+                                                        <div class="white_card_header">
+                                                            <div class="box_header m-1">
+                                                                <div class="col-12 row">
+                                                                    <div class="col-4">
+                                                                        <h4 class="m-2">สูตรตัดสต็อก</h4>
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                        <div class="common_select">
+                                                                            <select class="nice_Select wide mb-10" style="display: none;">
+                                                                                <option value="">เลือกสินค้า</option>
+                                                                                <option value="">Lite</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-lg-8">
+                                                        <div class="white_card card_height_100 mb_20">
+                                                            <div class="white_card_header">
+                                                                <div class="box_header m-0">
+                                                                    <div class="main-title">
+                                                                        <h3 class="m-0">เลือกตัดสต็อก</h3>
+                                                                    </div>
+                                                                    <div class="header_more_tool">
+                                                                        <div class="dropdown">
+                                                                            <span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                                                                                <i class="ti-more-alt"></i>
+                                                                            </span>
+                                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-eye"></i> Action</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-trash"></i> Delete</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="fas fa-edit"></i> Edit</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-printer"></i> Print</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="fa fa-download"></i> Download</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="white_card_body QA_section">
+                                                                <div class="QA_table">
+                                                                New formula
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <div class="white_card card_height_100 mb_30">
+                                                            <div class="white_card_header">
+                                                                <div class="box_header m-0">
+                                                                    <div class="main-title">
+                                                                        <h3 class="m-0">New formula</h3>
+                                                                    </div>
+                                                                    <div class="header_more_tool">
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="white_card_body">
+                                                                <div class="Activity_timeline">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
