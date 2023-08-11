@@ -106,6 +106,8 @@
                 <ul>
                     <li><a href="<?php echo base_url('/setting/group_product'); ?>">Group Product</a></li>
                     <li><a href="<?php echo base_url('/setting/supplier'); ?>">Supplier</a></li>
+                    <li><a href="<?php echo base_url('/setting/position'); ?>">ตำแหน่ง</a></li>
+                    <li><a href="<?php echo base_url('/setting/branch'); ?>">สาขา</a></li>
                 </ul>
             </li>
         </ul>
@@ -235,13 +237,13 @@
                                 <img src="<?php echo base_url('img/client_img.png'); ?>" alt="#" />
                                 <div class="profile_info_iner">
                                     <div class="profile_author_name">
-                                        <p>Neurologist</p>
-                                        <h5>Dr. Robar Smith</h5>
+                                        <p><?php echo session()->get('employee_position_name'); ?></p>
+                                        <h5><?php echo session()->get('username'); ?></h5>
                                     </div>
                                     <div class="profile_info_details">
                                         <a href="#">My Profile </a>
-                                        <a href="#">Settings</a>
-                                        <a href="#">Log Out </a>
+                                        <!-- <a href="#">Settings</a> -->
+                                        <a href="<?php echo base_url('/logout'); ?>">Log Out </a>
                                     </div>
                                 </div>
                             </div>
