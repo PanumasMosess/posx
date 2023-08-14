@@ -21,27 +21,29 @@
                     <div class="white_card_body">
                         <div class="tab-content" id="stockTabContent">
                             <div class="tab-pane fade show active" id="Stock" role="tabpanel" aria-labelledby="Stock-tab">
-                                <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
-                                <div class="QA_section">
-                                    <div class="QA_table mb_30">
-                                        <table class="table lms_table_active3" id="stockTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>No.</th>
-                                                    <th>สินค้า</th>
-                                                    <th>หมวดหมู่สินค้า</th>
-                                                    <th>จำนวน (Balance)</th>
-                                                    <th>Minimum</th>
-                                                    <th>ราคา / หน่วย</th>
-                                                    <th>Last Update</th>
-                                                    <th>Transaction</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                <div class="col-lg-12 col-xl-12 col-md-12">
+                                    <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
+                                    <div class="QA_section">
+                                        <div class="QA_table mb_30">
+                                            <table class="table lms_table_active3" id="stockTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>สินค้า</th>
+                                                        <th>หมวดหมู่สินค้า</th>
+                                                        <th>จำนวน (Balance)</th>
+                                                        <th>Minimum</th>
+                                                        <th>ราคา / หน่วย</th>
+                                                        <th>Last Update</th>
+                                                        <th>Transaction</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +52,7 @@
                                     <div class="board_wrapper">
                                         <div class="single_board">
                                             <div class="main_board_card">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-12 col-xl-6 col-md-12">
                                                     <div class="white_card card_height_100 mb_10">
                                                         <div class="white_card_header">
                                                             <div class="box_header m-1">
@@ -73,8 +75,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-
-                                                    <div class="col-lg-8">
+                                                    <div class="col-xl-7 col-lg-12 col-md-12">
                                                         <div class="white_card card_height_100 mb_20">
                                                             <div class="white_card_header">
                                                                 <div class="box_header m-0">
@@ -82,7 +83,7 @@
                                                                         <h3 class="m-0">เลือกตัดสต็อก</h3>
                                                                     </div>
                                                                     <div class="header_more_tool">
-                                                                        <div class="dropdown">
+                                                                        <!-- <div class="dropdown">
                                                                             <span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
                                                                                 <i class="ti-more-alt"></i>
                                                                             </span>
@@ -98,32 +99,138 @@
                                                                                 <a class="dropdown-item" href="#">
                                                                                     <i class="fa fa-download"></i> Download</a>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> -->
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="white_card_body QA_section">
-                                                                <div class="QA_table">
-                                                                New formula
+                                                                <div class="QA_section">
+                                                                    <div class="QA_table mb_30">
+                                                                        <table class="table lms_table_active" id="table_fomular_item">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th scope="col">#</th>
+                                                                                    <th scope="col">ชื่อ</th>
+                                                                                    <th scope="col">จำนวนที่เหลือ/หน่วย</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <th scope="row">
+                                                                                        <a href="#" class="question_content">
+                                                                                            title here 1</a>
+                                                                                    </th>
+                                                                                    <td>Category name</td>
+                                                                                    <td>Teacher James</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th scope="row">
+                                                                                        <a href="#" class="question_content">
+                                                                                            title here 1</a>
+                                                                                    </th>
+                                                                                    <td>Category name</td>
+                                                                                    <td><a href="#" class="status_btn">Active</a></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th scope="row">
+                                                                                        <a href="#" class="question_content">
+                                                                                            title here 1</a>
+                                                                                    </th>
+                                                                                    <td>Category name</td>
+                                                                                    <td><a href="#" class="status_btn">Active</a></td>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-4">
+                                                    <div class="col-xl-5 col-lg-12 col-md-12">
                                                         <div class="white_card card_height_100 mb_30">
                                                             <div class="white_card_header">
                                                                 <div class="box_header m-0">
                                                                     <div class="main-title">
-                                                                        <h3 class="m-0">New formula</h3>
+                                                                        <h3 class="m-0">สูตรตัดสต็อกใหม่</h3>
                                                                     </div>
                                                                     <div class="header_more_tool">
-                                                                       
+                                                                        <div class="action_btns d-flex">
+                                                                            <a href="#" class="action_btn">
+                                                                                <i class="ti-reload"></i>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="white_card_body">
                                                                 <div class="Activity_timeline">
-                                                                    
+                                                                    <div class="QA_section">
+                                                                        <div class="QA_table mb_30">
+                                                                            หากขายสินค้า 1 ในรายการนี้
+                                                                            <table class="table lms_table_active" id="table_fomular_item">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col">#</th>
+                                                                                        <th scope="col">ชื่อสินค้า</th>
+                                                                                        <th scope="col"></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td>1</td>
+                                                                                        <td>
+                                                                                            AAA
+                                                                                        </td>
+                                                                                        <td style="float: right;">
+                                                                                            <a herf='javascript:void(0);' type='button' class='action_btn' onclick='adjustStockData(this.id);' id='' data-toggle='tooltip' data-placement='top' title='ลบ'><i class='fas fa-trash'></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="QA_section">
+                                                                        <div class="QA_table mb_30">
+                                                                            จะตัดสต็อกดังนี้
+                                                                            <table class="table lms_table_active" id="table_fomular_item">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col">
+                                                                                            #
+                                                                                        </th>
+                                                                                        <th scope="col">จำนวน (PCS)</th>
+                                                                                        <th scope="col"></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <div class="input-group">1</div>
+                                                                                        </td>
+                                                                                        <th scope="row">
+                                                                                            <div class="input-group">
+                                                                                                <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
+                                                                                                <div class="input-group-text">
+                                                                                                    <span class id="basic-addon1">หน่วย</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </th>
+                                                                                        <td style="float: right;">
+                                                                                            <a herf='javascript:void(0);' type='button' class='action_btn' onclick='adjustStockData(this.id);' id='' data-toggle='tooltip' data-placement='top' title='ลบ'><i class='fas fa-trash'></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-auto justify-content-end" style="display: flex;">
+                                                                        <button type="button" onclick="" class="btn btn-outline-danger rounded-pill m-1">
+                                                                            ยกเลิก
+                                                                        </button>
+                                                                        <button type="button" id="save_stock_btn" class="btn btn-outline-success rounded-pill m-1">
+                                                                            ยืนยัน
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

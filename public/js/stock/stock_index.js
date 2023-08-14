@@ -239,12 +239,11 @@ function loadTableStock() {
       columnDefs: [
         {
           targets: 8,
-          className: "text-center",
+          className: "text-left",
         },
       ],
       responsive: true,
       searching: true,
-      info: true,
       paging: true,
       pagingType: "full_numbers",
       pageLength: 10,
