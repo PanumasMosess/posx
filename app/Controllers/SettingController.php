@@ -45,6 +45,15 @@ class SettingController extends BaseController
             ]);
             // return redirect()->to('/employee/list');
             if ($create) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] GroupProduct',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
                 $status = 200;
                 $response['success'] = 1;
                 $response['message'] = 'เพิ่ม GroupProduct สำเร็จ';
@@ -96,6 +105,15 @@ class SettingController extends BaseController
             ]);
 
             if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] GroupProduct',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
                 $status = 200;
                 $response['success'] = 1;
                 $response['message'] = 'แก้ไข GroupProduct สำเร็จ';
@@ -120,6 +138,14 @@ class SettingController extends BaseController
         $this->GroupProductModel = new \App\Models\GroupProductModel();
         $this->GroupProductModel->updateGroupProductByID($id, [
             'deleted_at' => date('Y-m-d H:i:s')
+        ]);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] GroupProduct',
+            'ip' => $this->request->getIPAddress()
         ]);
     }
 
@@ -195,6 +221,15 @@ class SettingController extends BaseController
             ]);
             // return redirect()->to('/employee/list');
             if ($create) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] Supplier',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
                 $status = 200;
                 $response['success'] = 1;
                 $response['message'] = 'เพิ่ม Supplier สำเร็จ';
@@ -245,6 +280,15 @@ class SettingController extends BaseController
             ]);
 
             if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] Supplier',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
                 $status = 200;
                 $response['success'] = 1;
                 $response['message'] = 'แก้ไข Supplier สำเร็จ';
@@ -263,12 +307,289 @@ class SettingController extends BaseController
         }
     }
 
-    // delete Branch
+    // delete Supplier
     public function deleteSupplier($id = null)
     {
         $this->SupplierModel = new \App\Models\SupplierModel();
         $this->SupplierModel->updateSupplierByID($id, [
             'deleted_at' => date('Y-m-d H:i:s')
+        ]);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] Supplier',
+            'ip' => $this->request->getIPAddress()
+        ]);
+    }
+
+    // Position
+    public function position()
+    {
+        $this->PositionModel = new \App\Models\PositionModel();
+        $data['positions'] = $this->PositionModel->getPositionAll();
+
+        $data['content'] = 'setting/position';
+        $data['title'] = 'ตำแหน่ง';
+        $data['js_critical'] = '<script src="' . base_url('/js/setting/position.js?v=' . time()) . '"></script>';
+        echo view('/app', $data);
+    }
+
+    // addPosition data 
+    public function addPosition()
+    {
+        $this->PositionModel = new \App\Models\PositionModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            // HANDLE REQUEST
+            $create = $this->PositionModel->insertPosition([
+                'position_name' => $this->request->getVar('position_name'),
+                'created_by' => session()->get('username'),
+
+            ]);
+            // return redirect()->to('/employee/list');
+            if ($create) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] ตำแหน่ง',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม ตำแหน่ง สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม ตำแหน่ง ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+    //edit Position
+    public function editPosition($id = null)
+    {
+        $this->PositionModel = new \App\Models\PositionModel();
+        $data = $this->PositionModel->getPositionByID($id);
+
+        if ($data) {
+            echo json_encode(array("status" => true, 'data' => $data));
+        } else {
+            echo json_encode(array("status" => false));
+        }
+    }
+
+    //updatePosition
+    public function updatePosition()
+    {
+        $this->PositionModel = new \App\Models\PositionModel();
+
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+            $id = $this->request->getVar('PositionId');
+
+            // HANDLE REQUEST
+            $update = $this->PositionModel->updatePositionByID($id, [
+                'position_name' => $this->request->getVar('position_name'),
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] ตำแหน่ง',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข ตำแหน่ง สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข ตำแหน่ง ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // delete Position
+    public function deletePosition($id = null)
+    {
+        $this->PositionModel = new \App\Models\PositionModel();
+        $this->PositionModel->updatePositionByID($id, [
+            'deleted_by' => session()->get('username'),
+            'deleted_at' => date('Y-m-d H:i:s')
+        ]);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] ตำแหน่ง',
+            'ip' => $this->request->getIPAddress()
+        ]);
+    }
+    //Branch
+    public function branch()
+    {
+        $this->BranchModel = new \App\Models\BranchModel();
+        $data['branchs'] = $this->BranchModel->getBranchAll();
+
+        $data['content'] = 'setting/branch';
+        $data['title'] = 'สาขา';
+        $data['js_critical'] = '<script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>';
+        echo view('/app', $data);
+    }
+
+    // addBranch data 
+    public function addBranch()
+    {
+        $this->BranchModel = new \App\Models\BranchModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            // HANDLE REQUEST
+            $create = $this->BranchModel->insertBranch([
+                'branch_name' => $this->request->getVar('branch_name'),
+                'created_by' => session()->get('username'),
+
+            ]);
+            // return redirect()->to('/employee/list');
+            if ($create) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] สาขา',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม สาขา สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม สาขา ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+    //edit Branch
+    public function editBranch($id = null)
+    {
+        $this->BranchModel = new \App\Models\BranchModel();
+        $data = $this->BranchModel->getBranchByID($id);
+
+        if ($data) {
+            echo json_encode(array("status" => true, 'data' => $data));
+        } else {
+            echo json_encode(array("status" => false));
+        }
+    }
+
+    //updateBranch
+    public function updateBranch()
+    {
+        $this->BranchModel = new \App\Models\BranchModel();
+
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+            $id = $this->request->getVar('BranchId');
+
+            // HANDLE REQUEST
+            $update = $this->BranchModel->updateBranchByID($id, [
+                'branch_name' => $this->request->getVar('branch_name'),
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] สาขา',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข สาขา สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข สาขา ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // delete Branch
+    public function deleteBranch($id = null)
+    {
+        $this->BranchModel = new \App\Models\BranchModel();
+        $this->BranchModel->updateBranchByID($id, [
+            'deleted_by' => session()->get('username'),
+            'deleted_at' => date('Y-m-d H:i:s')
+        ]);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] สาขา',
+            'ip' => $this->request->getIPAddress()
         ]);
     }
 }

@@ -53,14 +53,14 @@
                         <tr id="<?php echo $supplier->id; ?>">
                           <td><?php echo $i; ?></td>
                           <td><?php echo $supplier->supplier_name; ?></td>
-                          <td class="text-center"> <?php echo $supplier->created_at; ?></td>
+                          <td class="text-center"> <?php echo datetime_compare($supplier->created_at); ?></td>
                           <?php if ($supplier->updated_at == '') {
                             $updated = $supplier->created_at;
                           } else {
                             $updated = $supplier->updated_at;
                           }
                           ?>
-                          <td class="text-center"><?php echo $updated; ?></td>
+                          <td class="text-center"><?php echo dateThai($updated); ?></td>
                           <td>
                             <div class="action_btns d-flex" style="justify-content: center;">
                               <a href="#" class="action_btn btnEditSupplier mr_10" data-id="<?php echo $supplier->id; ?>"> <i class="far fa-edit"></i> </a>

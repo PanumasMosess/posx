@@ -1,5 +1,5 @@
 <?php
-use Pusher\Pusher;
+// use Pusher\Pusher;
 
 if (!function_exists('datetime_compare')) {
     function datetime_compare($date)
@@ -408,99 +408,21 @@ if (!function_exists('numToThaiBath')) {
     }
 }
 //PUSHER
-function getPusher()
-{
-	return new Pusher(
-        getenv('PUSHER_KEY'),
-        getenv('PUSHER_SECRET'),
-        getenv('PUSHER_APP_ID'),
-        ['cluster' => getenv('PUSHER_CLUSTER')]
-    );
-}
+// function getPusher()
+// {
+// 	return new Pusher(
+//         getenv('PUSHER_KEY'),
+//         getenv('PUSHER_SECRET'),
+//         getenv('PUSHER_APP_ID'),
+//         ['cluster' => getenv('PUSHER_CLUSTER')]
+//     );
+// }
 
 //DocumentSetUp
-function getDocumentSetUp()
-{
-	$DocumentSetUpModel = new \App\Models\DocumentSetUpModel();
-	// $data['DocumentSetUp'] = $DocumentSetUpModel->getDocumentSetUpAll();
-	// print_r($data['DocumentSetUp']); exit();
-	return $data['DocumentSetUp'] = $DocumentSetUpModel->getDocumentSetUpAll();
-}
-
-//CashFlow
-function getCashFlow()
-{
-    $CashFlowModel = new \App\Models\CashFlowModel();
-	return $data['cashflows'] = $CashFlowModel->getCashFlowAll();
-}
-
-//car_logger_store
-function car_logger_store($data)
-{
-	$db = \Config\Database::connect();
-
-	$builder = $db->table('car_logs');
-
-	$builder->insert([
-		'car_event_id' => get_car_event_id($data['event']),
-		'car_detail' => $data['detail'],
-		'ip' => $data['ip'],
-		'car_log_code' => $data['car_stock_code'],
-		'username' => $data['username']
-	]);
-}
-
-//car_event
-function get_car_event_id($event)
-{
-	$car_event_id = 0;
-
-	switch ($event) {
-
-		case 'เพิ่ม':
-			$car_event_id = 1;
-			break;
-
-		case 'อัพเดท':
-			$car_event_id = 2;
-			break;
-
-		case 'ลบ':
-			$car_event_id = 3;
-			break;
-
-		case 'ขาย':
-			$car_event_id = 4;
-			break;
-
-		default:
-			$car_event_id = 5;
-	}
-
-	return $car_event_id;
-}
-
-function notify($token,$data)
-{
-    $chOne = curl_init();
-    curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-    curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($chOne, CURLOPT_POST, 1);
-    curl_setopt($chOne, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($chOne, CURLOPT_FOLLOWLOCATION, 1);
-    $headers = array('Content-type: multipart/form-data', 'Authorization: Bearer ' . $token,);
-    curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
-    $result = curl_exec($chOne);
-    //Check error
-    if (curl_error($chOne)) {
-        echo 'error:' . curl_error($chOne);
-    } else {
-        $result_ = json_decode($result, true);
-        echo "status : " . $result_['status'];
-        echo "message : " . $result_['message'];
-    }
-    //Close connection
-    curl_close($chOne);
-}
+// function getDocumentSetUp()
+// {
+// 	$DocumentSetUpModel = new \App\Models\DocumentSetUpModel();
+// 	// $data['DocumentSetUp'] = $DocumentSetUpModel->getDocumentSetUpAll();
+// 	// print_r($data['DocumentSetUp']); exit();
+// 	return $data['DocumentSetUp'] = $DocumentSetUpModel->getDocumentSetUpAll();
+// }
