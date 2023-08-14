@@ -29,14 +29,18 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+// Authentication
+$routes->get('/', 'Home::index', ['filter' => 'employeeNoAuth']);
+$routes->match(['get', 'post'], 'login', 'Authentication::login', ['filter' => 'employeeNoAuth']);
+$routes->get('logout', 'Authentication::logout', ['filter' => 'employeeAuth']);
+
 // $routes->get('/', 'Home::index');
-$routes->get('/', 'Dashboard::index',);
+// $routes->get('/', 'Dashboard::index', ['filter' => 'employeeNoAuth']);
 
-$routes->get('/dashboard', 'Dashboard::index', 
-// ['filter' => 'employeeAuth']
-);
+$routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
-$routes->group('setting',  function ($routes) {
+$routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('group_product', 'SettingController::group_product');
     $routes->post('addGroupProduct', 'SettingController::addGroupProduct');
     $routes->get('editGroupProduct/(:num)', 'SettingController::editGroupProduct/$1');
@@ -49,10 +53,23 @@ $routes->group('setting',  function ($routes) {
     $routes->get('editSupplier/(:num)', 'SettingController::editSupplier/$1');
     $routes->post('updateSupplier', 'SettingController::updateSupplier');
     $routes->get('deleteSupplier/(:num)', 'SettingController::deleteSupplier/$1');
+    
+    $routes->get('position', 'SettingController::position');
+    $routes->post('addPosition', 'SettingController::addPosition');
+    $routes->get('editPosition/(:num)', 'SettingController::editPosition/$1');
+    $routes->post('updatePosition', 'SettingController::updatePosition');
+    $routes->get('deletePosition/(:num)', 'SettingController::deletePosition/$1');
+
+    $routes->get('branch', 'SettingController::branch');
+    $routes->post('addBranch', 'SettingController::addBranch');
+    $routes->get('editBranch/(:num)', 'SettingController::editBranch/$1');
+    $routes->post('updateBranch', 'SettingController::updateBranch');
+    $routes->get('deleteBranch/(:num)', 'SettingController::deleteBranch/$1');
+
 });
 
 // stock management
-$routes->group('stock',
+$routes->group('stock', ['filter' => 'employeeAuth'] ,
 // ['filter' => 'employeeAuth'],
 function ($routes) {
     $routes->get('index', 'StockController::index');
