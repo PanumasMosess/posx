@@ -83,7 +83,9 @@ function ($routes) {
     $routes->post('deleteProduct', 'StockController::deleteproduct');    
     $routes->post('updateAdjust', 'StockController::updateAdjust'); 
     $routes->get('listTransection/(:any)', 'StockController::getTransectionByStockCode/$1');
-    $routes->get('pageTransection/(:any)', 'StockController::getTableTransectionByStockCode/$1');
+    $routes->get('pageTransection/(:any)', 'StockController::getTableTransectionByStockCode/$1');   
+    $routes->get('orderData', 'StockController::getOrder'); 
+    $routes->post('dataStockFormular', 'StockController::fetchDataStockFormular');  
 });
 
 /*

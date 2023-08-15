@@ -38,6 +38,25 @@ class StockModel
 
         // Set default order
         $this->order = array('stock_posx.stock_code' => 'DESC');
+
+
+        /////Stock Formular//////
+            // Set orderable column fields
+            $this->column_order_formular = [
+                'stock_posx.stock_code',
+                'stock_posx.name',          
+                'stock_posx.pcs',
+            ];
+    
+            // Set searchable column fields
+            $this->column_search_formular = [
+                'stock_posx.stock_code',
+                'stock_posx.name',
+                'stock_posx.pcs',
+            ];
+    
+            // Set default order
+            $this->order_formular = array('stock_posx.stock_code' => 'DESC');
     }
 
     public function getCodeStock()
@@ -268,6 +287,144 @@ class StockModel
         left join group_product c 
         on b.group_id = c.id
         where a.stock_code = '$code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function getOrder()
+    {
+        $sql = "SELECT * FROM `order`  ORDER by order_name DESC";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+
+    public function _getAllDataStockFormular($post_data)
+    {
+        // ***************************
+        // ดึงข้อมูลตามเงื่อนไข
+        // - Search
+        // - OrderBy
+
+        $builder = $this->DataStockQueryFormular($post_data);
+
+        // นำ Builder ที่ได้มาลิมิต จาก Length ของ Datable ที่ส่งมา
+        if ($post_data['length'] != -1) {
+            $builder->limit($post_data['length'], $post_data['start']);
+        }
+
+        // ส่งข้อมูลออกไป
+        return $builder->get()->getResult();
+    }
+
+    private function DataStockQueryFormular($post_data)
+    {
+
+        $builder = $this->db->table('stock_posx');
+
+        $builder->select("
+        stock_posx.id,
+        stock_posx.stock_code, 
+        stock_posx.name, 
+        stock_posx.group_id, 
+        stock_posx.MAX, 
+        stock_posx.MIN, 
+        stock_posx.price,
+        stock_posx.pcs,
+        stock_posx.status_stock,
+        stock_posx.supplier_id,
+        stock_posx.barcode, 
+        stock_posx.src_picture,
+        stock_posx.created_by,
+        stock_posx.updated_by,
+        stock_posx.created_at, 
+        stock_posx.updated_at, 
+        stock_posx.deleted_at,
+        group_product.name as group_name,
+        group_product.unit
+       ");
+
+        $builder->join('group_product', 'group_product.id = stock_posx.group_id', 'left');
+        // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
+        // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
+        $builder->where("status_stock not in ('CANCEL_STOCK')");
+
+        $i = 0;
+        // loop searchable columns
+        foreach ($this->column_search_formular as $item) {
+
+            // if datatable send POST for search
+            if ($post_data['search']['value']) {
+
+                // first loop
+                if ($i === 0) {
+                    // open bracket
+                    $builder->groupStart();
+                    $builder->like($item, $post_data['search']['value']);
+                } else {
+                    $builder->orLike($item, $post_data['search']['value']);
+                }
+
+                // last loop
+                if (count($this->column_search_formular) - 1 == $i) {
+                    $builder->like($item, $post_data['search']['value']);
+                    // close bracket
+                    $builder->groupEnd();
+                }
+            }
+
+            $i++;
+        }
+
+        // มีการ order เข้ามา
+        if (isset($post_data['order'])) {
+            $builder->orderBy($this->column_order_formular[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
+        }
+
+        // Default
+        else if (isset($this->order_formular)) {
+            $order = $this->order_formular;
+            $builder->orderBy(key($order), $order[key($order)]);
+        }
+
+        // Debug คิวรี่ที่ได้
+        // px($builder->getCompiledSelect());
+
+        return $builder;
+    }
+
+    public function getAllDataStockFilterFormular()
+    {
+
+        $sql = "            
+        SELECT
+        stock_posx.id,
+        stock_posx.stock_code, 
+        stock_posx.name, 
+        stock_posx.group_id, 
+        stock_posx.MAX, 
+        stock_posx.MIN, 
+        stock_posx.price,
+        stock_posx.pcs,
+        stock_posx.status_stock,
+        stock_posx.supplier_id,
+        stock_posx.barcode, 
+        stock_posx.src_picture,
+        stock_posx.created_by,
+        stock_posx.updated_by,
+        stock_posx.created_at, 
+        stock_posx.updated_at, 
+        stock_posx.deleted_at,
+        group_product.name as group_name,
+        group_product.unit
+        FROM stock_posx
+        left join group_product on 
+        group_product.id = stock_posx.group_id
+        where stock_posx.status_stock not in ('CANCEL_STOCK')
+        ORDER BY stock_posx.stock_code DESC
+        ";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
