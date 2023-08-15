@@ -1,31 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zxx">
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Login</title>
 
-    <!-- Title -->
-    <title>Used Car | Backoffice</title>
+    <link rel="stylesheet" href="<?php echo base_url('css/bootstrap1.min.css'); ?>" />
 
     <!-- Favicon -->
     <link rel="icon" href="<?php echo base_url('img/mini_logo.png'); ?>" type="image/png" />
 
-    <!-- Icons css -->
-    <link href="<?php echo base_url('/assets/css/icons.css'); ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url('vendors/themefy_icon/themify-icons.css'); ?>" />
 
-    <!--  Bootstrap css-->
-    <link id="style" href="<?php echo base_url('/assets/plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" />
+    <link rel="stylesheet" href="<?php echo base_url('vendors/niceselect/css/nice-select.css'); ?>" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- Style css -->
-    <link href="<?php echo base_url('/assets/css/style.css'); ?>" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
-    <!-- CUSTOM -->
+    <link rel="stylesheet" href="<?php echo base_url('vendors/owl_carousel/css/owl.carousel.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/gijgo/gijgo.min.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/font_awesome/css/all.min.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('vendors/tagsinput/tagsinput.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/datepicker/date-picker.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('vendors/vectormap-home/vectormap-2.0.2.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/scroll/scrollable.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/datatable/css/jquery.dataTables.min.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('vendors/datatable/css/responsive.dataTables.min.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('vendors/datatable/css/buttons.dataTables.min.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/text_editor/summernote-bs4.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/morris/morris.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('vendors/material_icon/material-icons.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('css/metisMenu.css'); ?>" />
+
+    <link rel="stylesheet" href="<?php echo base_url('css/style1.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('css/colors/default.css'); ?>" id="colorSkinCSS" />
+    <!-- iziToast css -->
+    <link href="<?php echo base_url('css/izitoast/iziToast.min.css'); ?>" rel="stylesheet">
+    <!-- Plugins css -->
+    <link href="<?php echo base_url('/css/plugins.css'); ?>" rel="stylesheet">
     <style>
         /** BASE **/
         * {
@@ -35,7 +55,6 @@
         .bg-svg::before {
             content: "";
             position: absolute;
-            background: url(https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/76c356116160113.605c4fff7f0a7.jpg);
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -47,13 +66,13 @@
         .field-icon {
             float: right;
             margin-right: 5px;
-            margin-top: -23px;
+            margin-top: -53px;
             position: relative;
             z-index: 2;
         }
 
         .container {
-            padding-top: 50px;
+            padding-top: 130px;
             margin: auto;
         }
     </style>
@@ -62,74 +81,38 @@
     </script>
 </head>
 
-<body class="ltr error-page1 bg-primary">
-
-    <!-- Progress bar on scroll -->
-    <div class="progress-top-bar"></div>
-
-    <!-- Loader -->
-    <div id="global-loader">
-        <img src="<?php echo base_url('/assets/img/loader.svg'); ?>" class="loader-img" alt="Loader">
-    </div>
-    <!-- /Loader -->
-
-    <div class="square-box">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
+<body class="crm_body_bg">
 
     <div class="bg-svg">
         <div class="page">
             <div class="z-index-10">
                 <div class="container">
-                    <div class="row">
+                    <div class="row justify-content-center">
+
                         <div class="col-xl-5 col-lg-6 col-md-8 col-sm-8 col-xs-10 mx-auto my-auto py-4 justify-content-center">
-                            <div class="card-sigin">
-                                <!-- Demo content-->
-                                <div class="main-card-signin d-md-flex">
-                                    <div class="wd-100p">
-                                        <div class="d-flex"><a href="#"><img src="<?php echo base_url('img/mini_logo.png'); ?>" class="sign-favicon ht-40" alt="logo"></a></div>
-                                        <div class="mt-3">
-                                            <h2 class="tx-medium tx-primary">POSX | Backoffice</h2>
-                                            <h6 class="font-weight-semibold mb-4 text-white-50">ล็อคอิน เพื่อเข้าสู่ระบบ</h6>
-                                            <div class="panel tabs-style7 scaleX mt-2">
-                                                <div class="panel-head">
-                                                    <ul class="nav nav-tabs d-block d-sm-flex">
-                                                        <li class="nav-item"><a class="nav-link tx-14 font-weight-semibold text-sm-center text-start active" data-bs-toggle="tab" href="#signinTab1">ชื่อผู้ใช้งาน</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-body p-0">
-                                                    <div class="tab-content mt-3">
-                                                        <div class="tab-pane active" id="signinTab1">
-                                                            <form action="#">
-                                                                <div class="form-group">
-                                                                    <input class="form-control" placeholder="ยูสเซอร์เนม" type="text" name="username" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <input class="form-control" placeholder="*********" type="password" name="password" id="password" required>
-                                                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
-                                                                </div>
-                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                    <p class="mb-0"><a href="javascript:void(0);" class="tx-primary">ลืมรหัสผ่าน?</a></p>
-                                                                    <button class="btn btn-primary" id="btn-login">เข้าสู่ระบบ</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                            <!-- <div class="mb_10"> -->
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                    <div class="white_box">
+                                        <div class="modal-content cs_modal">
+                                            <div class="modal-header justify-content-center theme_bg_1">
+                                                <h5 class="modal-title text_white">Log in</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <input class="form-control" placeholder="ยูสเซอร์เนม" type="text" name="username" required>
                                                     </div>
-                                                </div>
+                                                    <div class="form-group">
+                                                        <input class="form-control" placeholder="*********" type="password" name="password" id="password" required>
+                                                        <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                                                    </div>
+                                                    <button id="btn-login" class="btn_1 full_width text-center" style="font-size: 15px;">เข้าสู่ระบบ</button>
+                                                    <!-- <p>Need an account? <a data-toggle="modal" data-target="#sing_up" data-dismiss="modal" href="#"> Sign Up</a></p> -->
+                                                    <!-- <div class="text-center">
+                                                    <a href="#" data-toggle="modal" data-target="#forgot_password" data-dismiss="modal" class="pass_forget_btn">Forget Password?</a>
+                                                </div> -->
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -137,26 +120,80 @@
                             </div>
                         </div>
                     </div>
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- <div id="back-top" style="display: none;">
+        <a title="Go to Top" href="#">
+            <i class="ti-angle-up"></i>
+        </a>
+    </div> -->
 
-    <!-- JQuery min js -->
-    <script src="<?php echo base_url('/assets/plugins/jquery/jquery.min.js'); ?>"></script>
 
-    <!-- Bootstrap js -->
-    <script src="<?php echo base_url('/assets/plugins/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/jquery1-3.4.1.min.js'); ?>"></script>
 
-    <!-- generate-otp js -->
-    <script src="<?php echo base_url('/assets/js/generate-otp.js'); ?>"></script>
+    <script src="<?php echo base_url('js/popper1.min.js'); ?>"></script>
 
-    <!--Internal  Perfect-scrollbar js -->
-    <script src="<?php echo base_url('/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/bootstrap1.min.js'); ?>"></script>
 
-    <!-- custom js -->
-    <script src="<?php echo base_url('/assets/js/custom.js'); ?>"></script>
+    <script src="<?php echo base_url('js/metisMenu.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/count_up/jquery.waypoints.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/chartlist/Chart.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/count_up/jquery.counterup.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/niceselect/js/jquery.nice-select.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/owl_carousel/js/owl.carousel.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/datatable/js/jquery.dataTables.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/dataTables.responsive.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/dataTables.buttons.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/buttons.flash.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/jszip.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/pdfmake.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/vfs_fonts.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/buttons.html5.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/buttons.print.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/datepicker/datepicker.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datepicker/datepicker.en.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datepicker/datepicker.custom.js'); ?>"></script>
+    <script src="<?php echo base_url('js/chart.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/chartjs/roundedBar.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/progressbar/jquery.barfiller.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/tagsinput/tagsinput.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/text_editor/summernote-bs4.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/am_chart/amcharts.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/scroll/perfect-scrollbar.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/scroll/scrollable-custom.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/vectormap-home/vectormap-2.0.2.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/vectormap-home/vectormap-world-mill-en.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/apex_chart/apex-chart2.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/apex_chart/apex_dashboard.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/chart_am/core.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/chart_am/charts.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/chart_am/animated.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/chart_am/kelly.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/chart_am/chart-custom.js'); ?>"></script>
+
+    <script src="<?php echo base_url('vendors/parsleyjs/parsley.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('js/dashboard_init.js'); ?>"></script>
+    <script src="<?php echo base_url('js/custom.js'); ?>"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
 
     <script>
