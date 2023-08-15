@@ -62,9 +62,8 @@
                                                                     </div>
                                                                     <div class="col-8">
                                                                         <div class="common_select">
-                                                                            <select class="nice_Select wide mb-10" style="display: none;">
+                                                                            <select class="nice_Select wide mb-10" style="display: none;" id="order_select">
                                                                                 <option value="">เลือกสินค้า</option>
-                                                                                <option value="">Lite</option>
                                                                             </select>
                                                                         </div>
 
@@ -106,7 +105,7 @@
                                                             <div class="white_card_body QA_section">
                                                                 <div class="QA_section">
                                                                     <div class="QA_table mb_30">
-                                                                        <table class="table lms_table_active" id="table_fomular_item">
+                                                                        <table class="table" id="table_fomular_item">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th scope="col">#</th>
@@ -114,31 +113,7 @@
                                                                                     <th scope="col">จำนวนที่เหลือ/หน่วย</th>
                                                                                 </tr>
                                                                             </thead>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <th scope="row">
-                                                                                        <a href="#" class="question_content">
-                                                                                            title here 1</a>
-                                                                                    </th>
-                                                                                    <td>Category name</td>
-                                                                                    <td>Teacher James</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th scope="row">
-                                                                                        <a href="#" class="question_content">
-                                                                                            title here 1</a>
-                                                                                    </th>
-                                                                                    <td>Category name</td>
-                                                                                    <td><a href="#" class="status_btn">Active</a></td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th scope="row">
-                                                                                        <a href="#" class="question_content">
-                                                                                            title here 1</a>
-                                                                                    </th>
-                                                                                    <td>Category name</td>
-                                                                                    <td><a href="#" class="status_btn">Active</a></td>
-
+                                                                            <tbody>                                                                                                                                           
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
@@ -155,7 +130,7 @@
                                                                     </div>
                                                                     <div class="header_more_tool">
                                                                         <div class="action_btns d-flex">
-                                                                            <a href="#" class="action_btn">
+                                                                            <a href="#" class="action_btn" onclick="reloadFomularOrder();"  data-toggle='tooltip' data-placement='top' title='รีโหลด'>
                                                                                 <i class="ti-reload"></i>
                                                                             </a>
                                                                         </div>
@@ -166,8 +141,8 @@
                                                                 <div class="Activity_timeline">
                                                                     <div class="QA_section">
                                                                         <div class="QA_table mb_30">
-                                                                            หากขายสินค้า 1 ในรายการนี้
-                                                                            <table class="table lms_table_active" id="table_fomular_item">
+                                                                            หากขายสินค้ารายการนี้
+                                                                            <table class="table lms_table_active" id="table_fomular_order">
                                                                                 <thead>
                                                                                     <tr>
                                                                                         <th scope="col">#</th>
@@ -176,15 +151,7 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    <tr>
-                                                                                        <td>1</td>
-                                                                                        <td>
-                                                                                            AAA
-                                                                                        </td>
-                                                                                        <td style="float: right;">
-                                                                                            <a herf='javascript:void(0);' type='button' class='action_btn' onclick='adjustStockData(this.id);' id='' data-toggle='tooltip' data-placement='top' title='ลบ'><i class='fas fa-trash'></i></a>
-                                                                                        </td>
-                                                                                    </tr>
+                                                                                   
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -192,33 +159,18 @@
                                                                     <div class="QA_section">
                                                                         <div class="QA_table mb_30">
                                                                             จะตัดสต็อกดังนี้
-                                                                            <table class="table lms_table_active" id="table_fomular_item">
+                                                                            <table class="table lms_table_active" id="table_fomular_stock_cut">
                                                                                 <thead>
                                                                                     <tr>
                                                                                         <th scope="col">
                                                                                             #
                                                                                         </th>
+                                                                                        <th scope="col">ชื่อ</th>
                                                                                         <th scope="col">จำนวน (PCS)</th>
                                                                                         <th scope="col"></th>
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <div class="input-group">1</div>
-                                                                                        </td>
-                                                                                        <th scope="row">
-                                                                                            <div class="input-group">
-                                                                                                <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
-                                                                                                <div class="input-group-text">
-                                                                                                    <span class id="basic-addon1">หน่วย</span>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </th>
-                                                                                        <td style="float: right;">
-                                                                                            <a herf='javascript:void(0);' type='button' class='action_btn' onclick='adjustStockData(this.id);' id='' data-toggle='tooltip' data-placement='top' title='ลบ'><i class='fas fa-trash'></i></a>
-                                                                                        </td>
-                                                                                    </tr>
+                                                                                <tbody>   
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>

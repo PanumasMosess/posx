@@ -374,4 +374,29 @@ class StockController extends BaseController
             'data' => $transection_data
         ]);
     }
+
+    public function getOrder()
+    {
+        $order_data = $this->StockModel->getOrder();
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $order_data
+        ]);
+    }
+
+    public function fetchDataStockFormular()
+    {
+        $datas_stock = $this->StockModel->_getAllDataStockFormular($_POST);
+
+        $filter = $this->StockModel->getAllDataStockFilterFormular();
+
+        return $this->response->setJSON([
+            'draw' => $_POST['draw'],
+            'recordsTotal' => count($filter),
+            'recordsFiltered' => count($filter),
+            "data" => $datas_stock,
+        ]);
+    }
 }
