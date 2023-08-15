@@ -36,7 +36,7 @@ function getTableStockByselect(code_order) {
   if (code_order != "") {
     isOnline = window.navigator.onLine;
     if (isOnline) {
-      $("#table_fomular_item").DataTable().clear().destroy();
+      // $("#table_fomular_item").DataTable().clear().destroy();
       table_stock_formular = $("#table_fomular_item").DataTable({
         language: {
           search: "<i class='ti-search'></i>",
@@ -135,10 +135,9 @@ function getTableStockByselect(code_order) {
         // Initial no order.
       });
     }
-    $("#table_fomular_item tbody").on("click", "tr", function (e) {  
+    $("#table_fomular_item tbody").off('click').on("click", "tr", function (e) {  
      let data = table_stock_formular.row(this).data();
-      // addListConfirrmCutStock(data);
-      console.log(data);
+      addListConfirrmCutStock(data);
     });
   } else {
     // Other statement.
