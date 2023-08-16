@@ -429,4 +429,12 @@ class StockModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
+    public function insertFormular($data_formular)
+    {
+        $builder = $this->db->table('stock_formula');
+        $builder_status = $builder->insert($data_formular);
+
+        return ($builder_status) ? true : false;
+    }
 }

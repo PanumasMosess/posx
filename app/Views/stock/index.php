@@ -176,10 +176,10 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-auto justify-content-end" style="display: flex;">
-                                                                        <button type="button" onclick="" class="btn btn-outline-danger rounded-pill m-1">
+                                                                        <button type="button" onclick="cancleFormular();" class="btn btn-outline-danger rounded-pill m-1">
                                                                             ยกเลิก
                                                                         </button>
-                                                                        <button type="button" id="save_stock_btn" class="btn btn-outline-success rounded-pill m-1">
+                                                                        <button type="button" id="save_stock_btn" onclick="formularConfirm();" class="btn btn-outline-success rounded-pill m-1">
                                                                             ยืนยัน
                                                                         </button>
                                                                     </div>
