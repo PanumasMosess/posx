@@ -68,6 +68,14 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
 
 });
 
+$routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
+    $routes->get('index', 'EmployeeController::index');
+    $routes->post('addEmployee', 'EmployeeController::addEmployee');
+    $routes->get('editEmployee/(:num)', 'EmployeeController::editEmployee/$1');
+    $routes->post('updateEmployee', 'EmployeeController::updateEmployee');
+    $routes->get('deleteEmployee/(:num)', 'EmployeeController::deleteEmployee/$1');
+});
+
 // stock management
 $routes->group('stock', ['filter' => 'employeeAuth'] ,
 // ['filter' => 'employeeAuth'],

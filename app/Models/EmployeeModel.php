@@ -69,4 +69,17 @@ class EmployeeModel
         $builder = $this->db->table('employees');
         return $builder->where('username', $username)->get()->getResult();
     }
+
+    // List Data
+    public function getEmployeeAllWithJoin()
+    {
+        $sql = "
+                SELECT employees.id as employee_Id,name,nickname,phone_number,thumbnail,branch_id,position_id,branch.id as branch_Id,branch_name,position.id as position_Id,position_name FROM employees
+                JOIN branch ON employees.branch_id = branch.id
+                JOIN position ON employees.position_id = position.id
+                WHERE employees.username != 'spadmin' AND employees.deleted_at IS NULL
+                ORDER BY employee_Id";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
 }

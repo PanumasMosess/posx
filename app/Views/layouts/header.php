@@ -116,6 +116,21 @@
                     <li><a href="<?php echo base_url('/setting/branch'); ?>">สาขา</a></li>
                 </ul>
             </li>
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'employee') {
+                            echo 'active';
+                        } ?>">
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="<?php echo base_url('img/menu-icon/5.svg'); ?>" alt />
+                    </div>
+                    <div class="nav_title">
+                        <span>พนักงาน</span>
+                    </div>
+                </a>
+                <ul>
+                    <li><a href="<?php echo base_url('/employee/index'); ?>">รายชื่อพนักงาน</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
 
