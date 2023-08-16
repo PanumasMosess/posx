@@ -99,15 +99,15 @@
                                                 <h5 class="modal-title text_white">Log in</h5>
                                             </div>
                                             <div class="modal-body">
-                                                <form>
+                                            <form>
                                                     <div class="form-group">
-                                                        <input class="form-control" placeholder="ยูสเซอร์เนม" type="text" name="username" required>
+                                                        <input class="form-control" placeholder="Enter your username" type="text" name="username" required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <input class="form-control" placeholder="*********" type="password" name="password" id="password" required>
+                                                        <input class="form-control" placeholder="Password" type="password" name="password" id="password" required>
                                                         <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
                                                     </div>
-                                                    <button id="btn-login" class="btn_1 full_width text-center" style="font-size: 15px;">เข้าสู่ระบบ</button>
+                                                    <button id="btn-login" class="btn_1 full_width text-center" style="font-size: 15px;">Login</button>
                                                     <!-- <p>Need an account? <a data-toggle="modal" data-target="#sing_up" data-dismiss="modal" href="#"> Sign Up</a></p> -->
                                                     <!-- <div class="text-center">
                                                     <a href="#" data-toggle="modal" data-target="#forgot_password" data-dismiss="modal" class="pass_forget_btn">Forget Password?</a>
