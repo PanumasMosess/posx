@@ -135,10 +135,12 @@ function getTableStockByselect(code_order) {
         // Initial no order.
       });
     }
-    $("#table_fomular_item tbody").off('click').on("click", "tr", function (e) {  
-     let data = table_stock_formular.row(this).data();
-      addListConfirrmCutStock(data);
-    });
+    $("#table_fomular_item tbody")
+      .off("click")
+      .on("click", "tr", function (e) {
+        let data = table_stock_formular.row(this).data();
+        addListConfirrmCutStock(data);
+      });
   } else {
     // Other statement.
     reloadFomularOrder();
@@ -210,17 +212,30 @@ function getTableFormularProductItem(data) {
 
 function reloadFomularOrder(data) {
   $("#table_fomular_item").DataTable().clear().destroy();
-  $('#table_fomular_item tbody').empty();
   $("#table_fomular_order").DataTable().clear().destroy();
-  $('#table_fomular_order tbody').empty();
   $("#table_fomular_stock_cut").DataTable().clear().destroy();
-  $('#table_fomular_stock_cut tbody').empty();
+  array_formular_stock_cut = [];
   selectOrder();
 }
 
 function addListConfirrmCutStock(data) {
-  array_formular_stock_cut.push(data);
+  if (array_formular_stock_cut.length != 0) {
+    let arr = [];
+    arr = array_formular_stock_cut.map((a) => a.id);
 
+    if (arr.includes(data.id)) {
+      // console.log(arr);
+    } else {
+      array_formular_stock_cut.push(data);
+    }
+  } else {
+    array_formular_stock_cut.push(data);
+  }
+
+  tableCut();
+}
+
+function tableCut() {
   $("#table_fomular_stock_cut").DataTable().clear().destroy();
   table_fomular_order_confirm = $("#table_fomular_stock_cut").DataTable({
     language: {
@@ -257,10 +272,8 @@ function addListConfirrmCutStock(data) {
         data: null,
         render: function (data, type, row, meta) {
           return (
-            "<a herf='javascript:void(0);' type='button' class='action_btn' onclick='reloadFomularOrder(this.id);' id='" +
-            data["order_code"] +
-            "###" +
-            data["order_name"] +
+            "<a herf='javascript:void(0);' type='button' class='action_btn' onclick='deleteListComfirm(this.id);' id='" +
+            data["id"] +
             "' data-toggle='tooltip' data-placement='top' title='ลบ'><i class='fas fa-trash'></i></a>"
           );
         },
@@ -278,4 +291,87 @@ function addListConfirrmCutStock(data) {
     paging: false,
     // Initial no order.
   });
+}
+
+function deleteListComfirm(data) {
+  array_formular_stock_cut = array_formular_stock_cut.filter(
+    (item) => item.id !== data
+  );
+  tableCut();
+}
+
+function cancleFormular() {
+  array_formular_stock_cut = [];
+  tableCut();
+}
+
+function formularConfirm() {
+  //split order code
+  let value = $("#order_select").val();
+  let order_split_result = value.split("###");
+
+  //get data from table input
+  let data = table_fomular_order_confirm.$("input, text").serialize();
+  let str_split = data.replace(/pcs_cut=/g, "");
+  let str_split_result = str_split.split("&");
+
+  array_cut_product = [];
+  object_cut_product_temp = {};
+
+  for (var i = 0; i < array_formular_stock_cut.length; i++) {
+    (object_cut_product_temp = {
+      order_code: order_split_result[0],
+      stock_code: array_formular_stock_cut[i].stock_code,
+      formula_pcs: str_split_result[i],
+    }),
+      array_cut_product.push(object_cut_product_temp);
+  }
+
+  formularStore = JSON.parse(localStorage.getItem("formularNew"))
+    ? JSON.parse(localStorage.getItem("formularNew"))
+    : [];
+
+  var hash = {};
+
+  if (formularStore.length != 0) {
+    array_cut_product.forEach(function (a) {
+      hash[a.order_code,a.stock_code, a.formula_pcs] = true;
+    });
+    formularStore.forEach(function (a) {
+      hash[a.order_code,a.stock_code, a.formula_pcs] || array_cut_product.push(a);
+    });
+  }
+
+  isOnline = window.navigator.onLine;
+
+  if (isOnline) {
+    $.ajax({
+      url: serverUrl + "stock/insertFormular",
+      method: "post",
+      data: {
+        data: array_cut_product,
+      },
+      cache: false,
+      success: function (response) {
+        if ((response.message = "เพิ่มรายการสำเร็จ")) {
+          notif({
+            type: "success",
+            msg: "เพิ่มรายการสำเร็จ!",
+            position: "right",
+            fade: true,
+            time: 300,
+          });
+          array_formular_stock_cut = [];
+          tableCut();
+          localStorage.removeItem("formularNew");
+        } else {
+        }
+      },
+    });
+  } else {
+    localStorage.setItem("formularNew", JSON.stringify(array_cut_product));
+    array_cut_product = [];
+    array_formular_stock_cut = [];
+    tableCut();
+  }
 }

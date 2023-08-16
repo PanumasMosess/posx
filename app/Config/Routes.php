@@ -85,7 +85,8 @@ function ($routes) {
     $routes->get('listTransection/(:any)', 'StockController::getTransectionByStockCode/$1');
     $routes->get('pageTransection/(:any)', 'StockController::getTableTransectionByStockCode/$1');   
     $routes->get('orderData', 'StockController::getOrder'); 
-    $routes->post('dataStockFormular', 'StockController::fetchDataStockFormular');  
+    $routes->post('dataStockFormular', 'StockController::fetchDataStockFormular');    
+    $routes->post('insertFormular', 'StockController::insertFormular');  
 });
 
 /*

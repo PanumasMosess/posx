@@ -399,4 +399,45 @@ class StockController extends BaseController
             "data" => $datas_stock,
         ]);
     }
+
+    public function insertFormular()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+            $data_formular = [
+                'order_code' => $data['order_code'],
+                'stock_code' => $data['stock_code'],
+                 'formula_pcs' => $data['formula_pcs'],
+                'created_by' => 'Admin',
+                'created_at' => $buffer_datetime
+            ];
+
+            $create_new = $this->StockModel->insertFormular($data_formular);
+
+            if ($create_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'เพิ่มไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'เพิ่มรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
 }
