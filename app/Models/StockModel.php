@@ -432,7 +432,7 @@ class StockModel
 
         // มีการ order เข้ามา
         if (isset($post_data['order'])) {
-            $builder->orderBy($this->column_order_formular_summary[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
+            $builder->orderBy($this->column_order_formular[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
         }
 
         // Default
@@ -554,7 +554,7 @@ class StockModel
 
         // มีการ order เข้ามา
         if (isset($post_data['order'])) {
-            $builder->orderBy($this->column_order_formular[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
+            $builder->orderBy($this->column_order_formular_summary[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
         }
 
         // Default
