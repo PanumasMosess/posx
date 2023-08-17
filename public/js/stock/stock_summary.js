@@ -20,7 +20,7 @@ function tableFormularPOS() {
       order: [],
       ajax: {
         type: "POST",
-        url: serverUrl + "/stock/dataSummaryFormular",
+        url: serverUrl + "stock/dataSummaryFormular",
         data: function (d) {
           return d;
         },
