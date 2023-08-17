@@ -72,6 +72,7 @@ class StockModel
             'order.order_name',
             'order.order_name',
             'order.order_name',
+            'order.order_name'
         ];
 
         // Set default order
