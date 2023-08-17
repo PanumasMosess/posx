@@ -94,7 +94,13 @@ function ($routes) {
     $routes->get('pageTransection/(:any)', 'StockController::getTableTransectionByStockCode/$1');   
     $routes->get('orderData', 'StockController::getOrder'); 
     $routes->post('dataStockFormular', 'StockController::fetchDataStockFormular');    
-    $routes->post('insertFormular', 'StockController::insertFormular');  
+    $routes->post('insertFormular', 'StockController::insertFormular');    
+    $routes->post('dataSummaryFormular', 'StockController::getFormularSummary'); 
+    $routes->get('listStockItem/(:any)', 'StockController::getlistStockIteme/$1');  
+    $routes->get('pageListFomular/(:any)', 'StockController::getTablepageListFomular/$1');     
+    $routes->post('dataSummaryTransection', 'StockController::getSummaryTransection');    
+    $routes->post('deleteFormularbyOrder', 'StockController::deleteFormularbyOrder');    
+    $routes->post('deleteFormularbyId', 'StockController::deleteFormularbyId');
 });
 
 /*

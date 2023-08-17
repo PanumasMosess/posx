@@ -26,6 +26,7 @@ class StockController extends BaseController
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>
             <script src="' . base_url('/js/stock/stock_index.js?v=' . time()) . '"></script>    
             <script src="' . base_url('/js/stock/stock_formular.js?v=' . time()) . '"></script> 
+            <script src="' . base_url('/js/stock/stock_summary.js?v=' . time()) . '"></script> 
         ';
         echo view('/app', $data);
     }
@@ -435,6 +436,126 @@ class StockController extends BaseController
                 'status' => 200,
                 'error' => false,
                 'message' => 'เพิ่มรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function getFormularSummary()
+    {
+        $datas_stock = $this->StockModel->_getAllDataStockFormularSummary($_POST);
+
+        $filter = $this->StockModel->getAllDataStockFilterFormularSummary();
+
+        return $this->response->setJSON([
+            'draw' => $_POST['draw'],
+            'recordsTotal' => count($filter),
+            'recordsFiltered' => count($filter),
+            "data" => $datas_stock,
+        ]);
+    }
+
+    public function getlistStockIteme($code)
+    {
+        $data['title'] = "Stock Item Formular.";
+        $data['css_critical'] = '';
+        $data['js_critical'] = '
+        <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script>
+        <script src="' . base_url('/js/stock/stock_item_fomular.js?v=' . time()) . '"></script>    
+        ';
+        $data['codeStock'] = $code;
+
+        echo view('/stock/stock_item_forrmular', $data);
+    }
+
+    public function getTablepageListFomular($code)
+    {
+        $item_data = $this->StockModel->getTitemListFormularByCode($code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $item_data
+        ]);
+    }
+
+    public function getSummaryTransection()
+    {
+        $datas_stock = $this->StockModel->_getAllDataStockTransectionsSummary($_POST);
+
+        $filter = $this->StockModel->getAllDataStockFilterTransectionSummary();
+
+        return $this->response->setJSON([
+            'draw' => $_POST['draw'],
+            'recordsTotal' => count($filter),
+            'recordsFiltered' => count($filter),
+            "data" => $datas_stock,
+        ]);
+    }
+
+    public function deleteFormularbyOrder()
+    {
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+        
+            $update_new = $this->StockModel->deleteFormulaByOrderCode($data[0]['id']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ลบรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function deleteFormularbyId()
+    {
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+        
+            $update_new = $this->StockModel->deleteFormulaByid($data[0]['id']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ลบรายการสำเร็จ'
             ]);
         } else {
             //  ว่าง

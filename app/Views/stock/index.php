@@ -113,7 +113,7 @@
                                                                                     <th scope="col">จำนวนที่เหลือ/หน่วย</th>
                                                                                 </tr>
                                                                             </thead>
-                                                                            <tbody>                                                                                                                                           
+                                                                            <tbody>
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
@@ -130,7 +130,7 @@
                                                                     </div>
                                                                     <div class="header_more_tool">
                                                                         <div class="action_btns d-flex">
-                                                                            <a href="#" class="action_btn" onclick="reloadFomularOrder();"  data-toggle='tooltip' data-placement='top' title='รีโหลด'>
+                                                                            <a href="#" class="action_btn" onclick="reloadFomularOrder();" data-toggle='tooltip' data-placement='top' title='รีโหลด'>
                                                                                 <i class="ti-reload"></i>
                                                                             </a>
                                                                         </div>
@@ -151,7 +151,7 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                   
+
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -170,7 +170,7 @@
                                                                                         <th scope="col"></th>
                                                                                     </tr>
                                                                                 </thead>
-                                                                                <tbody>   
+                                                                                <tbody>
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -189,15 +189,123 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="sumary" role="tabpanel" aria-labelledby="sumary-tab">
                                 <div class="builder_select">
+                                    <div class="board_wrapper">
+                                        <div class="single_board">
+                                            <div class="main_board_card">
+                                                <div class="row">
+                                                    <div class="col-xl-5 col-lg-12 col-md-12">
+                                                        <div class="white_card card_height_100 mb_20">
+                                                            <div class="white_card_header">
+                                                                <div class="box_header m-0">
+                                                                    <div class="main-title">
+                                                                        <h3 class="m-0">สูตรการตัดสต็อก POS ขาย</h3>
+                                                                    </div>
+                                                                    <div class="header_more_tool">
+                                                                        <!-- <div class="dropdown">
+                                                                            <span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                                                                                <i class="ti-more-alt"></i>
+                                                                            </span>
+                                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-eye"></i> Action</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-trash"></i> Delete</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="fas fa-edit"></i> Edit</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-printer"></i> Print</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="fa fa-download"></i> Download</a>
+                                                                            </div>
+                                                                        </div> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="white_card_body QA_section">
+                                                                <div class="QA_section">
+                                                                    <div class="QA_table mb_30">
+                                                                        <table class="table" id="table_fomular_data">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th scope="col">#</th>
+                                                                                    <th scope="col">ชื่อ</th>
+                                                                                    <th scope="col">รายการตัดสต็อก</th>
+                                                                                    <th scope="col">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-7 col-lg-12 col-md-12">
+                                                        <div class="white_card card_height_100 mb_20">
+                                                            <div class="white_card_header">
+                                                                <div class="box_header m-0">
+                                                                    <div class="main-title">
+                                                                        <h3 class="m-0">สต็อก Transection</h3>
+                                                                    </div>
+                                                                    <div class="header_more_tool">
+                                                                        <!-- <div class="dropdown">
+                                                                            <span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                                                                                <i class="ti-more-alt"></i>
+                                                                            </span>
+                                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-eye"></i> Action</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-trash"></i> Delete</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="fas fa-edit"></i> Edit</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="ti-printer"></i> Print</a>
+                                                                                <a class="dropdown-item" href="#">
+                                                                                    <i class="fa fa-download"></i> Download</a>
+                                                                            </div>
+                                                                        </div> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="white_card_body QA_section">
+                                                                <div class="QA_section">
+                                                                    <div class="QA_table mb_30">
+                                                                        <table class="table lms_table_active3" id="stockTableTransectionSummary">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>No.</th>
+                                                                                    <th>รายการ</th>
+                                                                                    <th>Begin</th>
+                                                                                    <th>add</th>
+                                                                                    <th>sold</th>
+                                                                                    <th>adjust</th>
+                                                                                    <th>WithDraw</th>
+                                                                                    <th>Return</th>
+                                                                                    <th>Balance</th>
+                                                                                    <th>วันที</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
 
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
