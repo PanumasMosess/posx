@@ -521,7 +521,7 @@ class StockModel
         ");
 
         $builder->join('order', 'order.order_code = stock_formula.order_code', 'left');
-        $builder->groupBy('stock_formula.order_code', 'stock_formula.id', 'stock_formula.stock_code', 'stock_formula.formula_pcs', 'stock_formula.created_by', 'stock_formula.created_at', 'order.order_name');
+        $builder->groupBy('order.order_name');
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         // $builder->where("status_stock not in ('CANCEL_STOCK')");
