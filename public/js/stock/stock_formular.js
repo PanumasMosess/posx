@@ -1,4 +1,5 @@
 var array_formular_stock_cut = [];
+var isOnline;
 (function ($) {
   selectOrder();
 })(jQuery);
@@ -36,7 +37,7 @@ function getTableStockByselect(code_order) {
   if (code_order != "") {
     isOnline = window.navigator.onLine;
     if (isOnline) {
-      // $("#table_fomular_item").DataTable().clear().destroy();
+      $("#table_fomular_item").DataTable().clear().destroy();
       table_stock_formular = $("#table_fomular_item").DataTable({
         language: {
           search: "<i class='ti-search'></i>",
@@ -363,6 +364,7 @@ function formularConfirm() {
           });
           array_formular_stock_cut = [];
           tableCut();
+          tableFormularPOS();
           localStorage.removeItem("formularNew");
         } else {
         }

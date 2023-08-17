@@ -74,19 +74,13 @@
                 <div class="white_card_body">
                     <div class="QA_section">
                         <div class="QA_table mb_30">
-                            <table class="table lms_table_active3" id="stockTableTransection">
+                            <table class="table lms_table_active3" id="stock_table_item_formular">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>รายการ</th>
-                                        <th>Begin</th>
-                                        <th>add</th>
-                                        <th>sold</th>
-                                        <th>adjust</th>
-                                        <th>WithDraw</th>
-                                        <th>Return</th>
-                                        <th>Balance</th>
-                                        <th>วันที</th>
+                                        <th>ชื่อรายการ</th>
+                                        <th>จำนวน/หน่วย</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
