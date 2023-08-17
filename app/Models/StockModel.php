@@ -64,6 +64,7 @@ class StockModel
             'order.order_name',
             'order.order_name',
             'order.order_name',
+            null
         ];
 
         // Set searchable column fields
@@ -89,7 +90,7 @@ class StockModel
             'stock_transaction.withdraw ',
             'stock_transaction.return',
             'stock_transaction.balance',
-            'stock_transaction.created_at',                    
+            'stock_transaction.created_at',
         ];
 
         // Set searchable column fields
@@ -431,7 +432,7 @@ class StockModel
 
         // มีการ order เข้ามา
         if (isset($post_data['order'])) {
-            $builder->orderBy($this->column_order_formular[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
+            $builder->orderBy($this->column_order_formular_summary[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
         }
 
         // Default
@@ -519,7 +520,7 @@ class StockModel
         ");
 
         $builder->join('order', 'order.order_code = stock_formula.order_code', 'left');
-        $builder->groupBy('stock_formula.order_code','stock_formula.id','stock_formula.stock_code','stock_formula.formula_pcs','stock_formula.created_by','stock_formula.created_at','order.order_name');
+        $builder->groupBy('stock_formula.order_code', 'stock_formula.id', 'stock_formula.stock_code', 'stock_formula.formula_pcs', 'stock_formula.created_by', 'stock_formula.created_at', 'order.order_name');
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         // $builder->where("status_stock not in ('CANCEL_STOCK')");
