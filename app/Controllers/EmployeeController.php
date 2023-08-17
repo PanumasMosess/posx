@@ -93,82 +93,159 @@ class EmployeeController extends BaseController
             echo $e->getMessage() . ' ' . $e->getLine();
         }
     }
+    //edit password
+    public function editPassword($id = null)
+    {
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        $data = $this->EmployeeModel->getEmployeeByID($id);
+
+        if ($data) {
+            echo json_encode(array("status" => true, 'data' => $data));
+        } else {
+            echo json_encode(array("status" => false));
+        }
+    }
+    // update password data
+    public function updatePassword()
+    {
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $id = $this->request->getVar('EmployeeId');
+            $password = $this->request->getVar('new_password');
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // HANDLE REQUEST
+            $update = $this->EmployeeModel->updateEmployeeByID($id, [
+                'password' => $hashed_password,
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] รหัสผ่าน',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข รหัสผ่าน สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข รหัสผ่าน ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
     //edit Employee
     public function editEmployee($id = null)
     {
-        // $this->BranchModel = new \App\Models\BranchModel();
-        // $data = $this->BranchModel->getBranchByID($id);
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        $data = $this->EmployeeModel->getEmployeeByID($id);
 
-        // if ($data) {
-        //     echo json_encode(array("status" => true, 'data' => $data));
-        // } else {
-        //     echo json_encode(array("status" => false));
-        // }
+        if ($data) {
+            echo json_encode(array("status" => true, 'data' => $data));
+        } else {
+            echo json_encode(array("status" => false));
+        }
     }
 
     //updateEmployee
     public function updateEmployee()
     {
-        // $this->BranchModel = new \App\Models\BranchModel();
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
 
-        // try {
-        //     // SET CONFIG
-        //     $status = 500;
-        //     $response['success'] = 0;
-        //     $response['message'] = '';
-        //     $id = $this->request->getVar('BranchId');
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+            $id = $this->request->getVar('EmployeeId');
 
-        //     // HANDLE REQUEST
-        //     $update = $this->BranchModel->updateBranchByID($id, [
-        //         'branch_name' => $this->request->getVar('branch_name'),
-        //         'updated_by' => session()->get('username'),
-        //         'updated_at' => date('Y-m-d H:i:s')
-        //     ]);
+            // HANDLE REQUEST
+            $employee = $this->EmployeeModel->getEmployeeByID($id);
+            // $employee = $this->EmployeeNamesModel->getEmployeeByID($this->request->getVar('EmployeeId'));
+            $thumbnail = $employee->thumbnail;
 
-        //     if ($update) {
+            if (isset($_FILES['edit_thumbnail']) && $_FILES['edit_thumbnail']['name'] != '') {
+                $thumbnail = $this->ddoo_upload_img($this->request->getFile('edit_thumbnail'));
+            } elseif ($this->request->getVar('avatar_Thumbnail') != '') {
+                $thumbnail = $this->request->getVar('avatar_Thumbnail');
+            }
 
-        //         logger_store([
-        //             'employee_id' => session()->get('employeeID'),
-        //             'username' => session()->get('username'),
-        //             'event' => 'อัพเดท',
-        //             'detail' => '[อัพเดท] พนักงาน',
-        //             'ip' => $this->request->getIPAddress()
-        //         ]);
+            // HANDLE REQUEST
+            $update = $this->EmployeeModel->updateEmployeeByID($id, [
+                'name' => $this->request->getVar('edit_name'),
+                'nickname' => $this->request->getVar('edit_nickname'),
+                'phone_number' => $this->request->getVar('edit_phone_number'),
+                'employee_email' => $this->request->getVar('edit_employee_email'),
+                'branch_id' => $this->request->getVar('edit_branch_id'),
+                'position_id' => $this->request->getVar('edit_position_id'),
+                'thumbnail' => $thumbnail,
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
 
-        //         $status = 200;
-        //         $response['success'] = 1;
-        //         $response['message'] = 'แก้ไข พนักงาน สำเร็จ';
-        //     } else {
-        //         $status = 200;
-        //         $response['success'] = 0;
-        //         $response['message'] = 'แก้ไข พนักงาน ไม่สำเร็จ';
-        //     }
+            if ($update) {
 
-        //     return $this->response
-        //         ->setStatusCode($status)
-        //         ->setContentType('application/json')
-        //         ->setJSON($response);
-        // } catch (\Exception $e) {
-        //     echo $e->getMessage() . ' ' . $e->getLine();
-        // }
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] พนักงาน',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข พนักงาน สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข พนักงาน ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
     }
 
     // delete Employee
     public function deleteEmployee($id = null)
     {
-        // $this->BranchModel = new \App\Models\BranchModel();
-        // $this->BranchModel->updateBranchByID($id, [
-        //     'deleted_by' => session()->get('username'),
-        //     'deleted_at' => date('Y-m-d H:i:s')
-        // ]);
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        $this->EmployeeModel->updateEmployeeByID($id, [
+            'updated_by' => session()->get('username'),
+            'deleted_at' => date('Y-m-d H:i:s')
+        ]);
 
-        // logger_store([
-        //     'employee_id' => session()->get('employeeID'),
-        //     'username' => session()->get('username'),
-        //     'event' => 'ลบ',
-        //     'detail' => '[ลบ] พนักงาน',
-        //     'ip' => $this->request->getIPAddress()
-        // ]);
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] พนักงาน',
+            'ip' => $this->request->getIPAddress()
+        ]);
     }
 
     // โหลด img
