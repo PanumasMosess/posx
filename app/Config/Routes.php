@@ -80,7 +80,6 @@ $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
 
 // stock management
 $routes->group('stock', ['filter' => 'employeeAuth'] ,
-// ['filter' => 'employeeAuth'],
 function ($routes) {
     $routes->get('index', 'StockController::index');
     $routes->post('insertProduct', 'StockController::insertproduct');
@@ -88,7 +87,8 @@ function ($routes) {
     $routes->get('getTempOffline', 'StockController::fetchDataStockOffline'); 
     $routes->get('getTempUpdate/(:any)', 'StockController::fetchUpdateStock/$1');  
     $routes->get('getTempAdjust/(:any)', 'StockController::fetchUpdateStock/$1');  
-    $routes->get('groupData', 'StockController::fetchGroupData');  
+    $routes->get('groupData', 'StockController::fetchGroupData');     
+    $routes->get('supplierData', 'StockController::fetchSupplierData'); 
     $routes->post('updateProduct', 'StockController::updateproduct'); 
     $routes->post('deleteProduct', 'StockController::deleteproduct');    
     $routes->post('updateAdjust', 'StockController::updateAdjust'); 
@@ -105,6 +105,12 @@ function ($routes) {
     $routes->post('deleteFormularbyId', 'StockController::deleteFormularbyId');
 });
 
+// orders management
+$routes->group('order', ['filter' => 'employeeAuth'] ,
+function ($routes) {
+    $routes->get('order_manage', 'OrderController::index');   
+    $routes->post('dataOrder', 'OrderController::fetchDataOrder');  
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

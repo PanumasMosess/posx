@@ -306,6 +306,15 @@ class StockModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+    public function getSupplierData()
+    {
+        $sql = "SELECT * FROM supplier order by id asc";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    
 
     public function insertAdjust($id, $data_stock, $data_stock_transaction)
     {

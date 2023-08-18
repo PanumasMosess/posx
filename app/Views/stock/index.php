@@ -22,7 +22,7 @@
                         <div class="tab-content" id="stockTabContent">
                             <div class="tab-pane fade show active" id="Stock" role="tabpanel" aria-labelledby="Stock-tab">
                                 <div class="col-lg-12 col-xl-12 col-md-12">
-                                    <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสินค้า</a></div>
+                                    <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มรายการสต็อก</a></div>
                                     <div class="QA_section">
                                         <div class="QA_table mb_30">
                                             <table class="table lms_table_active3" id="stockTable">
@@ -360,6 +360,23 @@
                                 </div>
                             </div>
                             <div class="row g-12">
+                                <div class="col-2">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-text">
+                                            <span class id="basic-addon1">ผู้จัดหาสินค้า &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-10">
+                                    <div class="input-group mb-3">
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="supplier" name="supplier" required>
+                                            <option value="">supplier</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-12">
                                 <div class="col-6">
                                     <div class="input-group mb-3">
                                         <div class="input-group-text">
@@ -406,7 +423,7 @@
                                 <button type="button" onclick="closeModalAddStock();" class="btn btn-outline-danger m-1">
                                     ยกเลิก
                                 </button>
-                                <button type="submit" id='save_stock_btn' class="btn btn-outline-success m-1">
+                                <button type="submit" id='save_stock_btn_stock' class="btn btn-outline-success m-1">
                                     ยืนยัน
                                 </button>
                                 <button type="button" id='update_stock_btn' class="btn btn-outline-warning m-1" onclick="submitDataUpdate();">

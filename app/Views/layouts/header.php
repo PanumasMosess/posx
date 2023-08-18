@@ -98,7 +98,9 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li  class="mm-<?php if (service('uri')->getSegment(1) == 'order') {
+                                echo 'active';
+                            } ?>">
                 <a class="has-arrow" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
@@ -108,10 +110,10 @@
                     </div>
                 </a>
                 <ul>
-                    <li><a href="#">Manage Orders</a></li>
+                    <li><a href="<?php echo base_url('/order/order_manage'); ?>">Manage Orders</a></li>
                 </ul>
                 <ul>
-                    <li><a href="#">Orders Pos</a></li>
+                    <li><a href="#">Orders POS</a></li>
                 </ul>
             </li>
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'setings') {

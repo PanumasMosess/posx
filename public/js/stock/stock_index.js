@@ -23,7 +23,7 @@ var isOnline;
 
 function openModalProduct() {
   $(".bd-add-product").modal("show");
-  $("#save_stock_btn").show();
+  $("#save_stock_btn_stock").show();
   $("#update_stock_btn").hide();
 }
 
@@ -63,6 +63,7 @@ $("#addStock").submit(function (e) {
         id: "",
         name: $("#productname").val(),
         group_id: $("#category").val(),
+        supplier_id: $("#supplier").val(),
         price: $("#price").val(),
         pcs: $("#pcs").val(),
         MAX: $("#max").val(),
@@ -362,6 +363,7 @@ function offlineTemp() {
             id: response.data[index].id,
             name: response.data[index].name,
             group_id: response.data[index].group_id,
+            supplier_id: response.data[index].supplier_id,
             price: response.data[index].price,
             pcs: response.data[index].pcs,
             MAX: response.data[index].MAX,
@@ -393,11 +395,27 @@ function offlineTemp() {
       });
     },
   });
+
+  $.ajax({
+    url: serverUrl + "/stock/supplierData",
+    method: "get",
+    success: function (response) {
+      var supplier = $("#supplier");
+      supplier.html('<option value="">supplier</option>');
+      $.each(response.data, function (index, item) {
+        supplier.append(
+          $('<option style="color: #000;"></option>')
+            .val(item.id)
+            .html(item.supplier_name)
+        );
+      });
+    },
+  });
 }
 
 function updateStockData(data) {
-  $("#save_stock_btn").hide();
   $("#update_stock_btn").show();
+  $("#save_stock_btn_stock").hide();
   isOnline = window.navigator.onLine;
   if (isOnline) {
     $.ajax({
@@ -407,7 +425,8 @@ function updateStockData(data) {
         $(".bd-add-product").modal("show");
         $("#nameForm").html("<h3>แก้ไขข้อมูล</h3>");
         $("#productname").val(response.data.name);
-        $("#category").val(response.data.group_id);
+        $("#category").val(response.data.group_id);   
+        $("#supplier").val(response.data.supplier_id);
         $("#price").val(response.data.price);
         $("#pcs").val(response.data.pcs);
         $("#pcs").prop("disabled", true);
@@ -427,6 +446,7 @@ function updateStockData(data) {
       if (array_temp_update[i_temp]["id"] == data) {
         $("#productname").val(array_temp_update[i_temp]["name"]);
         $("#category").val(array_temp_update[i_temp]["group_id"]);
+        $("#supplier").val(array_temp_update[i_temp]["supplier_id"]);
         $("#price").val(array_temp_update[i_temp]["price"]);
         $("#pcs").val(array_temp_update[i_temp]["pcs"]);
         $("#pcs").prop("disabled", true);
