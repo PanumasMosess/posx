@@ -71,6 +71,8 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('index', 'EmployeeController::index');
     $routes->post('addEmployee', 'EmployeeController::addEmployee');
+    $routes->get('editPassword/(:num)', 'EmployeeController::editPassword/$1');
+    $routes->post('updatePassword', 'EmployeeController::updatePassword');
     $routes->get('editEmployee/(:num)', 'EmployeeController::editEmployee/$1');
     $routes->post('updateEmployee', 'EmployeeController::updateEmployee');
     $routes->get('deleteEmployee/(:num)', 'EmployeeController::deleteEmployee/$1');
