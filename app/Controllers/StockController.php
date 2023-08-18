@@ -70,6 +70,7 @@ class StockController extends BaseController
                 'stock_code' => $stock_running_code,
                 'name' => $data[0]['name'],
                 'group_id' => $data[0]['group_id'],
+                'supplier_id' => $data[0]['supplier_id'],
                 'MAX' => $data[0]['MAX'],
                 'MIN' => $data[0]['MIN'],
                 'price' =>  $data[0]['price'],
@@ -169,6 +170,7 @@ class StockController extends BaseController
                     'stock_code' => $stock_running_code->stock_code,
                     'name' => $data[0]['name'],
                     'group_id' => $data[0]['group_id'],
+                    'supplier_id' => $data[0]['supplier_id'],
                     'MAX' => $data[0]['MAX'],
                     'MIN' => $data[0]['MIN'],
                     'price' =>  $data[0]['price'],
@@ -186,6 +188,7 @@ class StockController extends BaseController
                     'stock_code' => $stock_running_code->stock_code,
                     'name' => $data[0]['name'],
                     'group_id' => $data[0]['group_id'],
+                    'supplier_id' => $data[0]['supplier_id'],
                     'MAX' => $data[0]['MAX'],
                     'MIN' => $data[0]['MIN'],
                     'price' =>  $data[0]['price'],
@@ -265,6 +268,18 @@ class StockController extends BaseController
     public function fetchGroupData()
     {
         $data = $this->StockModel->getGroupData();
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $data
+        ]);
+    }
+
+    
+    public function fetchSupplierData()
+    {
+        $data = $this->StockModel->getSupplierData();
 
         return $this->response->setJSON([
             'status' => 200,
