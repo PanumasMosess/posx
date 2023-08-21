@@ -233,6 +233,8 @@ class StockController extends BaseController
         $check_arr_count = count($datas);
 
         foreach ($datas as $data) {
+            
+            $stock_data = $this->StockModel->getDataUpdate($data[0]['id']);
 
             $data_stock = [
                 'status_stock' => 'CANCEL_STOCK',
@@ -240,7 +242,7 @@ class StockController extends BaseController
                 'deleted_at' => $buffer_datetime
             ];
 
-
+            unlink('uploads/temps_stock/'. $stock_data->src_picture);
             $update_new = $this->StockModel->deleteStock($data_stock, $data[0]['id']);
 
             if ($update_new) {
