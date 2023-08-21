@@ -76,7 +76,7 @@ class StockController extends BaseController
                 'price' =>  $data[0]['price'],
                 'pcs' =>  $data[0]['pcs'],
                 'status_stock' => 'IN_STOCK',
-                'src_picture' => 'uploads/temps_stock/' . $stock_running_code . '.' . $type_real[1],
+                'src_picture' => $stock_running_code . '.' . $type_real[1],
                 'created_by' => 'Admin'
             ];
 
@@ -180,7 +180,7 @@ class StockController extends BaseController
                     'updated_at' => $buffer_datetime
                 ];
 
-                unlink($data[0]['old_src_picture']);
+                unlink('uploads/temps_stock/'.$data[0]['old_src_picture']);
                 file_put_contents('uploads/temps_stock/' . $stock_running_code->stock_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
             } else {
                 //data stock table

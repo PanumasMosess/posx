@@ -301,11 +301,12 @@ class StockModel
 
     public function getGroupData()
     {
-        $sql = "SELECT * FROM group_product order by id asc";
+        $sql = "SELECT * FROM group_product where deleted_at is null order by id asc";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
     public function getSupplierData()
     {
         $sql = "SELECT * FROM supplier order by id asc";
