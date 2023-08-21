@@ -69,6 +69,7 @@ class OrderModel
         order.order_pcs, 
         order.order_status,
         order.src_order_picture,
+        order.group_id, 
         order.created_by,
         order.updated_by,
         order.created_at, 
@@ -145,6 +146,7 @@ class OrderModel
         `order`.created_at, 
         `order`.updated_at, 
         `order`.deleted_at,
+        `order`.group_id,
         group_product.name as group_name,
         group_product.unit
         FROM `order`
@@ -156,6 +158,46 @@ class OrderModel
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
+    }
+
+    public function getCodeOrder()
+    {
+        $sql = "SELECT SUBSTRING(order_code, 5,8) as substr_order_code  FROM order_running order by id desc LIMIT 1";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function insertOrder($data_order, $order_running)
+    {
+        $builder_order = $this->db->table('order');
+        $builder_order_status = $builder_order->insert($data_order);
+
+        $builder_running = $this->db->table('order_running');
+        $builder_running_status = $builder_running->insert($order_running);
+
+        return ($builder_order_status && $builder_running_status) ? true : false;
+    }
+
+    public function getDataUpdate($id)
+    {
+        $sql = "SELECT * FROM `order` where id = '$id'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateOrder($data, $id)
+    {
+        $builder = $this->db->table('order');
+
+        return $builder->where('id', $id)->update($data);
+    }
+
+    public function deleteOrder($data, $id)
+    {
+        $builder = $this->db->table('order');
+
+        return $builder->where('id', $id)->update($data);
     }
 
 

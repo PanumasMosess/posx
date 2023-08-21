@@ -12,8 +12,10 @@ class OrderController extends BaseController
 
     public function __construct()
     {
-        // Model
+        // Model Order
         $this->OrderModel = new \App\Models\OrderModel();
+        // Model Stock
+        $this->StockModel = new \App\Models\StockModel();
     }
 
     public function index()
@@ -27,6 +29,82 @@ class OrderController extends BaseController
             <script src="' . base_url('/js/orders/order_manage.js?v=' . time()) . '"></script>    
         ';
         echo view('/app', $data);
+    }
+
+    public function insertproduct()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+            // var_dump($data[0]['productname']. "->" . $data[0]['category']. "->" . $data[0]['price']);    
+            $order_running_code = '';
+            $buffer_order_code = 0;
+            $new_running_codes = $this->OrderModel->getCodeOrder();
+
+            foreach ($new_running_codes as $running_code) {
+                $buffer_order_code = (int)$running_code->substr_order_code;
+            }
+
+            $sum_order_code = $buffer_order_code + 1;
+            $sprintf_order_code = sprintf("%08d", $sum_order_code);
+            $order_running_code = "POXO" . $sprintf_order_code;
+
+            $file = $data[0]['src_order_picture'];
+
+            $new_file = explode(";", $file);
+            $new_file_move = explode(",", $file);
+            $type = $new_file[0];
+            $type_real = explode("/", $type);
+
+            // var_dump($type_real[1]);
+            // exit;
+
+            file_put_contents('uploads/temps_order/' . $order_running_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+
+            //data order table
+            $data_order = [
+                'order_code'  => $order_running_code,
+                'order_name' => $data[0]['order_name'],
+                'order_des' => $data[0]['order_des'],
+                'order_price' => $data[0]['order_price'],
+                'order_pcs' => '',
+                'order_status' => 'IN_ORDER',
+                'src_order_picture' =>  $order_running_code . '.' . $type_real[1],
+                'group_id' => $data[0]['group_id'],
+                'created_by'  => 'Temp',
+                'created_at' => $buffer_datetime
+            ];
+
+            $order_running_code = [
+                'order_code' => $order_running_code
+            ];
+
+            $create_new = $this->OrderModel->insertOrder($data_order, $order_running_code);
+
+            if ($create_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'เพิ่มไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'เพิ่มรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
     }
 
     public function fetchDataOrder()
@@ -43,5 +121,152 @@ class OrderController extends BaseController
         ]);
     }
 
-   
+
+    public function fetchTempOfflineOrder()
+    {
+        $datas_order = $this->OrderModel->getAllDataOrderFilter();
+        return $this->response->setJSON([
+            "data" => $datas_order
+        ]);
+    }
+
+    public function fetchGroupData()
+    {
+        $data = $this->StockModel->getGroupData();
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $data
+        ]);
+    }
+
+    public function fetchUpdateOrder($id = null)
+    {
+        $look_data = $this->OrderModel->getDataUpdate($id);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
+    }
+
+    public function updateOrder()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            // var_dump($data[0]['src_picture']);    
+            // exit;
+            $order_running_code = '';
+            $order_running_code = $this->OrderModel->getDataUpdate($data[0]['id']);
+
+
+            $file = $data[0]['src_order_picture'];
+
+            if ($file !== "") {
+                $new_file = explode(";", $file);
+                $new_file_move = explode(",", $file);
+                $type = $new_file[0];
+                $type_real = explode("/", $type);
+
+                //data stock table
+                $data_order = [
+                    'order_name' => $data[0]['order_name'],
+                    'order_des' => $data[0]['order_des'],
+                    'order_price' => $data[0]['order_price'],
+                    'order_status' => 'IN_ORDER',
+                    'src_order_picture' =>  $order_running_code->order_code . '.' . $type_real[1],
+                    'group_id' => $data[0]['group_id'],
+                    'updated_by' => 'Temp',
+                    'updated_at' => $buffer_datetime
+                ];
+
+                unlink('uploads/temps_order/'. $data[0]['old_src_order_picture']);
+                file_put_contents('uploads/temps_order/' . $order_running_code->order_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+            } else {
+
+                $data_order = [
+                    'order_name' => $data[0]['order_name'],
+                    'order_des' => $data[0]['order_des'],
+                    'order_price' => $data[0]['order_price'],
+                    'order_status' => 'IN_ORDER',
+                    'group_id' => $data[0]['group_id'],
+                    'updated_by' => 'Temp',
+                    'updated_at' => $buffer_datetime
+                ];
+            }
+
+
+
+            $update_new = $this->OrderModel->updateOrder($data_order, $data[0]['id']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'เพิ่มไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'แก้ไขรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function deleteOrder()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $data_order = [
+                'order_status' => 'CANCEL_ORDER',
+                'updated_by' => 'Admin',
+                'deleted_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->OrderModel->deleteOrder($data_order, $data[0]['id']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ลบรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
 }

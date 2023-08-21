@@ -109,7 +109,12 @@ function ($routes) {
 $routes->group('order', ['filter' => 'employeeAuth'] ,
 function ($routes) {
     $routes->get('order_manage', 'OrderController::index');   
-    $routes->post('dataOrder', 'OrderController::fetchDataOrder');  
+    $routes->post('dataOrder', 'OrderController::fetchDataOrder');    
+    $routes->get('getTempOfflineOrder', 'OrderController::fetchTempOfflineOrder');  
+    $routes->post('insertOrder', 'OrderController::insertproduct'); 
+    $routes->post('updateOrder', 'OrderController::updateOrder'); 
+    $routes->post('deleteOrder', 'OrderController::deleteOrder'); 
+    $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');     
 });
 /*
  * --------------------------------------------------------------------

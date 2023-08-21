@@ -84,21 +84,7 @@
                     <li><a href="javascript:void(0);" onclick="themesChangeLight();return false;">เมนูสว่าง</a></li>
                 </ul>
             </li>
-            <li class>
-                <a class="has-arrow" href="#" aria-expanded="false">
-                    <div class="nav_icon_small">
-                        <img src="<?php echo base_url('img/menu-icon/13.svg'); ?>" alt />
-                    </div>
-                    <div class="nav_title">
-                        <span>Stock Products</span>
-                    </div>
-                </a>
-                <ul>
-                    <li><a class="" href="<?php echo base_url('/stock/index'); ?>">Stock</a>
-                    </li>
-                </ul>
-            </li>
-            <li  class="mm-<?php if (service('uri')->getSegment(1) == 'order') {
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'order') {
                                 echo 'active';
                             } ?>">
                 <a class="has-arrow" href="#" aria-expanded="false">
@@ -116,6 +102,21 @@
                     <li><a href="#">Orders POS</a></li>
                 </ul>
             </li>
+            <li class>
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="<?php echo base_url('img/menu-icon/13.svg'); ?>" alt />
+                    </div>
+                    <div class="nav_title">
+                        <span>Stock Products</span>
+                    </div>
+                </a>
+                <ul>
+                    <li><a class="" href="<?php echo base_url('/stock/index'); ?>">Stock</a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'setings') {
                                 echo 'active';
                             } ?>">
@@ -135,8 +136,8 @@
                 </ul>
             </li>
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'employee') {
-                            echo 'active';
-                        } ?>">
+                                echo 'active';
+                            } ?>">
                 <a class="has-arrow" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/5.svg'); ?>" alt />
