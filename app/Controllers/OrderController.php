@@ -239,13 +239,15 @@ class OrderController extends BaseController
 
         foreach ($datas as $data) {
 
+            $order_data = $this->OrderModel->getDataUpdate($data[0]['id']);
+
             $data_order = [
                 'order_status' => 'CANCEL_ORDER',
                 'updated_by' => 'Admin',
                 'deleted_at' => $buffer_datetime
             ];
 
-
+            unlink('uploads/temps_order/'. $order_data->src_order_picture);
             $update_new = $this->OrderModel->deleteOrder($data_order, $data[0]['id']);
 
             if ($update_new) {
