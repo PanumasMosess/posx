@@ -21,7 +21,10 @@ class OrderPosController extends BaseController
     {
         $data['content'] = 'order/order_pos';
         $data['title'] = 'OrderPos';
-        $data['css_critical'] = '<link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />';
+        $data['css_critical'] = '
+        <link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />
+        <link rel="stylesheet" href="' . base_url('css/tableStyle.css') . '" />
+        ';
         $data['js_critical'] = ' 
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script>
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>
