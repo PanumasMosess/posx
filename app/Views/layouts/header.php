@@ -99,7 +99,7 @@
                     <li><a href="<?php echo base_url('/order/order_manage'); ?>">Manage Orders</a></li>
                 </ul>
                 <ul>
-                    <li><a href="#">Orders POS</a></li>
+                    <li><a href="<?php echo base_url('/order/order_pos'); ?>">Orders POS</a></li>
                 </ul>
             </li>
             <li class>

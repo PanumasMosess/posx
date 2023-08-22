@@ -115,6 +115,8 @@ function ($routes) {
     $routes->post('updateOrder', 'OrderController::updateOrder'); 
     $routes->post('deleteOrder', 'OrderController::deleteOrder'); 
     $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');     
+
+    $routes->get('order_pos', 'OrderPosController::index');
 });
 /*
  * --------------------------------------------------------------------
