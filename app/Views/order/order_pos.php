@@ -22,8 +22,8 @@
                         <div class="tab-content" id="stockTabContent">
                             <div class="tab-pane fade show active" id="Order" role="tabpanel" aria-labelledby="Order-tab">
                                 <div class="col-lg-12 col-xl-12 col-md-12">
-                                    <div class="draggable"></div>
-                                    <div class="draggable"></div>
+                                <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddOrder();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มโต๊ะ</a></div>
+                                    <div class="tableble1"></div>
                                 </div>
                             </div>
                         </div>
