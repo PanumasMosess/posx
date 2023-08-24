@@ -1,7 +1,12 @@
-.tableble1 {
-  width: 100px;
-  height: 100px;
-  background: red;
-  margin: 20px;
-  border-radius: 10px;
+.drag_ {
+  width: 25%;
+  min-height: 6.5em;
+  margin: 1rem 0 0 1rem;
+  background-color: #F45B0F;
+  color: white;
+  border-radius: 0.75em;
+  padding: 4%;
+  touch-action: none;
+  user-select: none;
+  transform: translate(0px, 0px);
 }
