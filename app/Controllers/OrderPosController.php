@@ -20,14 +20,15 @@ class OrderPosController extends BaseController
     public function index()
     {
         $data['content'] = 'order/order_pos';
-        $data['title'] = 'OrderPos';
+        $data['title'] = 'สั่งสินค้า';
         $data['css_critical'] = '
         <link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />
         <link rel="stylesheet" href="' . base_url('css/tableStyle.css') . '" />
         ';
-        $data['js_critical'] = ' 
-            <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script>
-            <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>
+        $data['js_critical'] = '    
+            <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
+            <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
+            <script src="' . base_url('/js/interact.min.js') . '"></script>   
             <script src="' . base_url('/js/orders/order_pos.js?v=' . time()) . '"></script>    
         ';
         echo view('/app', $data);

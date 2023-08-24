@@ -1,73 +1,56 @@
 (function ($) {
-  const d = document.getElementsByClassName("tableble1");
+  // target elements with the "draggable" class
+  interact(".draggable").draggable({
+    // enable inertial throwing
+    inertia: true,
+    // keep the element within the area of it's parent
+    modifiers: [
+      interact.modifiers.restrictRect({
+        restriction: "parent",
+        endOnly: true,
+      }),
+    ],
+    // enable autoScroll
+    autoScroll: true,
 
-  for (let i = 0; i < d.length; i++) {
-    d[i].style.position = "relative";
-    d[i].style.left = "500px";
-    d[i].style.top = "49px";
-   
-  }
+    listeners: {
+      // call this function on every dragmove event
+      move: dragMoveListener,
 
-  document.onmousedown = filter;
-  //NOTICE THIS 👇
-  document.ontouchstart = filter;
-  //NOTICE THIS 👆
+      // call this function on every dragend event
+      end(event) {
+        var textEl = event.target.querySelector("p");
+
+        textEl &&
+          (textEl.textContent =
+            "moved a distance of " +
+            Math.sqrt(
+              (Math.pow(event.pageX - event.x0, 2) +
+                Math.pow(event.pageY - event.y0, 2)) |
+                0
+            ).toFixed(2) +
+            "px");
+      },
+    },
+  });
+
+
 })(jQuery);
 
-function filter(e) {
-  let target = e.target;
 
-  if (!target.classList.contains("tableble1")) {
-    return;
-  }
+window.dragMoveListener = dragMoveListener;
 
-  target.moving = true;
+function dragMoveListener(event) {
+  var target = event.target;
+  // keep the dragged position in the data-x/data-y attributes
+  var x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
+  var y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
 
-  //NOTICE THIS 👇 Check if Mouse events exist on users' device
-  if (e.clientX) {
-    target.oldX = e.clientX; // If they exist then use Mouse input
-    target.oldY = e.clientY;
-  } else {
-    target.oldX = e.touches[0].clientX; // Otherwise use touch input
-    target.oldY = e.touches[0].clientY;
-  }
-  //NOTICE THIS 👆 Since there can be multiple touches, you need to mention which touch to look for, we are using the first touch only in this case
+  // translate the element
+  target.style.transform = "translate(" + x + "px, " + y + "px)";
 
-  target.oldLeft =
-    window.getComputedStyle(target).getPropertyValue("left").split("px")[0] * 1;
-  target.oldTop =
-    window.getComputedStyle(target).getPropertyValue("top").split("px")[0] * 1;
-
-  document.onmousemove = dr;
-  //NOTICE THIS 👇
-  document.ontouchmove = dr;
-  //NOTICE THIS 👆
-
-  function dr(event) {
-    event.preventDefault();
-
-    if (!target.moving) {
-      return;
-    }
-    //NOTICE THIS 👇
-    if (event.clientX) {
-      target.distX = event.clientX - target.oldX;
-      target.distY = event.clientY - target.oldY;
-    } else {
-      target.distX = event.touches[0].clientX - target.oldX;
-      target.distY = event.touches[0].clientY - target.oldY;
-    }
-    //NOTICE THIS 👆
-
-    target.style.left = target.oldLeft + target.distX + "px";
-    target.style.top = target.oldTop + target.distY + "px";
-  }
-
-  function endDrag() {
-    target.moving = false;
-  }
-  target.onmouseup = endDrag;
-  //NOTICE THIS 👇
-  target.ontouchend = endDrag;
-  //NOTICE THIS 👆
+  // update the posiion attributes
+  target.setAttribute("data-x", x);
+  target.setAttribute("data-y", y);
 }
+
