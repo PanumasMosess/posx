@@ -75,8 +75,9 @@ class OrderController extends BaseController
                 'order_status' => 'IN_ORDER',
                 'src_order_picture' =>  $order_running_code . '.' . $type_real[1],
                 'group_id' => $data[0]['group_id'],
-                'created_by'  => 'Temp',
-                'created_at' => $buffer_datetime
+                'created_by'  => session()->get('username'),
+                'companies_id'  => session()->get('companies_id'),
+                'created_at' => $buffer_datetime   
             ];
 
             $order_running_code = [

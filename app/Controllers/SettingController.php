@@ -39,8 +39,9 @@ class SettingController extends BaseController
             $create = $this->GroupProductModel->insertGroupProduct([
                 'name' => $this->request->getVar('category_name'),
                 'unit' => $this->request->getVar('productunit'),
-                'created_by' => 'ทดสอบ',
                 'updated_by' => '',
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
 
             ]);
             // return redirect()->to('/employee/list');
@@ -215,7 +216,8 @@ class SettingController extends BaseController
             // HANDLE REQUEST
             $create = $this->SupplierModel->insertSupplier([
                 'supplier_name' => $this->request->getVar('supplier_name'),
-                'created_by' => 'Test',
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id'),
                 'updated_by' => '',
 
             ]);
@@ -484,6 +486,7 @@ class SettingController extends BaseController
             $create = $this->BranchModel->insertBranch([
                 'branch_name' => $this->request->getVar('branch_name'),
                 'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
 
             ]);
             // return redirect()->to('/employee/list');

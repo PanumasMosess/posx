@@ -62,7 +62,8 @@ class EmployeeController extends BaseController
                 'username' => $this->request->getVar('username'),
                 'password' => $hashed_password,
                 'thumbnail' => $thumbnail,
-                'created_by' => session()->get('username'),
+                'created_by' => session()->get('username'),  
+                'companies_id' => session()->get('companies_id')
             ]);
             // return redirect()->to('/employee/list');
             if ($create) {
