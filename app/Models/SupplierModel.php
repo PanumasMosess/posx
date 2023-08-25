@@ -18,8 +18,8 @@ class SupplierModel
     public function getSupplierAll()
     {
         // $builder = $this->db->table('supplier');
-
-        $sql = "SELECT * FROM supplier WHERE deleted_at IS NULL;";
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM supplier WHERE (deleted_at IS NULL and companies_id = $companies_id);";
         $builder = $this->db->query($sql);
         return $builder->getResult();
 

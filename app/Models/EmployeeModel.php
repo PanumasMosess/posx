@@ -20,6 +20,7 @@ class EmployeeModel
         $builder = $this->db->table('employees');
 
         return $builder
+            ->where('companies_id', session()->get('companies_id'))
             ->orderBy('created_at', 'DESC')
             ->get()
             ->getResult();
@@ -73,11 +74,12 @@ class EmployeeModel
     // List Data
     public function getEmployeeAllWithJoin()
     {
+        $companie = session()->get('companies_id');
         $sql = "
                 SELECT employees.id as employee_Id,name,nickname,phone_number,thumbnail,branch_id,position_id,branch.id as branch_Id,branch_name,position.id as position_Id,position_name FROM employees
                 JOIN branch ON employees.branch_id = branch.id
                 JOIN position ON employees.position_id = position.id
-                WHERE employees.username != 'spadmin' AND employees.deleted_at IS NULL
+                WHERE employees.username != 'spadmin' AND employees.deleted_at IS NULL AND employees.companies_id = $companie
                 ORDER BY employee_Id";
         $builder = $this->db->query($sql);
         return $builder->getResult();

@@ -202,6 +202,7 @@ class Authentication extends BaseController
                                 'thumbnail' => $employee->thumbnail,
                                 'isEmployeeLoggedIn' => true,
                                 'login_detail_id' => $employeeloginDetailID,
+                                'companies_id' => $employee->companies_id
                                 // 'status_document' => $employee_setting_status_document,
                                 // 'status_report' => $employee_setting_status_report,
                                 // 'status_setting' => $employee_setting_status_setting,

@@ -152,6 +152,7 @@ class StockModel
     private function DataStockQuery($post_data)
     {
 
+        $companie = session()->get('companies_id');
         $builder = $this->db->table('stock_posx');
 
         $builder->select("
@@ -180,6 +181,7 @@ class StockModel
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         $builder->where("status_stock not in ('CANCEL_STOCK')");
+        $builder->where("stock_posx.companies_id",  $companie);  
 
         $i = 0;
         // loop searchable columns
@@ -228,6 +230,7 @@ class StockModel
     public function getAllDataStockFilter()
     {
 
+        $companie = session()->get('companies_id');
         $sql = "            
         SELECT
         stock_posx.id,
@@ -252,7 +255,7 @@ class StockModel
         FROM stock_posx
         left join group_product on 
         group_product.id = stock_posx.group_id
-        where stock_posx.status_stock not in ('CANCEL_STOCK')
+        where stock_posx.status_stock not in ('CANCEL_STOCK') and stock_posx.companies_id = $companie
         ORDER BY stock_posx.stock_code DESC
         ";
 
@@ -262,14 +265,14 @@ class StockModel
 
     public function countAllDataStock()
     {
-
+        $companie = session()->get('companies_id');
         $sql = "
         SELECT COUNT(a.id) 
         AS count_data
        FROM stock_posx  a  
        left join group_product b 
        on  b.id = a.group_id
-       where a.status_stock not in ('CANCEL_STOCK')
+       where a.status_stock not in ('CANCEL_STOCK') and stock_posx.companies_id = $companie
        ORDER BY a.stock_code DESC
         ";
 
@@ -301,7 +304,8 @@ class StockModel
 
     public function getGroupData()
     {
-        $sql = "SELECT * FROM group_product where deleted_at is null order by id asc";
+        $companie = session()->get('companies_id');
+        $sql = "SELECT * FROM group_product where (deleted_at is null and companies_id = $companie) order by id asc";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
@@ -309,7 +313,8 @@ class StockModel
 
     public function getSupplierData()
     {
-        $sql = "SELECT * FROM supplier order by id asc";
+        $companie = session()->get('companies_id');
+        $sql = "SELECT * FROM supplier where (deleted_at is null and companies_id = $companie) order by id asc";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
@@ -357,7 +362,8 @@ class StockModel
 
     public function getOrder()
     {
-        $sql = "SELECT * FROM `order`  ORDER by order_name DESC";
+        $companie = session()->get('companies_id');
+        $sql = "SELECT * FROM `order` where  companies_id = $companie   ORDER by order_name DESC";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
@@ -384,7 +390,7 @@ class StockModel
 
     private function DataStockQueryFormular($post_data)
     {
-
+        $companie = session()->get('companies_id');
         $builder = $this->db->table('stock_posx');
 
         $builder->select("
@@ -413,6 +419,7 @@ class StockModel
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         $builder->where("status_stock not in ('CANCEL_STOCK')");
+        $builder->where("stock_posx.companies_id",  $companie);  
 
         $i = 0;
         // loop searchable columns
@@ -460,7 +467,7 @@ class StockModel
 
     public function getAllDataStockFilterFormular()
     {
-
+        $companie = session()->get('companies_id');
         $sql = "            
         SELECT
         stock_posx.id,
@@ -485,7 +492,7 @@ class StockModel
         FROM stock_posx
         left join group_product on 
         group_product.id = stock_posx.group_id
-        where stock_posx.status_stock not in ('CANCEL_STOCK')
+        where stock_posx.status_stock not in ('CANCEL_STOCK') and stock_posx.companies_id = $companie
         ORDER BY stock_posx.stock_code DESC
         ";
 
@@ -523,6 +530,7 @@ class StockModel
     private function DataStockQueryFormularSummary($post_data)
     {
 
+        $companie = session()->get('companies_id');
         $builder = $this->db->table('stock_formula');
 
         $builder->select("
@@ -531,6 +539,7 @@ class StockModel
         ");
 
         $builder->join('order', 'order.order_code = stock_formula.order_code', 'left');
+        $builder->where('order.companies_id', $companie);
         $builder->groupBy('order.order_name');
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
@@ -582,12 +591,13 @@ class StockModel
 
     public function getAllDataStockFilterFormularSummary()
     {
-
+        $companie = session()->get('companies_id');
         $sql = "            
         SELECT  a.order_code,a.id as formular_id, a.stock_code, a.formula_pcs, a.created_by, a.created_at, c.order_name
         FROM stock_formula a
         left join `order` c
         on c.order_code = a.order_code
+        where c.companies_id = $companie
         group by c.order_name
         ";
 
@@ -633,7 +643,7 @@ class StockModel
 
     private function DataStockQueryTransectionsSummary($post_data)
     {
-
+        $companie = session()->get('companies_id');
         $builder = $this->db->table('stock_transaction');
 
         $builder->select("
@@ -655,7 +665,7 @@ class StockModel
         $builder->join('group_product', 'stock_posx.group_id = group_product.id', 'left');
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
-        // $builder->where("status_stock not in ('CANCEL_STOCK')");
+        $builder->where("stock_posx.companies_id", $companie);
 
         $i = 0;
         // loop searchable columns
@@ -703,7 +713,7 @@ class StockModel
 
     public function getAllDataStockFilterTransectionSummary()
     {
-
+        $companie = session()->get('companies_id');
         $sql = "            
         SELECT 
         a.id ,
@@ -723,6 +733,7 @@ class StockModel
         on a.stock_code = b.stock_code  
         left join group_product c 
         on b.group_id = c.id
+        where b.companies_id = $companie
         ";
 
         $builder = $this->db->query($sql);

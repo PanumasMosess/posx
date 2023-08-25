@@ -77,7 +77,8 @@ class StockController extends BaseController
                 'pcs' =>  $data[0]['pcs'],
                 'status_stock' => 'IN_STOCK',
                 'src_picture' => $stock_running_code . '.' . $type_real[1],
-                'created_by' => 'Admin'
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
             ];
 
             $data_stock_runing = [
@@ -176,11 +177,11 @@ class StockController extends BaseController
                     'price' =>  $data[0]['price'],
                     'pcs' =>  $data[0]['pcs'],
                     'src_picture' => 'uploads/temps_stock/' . $stock_running_code->stock_code . '.' . $type_real[1],
-                    'updated_by' => 'Admin',
+                    'updated_by' =>  session()->get('username'),  
                     'updated_at' => $buffer_datetime
                 ];
 
-                unlink('uploads/temps_stock/'.$data[0]['old_src_picture']);
+                unlink('uploads/temps_stock/' . $data[0]['old_src_picture']);
                 file_put_contents('uploads/temps_stock/' . $stock_running_code->stock_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
             } else {
                 //data stock table
@@ -193,7 +194,7 @@ class StockController extends BaseController
                     'MIN' => $data[0]['MIN'],
                     'price' =>  $data[0]['price'],
                     'pcs' =>  $data[0]['pcs'],
-                    'updated_by' => 'Admin',
+                    'updated_by' =>  session()->get('username'),  
                     'updated_at' =>  $buffer_datetime
                 ];
             }
@@ -233,16 +234,16 @@ class StockController extends BaseController
         $check_arr_count = count($datas);
 
         foreach ($datas as $data) {
-            
+
             $stock_data = $this->StockModel->getDataUpdate($data[0]['id']);
 
             $data_stock = [
                 'status_stock' => 'CANCEL_STOCK',
-                'updated_by' => 'Admin',
+                'updated_by' =>  session()->get('username'),  
                 'deleted_at' => $buffer_datetime
             ];
 
-            unlink('uploads/temps_stock/'. $stock_data->src_picture);
+            unlink('uploads/temps_stock/' . $stock_data->src_picture);
             $update_new = $this->StockModel->deleteStock($data_stock, $data[0]['id']);
 
             if ($update_new) {
@@ -278,7 +279,7 @@ class StockController extends BaseController
         ]);
     }
 
-    
+
     public function fetchSupplierData()
     {
         $data = $this->StockModel->getSupplierData();
@@ -333,7 +334,7 @@ class StockController extends BaseController
             $data_stock = [
                 'pcs' =>  $balance_data,
                 'updated_at' => $buffer_datetime,
-                'created_by' => 'Admin'
+                'created_by' => session()->get('username')
             ];
 
             $data_stock_transaction = [
@@ -430,8 +431,8 @@ class StockController extends BaseController
             $data_formular = [
                 'order_code' => $data['order_code'],
                 'stock_code' => $data['stock_code'],
-                 'formula_pcs' => $data['formula_pcs'],
-                'created_by' => 'Admin',
+                'formula_pcs' => $data['formula_pcs'],
+                'created_by' => session()->get('username'),
                 'created_at' => $buffer_datetime
             ];
 
@@ -520,7 +521,7 @@ class StockController extends BaseController
 
         foreach ($datas as $data) {
 
-        
+
             $update_new = $this->StockModel->deleteFormulaByOrderCode($data[0]['id']);
 
             if ($update_new) {
@@ -554,7 +555,7 @@ class StockController extends BaseController
 
         foreach ($datas as $data) {
 
-        
+
             $update_new = $this->StockModel->deleteFormulaByid($data[0]['id']);
 
             if ($update_new) {
