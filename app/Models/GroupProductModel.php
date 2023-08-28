@@ -62,13 +62,58 @@ class GroupProductModel
         return $builder;
     }
 
-    // public function insertGroupProduct($GroupProduct)
-    // {
-    //     $builder_group = $this->db->table('group_product');
-    //     $builder_group_product = $builder_group->insert($GroupProduct);
+    public function getGroupProduct($param)
+    {
+        $start = $param['start'];
+        $length = $param['length'];
 
-    //     return ($builder_group_product) ? true : false;
-    // }
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(group_product.created_at, '%d-%m-'), YEAR(group_product.created_at)+543) as date_created,CONCAT(DATE_FORMAT(group_product.updated_at, '%d-%m-'), YEAR(group_product.updated_at)+543) as date_updated
+                FROM group_product 
+                WHERE deleted_at IS NULL
+                LIMIT $start, $length";
+        $builder = $this->db->query($sql);
 
+        return $builder->getResult();
+    }
+
+    public function getGroupProductcount()
+    {
+        $sql = "SELECT *
+                    from group_product 
+                    WHERE deleted_at IS NULL
+                    ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+    
+    public function getGroupProductSearch($param)
+    {
+        $search_value = $param['search_value'];
+        $start = $param['start'];
+        $length = $param['length'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(group_product.created_at, '%d-%m-'), YEAR(group_product.created_at)+543) as date_created,CONCAT(DATE_FORMAT(group_product.updated_at, '%d-%m-'), YEAR(group_product.updated_at)+543) as date_updated
+            from group_product 
+            WHERE deleted_at IS NULL AND ((group_product.name like '%" . $search_value . "%') OR (unit like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            limit $start, $length
+            ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+    public function getGroupProductSearchcount($param)
+    {
+        $search_value = $param['search_value'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(group_product.created_at, '%d-%m-'), YEAR(group_product.created_at)+543) as date_created,CONCAT(DATE_FORMAT(group_product.updated_at, '%d-%m-'), YEAR(group_product.updated_at)+543) as date_updated
+            from group_product 
+            WHERE deleted_at IS NULL AND ((group_product.name like '%" . $search_value . "%') OR (unit like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
 
 }

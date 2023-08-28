@@ -59,4 +59,56 @@ class BranchModel
 
         return $builder;
     }
+    
+    public function getBranch($param)
+    {
+        $start = $param['start'];
+        $length = $param['length'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(branch.created_at, '%d-%m-'), YEAR(branch.created_at)+543) as date_created,CONCAT(DATE_FORMAT(branch.updated_at, '%d-%m-'), YEAR(branch.updated_at)+543) as date_updated
+                FROM branch 
+                WHERE deleted_at IS NULL
+                LIMIT $start, $length";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+    public function getBranchcount()
+    {
+        $sql = "SELECT * from branch WHERE deleted_at IS NULL
+                    ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+    
+    public function getBranchSearch($param)
+    {
+        $search_value = $param['search_value'];
+        $start = $param['start'];
+        $length = $param['length'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(branch.created_at, '%d-%m-'), YEAR(branch.created_at)+543) as date_created,CONCAT(DATE_FORMAT(branch.updated_at, '%d-%m-'), YEAR(branch.updated_at)+543) as date_updated
+            from branch 
+            WHERE deleted_at IS NULL AND ((branch.branch_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            limit $start, $length
+            ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+    public function getBranchSearchcount($param)
+    {
+        $search_value = $param['search_value'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(branch.created_at, '%d-%m-'), YEAR(branch.created_at)+543) as date_created,CONCAT(DATE_FORMAT(branch.updated_at, '%d-%m-'), YEAR(branch.updated_at)+543) as date_updated
+            from branch 
+            WHERE deleted_at IS NULL AND ((branch.branch_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
 }

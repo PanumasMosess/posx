@@ -41,26 +41,27 @@ $routes->get('logout', 'Authentication::logout', ['filter' => 'employeeAuth']);
 $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
 $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
-    $routes->get('group_product', 'SettingController::group_product');
+    $routes->get('index', 'SettingController::index');
+    $routes->post('ajax-datatableGroupProduct', 'SettingController::ajaxDataTablesGroupProduct');
     $routes->post('addGroupProduct', 'SettingController::addGroupProduct');
     $routes->get('editGroupProduct/(:num)', 'SettingController::editGroupProduct/$1');
     $routes->post('updateGroupProduct', 'SettingController::updateGroupProduct');
     $routes->get('deleteGroupProduct/(:num)', 'SettingController::deleteGroupProduct/$1');
     // $routes->post('insertGroupProduct', 'SettingController::insertgroupproduct');
 
-    $routes->get('supplier', 'SettingController::supplier');
+    $routes->post('ajax-datatableSupplier', 'SettingController::ajaxDataTablesSupplier');
     $routes->post('addSupplier', 'SettingController::addSupplier');
     $routes->get('editSupplier/(:num)', 'SettingController::editSupplier/$1');
     $routes->post('updateSupplier', 'SettingController::updateSupplier');
     $routes->get('deleteSupplier/(:num)', 'SettingController::deleteSupplier/$1');
-    
-    $routes->get('position', 'SettingController::position');
+
+    $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
     $routes->post('addPosition', 'SettingController::addPosition');
     $routes->get('editPosition/(:num)', 'SettingController::editPosition/$1');
     $routes->post('updatePosition', 'SettingController::updatePosition');
     $routes->get('deletePosition/(:num)', 'SettingController::deletePosition/$1');
 
-    $routes->get('branch', 'SettingController::branch');
+    $routes->post('ajax-datatableBranch', 'SettingController::ajaxDataTablesBranch');
     $routes->post('addBranch', 'SettingController::addBranch');
     $routes->get('editBranch/(:num)', 'SettingController::editBranch/$1');
     $routes->post('updateBranch', 'SettingController::updateBranch');
@@ -80,44 +81,44 @@ $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
 
 // stock management
 $routes->group('stock', ['filter' => 'employeeAuth'] ,
-function ($routes) {
-    $routes->get('index', 'StockController::index');
-    $routes->post('insertProduct', 'StockController::insertproduct');
-    $routes->post('dataStock', 'StockController::fetchDataStock');  
-    $routes->get('getTempOffline', 'StockController::fetchDataStockOffline'); 
-    $routes->get('getTempUpdate/(:any)', 'StockController::fetchUpdateStock/$1');  
-    $routes->get('getTempAdjust/(:any)', 'StockController::fetchUpdateStock/$1');  
-    $routes->get('groupData', 'StockController::fetchGroupData');     
-    $routes->get('supplierData', 'StockController::fetchSupplierData'); 
-    $routes->post('updateProduct', 'StockController::updateproduct'); 
-    $routes->post('deleteProduct', 'StockController::deleteproduct');    
-    $routes->post('updateAdjust', 'StockController::updateAdjust'); 
-    $routes->get('listTransection/(:any)', 'StockController::getTransectionByStockCode/$1');
-    $routes->get('pageTransection/(:any)', 'StockController::getTableTransectionByStockCode/$1');   
-    $routes->get('orderData', 'StockController::getOrder'); 
-    $routes->post('dataStockFormular', 'StockController::fetchDataStockFormular');    
-    $routes->post('insertFormular', 'StockController::insertFormular');    
-    $routes->post('dataSummaryFormular', 'StockController::getFormularSummary'); 
-    $routes->get('listStockItem/(:any)', 'StockController::getlistStockIteme/$1');  
-    $routes->get('pageListFomular/(:any)', 'StockController::getTablepageListFomular/$1');     
-    $routes->post('dataSummaryTransection', 'StockController::getSummaryTransection');    
-    $routes->post('deleteFormularbyOrder', 'StockController::deleteFormularbyOrder');    
-    $routes->post('deleteFormularbyId', 'StockController::deleteFormularbyId');
-});
+    function ($routes) {
+        $routes->get('index', 'StockController::index');
+        $routes->post('insertProduct', 'StockController::insertproduct');
+        $routes->post('dataStock', 'StockController::fetchDataStock');
+        $routes->get('getTempOffline', 'StockController::fetchDataStockOffline');
+        $routes->get('getTempUpdate/(:any)', 'StockController::fetchUpdateStock/$1');
+        $routes->get('getTempAdjust/(:any)', 'StockController::fetchUpdateStock/$1');
+        $routes->get('groupData', 'StockController::fetchGroupData');
+        $routes->get('supplierData', 'StockController::fetchSupplierData');
+        $routes->post('updateProduct', 'StockController::updateproduct');
+        $routes->post('deleteProduct', 'StockController::deleteproduct');
+        $routes->post('updateAdjust', 'StockController::updateAdjust');
+        $routes->get('listTransection/(:any)', 'StockController::getTransectionByStockCode/$1');
+        $routes->get('pageTransection/(:any)', 'StockController::getTableTransectionByStockCode/$1');
+        $routes->get('orderData', 'StockController::getOrder');
+        $routes->post('dataStockFormular', 'StockController::fetchDataStockFormular');
+        $routes->post('insertFormular', 'StockController::insertFormular');
+        $routes->post('dataSummaryFormular', 'StockController::getFormularSummary');
+        $routes->get('listStockItem/(:any)', 'StockController::getlistStockIteme/$1');
+        $routes->get('pageListFomular/(:any)', 'StockController::getTablepageListFomular/$1');
+        $routes->post('dataSummaryTransection', 'StockController::getSummaryTransection');
+        $routes->post('deleteFormularbyOrder', 'StockController::deleteFormularbyOrder');
+        $routes->post('deleteFormularbyId', 'StockController::deleteFormularbyId');
+    });
 
 // orders management
 $routes->group('order', ['filter' => 'employeeAuth'] ,
-function ($routes) {
-    $routes->get('order_manage', 'OrderController::index');   
-    $routes->post('dataOrder', 'OrderController::fetchDataOrder');    
-    $routes->get('getTempOfflineOrder', 'OrderController::fetchTempOfflineOrder');  
-    $routes->post('insertOrder', 'OrderController::insertproduct'); 
-    $routes->post('updateOrder', 'OrderController::updateOrder'); 
-    $routes->post('deleteOrder', 'OrderController::deleteOrder'); 
-    $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');     
+    function ($routes) {
+        $routes->get('order_manage', 'OrderController::index');
+        $routes->post('dataOrder', 'OrderController::fetchDataOrder');
+        $routes->get('getTempOfflineOrder', 'OrderController::fetchTempOfflineOrder');
+        $routes->post('insertOrder', 'OrderController::insertproduct');
+        $routes->post('updateOrder', 'OrderController::updateOrder');
+        $routes->post('deleteOrder', 'OrderController::deleteOrder');
+        $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');
 
-    $routes->get('order_pos', 'OrderPosController::index');
-});
+        $routes->get('order_pos', 'OrderPosController::index');
+    });
 /*
  * --------------------------------------------------------------------
  * Additional Routing
