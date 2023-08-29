@@ -127,6 +127,9 @@ function ($routes) {
     $routes->get('pageArea/(:any)', 'OrderPosController::getPageAddTableInArea/$1'); 
     $routes->post('floorplansave', 'OrderPosController::insertTable');    
     $routes->get('getTableInArea/(:any)', 'OrderPosController::getTableInArea/$1'); 
+    $routes->get('getTempUpdateTable/(:any)', 'OrderPosController::getTempUpdateTable/$1');       
+    $routes->post('deleteTable', 'OrderPosController::deleteTable');  
+    $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable'); 
 });
 /*
  * --------------------------------------------------------------------

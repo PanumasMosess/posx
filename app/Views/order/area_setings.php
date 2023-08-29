@@ -120,7 +120,7 @@
                                     <button type="button" id='save_table_btn' onclick="addTable();" class="btn btn-outline-success m-1">
                                         ยืนยัน
                                     </button>
-                                    <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitDataUpdateArea();">
+                                    <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
                                         ยืนยัน
                                     </button>
                                 </div>

@@ -409,4 +409,28 @@ class OrderModel
 
         return $builder->where('div_id', $id_div)->update($data);
     }
+
+    public function deleteTable($id , $code)
+    {
+        $builder = $this->db->table('table_dynamic');
+        $array = array('div_id' => $id, 'area_code' => $code);
+
+        return $builder->where($array)->delete();
+    }
+
+    public function getDataUpdateTable($id_div)
+    {
+        $sql = "SELECT * FROM `table_dynamic` where div_id = '$id_div'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateTableDetail($data,$id_div,$area_id)
+    {
+        $builder = $this->db->table('table_dynamic');
+        $array = array('div_id' => $id_div, 'area_code' => $area_id);
+
+        return $builder->where($array)->update($data);
+    }
 }
