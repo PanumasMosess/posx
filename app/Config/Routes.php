@@ -114,9 +114,18 @@ function ($routes) {
     $routes->post('insertOrder', 'OrderController::insertproduct'); 
     $routes->post('updateOrder', 'OrderController::updateOrder'); 
     $routes->post('deleteOrder', 'OrderController::deleteOrder'); 
-    $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');     
+    $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');    
 
-    $routes->get('order_pos', 'OrderPosController::index');
+    //Routes POS
+    $routes->get('order_pos', 'OrderPosController::index');      
+    $routes->get('getTempUpdateArea/(:any)', 'OrderPosController::fetchUpdateArea/$1'); 
+    $routes->post('dataArea', 'OrderPosController::dataAreaTable');      
+    $routes->post('insertArea', 'OrderPosController::insertArea');    
+    $routes->post('updateArea', 'OrderPosController::updateAear');
+    $routes->post('deleteArea', 'OrderPosController::deleteArea');
+    $routes->get('pageArea/(:any)', 'OrderPosController::getPageAddTableInArea/$1'); 
+    $routes->post('floorplansave', 'OrderPosController::insertTable');    
+    $routes->get('getTableInArea/(:any)', 'OrderPosController::getTableInArea/$1'); 
 });
 /*
  * --------------------------------------------------------------------

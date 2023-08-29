@@ -185,7 +185,7 @@ class OrderController extends BaseController
                     'order_status' => 'IN_ORDER',
                     'src_order_picture' =>  $order_running_code->order_code . '.' . $type_real[1],
                     'group_id' => $data[0]['group_id'],
-                    'updated_by' => 'Temp',
+                    'updated_by' => session()->get('username'),
                     'updated_at' => $buffer_datetime
                 ];
 
@@ -199,7 +199,7 @@ class OrderController extends BaseController
                     'order_price' => $data[0]['order_price'],
                     'order_status' => 'IN_ORDER',
                     'group_id' => $data[0]['group_id'],
-                    'updated_by' => 'Temp',
+                    'updated_by' => session()->get('username'),
                     'updated_at' => $buffer_datetime
                 ];
             }
