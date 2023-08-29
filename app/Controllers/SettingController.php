@@ -14,15 +14,52 @@ class SettingController extends BaseController
     {
     }
 
-    public function group_product()
+    public function index()
     {
-        $this->GroupProductModel = new \App\Models\GroupProductModel();
-        $data['group_products'] = $this->GroupProductModel->getGroupProductAll();
+        // $this->GroupProductModel = new \App\Models\GroupProductModel();
+        // $data['group_products'] = $this->GroupProductModel->getGroupProductAll();
 
-        $data['content'] = 'setting/group_product';
-        $data['title'] = 'หมวดสินค้า';
-        $data['js_critical'] = '<script src="' . base_url('/js/setting/group_product.js?v=' . time()) . '"></script>';
+        $data['content'] = 'setting/index';
+        $data['title'] = 'ตั้งค่า';
+        $data['js_critical'] = '
+        <script src="' . base_url('/js/setting/group_product.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/supplier.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/position.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>
+        ';
+
         echo view('/app', $data);
+    }
+
+    //getajaxDataTablesGroupProduct
+    public function ajaxDataTablesGroupProduct()
+    {
+        $GroupProductModel = new \App\Models\GroupProductModel();
+
+        $param['search_value'] = $_REQUEST['search']['value'];
+        $param['draw'] = $_REQUEST['draw'];
+        $param['start'] = $_REQUEST['start'];
+        $param['length'] = $_REQUEST['length'];
+
+        if (!empty($param['search_value'])) {
+            // count all data
+            $total_count = $GroupProductModel->getGroupProductSearchcount($param);
+            $data = $GroupProductModel->getGroupProductSearch($param);
+        } else {
+            // count all data
+            $total_count = $GroupProductModel->getGroupProductcount();
+            // get per page data
+            $data = $GroupProductModel->getGroupProduct($param);
+        }
+
+        $json_data = array(
+            "draw" => intval($param['draw']),
+            "recordsTotal" => count($total_count),
+            "recordsFiltered" => count($total_count),
+            "data" => $data   // total data array
+        );
+
+        echo json_encode($json_data);
     }
 
     // addSupplier data 
@@ -192,15 +229,33 @@ class SettingController extends BaseController
     //     }
     // }
 
-    public function supplier()
+    public function ajaxDataTablesSupplier()
     {
-        $this->SupplierModel = new \App\Models\SupplierModel();
-        $data['suppliers'] = $this->SupplierModel->getSupplierAll();
+        $SupplierModel = new \App\Models\SupplierModel();
+        $param['search_value'] = $_REQUEST['search']['value'];
+        $param['draw'] = $_REQUEST['draw'];
+        $param['start'] = $_REQUEST['start'];
+        $param['length'] = $_REQUEST['length'];
 
-        $data['content'] = 'setting/supplier';
-        $data['title'] = 'supplier';
-        $data['js_critical'] = '<script src="' . base_url('/js/setting/supplier.js?v=' . time()) . '"></script>';
-        echo view('/app', $data);
+        if (!empty($param['search_value'])) {
+            // count all data
+            $total_count = $SupplierModel->getSupplierSearchcount($param);
+            $data = $SupplierModel->getSupplierSearch($param);
+        } else {
+            // count all data
+            $total_count = $SupplierModel->getSuppliercount();
+            // get per page data
+            $data = $SupplierModel->getSupplier($param);
+        }
+
+        $json_data = array(
+            "draw" => intval($param['draw']),
+            "recordsTotal" => count($total_count),
+            "recordsFiltered" => count($total_count),
+            "data" => $data   // total data array
+        );
+
+        echo json_encode($json_data);
     }
 
     // addSupplier data 
@@ -327,15 +382,33 @@ class SettingController extends BaseController
     }
 
     // Position
-    public function position()
+    public function ajaxDataTablesPosition()
     {
-        $this->PositionModel = new \App\Models\PositionModel();
-        $data['positions'] = $this->PositionModel->getPositionAll();
+        $PositionModel = new \App\Models\PositionModel();
+        $param['search_value'] = $_REQUEST['search']['value'];
+        $param['draw'] = $_REQUEST['draw'];
+        $param['start'] = $_REQUEST['start'];
+        $param['length'] = $_REQUEST['length'];
 
-        $data['content'] = 'setting/position';
-        $data['title'] = 'ตำแหน่ง';
-        $data['js_critical'] = '<script src="' . base_url('/js/setting/position.js?v=' . time()) . '"></script>';
-        echo view('/app', $data);
+        if (!empty($param['search_value'])) {
+            // count all data
+            $total_count = $PositionModel->getPositionSearchcount($param);
+            $data = $PositionModel->getPositionSearch($param);
+        } else {
+            // count all data
+            $total_count = $PositionModel->getPositioncount();
+            // get per page data
+            $data = $PositionModel->getPosition($param);
+        }
+
+        $json_data = array(
+            "draw" => intval($param['draw']),
+            "recordsTotal" => count($total_count),
+            "recordsFiltered" => count($total_count),
+            "data" => $data   // total data array
+        );
+
+        echo json_encode($json_data);
     }
 
     // addPosition data 
@@ -461,15 +534,33 @@ class SettingController extends BaseController
         ]);
     }
     //Branch
-    public function branch()
+    public function ajaxDataTablesBranch()
     {
-        $this->BranchModel = new \App\Models\BranchModel();
-        $data['branchs'] = $this->BranchModel->getBranchAll();
+        $BranchModel = new \App\Models\BranchModel();
+        $param['search_value'] = $_REQUEST['search']['value'];
+        $param['draw'] = $_REQUEST['draw'];
+        $param['start'] = $_REQUEST['start'];
+        $param['length'] = $_REQUEST['length'];
 
-        $data['content'] = 'setting/branch';
-        $data['title'] = 'สาขา';
-        $data['js_critical'] = '<script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>';
-        echo view('/app', $data);
+        if (!empty($param['search_value'])) {
+            // count all data
+            $total_count = $BranchModel->getBranchSearchcount($param);
+            $data = $BranchModel->getBranchSearch($param);
+        } else {
+            // count all data
+            $total_count = $BranchModel->getBranchcount();
+            // get per page data
+            $data = $BranchModel->getBranch($param);
+        }
+
+        $json_data = array(
+            "draw" => intval($param['draw']),
+            "recordsTotal" => count($total_count),
+            "recordsFiltered" => count($total_count),
+            "data" => $data   // total data array
+        );
+
+        echo json_encode($json_data);
     }
 
     // addBranch data 
