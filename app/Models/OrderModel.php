@@ -34,7 +34,30 @@ class OrderModel
 
         // Set default order
         $this->order_order = array('order.order_code' => 'DESC');
-    
+
+        ################################################################
+
+        // Set orderable column fields
+        $this->column_order_Area = [
+            'area_table.area_code',
+            'area_table.area_name',
+            'area_table.updated_at',
+            null
+        ];
+
+        // Set searchable column fields
+        $this->column_search_Area = [
+            'area_table.area_code',
+            'area_table.order_name',
+            'area_table.updated_at',
+            'area_table.area_name'
+        ];
+
+        // Set default order
+        $this->order_Area = array('area_table.area_code' => 'DESC');
+
+        ##############################################################
+
     }
 
     public function _getAllDataOrder($post_data)
@@ -201,4 +224,189 @@ class OrderModel
     }
 
 
+    public function _getAllDataArea($post_data)
+    {
+        // ***************************
+        // ดึงข้อมูลตามเงื่อนไข
+        // - Search
+        // - OrderBy
+
+        $builder = $this->DataAreaQuery($post_data);
+
+        // นำ Builder ที่ได้มาลิมิต จาก Length ของ Datable ที่ส่งมา
+        if ($post_data['length'] != -1) {
+            $builder->limit($post_data['length'], $post_data['start']);
+        }
+
+        // ส่งข้อมูลออกไป
+        return $builder->get()->getResult();
+    }
+
+    private function DataAreaQuery($post_data)
+    {
+
+        $builder = $this->db->table('area_table');
+
+        $builder->select("
+        area_table.id, 
+        area_table.area_code ,
+        area_table.area_name , 
+        area_table.created_by  ,
+        area_table.updated_by , 
+        area_table.created_at , 
+        area_table.updated_at , 
+        area_table.deleted_at,  
+        area_table.companies_id 
+       ");
+
+        // $builder->join('group_product', 'group_product.id = order.group_id', 'left');
+        // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
+        // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
+        $builder->where("area_table.deleted_at is null");
+
+        $i = 0;
+        // loop searchable columns
+        foreach ($this->column_search_Area as $item) {
+
+            // if datatable send POST for search
+            if ($post_data['search']['value']) {
+
+                // first loop
+                if ($i === 0) {
+                    // open bracket
+                    $builder->groupStart();
+                    $builder->like($item, $post_data['search']['value']);
+                } else {
+                    $builder->orLike($item, $post_data['search']['value']);
+                }
+
+                // last loop
+                if (count($this->column_search_Area) - 1 == $i) {
+                    $builder->like($item, $post_data['search']['value']);
+                    // close bracket
+                    $builder->groupEnd();
+                }
+            }
+
+            $i++;
+        }
+
+        // มีการ order เข้ามา
+        if (isset($post_data['order'])) {
+            $builder->orderBy($this->column_order_Area[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
+        }
+
+        // Default
+        else if (isset($this->order_Arae)) {
+            $order = $this->order_Arae;
+            $builder->orderBy(key($order), $order[key($order)]);
+        }
+
+        // Debug คิวรี่ที่ได้
+        // px($builder->getCompiledSelect());
+
+        return $builder;
+    }
+
+    public function getAllDataAreaFilter()
+    {
+
+        $sql = "            
+        SELECT 
+         area_table.id, 
+         area_table.area_code, 
+         area_table.area_name,
+         area_table.created_by, 
+         area_table.updated_by ,
+         area_table.created_at,  
+         area_table.updated_at,  
+         area_table.deleted_at,  
+         area_table.companies_id
+         FROM area_table
+         WHERE area_table.deleted_at is null
+        ";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function getCodeArea()
+    {
+        $sql = "SELECT SUBSTRING(area_code, 5,8) as substr_area_code  FROM area_running order by id desc LIMIT 1";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function insertArea($data_area, $area_running)
+    {
+        $builder_area = $this->db->table('area_table');
+        $builder_area_status = $builder_area->insert($data_area);
+
+        $builder_running = $this->db->table('area_running');
+        $builder_running_status = $builder_running->insert($area_running);
+
+        return ($builder_area_status && $builder_running_status) ? true : false;
+    }
+
+    public function getDataUpdateArea($id = null)
+    {
+        $sql = "SELECT * FROM `area_table` where id = '$id'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateAere($data, $id)
+    {
+        $builder = $this->db->table('area_table');
+
+        return $builder->where('id', $id)->update($data);
+    }
+
+    public function deleteArea($id)
+    {
+        $builder = $this->db->table('area_table');
+
+        return $builder->where('id', $id)->delete();
+    }
+
+    public function getCodeTable()
+    {
+        $sql = "SELECT SUBSTRING(table_code, 5,8) as substr_table_code  FROM table_dynamic_running order by id desc LIMIT 1";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function insertTable($data_table, $table_running)
+    {
+        $builder_table = $this->db->table('table_dynamic');
+        $builder_table_status = $builder_table->insert($data_table);
+
+        $builder_running = $this->db->table('table_dynamic_running');
+        $builder_running_status = $builder_running->insert($table_running);
+
+        return ($builder_table_status && $builder_running_status) ? true : false;
+    }
+
+    public function getTableInArea($code_area)
+    {
+        $sql = "SELECT * FROM `table_dynamic` where area_code = '$code_area'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function checkIDUpdateTable($id_div)
+    {  
+        $sql = "SELECT div_id FROM `table_dynamic` where div_id = '$id_div'";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updatePositionTable($data,$id_div)
+    {
+        $builder = $this->db->table('table_dynamic');
+
+        return $builder->where('div_id', $id_div)->update($data);
+    }
 }

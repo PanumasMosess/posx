@@ -1,12 +1,51 @@
-.drag_ {
-  width: 25%;
-  min-height: 6.5em;
-  margin: 1rem 0 0 1rem;
-  background-color: #F45B0F;
+.canva {
+  width: 1180px;
+  height: 540px;
+  background-color: #dee2e6;
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  border-radius: 6px;
+  border: dashed 2px rgba(0, 0, 0, 0.2);
+}
+
+.resize-drag {
+  width: 120px;
+  border-radius: 2px;
+  padding: 20px;
+  background-color: #29e;
   color: white;
-  border-radius: 0.75em;
-  padding: 4%;
+  font-size: 20px;
+  font-family: sans-serif;
+  margins: "0px 2px 0px 2px";
+  marginm: 1rem;
   touch-action: none;
-  user-select: none;
-  transform: translate(0px, 0px);
+  position: absolute;
+
+  border: dashed 2px rgba(255, 255, 255, 0.5);
+
+  /* This makes things *much* easier */
+  box-sizing: border-box;
+  text-align: center;
+}
+.resize-drag.circle {
+  border-radius: 60px;
+  height: 120px;
+}
+.resize-drag p {
+  text-align: center;
+  background-color: black;
+  font-size: 20px;
+  justify-content: center;
+  top: 0;
+  opacity: 0.6;
+}
+.resize-drag span {
+  text-align: center;
+  font-size: 14px;
+  position: center;
+  bottom: 0;
+  opacity: 0.6;
 }

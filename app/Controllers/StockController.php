@@ -380,7 +380,7 @@ class StockController extends BaseController
         ';
         $data['codeStock'] = $code;
 
-        echo view('/stock/stock_transection', $data);
+        echo view('/stock/stock_transection.php', $data);
     }
 
     public function getTableTransectionByStockCode($code = null)
