@@ -129,7 +129,8 @@ function ($routes) {
     $routes->get('getTableInArea/(:any)', 'OrderPosController::getTableInArea/$1'); 
     $routes->get('getTempUpdateTable/(:any)', 'OrderPosController::getTempUpdateTable/$1');       
     $routes->post('deleteTable', 'OrderPosController::deleteTable');  
-    $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable'); 
+    $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable');   
+    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
 });
 /*
  * --------------------------------------------------------------------

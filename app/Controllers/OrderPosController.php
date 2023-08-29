@@ -29,7 +29,8 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
             <script src="' . base_url('/js/interact.min.js') . '"></script>   
-            <script src="' . base_url('/js/orders/order_table.js?v=' . time()) . '"></script>    
+            <script src="' . base_url('/js/orders/order_table.js?v=' . time()) . '"></script>      
+            <script src="' . base_url('/js/orders/order_order.js?v=' . time()) . '"></script>
             <script src="' . base_url('/js/orders/order_pos.js?v=' . time()) . '"></script>    
         ';
         echo view('/app', $data);
@@ -402,5 +403,16 @@ class OrderPosController extends BaseController
         } else {
             //  ว่าง
         }
+    }
+
+    public function loadtoSelectAreaData()
+    {
+        $look_data = $this->OrderModel->getAllDataAreaFilter();
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
     }
 }

@@ -50,7 +50,7 @@ function loadTableAear() {
               "' target='popup' onclick=window.open('" +
               serverUrl +
               "order/pageArea/" +
-              data["area_code"] + "','popup','width=1260,height=700'); type='button' class='action_btn' data-toggle='tooltip' data-placement='top' title='เพิ่มโต๊ะ'><i class='ti-panel'></i></a><a herf='javascript:void(0);' type='button' class='action_btn' onclick='updateAreaData(this.id);' id='" +
+              data["area_code"] + "','popup','width=850,height=700'); type='button' class='action_btn' data-toggle='tooltip' data-placement='top' title='เพิ่มโต๊ะ'><i class='ti-panel'></i></a><a herf='javascript:void(0);' type='button' class='action_btn' onclick='updateAreaData(this.id);' id='" +
               data["id"] +
               "' data-toggle='tooltip' data-placement='top' title='แก้ไขข้อมูล'><i class='ti-pencil-alt'></i></a><a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' id='" +
               data["id"] +
