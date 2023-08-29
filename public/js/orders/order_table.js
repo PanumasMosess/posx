@@ -2,22 +2,12 @@ var area_id = "33";
 var table_id = null;
 var edit_id = null;
 var itemsArrayTableOffline = [];
+var itemsArrayDeleteTable = [];
+var itemsArrayUpdateDetailTable = [];
 (function ($) {
   interact(".resize-drag")
-    .on("doubletap", function (event) {
-      console.log(event.currentTarget.id);
-      editItem(event.currentTarget.id);
+    .on("tap", function (event) {
       event.preventDefault();
-    })
-    .on("hold", function (event) {
-      if (confirm("Delete this table")) {
-        deleteTable(event.currentTarget.id);
-      }
-
-      event.preventDefault();
-
-      //event.currentTarget.classList.toggle('rotate')
-      //event.currentTarget.classList.remove('large')
     })
     .resizable({
       // resize from all edges and corners
@@ -100,34 +90,34 @@ function dragMoveListener(event) {
 // this function is used later in the resizing and gesture demos
 window.dragMoveListener = dragMoveListener;
 
-function deleteTable(itemid) {
-  var element = $("#" + itemid);
-  element.hide();
-  element.attr("data-deleted", "yes");
-}
+// function deleteTable(itemid) {
+//   var element = $("#" + itemid);
+//   element.hide();
+//   element.attr("data-deleted", "yes");
+// }
 
-function editItem(itemid) {
-  // reset();
-  var element = $("#" + itemid);
-  $("#table_name").val(element.attr("data-name"));
-  $("#table_size").val(element.attr("data-size"));
-  if (element.attr("data-rounded") == "yes") {
-    $("#table_round").prop("checked", true);
-  } else {
-    $("#table_round").prop("checked", false);
-  }
+// function editItem(itemid) {
+//   // reset();
+//   var element = $("#" + itemid);
+//   $("#table_name").val(element.attr("data-name"));
+//   $("#table_size").val(element.attr("data-size"));
+//   if (element.attr("data-rounded") == "yes") {
+//     $("#table_round").prop("checked", true);
+//   } else {
+//     $("#table_round").prop("checked", false);
+//   }
 
-  edit_id = itemid;
+//   edit_id = itemid;
 
-  if (element.attr("data-id")) {
-    table_id = element.attr("data-id");
-  } else {
-    table_id = true; //Since it is edit
-  }
+//   if (element.attr("data-id")) {
+//     table_id = element.attr("data-id");
+//   } else {
+//     table_id = true; //Since it is edit
+//   }
 
-  jQuery.noConflict();
-  $("#tableModal").modal("toggle");
-}
+//   jQuery.noConflict();
+//   $("#tableModal").modal("toggle");
+// }
 
 function reset() {
   closeModalTable();
@@ -135,13 +125,13 @@ function reset() {
   edit_id = null;
 }
 
-function saveTable() {
-  if (table_id) {
-    updateTable();
-  } else {
-    addTable();
-  }
-}
+// function saveTable() {
+//   if (table_id) {
+//     updateTable();
+//   } else {
+//     addTable();
+//   }
+// }
 
 function addTable() {
   var tablename = $("#table_name").parsley();
@@ -173,23 +163,23 @@ function addTable() {
   }
 }
 
-function updateTable() {
-  var element = $("#" + edit_id);
-  element.attr("data-name", $("#table_name").val());
-  element.attr("data-size", $("#table_size").val());
-  $("span:first", element).html($("#table_size").val());
-  $("p:first", element).html($("#table_name").val());
+// function updateTable() {
+//   var element = $("#" + edit_id);
+//   element.attr("data-name", $("#table_name").val());
+//   element.attr("data-size", $("#table_size").val());
+//   $("span:first", element).html($("#table_size").val());
+//   $("p:first", element).html($("#table_name").val());
 
-  if ($("#table_round").prop("checked")) {
-    element.attr("data-rounded", "yes");
-    element.addClass("circle");
-  } else {
-    element.attr("data-rounded", "no");
-    element.removeClass("circle");
-  }
+//   if ($("#table_round").prop("checked")) {
+//     element.attr("data-rounded", "yes");
+//     element.addClass("circle");
+//   } else {
+//     element.attr("data-rounded", "no");
+//     element.removeClass("circle");
+//   }
 
-  reset();
-}
+//   reset();
+// }
 
 function saveFloor() {
   let searchParams = window.location.pathname;
@@ -292,10 +282,9 @@ function drowTableLoad() {
         $("#canvaHolder").html("");
         var dataTable = response.data;
         for (var i = 0; i < dataTable.length; i++) {
-          
           $(".canva").append(
-            '<div class="resize-drag ' +
-              (dataTable[i].rounded === 'yes' ? "circle" : "") +
+            '<div class="resize-drag' +
+              (dataTable[i].rounded === "yes" ? " circle" : "") +
               '" id="' +
               dataTable[i].div_id +
               '" data-rounded="' +
@@ -316,13 +305,154 @@ function drowTableLoad() {
               dataTable[i].width_div +
               "px; height: " +
               dataTable[i].hight_div +
-              'px;" ><p>' +
+              'px;" ><p id="Action">' +
               dataTable[i].table_name +
-              "</p><span>" +
+              "</p><span  style='opacity: 0.7;'>" +
               dataTable[i].size_table +
               " ที่นั่ง" +
-              "</span></div>"
+              "</span> <br/>" +
+              "<span class='header_more_tool'>" +
+              "<span class='dropdown'>" +
+              "<span class='dropdown-toggle' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false' style='background-color: #f6f7fb; opacity: 0.7;'>" +
+              "<i class='ti-more-alt'></i></span>" +
+              "<span class='dropdown-menu dropdown-menu-right' aria-labelledby='dropdownMenuButton' style='background-color: #f6f7fb;'  x-placement='bottom-end' style='will-change: transform;'>" +
+              "<a class='dropdown-item' href='javascript:void(0);'  onclick='deleteTable(this.id)' id='" +
+              dataTable[i].div_id +
+              "''> <i class='ti-trash'></i> Delete</a>" +
+              "<a class='dropdown-item' href='javascript:void(0);'  onclick='updateTableData(this.id)' id='" +
+              dataTable[i].div_id +
+              "''> <i class='fas fa-edit'></i> Edit</a>" +
+              "</span></span></span></div>"
           );
+        }
+      },
+    });
+  } else {
+  }
+}
+
+function deleteTable(div_id) {
+  let searchParams = window.location.pathname;
+  var searchParams_ = searchParams.split("/order/pageArea/");
+  isOnline = window.navigator.onLine;
+  Swal.fire({
+    title: "ลบรายการ",
+    text: "คุณต้องยกเลิกโต๊ะนี้ !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "ปิด",
+    confirmButtonText: "ตกลง",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      itemsArrayDeleteTemp = [
+        {
+          div_id: div_id,
+          area_code: searchParams_[1],
+        },
+      ];
+
+      itemsArrayDeleteTable.push(itemsArrayDeleteTemp);
+
+      if (isOnline) {
+        $.ajax({
+          url: serverUrl + "order/deleteTable",
+          method: "post",
+          data: {
+            data: itemsArrayDeleteTable,
+          },
+          cache: false,
+          success: function (response) {
+            if ((response.message = "ลบรายการสำเร็จ")) {
+              notif({
+                type: "success",
+                msg: "ลบรายการสำเร็จ!",
+                position: "right",
+                fade: true,
+                time: 300,
+              });
+              //clear after update
+              itemsArrayDeleteTable = [];
+              itemsArrayDeleteTemp = [];
+              // localStorage.removeItem("orderOldDelete");
+              drowTableLoad();
+            } else {
+            }
+          },
+        });
+      } else {
+      }
+    }
+  });
+}
+
+function updateTableData(id) {
+  $("#update_table_btn").show();
+  $("#save_table_btn").hide();
+
+  isOnline = window.navigator.onLine;
+  if (isOnline) {
+    $.ajax({
+      url: serverUrl + "/order/getTempUpdateTable/" + id,
+      method: "get",
+      success: function (response) {
+        $(".bd-add-table").modal("show");
+        $("#nameFormTable").html("<h3>แก้ไขข้อมูล</h3>");
+        $("#table_name").val(response.data.table_name);
+        $("#table_size").val(response.data.size_table);
+        $("#id_db_table").val(response.data.div_id);
+        if (response.data.rounded == "yes") {
+          $("#table_round").prop("checked", true);
+        } else {
+          $("#table_round").prop("checked", false);
+        }
+      },
+    });
+  } else {
+  }
+}
+
+function submitupdateDetailTable() {
+  let searchParams = window.location.pathname;
+  var searchParams_ = searchParams.split("/order/pageArea/");
+  isOnline = window.navigator.onLine;
+  itemsArrayUpdateTemp = [
+    {
+      div_id: $("#id_db_table").val(),
+      table_name: $("#table_name").val(),
+      size_table: $("#table_size").val(),
+      rounded: $("#table_round").prop("checked") ? "yes" : "no",
+      area_code: searchParams_[1],
+    },
+  ];
+
+  itemsArrayUpdateDetailTable.push(itemsArrayUpdateTemp);
+
+  if (isOnline) {
+    $.ajax({
+      url: serverUrl + "order/updateDetailTable",
+      method: "post",
+      data: {
+        data: itemsArrayUpdateDetailTable,
+      },
+      cache: false,
+      success: function (response) {
+        if ((response.message = "แก้ไขรายการสำเร็จ")) {
+          notif({
+            type: "success",
+            msg: "แก้ไขรายการสำเร็จ!",
+            position: "right",
+            fade: true,
+            time: 300,
+          });
+          //clear after update
+          itemsArrayUpdateDetailTable = [];
+          itemsArrayUpdateTemp = [];
+          reset();
+          // localStorage.removeItem("orderOldDelete");
+          drowTableLoad();
+        } else {
         }
       },
     });

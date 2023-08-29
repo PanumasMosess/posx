@@ -204,7 +204,7 @@ class OrderPosController extends BaseController
         $data['js_critical'] = '    
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
-            <script src="' . base_url('/js/interact.min.js') . '"></script>   
+            <script src="' . base_url('/js/interact.min.js') . '"></script> 
             <script src="' . base_url('/js/orders/order_table.js?v=' . time()) . '"></script>     
         ';
         $data['codeArea'] = $code;
@@ -315,5 +315,92 @@ class OrderPosController extends BaseController
             'error' => false,
             'data' => $look_data
         ]);
+    }
+
+    public function deleteTable()
+    {
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $update_new = $this->OrderModel->deleteTable($data[0]['div_id'], $data[0]['area_code']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ลบรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function getTempUpdateTable($id_div)
+    {
+        $look_data = $this->OrderModel->getDataUpdateTable($id_div);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
+    }
+
+    public function updateDetailTable()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $data_table_detail = [
+                'table_name' => $data[0]['table_name'],
+                'size_table' => $data[0]['size_table'],
+                'rounded' => $data[0]['rounded'],
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->OrderModel->updateTableDetail($data_table_detail, $data[0]['div_id'], $data[0]['area_code']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'เพิ่มไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'แก้ไขรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
     }
 }
