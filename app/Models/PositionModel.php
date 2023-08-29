@@ -51,4 +51,55 @@ class PositionModel
 
         return $builder;
     }
+    public function getPosition($param)
+    {
+        $start = $param['start'];
+        $length = $param['length'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(position.created_at, '%d-%m-'), YEAR(position.created_at)+543) as date_created,CONCAT(DATE_FORMAT(position.updated_at, '%d-%m-'), YEAR(position.updated_at)+543) as date_updated
+                FROM position 
+                WHERE deleted_at IS NULL
+                LIMIT $start, $length";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+    public function getPositioncount()
+    {
+        $sql = "SELECT * from position WHERE deleted_at IS NULL
+                    ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+    
+    public function getPositionSearch($param)
+    {
+        $search_value = $param['search_value'];
+        $start = $param['start'];
+        $length = $param['length'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(position.created_at, '%d-%m-'), YEAR(position.created_at)+543) as date_created,CONCAT(DATE_FORMAT(position.updated_at, '%d-%m-'), YEAR(position.updated_at)+543) as date_updated
+            from position 
+            WHERE deleted_at IS NULL AND ((position.position_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            limit $start, $length
+            ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+    public function getPositionSearchcount($param)
+    {
+        $search_value = $param['search_value'];
+
+        $sql = "SELECT *, CONCAT(DATE_FORMAT(position.created_at, '%d-%m-'), YEAR(position.created_at)+543) as date_created,CONCAT(DATE_FORMAT(position.updated_at, '%d-%m-'), YEAR(position.updated_at)+543) as date_updated
+            from position 
+            WHERE deleted_at IS NULL AND ((position.position_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            ";
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
 }

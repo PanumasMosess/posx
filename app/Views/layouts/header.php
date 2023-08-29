@@ -125,14 +125,14 @@
                         <img src="<?php echo base_url('img/menu-icon/10.svg'); ?>" alt />
                     </div>
                     <div class="nav_title">
-                        <span>Setings</span>
+                        <span>Settings</span>
                     </div>
                 </a>
                 <ul>
-                    <li><a href="<?php echo base_url('/setting/group_product'); ?>">Group Product</a></li>
-                    <li><a href="<?php echo base_url('/setting/supplier'); ?>">Supplier</a></li>
-                    <li><a href="<?php echo base_url('/setting/position'); ?>">ตำแหน่ง</a></li>
-                    <li><a href="<?php echo base_url('/setting/branch'); ?>">สาขา</a></li>
+                    <li><a href="<?php echo base_url('/setting/index'); ?>">Setting</a></li>
+                    <!-- <li><a href="<php echo base_url('/setting/supplier'); ?>">Supplier</a></li>
+                    <li><a href="<php echo base_url('/setting/position'); ?>">ตำแหน่ง</a></li>
+                    <li><a href="<php echo base_url('/setting/branch'); ?>">สาขา</a></li> -->
                 </ul>
             </li>
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'employee') {
