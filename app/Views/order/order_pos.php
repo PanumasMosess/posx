@@ -7,23 +7,23 @@
                         <div class="bulder_tab_wrapper">
                             <ul class="nav" id="stockTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="Order-tab" data-bs-toggle="tab" href="#Order" role="tab" aria-controls="Order" aria-selected="true">จัดพื้นที่ / เพิ่มโต๊ะ</a>
+                                    <a class="nav-link active" id="area_table-tab" data-bs-toggle="tab" href="#area_table" role="tab" aria-controls="area_table" aria-selected="true">จัดพื้นที่ / เพิ่มโต๊ะ</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="Order-tab" data-bs-toggle="tab" href="#sale_pos" role="tab" aria-controls="Order" aria-selected="true">จัดโต๊ะ</a>
+                                    <a class="nav-link" id="order-tab" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">ออเดอร์</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " id="Order-tab" data-bs-toggle="tab" href="#" role="tab" aria-controls="Order" aria-selected="true">รายการสินค้า</a>
+                                    <a class="nav-link " id="Order-tab" data-bs-toggle="tab" href="#" role="tab" aria-controls="Order" aria-selected="true">..........</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link " id="Order-tab" data-bs-toggle="tab" href="#" role="tab" aria-controls="Order" aria-selected="true">รายการสินค้า</a>
+                                    <a class="nav-link " id="Order-tab" data-bs-toggle="tab" href="#" role="tab" aria-controls="Order" aria-selected="true">...........</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="white_card_body">
                         <div class="tab-content" id="stockTabContent">
-                            <div class="tab-pane fade show active" id="Order" role="tabpanel" aria-labelledby="Order-tab">
+                            <div class="tab-pane fade show active" id="area_table" role="tabpanel" aria-labelledby="Order-tab">
                                 <div class="builder_select">
                                     <!-- <div class="board_wrapper">
                                         <div class="single_board">
@@ -61,6 +61,44 @@
                                     <!-- </div>
                                         </div>
                                     </div> -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
+                                <div class="builder_select">
+                                    <div class="board_wrapper">
+                                        <div class="single_board">
+                                            <div class="main_board_card">
+                                                <div class="row">
+                                                    <div class="col-xl-7 col-lg-7 col-md-12">
+                                                        <div class="white_card  mb_20">
+                                                            <div class="white_card_header">
+                                                                <div class="justify-content-end d-flex mb-2 mt-2">
+                                                                    <div class="box_header m-1">
+                                                                        <div class="common_select">
+                                                                            <select class="nice_Select wide mb-10" style="display: none;" id="area_select">
+                                                                                <option value="">เลือกพื้นที่</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="white_card_body">
+                                                                <div class="canva" id="canvaHolder">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-5 col-lg-5 col-md-12">
+                                                        <div class="white_card  mb_20">
+                                                            <div class="white_card_body">
+                                                                Area Order
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

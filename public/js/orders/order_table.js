@@ -1,4 +1,4 @@
-var area_id = "33";
+var area_id = "";
 var table_id = null;
 var edit_id = null;
 var itemsArrayTableOffline = [];
@@ -11,7 +11,7 @@ var itemsArrayUpdateDetailTable = [];
     })
     .resizable({
       // resize from all edges and corners
-      edges: { left: false, right: true, bottom: true, top: false },
+      edges: { left: true, right: true, bottom: true, top: true },
 
       listeners: {
         move(event) {
