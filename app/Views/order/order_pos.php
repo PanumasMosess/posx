@@ -90,8 +90,122 @@
                                                     </div>
                                                     <div class="col-xl-5 col-lg-5 col-md-12">
                                                         <div class="white_card  mb_20">
-                                                            <div class="white_card_body">
-                                                                Area Order
+                                                            <div class="white_card  mb_20">
+                                                                <div class="white_card_header">
+                                                                    <div id="order_select_detail">
+                                                                        <div class="box_header m-0">
+                                                                            <div class="main-title">
+                                                                                <h3 class="m-0" id="table_header_name"></h3>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="bulder_tab_wrapper">
+                                                                            <ul class="nav" id="callOrderTab" role="tablist">
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link active" id="info-tab" data-bs-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Info</a>
+                                                                                </li>
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link" id="price-tab" data-bs-toggle="tab" href="#price" role="tab" aria-controls="price" aria-selected="true">Price</a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="white_card_body">
+                                                                            <div class="tab-content" id="stockTabContent">
+                                                                                <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                                                                                    <div class="builder_select">
+                                                                                        <div class="total-payment p-3 mt-3">
+                                                                                            <h4 class="header-title">Info Order</h4>
+                                                                                            <table class="table">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title">โต๊ะ</td>
+                                                                                                        <td>
+                                                                                                            <p id="table_header_name_detail">จีน</p>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title">รายการ</td>
+                                                                                                        <td>
+                                                                                                            xxx รายการ
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title">เวลา</td>
+                                                                                                        <td>-10.00</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title">รวม</td>
+                                                                                                        <td class="text-dark"><strong>491.00 บาท</strong></td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane fade" id="price" role="tabpanel" aria-labelledby="price-tab">
+                                                                                    <div class="builder_select">
+                                                                                        <div class="total-payment p-3 mt-3">
+                                                                                            <h4 class="header-title">Price</h4>
+                                                                                            <table class="table">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title"><a href="#">SUB TOTAL</a></td>
+                                                                                                        <td>0.00</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title"><a href="javascript:void(0);" onclick="openModalServiceType();"> SERVICE</a></td>
+                                                                                                        <td>
+                                                                                                            ---
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title"><a href="javascript:void(0);" onclick="openModaldiscountAllType();"> DISCOUNT ALL</a></td>
+                                                                                                        <td>---</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title"><a href="javascript:void(0);" onclick="openModalCardCharge();"> CARD CHARGE</a></td>
+                                                                                                        <td>---</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="payment-title"><a href="javascript:void(0);" onclick="openModalVat();"> VAT</a> </td>
+                                                                                                        <td>---</td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="devices_btn justify-content-start">
+                                                                            <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" href="javascript:void(0);" onclick="openAddOrder_customer();"><i class="ti-plus"></i> Add</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-new-window"></i> Move</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="fas fa-hryvnia"></i> Discount</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-split-h"></i> SpitBill</a>
+                                                                            <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-trash"></i> Void Item</a>
+                                                                        </div>
+                                                                        <div class="QA_section">
+                                                                            <div class="QA_table mb_30">
+                                                                                <table class="table lms_table_active3" id="orderListInTable">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>No.</th>
+                                                                                            <th>รายการสินค้า</th>
+                                                                                            <th>จำนวน</th>
+                                                                                            <th>ราคา</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="devices_btn justify-content-start">
+                                                                            <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-printer"></i> Print Preview</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -149,6 +263,244 @@
                                 </button>
                             </div>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model Add Service -->
+<div class="modal fade bd-add-service" tabindex="-1" role="dialog" aria-labelledby="serviceModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="closeModalService();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class=" m-0">
+                            <div class="justify-content-center" style="display:flex;">
+                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormService">Service</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white_card_body">
+                        <form id="addService" name="addService" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="row col-12">
+                                <div class="row col-6">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="service_type">ประเภท</label>
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="service_type" name="service_type" required="">
+                                            <option value="">เลือกประเภท</option>
+                                            <option style="color: #000;" value="percen">%</option>
+                                            <option style="color: #000;" value="number">จำนวน</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row col-6">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-text">
+                                                <div class="">จำนวน</div>
+                                            </div>
+                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_service" name="num_service" placeholder="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="input-group mb-3  justify-content-end">
+                                        <button type="button" onclick="closeModalService();" class="btn btn-outline-danger m-1">
+                                            ยกเลิก
+                                        </button>
+                                        <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
+                                            ยืนยัน
+                                        </button>
+                                        <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model Add DISCOUNT ALL -->
+<div class="modal fade bd-add-discountAll" tabindex="-1" role="dialog" aria-labelledby="discountAll" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="closeModaladddiscountAll();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class=" m-0">
+                            <div class="justify-content-center" style="display:flex;">
+                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormDiscountAll">ส่วนลดทั้งหมด</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white_card_body">
+                        <form id="adddiscountAll" name="adddiscountAll" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="row col-12">
+                                <div class="row col-6">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="adddiscountAll_type">ประเภท</label>
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="adddiscountAll_type" name="adddiscountAll_type" required="">
+                                            <option value="">เลือกประเภท</option>
+                                            <option style="color: #000;" value="percen">%</option>
+                                            <option style="color: #000;" value="number">จำนวน</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row col-6">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-text">
+                                                <div class="">จำนวน</div>
+                                            </div>
+                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_adddiscountAll" name="num_adddiscountAll" placeholder="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="input-group mb-3  justify-content-end">
+                                        <button type="button" onclick="closeModaladddiscountAll();" class="btn btn-outline-danger m-1">
+                                            ยกเลิก
+                                        </button>
+                                        <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
+                                            ยืนยัน
+                                        </button>
+                                        <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model Add CARD CHANGE -->
+<div class="modal fade bd-add-cardCharge" tabindex="-1" role="dialog" aria-labelledby="cardChargeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="closeModalcardCharge();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class=" m-0">
+                            <div class="justify-content-center" style="display:flex;">
+                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormCardCharge">Credit card charges (percent) ?</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white_card_body">
+                        <form id="addcardCharge" name="addcardCharge" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="row col-12">                                
+                                <div class="row col-12">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                          
+                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_cardCharge" name="num_cardCharge" placeholder="" required>
+                                            <div class="input-group-text">
+                                                <div class="">%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="input-group mb-3  justify-content-end">
+                                        <button type="button" onclick="closeModalcardCharge();" class="btn btn-outline-danger m-1">
+                                            ยกเลิก
+                                        </button>
+                                        <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
+                                            ยืนยัน
+                                        </button>
+                                        <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model Add VAT -->
+<div class="modal fade bd-add-vat" tabindex="-1" role="dialog" aria-labelledby="vatModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="closeModalVAT();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class=" m-0">
+                            <div class="justify-content-center" style="display:flex;">
+                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormVAT">VAT</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white_card_body">
+                        <form id="addvat" name="addvat" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="row col-12">
+                                <div class="row col-6">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="service_type">ประเภท</label>
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="service_type" name="service_type" required="">
+                                            <option value="">เลือกประเภท</option>
+                                            <option style="color: #000;" value="percen">%</option>
+                                            <option style="color: #000;" value="number">จำนวน</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row col-6">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-text">
+                                                <div class="">จำนวน</div>
+                                            </div>
+                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_vat" name="num_vat" placeholder="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="input-group mb-3  justify-content-end">
+                                        <button type="button" onclick="closeModalVAT();" class="btn btn-outline-danger m-1">
+                                            ยกเลิก
+                                        </button>
+                                        <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
+                                            ยืนยัน
+                                        </button>
+                                        <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                     </form>
                 </div>
             </div>

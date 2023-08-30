@@ -3,7 +3,10 @@ var isOnline;
   selectArea();
   interact(".resize-drag")
     .on("tap", function (event) {
-        console.log("Tab");
+      var target = event.target;
+    //   console.log(target.getAttribute("data-area"));
+        $('#table_header_name').html("<h3 class='m-0' id='table_header_name'>"+target.getAttribute("data-name")+"</h3>");
+        $('#table_header_name_detail').html("<p>"+target.getAttribute("data-name")+"</p>");
       event.preventDefault();
     })
     .resizable({
@@ -53,17 +56,18 @@ var isOnline;
 
       inertia: true,
     })
-    .draggable(false, 
-    //     {
-    //   listeners: { move: dragMoveListener },
-    //   inertia: true,
-    //   modifiers: [
-    //     interact.modifiers.restrictRect({
-    //       restriction: "parent",
-    //       endOnly: true,
-    //     }),
-    //   ],
-    // }
+    .draggable(
+      false
+      //     {
+      //   listeners: { move: dragMoveListener },
+      //   inertia: true,
+      //   modifiers: [
+      //     interact.modifiers.restrictRect({
+      //       restriction: "parent",
+      //       endOnly: true,
+      //     }),
+      //   ],
+      // }
     );
 })(jQuery);
 
@@ -92,9 +96,13 @@ var area_select = $("#area_select");
 area_select.on("change", function () {
   let value = $("#area_select").val();
   if (value != "") {
+    $('#table_header_name').html("");
+    $('#table_header_name_detail').html("");
     drowTableLoad(value);
   } else {
     $("#canvaHolder").html("");
+    $('#table_header_name').html("");
+    $('#table_header_name_detail').html("");
   }
 });
 
@@ -128,7 +136,9 @@ function drowTableLoad(data) {
               dataTable[i].x +
               '" data-y="' +
               dataTable[i].y +
-              '" style="transform: translate(' +
+              '" data-area="' +
+              dataTable[i].area_code +
+              '"style="transform: translate(' +
               dataTable[i].x +
               "px, " +
               dataTable[i].y +
@@ -148,4 +158,77 @@ function drowTableLoad(data) {
     });
   } else {
   }
+}
+
+function loadTable(){
+    $("#orderListInTable").DataTable();
+}
+
+
+function openModalServiceType()
+{
+    $(".bd-add-service").modal("show");
+}
+
+function closeModalService()
+{
+    $(".bd-add-service").modal("hide");
+    $("#addService")[0].reset();
+    $("#addService").parsley().reset();
+}
+
+
+function openModaldiscountAllType()
+{
+    $(".bd-add-discountAll").modal("show");
+}
+
+function closeModaladddiscountAll()
+{
+    $(".bd-add-discountAll").modal("hide");
+    $("#adddiscountAll")[0].reset();
+    $("#adddiscountAll").parsley().reset();
+}
+
+
+function openModalCardCharge()
+{
+    $(".bd-add-cardCharge").modal("show");
+}
+
+function closeModalcardCharge()
+{
+    $(".bd-add-cardCharge").modal("hide");
+    $("#addcardCharge")[0].reset();
+    $("#addcardCharge").parsley().reset();
+}
+
+
+
+function openModalVat()
+{
+    $(".bd-add-vat").modal("show");
+}
+
+function closeModalVAT()
+{
+    $(".bd-add-vat").modal("hide");
+    $("#addvat")[0].reset();
+    $("#addvat").parsley().reset();
+}
+
+function openAddOrder_customer()
+{
+    const STOCK_ORDER_LIST = {
+        init() {
+          let url = `${serverUrl}order/order_customer_list/`;
+          window.open(
+            url,
+            "Doc",
+            "menubar=no,toorlbar=no,location=no,scrollbars=yes, status=no,resizable=no,width=1200,height=800,top=10,left=10"
+          );
+        },
+      };
+    
+      STOCK_ORDER_LIST.init();
 }
