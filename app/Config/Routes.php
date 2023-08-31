@@ -131,6 +131,8 @@ function ($routes) {
     $routes->post('deleteTable', 'OrderPosController::deleteTable');  
     $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable');   
     $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
+
+    $routes->get('activity', 'Test::activity');
 });
 /*
  * --------------------------------------------------------------------
