@@ -1,7 +1,4 @@
 <style>
-    .disabled {
-        opacity: .6;
-    }
     .custom_activity_table tbody tr:hover {
         background-color: rgb(255, 255, 153) !important;
     }

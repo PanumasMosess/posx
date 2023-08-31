@@ -56,6 +56,12 @@
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
     </script>
+<style>
+    .disabled {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
 </head>
 
 <body class="crm_body_bg">
