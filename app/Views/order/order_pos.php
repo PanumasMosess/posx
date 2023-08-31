@@ -1,3 +1,8 @@
+<style>
+    .disabled {
+        opacity: .6;
+    }
+</style>
 <div class="main_content_iner">
     <div class="container-fluid p-0">
         <div class="row justify-content-center">
@@ -10,6 +15,11 @@
                     </div>
                     <div class="white_card_body">
                         <div class="tab-content" id="stockTabContent">
+
+                            <div class="tab-pane fade" id="order-dashboard" role="tabpanel" aria-labelledby="order-dashboard-tab">
+                                dashboard
+                            </div>
+
                             <div class="tab-pane fade show active" id="area_table" role="tabpanel" aria-labelledby="Order-tab">
                                 <div class="builder_select">
                                     <!-- <div class="board_wrapper">
@@ -50,6 +60,7 @@
                                     </div> -->
                                 </div>
                             </div>
+
                             <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
                                 <div class="builder_select">
                                     <div class="board_wrapper">
@@ -202,6 +213,35 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="tab-pane fade" id="order-togo" role="tabpanel" aria-labelledby="order-togo-tab">
+                                togo
+                            </div>
+
+                            <div class="tab-pane fade" id="order-delivery" role="tabpanel" aria-labelledby="order-delivery-tab">
+                                order-delivery
+                            </div>
+
+                            <div class="tab-pane fade" id="order-activity" role="tabpanel" aria-labelledby="order-activity-tab">
+                                <div class="white_card card_height_100 mb_20 ">
+                                    <div class="white_card_header">
+                                        <div class="box_header m-0">
+                                            <div class="main-title">
+                                                <h3 class="m-0">Activity</h3>
+                                            </div>
+                                            <div class="header_more_tool">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary" id="btnReloadActivity">RELOAD</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="white_card_body QA_section">
+                                        <div class="QA_table custom_activity_table"></div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -399,11 +439,11 @@
                     </div>
                     <div class="white_card_body">
                         <form id="addcardCharge" name="addcardCharge" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                            <div class="row col-12">                                
+                            <div class="row col-12">
                                 <div class="row col-12">
                                     <div class="col-12">
                                         <div class="input-group mb-3">
-                                          
+
                                             <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_cardCharge" name="num_cardCharge" placeholder="" required>
                                             <div class="input-group-text">
                                                 <div class="">%</div>
