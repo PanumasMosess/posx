@@ -5,20 +5,7 @@
                 <div class="white_card mb_30">
                     <div class="white_card_header">
                         <div class="bulder_tab_wrapper">
-                            <ul class="nav" id="stockTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="area_table-tab" data-bs-toggle="tab" href="#area_table" role="tab" aria-controls="area_table" aria-selected="true">จัดพื้นที่ / เพิ่มโต๊ะ</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="order-tab" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">ออเดอร์</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " id="Order-tab" data-bs-toggle="tab" href="#" role="tab" aria-controls="Order" aria-selected="true">..........</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " id="Order-tab" data-bs-toggle="tab" href="#" role="tab" aria-controls="Order" aria-selected="true">...........</a>
-                                </li>
-                            </ul>
+                            <?php echo $this->include('/layouts/partials/_stockTab'); ?>
                         </div>
                     </div>
                     <div class="white_card_body">
