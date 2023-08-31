@@ -56,12 +56,12 @@
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
     </script>
-<style>
-    .disabled {
-        pointer-events: none;
-        opacity: 0.6;
-    }
-</style>
+    <style>
+        .disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
 </head>
 
 <body class="crm_body_bg">
@@ -74,6 +74,18 @@
             </div>
         </div>
         <ul id="sidebar_menu">
+
+            <li class="">
+                <a href="<?php echo base_url(); ?>" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="<?php echo base_url('img/menu-icon/dashboard.svg'); ?>" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Home</span>
+                    </div>
+                </a>
+            </li>
+<!-- 
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'stock') {
                                 echo 'active';
                             } ?>">
@@ -89,7 +101,8 @@
                     <li><a href="javascript:void(0);" onclick="themesChangeDark();return false;">เมนูมืด</a></li>
                     <li><a href="javascript:void(0);" onclick="themesChangeLight();return false;">เมนูสว่าง</a></li>
                 </ul>
-            </li>
+            </li> -->
+
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'order') {
                                 echo 'active';
                             } ?>">
@@ -98,7 +111,7 @@
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
                     <div class="nav_title">
-                        <span>Order</span>
+                        <span>การขาย</span>
                     </div>
                 </a>
                 <ul>
@@ -108,53 +121,38 @@
                     <li><a href="<?php echo base_url('/order/order_pos'); ?>">Orders POS</a></li>
                 </ul>
             </li>
-            <li class>
-                <a class="has-arrow" href="#" aria-expanded="false">
+
+            <li class="disabled">
+                <a href="navs.html" aria-expanded="false">
                     <div class="nav_icon_small">
-                        <img src="<?php echo base_url('img/menu-icon/13.svg'); ?>" alt />
+                        <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>Stock Products</span>
+                        <span>รายจ่าย</span>
                     </div>
                 </a>
-                <ul>
-                    <li><a class="" href="<?php echo base_url('/stock/index'); ?>">Stock</a>
-                    </li>
-                </ul>
             </li>
 
-            <li class="mm-<?php if (service('uri')->getSegment(1) == 'setings') {
-                                echo 'active';
-                            } ?>">
-                <a class="has-arrow" href="#" aria-expanded="false">
+            <li class="">
+                <a href="<?php echo base_url('/stock/index'); ?>" aria-expanded="false">
                     <div class="nav_icon_small">
-                        <img src="<?php echo base_url('img/menu-icon/10.svg'); ?>" alt />
+                        <img src="<?php echo base_url('img/menu-icon/13.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>Settings</span>
+                        <span>สต็อก</span>
                     </div>
                 </a>
-                <ul>
-                    <li><a href="<?php echo base_url('/setting/index'); ?>">Setting</a></li>
-                    <!-- <li><a href="<php echo base_url('/setting/supplier'); ?>">Supplier</a></li>
-                    <li><a href="<php echo base_url('/setting/position'); ?>">ตำแหน่ง</a></li>
-                    <li><a href="<php echo base_url('/setting/branch'); ?>">สาขา</a></li> -->
-                </ul>
             </li>
-            <li class="mm-<?php if (service('uri')->getSegment(1) == 'employee') {
-                                echo 'active';
-                            } ?>">
-                <a class="has-arrow" href="#" aria-expanded="false">
+
+            <li class="disabled">
+                <a href="navs.html" aria-expanded="false">
                     <div class="nav_icon_small">
-                        <img src="<?php echo base_url('img/menu-icon/5.svg'); ?>" alt />
+                        <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>พนักงาน</span>
+                        <span>รายงาน</span>
                     </div>
                 </a>
-                <ul>
-                    <li><a href="<?php echo base_url('/employee/index'); ?>">รายชื่อพนักงาน</a></li>
-                </ul>
             </li>
         </ul>
     </nav>
@@ -287,9 +285,13 @@
                                         <h5><?php echo session()->get('username'); ?></h5>
                                     </div>
                                     <div class="profile_info_details">
-                                        <a href="#">My Profile </a>
-                                        <!-- <a href="#">Settings</a> -->
-                                        <a href="<?php echo base_url('/logout'); ?>">Log Out </a>
+                                        <a href="<?php echo base_url('/setting/index'); ?>"><i class="fas fa-cog"></i> ตั้งค่า </a>
+                                        <a href="#" class="disabled"><i class="fas fa-plus-circle"></i> เพิ่มวัน </a>
+                                        <a href="#" class="disabled"><i class="fas fa-laptop"></i> Remote Support </a>
+                                        <a href="#" class="disabled"><i class="fas fa-question-circle"></i> คู่มือ </a>
+                                        <a href="#" class="disabled"><i class="fas fa-envelope"></i> รายงานบัค </a>
+                                        <hr>
+                                        <a href="<?php echo base_url('/logout'); ?>"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ </a>
                                     </div>
                                 </div>
                             </div>
