@@ -2,6 +2,9 @@
     .disabled {
         opacity: .6;
     }
+    .custom_activity_table tbody tr:hover {
+        background-color: rgb(255, 255, 153) !important;
+    }
 </style>
 <div class="main_content_iner">
     <div class="container-fluid p-0">
