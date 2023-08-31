@@ -58,6 +58,25 @@ class OrderModel
 
         ##############################################################
 
+        // Set orderable column fields
+        $this->column_order_customer = [
+            'order.order_code',
+            'order.area_name',
+            'order.order_price'
+        ];
+
+        // Set searchable column fields
+        $this->column_search_customer = [
+            'order.order_code',
+            'order.order_name',
+            'order.order_price'
+        ];
+
+        // Set default order
+        $this->order_customer = array('order.order_code' => 'DESC');
+
+        ##############################################################
+
     }
 
     public function _getAllDataOrder($post_data)
@@ -397,20 +416,20 @@ class OrderModel
     }
 
     public function checkIDUpdateTable($id_div)
-    {  
+    {
         $sql = "SELECT div_id FROM `table_dynamic` where div_id = '$id_div'";
         $builder = $this->db->query($sql);
         return $builder->getRow();
     }
 
-    public function updatePositionTable($data,$id_div)
+    public function updatePositionTable($data, $id_div)
     {
         $builder = $this->db->table('table_dynamic');
 
         return $builder->where('div_id', $id_div)->update($data);
     }
 
-    public function deleteTable($id , $code)
+    public function deleteTable($id, $code)
     {
         $builder = $this->db->table('table_dynamic');
         $array = array('div_id' => $id, 'area_code' => $code);
@@ -426,11 +445,122 @@ class OrderModel
         return $builder->getRow();
     }
 
-    public function updateTableDetail($data,$id_div,$area_id)
+    public function updateTableDetail($data, $id_div, $area_id)
     {
         $builder = $this->db->table('table_dynamic');
         $array = array('div_id' => $id_div, 'area_code' => $area_id);
 
         return $builder->where($array)->update($data);
+    }
+
+    public function getTableDetailByCode($tableCode = null)
+    {
+        $sql = "SELECT * FROM `table_dynamic` where table_code = '$tableCode'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function _getAllDataOrderCustomer($post_data)
+    {
+        $builder = $this->DataOrderCustomerQuery($post_data);
+
+        // นำ Builder ที่ได้มาลิมิต จาก Length ของ Datable ที่ส่งมา
+        if ($post_data['length'] != -1) {
+            $builder->limit($post_data['length'], $post_data['start']);
+        }
+
+        // ส่งข้อมูลออกไป
+        return $builder->get()->getResult();
+    }
+
+    private function DataOrderCustomerQuery($post_data)
+    {
+
+        $builder = $this->db->table('order');
+
+        $builder->select("
+        order.id, 
+        order.order_code ,
+        order.order_name , 
+        order.order_price  ,
+        order.src_order_picture , 
+        order.group_id , 
+        order.companies_id ,
+        group_product.name
+       ");
+
+        $builder->join('stock_formula', 'order.order_code = stock_formula.order_code', 'right');
+        $builder->join('group_product', 'order.group_id = group_product.id', 'left');
+        // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
+        $builder->groupBy("stock_formula.order_code");
+
+        $i = 0;
+        // loop searchable columns
+        foreach ($this->column_search_customer as $item) {
+
+            // if datatable send POST for search
+            if ($post_data['search']['value']) {
+
+                // first loop
+                if ($i === 0) {
+                    // open bracket
+                    $builder->groupStart();
+                    $builder->like($item, $post_data['search']['value']);
+                } else {
+                    $builder->orLike($item, $post_data['search']['value']);
+                }
+
+                // last loop
+                if (count($this->column_search_customer) - 1 == $i) {
+                    $builder->like($item, $post_data['search']['value']);
+                    // close bracket
+                    $builder->groupEnd();
+                }
+            }
+
+            $i++;
+        }
+
+        // มีการ order เข้ามา
+        if (isset($post_data['order'])) {
+            $builder->orderBy($this->column_order_customer[$post_data['order']['0']['column']], $post_data['order']['0']['dir']);
+        }
+
+        // Default
+        else if (isset($this->order_customer)) {
+            $order = $this->order_customer;
+            $builder->orderBy(key($order), $order[key($order)]);
+        }
+
+        // Debug คิวรี่ที่ได้
+        // px($builder->getCompiledSelect());
+
+        return $builder;
+    }
+
+    public function getAllDataOrderCustomerFilter()
+    {
+
+        $sql = "            
+        select
+        a.id, 
+        a.order_code ,
+        a.order_name , 
+        a.order_price  ,
+        a.src_order_picture , 
+        a.group_id , 
+        a.companies_id ,
+        c.name
+        from `order` a 
+        right join stock_formula b  on 
+        a.order_code = b.order_code 
+        left join group_product c on  
+        a.group_id = c.id
+        group by b.order_code
+        ";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
     }
 }
