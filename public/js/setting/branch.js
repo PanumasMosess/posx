@@ -34,7 +34,7 @@ $formAddBranch
 
             let $me = $(this)
 
-            $me.attr('disabled', true)
+            $me.attr('disabled', false)
 
             let formData = new FormData($formAddBranch[0])
 
@@ -148,7 +148,7 @@ $formEditBranch
         else {
             let $me = $(this)
 
-            $me.attr('disabled', true)
+            $me.attr('disabled', false)
 
             let formData = new FormData($formEditBranch[0])
 

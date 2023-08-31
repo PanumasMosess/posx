@@ -76,7 +76,7 @@
   <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
-        <div class="white_card card_height_100 mb_30">
+        <div class="white_card card_height_100">
           <button type="button" class="close" aria-label="Close" onclick="closeModalAddEmployee();">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -214,10 +214,10 @@
 
 <!-- Model Edit Employee -->
 <div class="modal fade bd-edit-employee" tabindex="-1" role="dialog" aria-labelledby="EmployeeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
-        <div class="white_card card_height_100 mb_30">
+        <div class="white_card card_height_100">
           <button type="button" class="close" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -355,17 +355,17 @@
 </div>
 <!-- Model Edit Employee Password -->
 <div class="modal fade bd-edit-password" tabindex="-1" role="dialog" aria-labelledby="PasswordModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
-        <div class="white_card card_height_100 mb_30">
+        <div class="white_card card_height_100">
           <button type="button" class="close" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
           <div class="white_card_header">
             <div class=" m-0">
               <div class="justify-content-center" style="display:flex;">
-                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">แก้ไขสาขา</h3>
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">แก้ไขรหัสผ่าน</h3>
               </div>
             </div>
           </div>

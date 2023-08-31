@@ -16,8 +16,11 @@ class SettingController extends BaseController
 
     public function index()
     {
-        // $this->GroupProductModel = new \App\Models\GroupProductModel();
-        // $data['group_products'] = $this->GroupProductModel->getGroupProductAll();
+        $this->EmailReportModel = new \App\Models\EmailReportModel();
+        $data['email_reports'] = $this->EmailReportModel->getEmailReportAll();
+
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        $data['companies'] = $this->EmployeeModel->getCompanies();
 
         $data['content'] = 'setting/index';
         $data['title'] = 'ตั้งค่า';
@@ -26,6 +29,7 @@ class SettingController extends BaseController
         <script src="' . base_url('/js/setting/supplier.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/position.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/information.js?v=' . time()) . '"></script>
         ';
 
         echo view('/app', $data);
@@ -685,5 +689,205 @@ class SettingController extends BaseController
             'detail' => '[ลบ] สาขา',
             'ip' => $this->request->getIPAddress()
         ]);
+    }
+
+    // update password data
+    public function updatePasswordCompanies()
+    {
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $id = session()->get('companies_id');
+            $password = $this->request->getVar('new_password');
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // HANDLE REQUEST
+            $update = $this->EmployeeModel->updateCompaniesByID($id, [
+                'companies_password' => $hashed_password,
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] รหัสผ่าน',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข รหัสผ่าน สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข รหัสผ่าน ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // addEmail data 
+    public function addEmail()
+    {
+        $this->EmailReportModel = new \App\Models\EmailReportModel();
+
+        $param['email'] = $_REQUEST['email'];
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            // pr($param['data']);
+            // HANDLE REQUEST
+            $create = $this->EmailReportModel->insertEmailReport([
+                'email' => $param['email'],
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
+            ]);
+            if ($create) {
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] EmailReport',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม EmailReport สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม EmailReport ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // delete Email
+    public function deleteEmail()
+    {
+        $this->EmailReportModel = new \App\Models\EmailReportModel();
+        $param['id'] = $_REQUEST['id'];
+
+        $this->EmailReportModel->updateEmailReportByID($param['id'], [
+            'deleted_by' => session()->get('username'),
+            'deleted_at' => date('Y-m-d H:i:s')
+        ]);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] สาขา',
+            'ip' => $this->request->getIPAddress()
+        ]);
+    }
+
+    //information
+    public function information()
+    {
+        $this->InformationModel = new \App\Models\InformationModel();
+        $data = $this->InformationModel->getInformation();
+
+        if ($data) {
+            echo json_encode(array("status" => true, 'data' => $data));
+        } else {
+            echo json_encode(array("status" => false));
+        }
+    }
+
+    //updateBranch
+    public function updateInformation()
+    {
+        $this->InformationModel = new \App\Models\InformationModel();
+        $data = $this->InformationModel->getInformation();
+
+        $param['shopname'] = $_REQUEST['shopname'];
+        $param['service_charge'] = $_REQUEST['service_charge'];
+        $param['discount'] = $_REQUEST['discount'];
+        $param['discount_mode'] = $_REQUEST['discount_mode'];
+        $param['taxStatus'] = $_REQUEST['taxStatus'];
+        $param['taxId'] = $_REQUEST['taxId'];
+        $param['taxMode'] = $_REQUEST['taxMode'];
+        $param['taxRate'] = $_REQUEST['taxRate'];
+
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            // HANDLE REQUEST
+            if ($data != null) {
+                $update = $this->InformationModel->updateInformationByID(session()->get('companies_id'), [
+                    'shopname' => $param['shopname'],
+                    'service_charge' => $param['service_charge'],
+                    'discount' => $param['discount'],
+                    'discount_mode' => $param['discount_mode'],
+                    'taxstatus' => $param['taxStatus'],
+                    'taxid' => $param['taxId'],
+                    'taxmode' => $param['taxMode'],
+                    'taxrate' => $param['taxRate'],
+                    'updated_by' => session()->get('username'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+            }else{
+                $update = $this->InformationModel->insertInformation([
+                    'shopname' => $param['shopname'],
+                    'service_charge' => $param['service_charge'],
+                    'discount' => $param['discount'],
+                    'discount_mode' => $param['discount_mode'],
+                    'taxstatus' => $param['taxStatus'],
+                    'taxid' => $param['taxId'],
+                    'taxmode' => $param['taxMode'],
+                    'taxrate' => $param['taxRate'],
+                    'companies_id' => session()->get('companies_id')
+                ]);
+            }
+            if ($update) {
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] Information',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข Information สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข Information ไม่สำเร็จ';
+            }
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
     }
 }
