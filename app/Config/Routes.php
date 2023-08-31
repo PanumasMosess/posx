@@ -67,6 +67,11 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->post('updateBranch', 'SettingController::updateBranch');
     $routes->get('deleteBranch/(:num)', 'SettingController::deleteBranch/$1');
 
+    $routes->get('information', 'SettingController::information');
+    $routes->post('updateInformation', 'SettingController::updateInformation');
+    $routes->post('updatePasswordCompanies', 'SettingController::updatePasswordCompanies');
+    $routes->post('addEmail', 'SettingController::addEmail');
+    $routes->get('deleteEmail', 'SettingController::deleteEmail');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
@@ -134,6 +139,9 @@ function ($routes) {
     $routes->get('order_customer_list/(:any)', 'OrderPosController::getPageOrderCustomer/$1');   
     $routes->get('getTableDetalByCode/(:any)', 'OrderPosController::getTableDetailByCode/$1'); 
     $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
+    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
+
+    $routes->get('activity', 'Test::activity');
 });
 /*
  * --------------------------------------------------------------------

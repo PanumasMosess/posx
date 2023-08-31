@@ -34,7 +34,7 @@ $formAddPosition
 
             let $me = $(this)
 
-            $me.attr('disabled', true)
+            $me.attr('disabled', false)
 
             let formData = new FormData($formAddPosition[0])
 
@@ -148,7 +148,7 @@ $formEditPosition
         else {
             let $me = $(this)
 
-            $me.attr('disabled', true)
+            $me.attr('disabled', false)
 
             let formData = new FormData($formEditPosition[0])
 

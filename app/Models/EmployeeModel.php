@@ -84,4 +84,19 @@ class EmployeeModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
+    public function getCompanies()
+    {
+        $companie = session()->get('companies_id');
+        $builder = $this->db->table('companies');
+
+        return $builder->where('id', $companie)->get()->getRow();
+    }
+
+    public function updateCompaniesByID($id, $data)
+    {
+        $builder = $this->db->table('companies');
+
+        return $builder->where('id', $id)->update($data);
+    }
 }
