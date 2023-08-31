@@ -226,64 +226,61 @@ class OrderPosController extends BaseController
 
             $id_count = $this->OrderModel->checkIDUpdateTable($data[0]['table_id']);
 
-            if($id_count != null)
-            {
-       
+            if ($id_count != null) {
+
                 //data table table
-                $data_table = [               
-                    'table_name' => $data[0]['name'],                
+                $data_table = [
+                    'table_name' => $data[0]['name'],
                     'x'  => $data[0]['x'],
-                    'y' => $data[0]['y'], 
+                    'y' => $data[0]['y'],
                     'width_div'  => $data[0]['w'],
                     'hight_div'  => $data[0]['h'],
-                    'size_table' => $data[0]['size'],                  
+                    'size_table' => $data[0]['size'],
                     'rounded'  => $data[0]['rounded'],
                     'updated_by'  => session()->get('username'),
                     'updated_at' => $buffer_datetime
                 ];
-        
+
                 $create_new = $this->OrderModel->updatePositionTable($data_table, $data[0]['table_id']);
-            }
-            else
-            {
+            } else {
                 $table_running_code = '';
                 $buffer_table_code = 0;
                 $new_running_codes = $this->OrderModel->getCodeTable();
-    
+
                 foreach ($new_running_codes as $running_code) {
                     $buffer_table_code = (int)$running_code->substr_table_code;
                 }
-    
+
                 $sum_table_code = $buffer_table_code + 1;
                 $sprintf_area_code = sprintf("%08d", $sum_table_code);
                 $table_running_code = "POXT" . $sprintf_area_code;
-    
-    
+
+
                 //data table table
                 $data_table = [
                     'table_code'  => $table_running_code,
-                    'table_name' => $data[0]['name'],  
+                    'table_name' => $data[0]['name'],
                     'table_customer_booking'  => '',
                     'x'  => $data[0]['x'],
-                    'y' => $data[0]['y'], 
+                    'y' => $data[0]['y'],
                     'width_div'  => $data[0]['w'],
                     'hight_div'  => $data[0]['h'],
                     'size_table' => $data[0]['size'],
-                    'div_id' => $data[0]['table_id'], 
+                    'div_id' => $data[0]['table_id'],
                     'area_code'  =>  $data[0]['area_code'],
                     'rounded'  => $data[0]['rounded'],
                     'created_by'  => session()->get('username'),
                     'companies_id'  => session()->get('companies_id'),
                     'created_at' => $buffer_datetime
                 ];
-    
+
                 $table_code_data = [
                     'table_code' => $table_running_code
                 ];
-    
+
                 $create_new = $this->OrderModel->insertTable($data_table, $table_code_data);
             }
-            
+
 
             if ($create_new) {
                 $count_cycle++;
@@ -413,6 +410,49 @@ class OrderPosController extends BaseController
             'status' => 200,
             'error' => false,
             'data' => $look_data
+        ]);
+    }
+
+    public function getPageOrderCustomer()
+    {
+        $data['content'] = 'order/order_list_customer';
+        $data['title'] = 'รายการสินค้า';
+        $data['css_critical'] = '
+        <link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />   
+        <link rel="stylesheet" href="' . base_url('css/tableStyle.css') . '" />
+        <link rel="stylesheet" href="' . base_url('css/tableCards.css') . '" />
+        ';
+        $data['js_critical'] = '    
+            <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
+            <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
+            <script src="' . base_url('/js/interact.min.js') . '"></script>        
+            <script src="' . base_url('/js/orders/order_customer.js?v=' . time()) . '"></script> 
+        ';
+        echo view('/order/order_list_customer', $data);
+    }
+
+    public function getTableDetailByCode($tableCode = null)
+    {
+        $look_data = $this->OrderModel->getTableDetailByCode($tableCode);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
+    }
+
+    public function getDataOrderCard()
+    {
+        $datas_card = $this->OrderModel->_getAllDataOrderCustomer($_POST);
+
+        $filter = $this->OrderModel->getAllDataOrderCustomerFilter();
+
+        return $this->response->setJSON([
+            'draw' => $_POST['draw'],
+            'recordsTotal' => count($filter),
+            'recordsFiltered' => count($filter),
+            "data" => $datas_card,
         ]);
     }
 }

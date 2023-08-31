@@ -124,13 +124,16 @@ function ($routes) {
     $routes->post('insertArea', 'OrderPosController::insertArea');    
     $routes->post('updateArea', 'OrderPosController::updateAear');
     $routes->post('deleteArea', 'OrderPosController::deleteArea');
-    $routes->get('pageArea/(:any)', 'OrderPosController::getPageAddTableInArea/$1'); 
+    $routes->get('pageArea/(:any)', 'OrderPosController::getPageAddTableInArea/$1');   
     $routes->post('floorplansave', 'OrderPosController::insertTable');    
     $routes->get('getTableInArea/(:any)', 'OrderPosController::getTableInArea/$1'); 
     $routes->get('getTempUpdateTable/(:any)', 'OrderPosController::getTempUpdateTable/$1');       
     $routes->post('deleteTable', 'OrderPosController::deleteTable');  
     $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable');   
-    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
+    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');  
+    $routes->get('order_customer_list/(:any)', 'OrderPosController::getPageOrderCustomer/$1');   
+    $routes->get('getTableDetalByCode/(:any)', 'OrderPosController::getTableDetailByCode/$1'); 
+    $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
 });
 /*
  * --------------------------------------------------------------------

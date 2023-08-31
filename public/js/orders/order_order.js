@@ -1,12 +1,23 @@
 var isOnline;
+var table_code;
 (function ($) {
+  $("#order_select_detail").slideUp();
+  $("#addOrderCusBtn").addClass("disable-click");
   selectArea();
   interact(".resize-drag")
     .on("tap", function (event) {
       var target = event.target;
-    //   console.log(target.getAttribute("data-area"));
-        $('#table_header_name').html("<h3 class='m-0' id='table_header_name'>"+target.getAttribute("data-name")+"</h3>");
-        $('#table_header_name_detail').html("<p>"+target.getAttribute("data-name")+"</p>");
+      //   console.log(target.getAttribute("data-area"));
+      $("#table_header_name").html(
+        "<h3 class='m-0' id='table_header_name'>" +
+          target.getAttribute("data-name") +
+          "</h3>"
+      );
+      $("#table_header_name_detail").html(
+        "<p>" + target.getAttribute("data-name") + "</p>"
+      );
+      table_code = target.getAttribute("data-code");
+      $("#addOrderCusBtn").removeClass("disable-click");
       event.preventDefault();
     })
     .resizable({
@@ -56,19 +67,7 @@ var isOnline;
 
       inertia: true,
     })
-    .draggable(
-      false
-      //     {
-      //   listeners: { move: dragMoveListener },
-      //   inertia: true,
-      //   modifiers: [
-      //     interact.modifiers.restrictRect({
-      //       restriction: "parent",
-      //       endOnly: true,
-      //     }),
-      //   ],
-      // }
-    );
+    .draggable(false);
 })(jQuery);
 
 function selectArea() {
@@ -96,13 +95,16 @@ var area_select = $("#area_select");
 area_select.on("change", function () {
   let value = $("#area_select").val();
   if (value != "") {
-    $('#table_header_name').html("");
-    $('#table_header_name_detail').html("");
+    $("#table_header_name").html("");
+    $("#table_header_name_detail").html("");
     drowTableLoad(value);
+    $("#order_select_detail").slideDown();
   } else {
     $("#canvaHolder").html("");
-    $('#table_header_name').html("");
-    $('#table_header_name_detail').html("");
+    $("#table_header_name").html("");
+    $("#table_header_name_detail").html("");
+    $("#order_select_detail").slideUp();
+    $("#addOrderCusBtn").addClass("disable-click");
   }
 });
 
@@ -138,7 +140,9 @@ function drowTableLoad(data) {
               dataTable[i].y +
               '" data-area="' +
               dataTable[i].area_code +
-              '"style="transform: translate(' +
+              '" data-code="' +
+              dataTable[i].table_code +
+              '" style="transform: translate(' +
               dataTable[i].x +
               "px, " +
               dataTable[i].y +
@@ -160,75 +164,61 @@ function drowTableLoad(data) {
   }
 }
 
-function loadTable(){
-    $("#orderListInTable").DataTable();
+function loadTable() {
+  $("#orderListInTable").DataTable();
 }
 
-
-function openModalServiceType()
-{
-    $(".bd-add-service").modal("show");
+function openModalServiceType() {
+  $(".bd-add-service").modal("show");
 }
 
-function closeModalService()
-{
-    $(".bd-add-service").modal("hide");
-    $("#addService")[0].reset();
-    $("#addService").parsley().reset();
+function closeModalService() {
+  $(".bd-add-service").modal("hide");
+  $("#addService")[0].reset();
+  $("#addService").parsley().reset();
 }
 
-
-function openModaldiscountAllType()
-{
-    $(".bd-add-discountAll").modal("show");
+function openModaldiscountAllType() {
+  $(".bd-add-discountAll").modal("show");
 }
 
-function closeModaladddiscountAll()
-{
-    $(".bd-add-discountAll").modal("hide");
-    $("#adddiscountAll")[0].reset();
-    $("#adddiscountAll").parsley().reset();
+function closeModaladddiscountAll() {
+  $(".bd-add-discountAll").modal("hide");
+  $("#adddiscountAll")[0].reset();
+  $("#adddiscountAll").parsley().reset();
 }
 
-
-function openModalCardCharge()
-{
-    $(".bd-add-cardCharge").modal("show");
+function openModalCardCharge() {
+  $(".bd-add-cardCharge").modal("show");
 }
 
-function closeModalcardCharge()
-{
-    $(".bd-add-cardCharge").modal("hide");
-    $("#addcardCharge")[0].reset();
-    $("#addcardCharge").parsley().reset();
+function closeModalcardCharge() {
+  $(".bd-add-cardCharge").modal("hide");
+  $("#addcardCharge")[0].reset();
+  $("#addcardCharge").parsley().reset();
 }
 
-
-
-function openModalVat()
-{
-    $(".bd-add-vat").modal("show");
+function openModalVat() {
+  $(".bd-add-vat").modal("show");
 }
 
-function closeModalVAT()
-{
-    $(".bd-add-vat").modal("hide");
-    $("#addvat")[0].reset();
-    $("#addvat").parsley().reset();
+function closeModalVAT() {
+  $(".bd-add-vat").modal("hide");
+  $("#addvat")[0].reset();
+  $("#addvat").parsley().reset();
 }
 
-function openAddOrder_customer()
-{
-    const STOCK_ORDER_LIST = {
-        init() {
-          let url = `${serverUrl}order/order_customer_list/`;
-          window.open(
-            url,
-            "Doc",
-            "menubar=no,toorlbar=no,location=no,scrollbars=yes, status=no,resizable=no,width=1200,height=800,top=10,left=10"
-          );
-        },
-      };
-    
-      STOCK_ORDER_LIST.init();
+function openAddOrder_customer() {
+  const STOCK_ORDER_LIST = {
+    init() {
+      let url = `${serverUrl}order/order_customer_list/` + table_code;
+      window.open(
+        url,
+        "Doc",
+        "menubar=no,toorlbar=no,location=no,scrollbars=yes, status=no,resizable=no,width=1500,height=800,top=10,left=10"
+      );
+    },
+  };
+
+  STOCK_ORDER_LIST.init();
 }

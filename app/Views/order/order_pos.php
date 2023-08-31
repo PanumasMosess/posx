@@ -120,7 +120,7 @@
                                                                                                     <tr>
                                                                                                         <td class="payment-title">โต๊ะ</td>
                                                                                                         <td>
-                                                                                                            <p id="table_header_name_detail">จีน</p>
+                                                                                                            <p id="table_header_name_detail">XXX</p>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
@@ -131,11 +131,11 @@
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">เวลา</td>
-                                                                                                        <td>-10.00</td>
+                                                                                                        <td>XXXX</td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รวม</td>
-                                                                                                        <td class="text-dark"><strong>491.00 บาท</strong></td>
+                                                                                                        <td class="text-dark"><strong>0.00 บาท</strong></td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
@@ -178,7 +178,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="devices_btn justify-content-start">
-                                                                            <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" href="javascript:void(0);" onclick="openAddOrder_customer();"><i class="ti-plus"></i> Add</a>
+                                                                            <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" id="addOrderCusBtn" href="javascript:void(0);" onclick="openAddOrder_customer();"><i class="ti-plus"></i> Add</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-new-window"></i> Move</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="fas fa-hryvnia"></i> Discount</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-split-h"></i> SpitBill</a>
@@ -186,7 +186,7 @@
                                                                         </div>
                                                                         <div class="QA_section">
                                                                             <div class="QA_table mb_30">
-                                                                                <table class="table lms_table_active3" id="orderListInTable">
+                                                                                <table class="table lms_table_active3" id="orderListInTable" cellspacing="0">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th>No.</th>
