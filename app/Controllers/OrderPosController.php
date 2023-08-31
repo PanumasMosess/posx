@@ -32,8 +32,8 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/orders/order_table.js?v=' . time()) . '"></script>      
             <script src="' . base_url('/js/orders/order_order.js?v=' . time()) . '"></script>
             <script src="' . base_url('/js/orders/order_pos.js?v=' . time()) . '"></script>
-            <script src="' . base_url('/js/orders/index.js?v=' . time()) . '"></script>   
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>    
+            <script src="' . base_url('/js/orders/index.js') . '"></script>   
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>   
         ';
         echo view('/app', $data);
     }
