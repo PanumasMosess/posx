@@ -61,7 +61,7 @@ class OrderModel
         // Set orderable column fields
         $this->column_order_customer = [
             'order.order_code',
-            'order.area_name',
+            'order.order_name',
             'order.order_price'
         ];
 
@@ -481,13 +481,16 @@ class OrderModel
 
         $builder->select("
         order.id, 
-        order.order_code ,
-        order.order_name , 
-        order.order_price  ,
+        order.order_code,
+        order.order_name, 
+        order.order_price ,
+        order.order_status,
         order.src_order_picture , 
         order.group_id , 
         order.companies_id ,
-        group_product.name
+        group_product.name,
+        order.order_promotion,
+        order.order_pcs
        ");
 
         $builder->join('stock_formula', 'order.order_code = stock_formula.order_code', 'right');
@@ -549,9 +552,12 @@ class OrderModel
         a.order_name , 
         a.order_price  ,
         a.src_order_picture , 
+        a.order_status,
         a.group_id , 
         a.companies_id ,
-        c.name
+        a.order_promotion,
+        a.order_pcs,
+        c.`name`
         from `order` a 
         right join stock_formula b  on 
         a.order_code = b.order_code 
