@@ -468,6 +468,7 @@ function submitDataUpdate() {
       name: $("#productname").val(),
       group_id: $("#category").val(),
       price: $("#price").val(),
+      supplier_id: $("#supplier").val(),
       pcs: $("#pcs").val(),
       MAX: $("#max").val(),
       MIN: $("#min").val(),
