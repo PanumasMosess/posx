@@ -70,11 +70,11 @@ function getOrderCard() {
             className: "text-center",
             render: function (data, type, full, meta) {
               data =
-                "<img src='" +
+                "<div class='card-body'><img src='" +
                 serverUrl +
                 "/uploads/temps_order/" +
                 data["src_order_picture"] +
-                "' width='60px' height='50px' style='border-radius: .40rem;'>";
+                "' width='60px' height='50px' style='border-radius: .40rem; box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;'></div>";
 
               return data;
             },
@@ -90,6 +90,10 @@ function getOrderCard() {
           },
         ],
         columnDefs: [
+          {
+            targets: 0,
+            className: "text-left",
+          },
           {
             targets: 2,
             className: "text-left",
