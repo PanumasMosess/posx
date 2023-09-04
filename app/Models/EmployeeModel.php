@@ -99,4 +99,24 @@ class EmployeeModel
 
         return $builder->where('id', $id)->update($data);
     }
+
+    public function getEmployeeByCompanieID()
+    {
+        $builder = $this->db->table('employees');
+
+        return $builder
+            ->where('companies_id', session()->get('companies_id'))
+            ->get()
+            ->getResult();
+    }
+    public function getByEmployeeID()
+    {
+        $builder = $this->db->table('employees');
+
+        return $builder
+            ->where('companies_id', session()->get('companies_id'))
+            ->orderBy('created_at', 'DESC')
+            ->get()
+            ->getRow();
+    }
 }
