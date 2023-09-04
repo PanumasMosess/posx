@@ -62,6 +62,7 @@ class OrderModel
         $this->column_order_customer = [
             'order.order_code',
             'order.order_name',
+            'group_product.name',
             'order.order_price'
         ];
 
@@ -69,6 +70,7 @@ class OrderModel
         $this->column_search_customer = [
             'order.order_code',
             'order.order_name',
+            'group_product.name',
             'order.order_price'
         ];
 

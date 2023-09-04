@@ -26,12 +26,13 @@ function loadTableOrderCustomer() {
           let values_pcs = 1;
           if (data["order_pcs"] != 0) {
             values_pcs = data["order_pcs"];
+            // onkeyup='calpcsAndprice()'  oninput='calpcsAndprice()'
           }
           return (
             "<div class='input-group'>" +
             "<input type='number' class='form-control form-control-sm' pattern='/^-?d+.?d*$/' value='" +
             values_pcs +
-            "' onKeyPress='if(this.value.length==10) return false;' onkeyup='calpcsAndprice()'  oninput='calpcsAndprice()' id='pcs_cut' name='pcs_cut' placeholder='กรอกจำนวน' required>" +
+            "' onKeyPress='if(this.value.length==10) return false;'    id='pcs_cut' name='pcs_cut' placeholder='กรอกจำนวน' required>" +
             "</div>"
           );
         },
@@ -40,7 +41,17 @@ function loadTableOrderCustomer() {
         data: "order_name",
       },
       {
-        data: "order_price",
+        data: null,
+        render: function (data, type, row, meta) {
+          let values_pcs = 1;
+          if (data["order_pcs"] != 0) {
+            values_pcs = data["order_pcs"];
+          }
+          return "<font>" + data["order_price"] + "</font>";
+        },
+      },
+      {
+        data: "total_price",
       },
       {
         orderable: false,
@@ -71,6 +82,23 @@ function loadTableOrderCustomer() {
     responsive: true,
     searching: false,
     info: true,
+  });
+
+  $("#orderListCustomerInTable tbody tr").on("keyup input", function (event) {
+    let subtotal = 0;
+    let product_price = 0;
+    let product_qty = 0;
+
+    product_price = table_order_customer.cell(this, 2).data();
+    product_qty = $(table_order_customer.cell(this, 0).node())
+      .find("input")
+      .val();
+
+    subtotal = parseFloat(product_price.order_price) * parseFloat(product_qty);
+
+    table_order_customer.cell(this, 3).data(subtotal).draw();
+
+    summaryText();
   });
 }
 
@@ -215,6 +243,7 @@ function getOrderCard() {
       .off("click")
       .on("click", "tr", function (e) {
         let data = table_select_list.row(this).data();
+        data.total_price = "";
         arrar_select_function(data);
       });
   } else {
@@ -223,7 +252,6 @@ function getOrderCard() {
 
 function arrar_select_function(data) {
   updateArrayTable();
-
   if (array_select_confirm.length != 0) {
     let arr = [];
     arr = array_select_confirm.map((a) => a.id);
@@ -242,12 +270,15 @@ function arrar_select_function(data) {
 }
 
 function deleteListSelecCustomertComfirm(data) {
-  for (var i = 0; i < data.length; i++) {
-    data[i].order_pcs = 1;
+  for (var i = 0; i < array_select_confirm.length; i++) {
+    if (array_select_confirm[i].id == data) {
+      array_select_confirm[i].order_pcs = 1;
+    }
   }
   array_select_confirm = array_select_confirm.filter(
     (item) => item.id !== data
   );
+
   loadTableOrderCustomer();
   summaryText();
 }
@@ -255,6 +286,8 @@ function deleteListSelecCustomertComfirm(data) {
 function cancleAllTable() {
   array_select_confirm = [];
   loadTableOrderCustomer();
+  getOrderCard();
+  summaryText();
 }
 
 function openModalServiceType() {
@@ -326,7 +359,8 @@ function orderConfirm() {
 
 function summaryText() {
   let order_pcs_sum = 0,
-    order_price = 0, order_price_total = 0;
+    order_price = 0,
+    order_price_total = 0;
   let data = table_order_customer.$("input, text").serialize();
   let str_split = data.replace(/pcs_cut=/g, "");
   let pcs_number_order = str_split.split("&");
@@ -350,23 +384,19 @@ function summaryText() {
   );
 
   $("#price_last_order").html(
-    '<h4 class="header-title" id="price_last_order">Grand Total: '+order_price_total+'</h4>'
+    '<h4 class="header-title" id="price_last_order">Grand Total: ' +
+      order_price_total +
+      "</h4>"
   );
 }
 
 function updateArrayTable() {
   let data = table_order_customer.$("input, text").serialize();
   let str_split = data.replace(/pcs_cut=/g, "");
-  let pcs_number_order = str_split.split("&");
-
-  array_customer_order = [];
-  object_customer_order_temp = {};
+  let pcs_number_order = 0;
+  pcs_number_order = str_split.split("&");
 
   for (var i = 0; i < array_select_confirm.length; i++) {
     array_select_confirm[i].order_pcs = pcs_number_order[i];
   }
-}
-
-function calpcsAndprice() {
-  summaryText();
 }
