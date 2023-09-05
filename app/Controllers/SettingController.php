@@ -22,6 +22,8 @@ class SettingController extends BaseController
         $this->EmployeeModel = new \App\Models\EmployeeModel();
         $data['companies'] = $this->EmployeeModel->getCompanies();
 
+        $data['employees'] = $this->EmployeeModel->getEmployeeByCompanieID();
+
         $data['content'] = 'setting/index';
         $data['title'] = 'ตั้งค่า';
         $data['js_critical'] = '
@@ -30,6 +32,7 @@ class SettingController extends BaseController
         <script src="' . base_url('/js/setting/position.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/information.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/user_accounts.js?v=' . time()) . '"></script>
         ';
 
         echo view('/app', $data);
@@ -853,7 +856,7 @@ class SettingController extends BaseController
                     'updated_by' => session()->get('username'),
                     'updated_at' => date('Y-m-d H:i:s')
                 ]);
-            }else{
+            } else {
                 $update = $this->InformationModel->insertInformation([
                     'shopname' => $param['shopname'],
                     'service_charge' => $param['service_charge'],
@@ -882,6 +885,244 @@ class SettingController extends BaseController
                 $response['success'] = 0;
                 $response['message'] = 'แก้ไข Information ไม่สำเร็จ';
             }
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // addNewUser data 
+    public function addNewUser()
+    {
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+
+        $param['username'] = $_REQUEST['username'];
+        $param['user_password'] = $_REQUEST['user_password'];
+        $param['name_userlogin'] = $_REQUEST['name_userlogin'];
+        $param['roles'] = $_REQUEST['roles'];
+        $param['Pos'] = $_REQUEST['Pos'];
+        $param['Report'] = $_REQUEST['Report'];
+        $param['Menu'] = $_REQUEST['Menu'];
+        $param['Expense'] = $_REQUEST['Expense'];
+        $param['Stock'] = $_REQUEST['Stock'];
+        $param['Setting'] = $_REQUEST['Setting'];
+
+        if ($param['roles'] != 1) {
+
+            if ($param['Pos'] != 'false') {
+                $Pos = 1;
+            } else {
+                $Pos = 0;
+            }
+
+            if ($param['Report'] != 'false') {
+                $Report = 1;
+            } else {
+                $Report = 0;
+            }
+
+            if ($param['Menu'] != 'false') {
+                $Menu = 1;
+            } else {
+                $Menu = 0;
+            }
+
+            if ($param['Expense'] != 'false') {
+                $Expense = 1;
+            } else {
+                $Expense = 0;
+            }
+
+            if ($param['Stock'] != 'false') {
+                $Stock = 1;
+            } else {
+                $Stock = 0;
+            }
+
+            if ($param['Setting'] != 'false') {
+                $Setting = 1;
+            } else {
+                $Setting = 0;
+            }
+        } else {
+            $Pos = 1;
+            $Report = 1;
+            $Menu = 1;
+            $Expense = 1;
+            $Stock = 1;
+            $Setting = 1;
+        }
+
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $password = $param['user_password'];
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // HANDLE REQUEST
+            $create = $this->EmployeeModel->insertEmployee([
+                'username' => $param['username'],
+                'password' => $hashed_password,
+                'name' => $param['name_userlogin'],
+                'roles' => $param['roles'],
+                'setting_pos' => $Pos,
+                'setting_report' => $Report,
+                'setting_menu' => $Menu,
+                'setting_expense' => $Expense,
+                'setting_stock' => $Stock,
+                'setting_setting' => $Setting,
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
+            ]);
+            if ($create) {
+                $data['employee'] = $this->EmployeeModel->getByEmployeeID();
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] UserLogin',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม UserLogin สำเร็จ';
+                $response['employeeID'] = $data['employee'];
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม UserLogin ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    //editUser
+    public function editUser($id = null)
+    {
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        $data = $this->EmployeeModel->getEmployeeByID($id);
+
+        if ($data) {
+            echo json_encode(array("status" => true, 'data' => $data));
+        } else {
+            echo json_encode(array("status" => false));
+        }
+    }
+
+    //updateUser
+    public function updateUser()
+    {
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $param['editUserID'] = $_REQUEST['editUserID'];
+            $param['name_userlogin'] = $_REQUEST['name_userlogin'];
+            $param['roles'] = $_REQUEST['roles'];
+            $param['Pos'] = $_REQUEST['Pos'];
+            $param['Report'] = $_REQUEST['Report'];
+            $param['Menu'] = $_REQUEST['Menu'];
+            $param['Expense'] = $_REQUEST['Expense'];
+            $param['Stock'] = $_REQUEST['Stock'];
+            $param['Setting'] = $_REQUEST['Setting'];
+
+            if ($param['roles'] != 1) {
+
+                if ($param['Pos'] != 'false') {
+                    $Pos = 1;
+                } else {
+                    $Pos = 0;
+                }
+    
+                if ($param['Report'] != 'false') {
+                    $Report = 1;
+                } else {
+                    $Report = 0;
+                }
+    
+                if ($param['Menu'] != 'false') {
+                    $Menu = 1;
+                } else {
+                    $Menu = 0;
+                }
+    
+                if ($param['Expense'] != 'false') {
+                    $Expense = 1;
+                } else {
+                    $Expense = 0;
+                }
+    
+                if ($param['Stock'] != 'false') {
+                    $Stock = 1;
+                } else {
+                    $Stock = 0;
+                }
+    
+                if ($param['Setting'] != 'false') {
+                    $Setting = 1;
+                } else {
+                    $Setting = 0;
+                }
+            } else {
+                $Pos = 1;
+                $Report = 1;
+                $Menu = 1;
+                $Expense = 1;
+                $Stock = 1;
+                $Setting = 1;
+            }
+
+            // HANDLE REQUEST
+            $update = $this->EmployeeModel->updateEmployeeByID($param['editUserID'], [
+                'name' => $param['name_userlogin'],
+                'roles' => $param['roles'],
+                'setting_pos' => $Pos,
+                'setting_report' => $Report,
+                'setting_menu' => $Menu,
+                'setting_expense' => $Expense,
+                'setting_stock' => $Stock,
+                'setting_setting' => $Setting,
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] UserLogin',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข UserLogin สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข UserLogin ไม่สำเร็จ';
+            }
+
             return $this->response
                 ->setStatusCode($status)
                 ->setContentType('application/json')

@@ -72,6 +72,10 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->post('updatePasswordCompanies', 'SettingController::updatePasswordCompanies');
     $routes->post('addEmail', 'SettingController::addEmail');
     $routes->get('deleteEmail', 'SettingController::deleteEmail');
+
+    $routes->post('addNewUser', 'SettingController::addNewUser');
+    $routes->get('editUser/(:num)', 'SettingController::editUser/$1');
+    $routes->post('updateUser', 'SettingController::updateUser');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
