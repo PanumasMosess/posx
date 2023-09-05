@@ -211,7 +211,7 @@ function closeModalVAT() {
 function openAddOrder_customer() {
   const STOCK_ORDER_LIST = {
     init() {
-      let url = `${serverUrl}order/order_customer_list/` + table_code;
+      let url = `${serverUrl}order/order_list_customer/` + table_code;
       window.open(
         url,
         "Doc",

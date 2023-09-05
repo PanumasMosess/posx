@@ -5,9 +5,23 @@ var orderCustomerStore = [];
 var array_customer_order = [];
 var table_order_customer;
 var data_table_name;
+var subtotal = 0;
+
+var order_price_total = 0;
+
+//service Val public
+var service_type;
+var service_number = 0;
+var service_total = 0;
+
+var discount_total = 0;
+
+var card_charge_total = 0;
+
+var vat_total = 0;
 (function ($) {
   let searchParams = window.location.pathname;
-  searchParams_ = searchParams.split("/order/order_customer_list/");
+  searchParams_ = searchParams.split("/order/order_list_customer/");
   loadTableOrderCustomer();
   getTableByTableCode(searchParams_[1]);
   getOrderCard();
@@ -98,7 +112,8 @@ function loadTableOrderCustomer() {
 
     table_order_customer.cell(this, 3).data(subtotal).draw();
 
-    summaryText();
+    // summaryText();
+    calService();
   });
 }
 
@@ -237,6 +252,30 @@ function getOrderCard() {
           });
         }
       },
+
+      initComplete: function () {
+        this.api()
+          .columns([2])
+          .every(function () {
+            var column = this;
+            var select = $(
+              '<select><option value="">เลือกหมวดหมู่</option></select>'
+            )
+              .appendTo($("#search"))
+              .on("change", function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                column.search(this.value).draw();
+              });
+
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + "</option>");
+              });
+          });
+      },
     });
 
     $("#orderListCustomerCard tbody")
@@ -271,11 +310,11 @@ function arrar_select_function(data) {
 
 function deleteListSelecCustomertComfirm(data) {
   updateArrayTable();
-  
+
   for (var i = 0; i < array_select_confirm.length; i++) {
     if (array_select_confirm[i].id === data) {
       array_select_confirm[i].order_pcs = 1;
-      array_select_confirm.splice(i,1);
+      array_select_confirm.splice(i, 1);
     }
   }
 
@@ -284,6 +323,7 @@ function deleteListSelecCustomertComfirm(data) {
 }
 
 function cancleAllTable() {
+  order_price_total = 0;
   array_select_confirm = [];
   loadTableOrderCustomer();
   getOrderCard();
@@ -359,8 +399,8 @@ function orderConfirm() {
 
 function summaryText() {
   let order_pcs_sum = 0,
-    order_price = 0,
-    order_price_total = 0;
+    order_price = 0;
+
   let data = table_order_customer.$("input, text").serialize();
   let str_split = data.replace(/pcs_cut=/g, "");
   let pcs_number_order = str_split.split("&");
@@ -372,7 +412,9 @@ function summaryText() {
       parseInt(pcs_number_order[i]);
   }
 
-  order_price_total = order_price;
+  // console.log(order_price);
+
+  order_price_total = order_price + service_total;
 
   $("#sum_price").html(
     '<span id="sum_price">' +
@@ -385,7 +427,9 @@ function summaryText() {
 
   $("#price_last_order").html(
     '<h4 class="header-title" id="price_last_order">Grand Total: ' +
-      order_price_total +
+      order_price_total.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+      }) +
       "</h4>"
   );
 }
@@ -398,5 +442,64 @@ function updateArrayTable() {
 
   for (var i = 0; i < array_select_confirm.length; i++) {
     array_select_confirm[i].order_pcs = pcs_number_order[i];
+  }
+}
+
+$("#addService").submit(function (e) {
+  e.preventDefault();
+  var service_type = $("#service_type").parsley();
+  var num_service = $("#num_service").parsley();
+
+  if (service_type.isValid() && num_service.isValid()) {
+    isOnline = window.navigator.onLine;
+
+    if (isOnline) {
+      console.log("Online");
+      calService();
+      $(".bd-add-service").modal("hide");
+      $("#addService")[0].reset();
+      $("#addService").parsley().reset();
+    } else {
+      console.log("Offline");
+      $(".bd-add-service").modal("hide");
+      $("#addService")[0].reset();
+      $("#addService").parsley().reset();
+    }
+  } else {
+    service_type.validate();
+    num_service.validate();
+  }
+});
+
+function calService() {
+  if ($("#service_type").val() != "") {
+    if ($("#service_type").val() == "percen") {
+      service_type = $("#service_type").val();
+      service_number = $("#num_service").val();
+      let number_ = $("#num_service").val();
+      let precen_number = order_price_total * (parseFloat(number_) / 100);
+      service_total = precen_number;
+      $("#service_price").html(
+        '<span id="service_price"> ' + number_ + " %</span>"
+      );
+      summaryText();
+    } else {
+      service_number = $("#num_service").val();
+      let number_ = $("#num_service").val();
+      service_total = parseFloat(number_);
+      $("#service_price").html(
+        '<span id="service_price"> ' + number_ + " บาท</span>"
+      );
+      summaryText();
+    }
+  } else {
+    if (service_type == "percen") {
+      summaryText();
+      let number_last = order_price_total * (parseFloat(service_number) / 100);
+      service_total = number_last;
+      summaryText();
+    } else {
+      summaryText();
+    }
   }
 }
