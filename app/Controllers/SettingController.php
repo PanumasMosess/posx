@@ -1052,31 +1052,31 @@ class SettingController extends BaseController
                 } else {
                     $Pos = 0;
                 }
-    
+
                 if ($param['Report'] != 'false') {
                     $Report = 1;
                 } else {
                     $Report = 0;
                 }
-    
+
                 if ($param['Menu'] != 'false') {
                     $Menu = 1;
                 } else {
                     $Menu = 0;
                 }
-    
+
                 if ($param['Expense'] != 'false') {
                     $Expense = 1;
                 } else {
                     $Expense = 0;
                 }
-    
+
                 if ($param['Stock'] != 'false') {
                     $Stock = 1;
                 } else {
                     $Stock = 0;
                 }
-    
+
                 if ($param['Setting'] != 'false') {
                     $Setting = 1;
                 } else {
@@ -1130,5 +1130,19 @@ class SettingController extends BaseController
         } catch (\Exception $e) {
             echo $e->getMessage() . ' ' . $e->getLine();
         }
+    }
+    // deleteUser
+    public function deleteUser($id = null)
+    {
+        $this->EmployeeModel = new \App\Models\EmployeeModel();
+        $this->EmployeeModel->deleteEmployeeByID($id);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] User',
+            'ip' => $this->request->getIPAddress()
+        ]);
     }
 }
