@@ -47,7 +47,7 @@
     top: 50%;
     transform: translateY(-50%);
   }
-
+  
 </style>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
@@ -185,7 +185,7 @@
                       <span>Username</span>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" class="form-control" placeholder="Username" aria-label="username" id="username" aria-describedby="basic-addon1" value="<?php echo $companies->companies_user; ?>" readonly>
+                      <input type="text" class="form-control" placeholder="Username" aria-label="information_username" id="information_username" aria-describedby="basic-addon1" value="<?php echo $companies->companies_user; ?>" readonly>
                     </div>
                   </div>
                   <div class="input-group mb-3">
@@ -201,7 +201,7 @@
                     <div class="input-group-text col-md-2">
                       <span>ชื่อร้าน</span>
                     </div>
-                    <div class="form-group col-md-10 disabled ">
+                    <div class="form-group col-md-10">
                       <input class="form-control" placeholder="shopname" aria-label="shopname" id="shopname" aria-describedby="basic-addon1">
                     </div>
                   </div>
@@ -296,84 +296,230 @@
                       <span class="percentage-sign">%</span>
                     </div>
                   </div>
-                  <div class="row mt-2">
-                    <div class="col-md-12">
-                      <button type="submit" class="btn btn-primary" href="#" id="EditInformation">Edit</button>
-                    </div>
+                  <div class="col-md-12 mt-2">
+                    <button type="submit" class="btn btn-primary" href="#" id="EditInformation">Edit</button>
                   </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="user_accounts" role="tabpanel" aria-labelledby="user-accounts-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="row" id="account">
-                    <div class="col-md-6">
-                      <div style="float: right">
+                    <div class="col-md-5">
+                      <div class="row">
+                        <div class="col-md-8">
+                          <h3>Users Accounts</h3>
+                        </div>
+                        <div class="col-md-4" style="text-align: right;">
+                          <a href="javascript:void(0);" class="white_btn3 mb-2" id="addUserBtn"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>
+                        </div>
                       </div>
-                      <h3>Users Accounts <button class="pull-right btn default" id="addUserBtn"><i class="fa fa-plus"></i> Add</button></h3>
-                      <h3 class="text-center" style="margin-top: 10px; margin-bottom: 10px; display: none;" data-bind="visible: list().length == 0">Loading...</h3>
                       <div class="A list-group" data-bind="foreach: list">
-                        <a class="list-group-item" data-bind="  click: $parent.clickUser">
-                          <span data-bind="text : $data.UserName">collabbar.bs@gmail.com</span>
-                          <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray" data-bind="text: $data.Role() == 1 ? ' ( Admin )':'( Custom User ) '  "> ( Admin )</span>
+                      <?php foreach ($employees as $employee) { ?>
+                        <?php if($employee->roles == 1){
+                          $roles = 'Admin';
+                        }else{
+                          $roles = 'Custom User';
+                        } ?>
+                        <a class="list-group-item editUser" data-id="<?php echo $employee->id; ?>" style="cursor: pointer;">
+                          <span><?php echo $employee->username ?></span>
+                          <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( <?php echo $roles ?> )</span>
                         </a>
+                      <?php } ?>
+                        <!-- <a class="list-group-item" id="edit" style="cursor: pointer;">
+                          <span>collabbar.bs@gmail.com</span>
+                          <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( Admin )</span>
+                        </a>
+                        <a class="list-group-item" id="edit" style="cursor: pointer;">
+                          <span>collabbar.bs@gmail.com</span>
+                          <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( Admin )</span>
+                        </a> -->
                       </div>
-                      <p>Accounts : <span data-bind="text: list().length">1</span> / <span data-bind="text : maxUser">5</span></p>
+                      <!-- <p>Accounts : <span data-bind="text: list().length">1</span> / <span data-bind="text : maxUser">5</span></p> -->
                     </div>
-                    <div class="col-md-6 col-md-offset-1">
-                      <div id="user-detail" data-bind="for: thisUser" style="display: none">
-                        <h3>รายละเอียด</h3>
-                        <form data-bind="with: thisUser" class="form-horizontal"></form>
-                      </div>
-                      <div id="newUser-dialog">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                      <div id="newUser" style="display: none">
                         <h3>สร้าง User Login</h3>
-                        <!-- <form class="form-horizontal"> -->
-                          <div class="form-group">
-                            <label class="control-label col-md-3">Username </label>
-                            <div class="col-md-9">
-                              <input type="text" name="username" placeholder="" class="form-control input-medium">
-                              <span class="help-inline"> </span>
-                            </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-text col-md-3">
+                            <span>Username</span>
                           </div>
-                          <div class="form-group">
-                            <label class="control-label col-md-3">Password</label>
-                            <div class="col-md-9">
-                              <input type="password" name="password" placeholder="" class="form-control input-medium">
-                              <span class="help-inline"> </span>
-                            </div>
+                          <div class="form-group col-md-9">
+                            <input class="form-control" placeholder="Username" aria-label="username" id="username" aria-describedby="basic-addon1">
                           </div>
-                          <div class="form-group">
-                            <label class="control-label col-md-3">Re password </label>
-                            <div class="col-md-9">
-                              <input type="password" name="repassword" placeholder="" class="form-control input-medium">
-                              <span class="help-inline"> </span>
-                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-text col-md-3">
+                            <span class id="basic-addon1">Password</span>
                           </div>
-                          <div class="form-group">
-                            <label class="control-label col-md-3">Name </label>
-                            <div class="col-md-9">
-                              <input type="text" name="name" placeholder="" class="form-control input-medium">
-                              <span class="help-inline">ชื่อจะแสดงตอนพิมพ์ใบเสร็จ</span>
-                            </div>
+                          <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Password">
+                          <div class="input-group-text">
+                            <span toggle="#user_password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                           </div>
-                          <div class="form-group">
-                            <label class="control-label col-md-3">Role </label>
-                            <div class="col-md-9">
-                              <select name="role" class="small form-control" tabindex="1">
-                                <option value="1">Admin</option>
-                                <option value="0">Custom User</option>
-                              </select>
-                              <span class="help-inline">กำหนดสิทธิ์การใช้งาน <br>Admin สามารถใช้งานได้ทุก Features<br>Custom User สามารถกำหนดการใช้งานบาง Feature ได้</span>
-                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-text col-md-3">
+                            <span class id="basic-addon1">Re Password</span>
                           </div>
-                          <div class="form-group">
-                            <label class="control-label col-md-3"> </label>
-                            <div class="col-md-9">
-                              <button class=" btn default purple" id="saveNewUser" data-bind="click: add"><i class="fa fa-save"></i> Add</button>
-                              <button class=" btn" id=""><i class="fa fa-circle-o"></i> Reset</button>
-                            </div>
+                          <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Re Password">
+                          <div class="input-group-text">
+                            <span toggle="#repassword" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                           </div>
-                        <!-- </form> -->
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-text col-md-3">
+                            <span>Name</span>
+                          </div>
+                          <div class="form-group col-md-9">
+                            <input class="form-control" placeholder="Name" aria-label="name_userlogin" id="name_userlogin" aria-describedby="basic-addon1">
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-9 mt-1">
+                            <span class="help-inline">ชื่อจะแสดงตอนพิมพ์ใบเสร็จ</span>
+                          </div>
+                        </div>
+                        <div class="input-group mb-1">
+                          <div class="input-group-text col-md-3">
+                            <span>Role</span>
+                          </div>
+                          <div class="col-md-9">
+                            <select class="form-control SlectBox" name="roles" id="roles">
+                              <option value="1">Admin</option>
+                              <option value="0">Custom User</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-9 mt-1">
+                            <span class="help-inline">กำหนดสิทธิ์การใช้งาน <br>Admin สามารถใช้งานได้ทุก Features<br>Custom User สามารถกำหนดการใช้งานบาง Feature ได้</span>
+                            <!-- เงื่อนไขสำหรับแสดง/ซ่อนกล่องเช็ค -->
+                            <ul id="checkboxes" style="list-style-type: none; display: none;margin-top: 5px;">
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Pos" id="checkbox_Pos">
+                                  <span class="custom-control-label custom-control-label-md">POS</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Report" id="checkbox_Report">
+                                  <span class="custom-control-label custom-control-label-md">REPORT</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Menu" id="checkbox_Menu">
+                                  <span class="custom-control-label custom-control-label-md">MENU</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Expense" id="checkbox_Expense">
+                                  <span class="custom-control-label custom-control-label-md">EXPENSE</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Stock" id="checkbox_Stock">
+                                  <span class="custom-control-label custom-control-label-md">STOCK</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Setting" id="checkbox_Setting">
+                                  <span class="custom-control-label custom-control-label-md">SETTING</span>
+                                </label>
+                              </li>
+                            </ul>
+                            <button type="submit" class="btn btn-primary mt-2" href="#" id="saveNewUser">Add</button>
+                          </div>
+                        </div>
                       </div>
+                      <div id="user-detail" style="display: none">
+                      <h3>รายละเอียด</h3>
+                      <input type="hidden" name="editUserID" id="editUserID" />
+                        <div class="input-group mb-3">
+                          <div class="input-group-text col-md-3">
+                            <span>Username</span>
+                          </div>
+                          <div class="form-group col-md-9">
+                          <input type="text" class="form-control" placeholder="Username" aria-label="edit_username" id="edit_username" aria-describedby="basic-addon1" readonly>
+                          </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-text col-md-3">
+                            <span>Name</span>
+                          </div>
+                          <div class="form-group col-md-9">
+                            <input class="form-control" placeholder="Name" aria-label="edit_name_userlogin" id="edit_name_userlogin" aria-describedby="basic-addon1">
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-9 mt-1">
+                            <span class="help-inline">ชื่อจะแสดงตอนพิมพ์ใบเสร็จ</span>
+                          </div>
+                        </div>
+                        <div class="input-group mb-1">
+                          <div class="input-group-text col-md-3">
+                            <span>Role</span>
+                          </div>
+                          <div class="col-md-9">
+                            <select class="form-control SlectBox" name="edit_roles" id="edit_roles">
+                              <option value="1">Admin</option>
+                              <option value="0">Custom User</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-9 mt-1">
+                            <span class="help-inline">กำหนดสิทธิ์การใช้งาน <br>Admin สามารถใช้งานได้ทุก Features<br>Custom User สามารถกำหนดการใช้งานบาง Feature ได้</span>
+                            <!-- เงื่อนไขสำหรับแสดง/ซ่อนกล่องเช็ค -->
+                            <ul id="editcheckboxes" style="list-style-type: none; display: none;margin-top: 5px;">
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Edit_Pos" id="checkbox_Edit_Pos">
+                                  <span class="custom-control-label custom-control-label-md">POS</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Edit_Report" id="checkbox_Edit_Report">
+                                  <span class="custom-control-label custom-control-label-md">REPORT</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Edit_Menu" id="checkbox_Edit_Menu">
+                                  <span class="custom-control-label custom-control-label-md">MENU</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Edit_Expense" id="checkbox_Edit_Expense">
+                                  <span class="custom-control-label custom-control-label-md">EXPENSE</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md mb-1">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Edit_Stock" id="checkbox_Edit_Stock">
+                                  <span class="custom-control-label custom-control-label-md">STOCK</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="custom-control custom-checkbox custom-control-md">
+                                  <input type="checkbox" class="custom-control-input" name="checkbox_Edit_Setting" id="checkbox_Edit_Setting">
+                                  <span class="custom-control-label custom-control-label-md">SETTING</span>
+                                </label>
+                              </li>
+                            </ul>
+                            <button type="submit" class="btn btn-primary mt-2 saveEditUser" href="#">Edit</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1">
                     </div>
                   </div>
                 </div>
