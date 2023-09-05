@@ -53,7 +53,7 @@ $(document).ready(function () {
     editUserElements.forEach(function (editUserElement) {
         editUserElement.addEventListener('click', function () {
             var Employee_id = editUserElement.getAttribute('data-id');
-
+            // console.log('1');
             $.ajax({
                 url: '/setting/editUser/' + Employee_id,
                 type: "GET",
@@ -122,14 +122,60 @@ $(document).ready(function () {
         UserDetail.style.display = "none";
         showAddUser();
     });
+
+    //When click Add UserAccounts
+    $('body').on('click', '.saveRemoveUser', function () {
+
+        var editUserID = document.querySelector("#editUserID");
+        var editUserID = editUserID.value;
+
+        Swal.fire({
+            text: `คุณต้องการลบ`,
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "ตกลง",
+            showCloseButton: true,
+            customClass: {
+                confirmButton: "btn btn-primary",
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "/setting/deleteUser/" + editUserID, // Replace with the actual URL
+                    success: function (response) {
+                        // If the email was removed successfully, update the UI
+                        Swal.fire(
+                            'ลบสำเร็จ',
+                            response.message,
+                            'success'
+                        )
+                        removeItemFromAList(editUserID);
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'ลบไม่สำเร็จ',
+                            response.message,
+                            'error'
+                        )
+                    }
+                });
+            }
+        })
+    });
 });
+
+function removeItemFromAList(itemId) {
+    // ทำการลบรายการ A list-group โดยใช้ `data-id`
+    $(".A.list-group a[data-id='" + itemId + "']").remove();
+}
 
 // ฟังก์ชันสำหรับสร้าง element และเพิ่มลงในรายการ
 function createEmployeeListItem(employee) {
     var roles = employee.roles === 1 ? 'Admin' : 'Custom User';
 
     var listItem = document.createElement('a');
-    listItem.className = 'list-group-item';
+    listItem.className = 'list-group-item editUser';
     listItem.setAttribute('data-id', employee.id);
     listItem.style.cursor = 'pointer';
 
@@ -236,11 +282,75 @@ $('body').on('click', '#saveNewUser', function () {
 
                 }
             })
-            var listContainer = document.querySelector('.A');
             var listItem = createEmployeeListItem(res.employeeID);
+            var listContainer = document.querySelector('.A');
             listContainer.appendChild(listItem);
             // addNewUserToList();
             resetForm();
+
+            var UserDetail = document.getElementById("user-detail");
+            var editcheckboxes = document.getElementById("editcheckboxes");
+            // ผูกอีเวนต์ click ใหม่หลังจากสร้างรายการใหม่
+            listItem.addEventListener('click', function () {
+                var Employee_id = listItem.getAttribute('data-id');
+                // console.log('2');
+                $.ajax({
+                    url: '/setting/editUser/' + Employee_id,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function (res) {
+                        $("#editUserID").val(Employee_id);
+                        $("#edit_username").val(res.data.username);
+                        $("#edit_name_userlogin").val(res.data.name);
+                        $("#edit_roles").val(res.data.roles);
+                        if (res.data.roles == 0) {
+                            editcheckboxes.style.display = "block"; // แสดง Checkbox เมื่อเลือก Custom User
+                        } else {
+                            editcheckboxes.style.display = "none"; // ซ่อน Checkbox เมื่อเลือก Admin
+                        }
+                        if (res.data.setting_pos == 1) {
+                            $('#checkbox_Edit_Pos').prop("checked", true);
+                        } else {
+                            $('#checkbox_Edit_Pos').prop("checked", false);
+                        }
+                        if (res.data.setting_report == 1) {
+                            $('#checkbox_Edit_Report').prop("checked", true);
+                        } else {
+                            $('#checkbox_Edit_Report').prop("checked", false);
+                        }
+                        if (res.data.setting_menu == 1) {
+                            $('#checkbox_Edit_Menu').prop("checked", true);
+                        } else {
+                            $('#checkbox_Edit_Menu').prop("checked", false);
+                        }
+                        if (res.data.setting_expense == 1) {
+                            $('#checkbox_Edit_Expense').prop("checked", true);
+                        } else {
+                            $('#checkbox_Edit_Expense').prop("checked", false);
+                        }
+                        if (res.data.setting_stock == 1) {
+                            $('#checkbox_Edit_Stock').prop("checked", true);
+                        } else {
+                            $('#checkbox_Edit_Stock').prop("checked", false);
+                        }
+                        if (res.data.setting_setting == 1) {
+                            $('#checkbox_Edit_Setting').prop("checked", true);
+                        } else {
+                            $('#checkbox_Edit_Setting').prop("checked", false);
+                        }
+                    },
+                });
+    
+                // ตรวจสอบว่า "newUser" ถูกแสดงหรือไม่
+                if (newUser.style.display === "block") {
+                    // ถ้า "newUser" ถูกแสดงอยู่ ให้ซ่อน "newUser" และแสดง "user-detail"
+                    newUser.style.display = "none";
+                    UserDetail.style.display = "block";
+                } else {
+                    // ถ้า "newUser" ไม่ถูกแสดง ให้แสดง "user-detail" โดยตรง
+                    UserDetail.style.display = "block";
+                }
+            });
         }
         // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
         else {
@@ -278,7 +388,7 @@ $('body').on('click', '#saveNewUser', function () {
 
 //When click Add UserAccounts
 $('body').on('click', '.saveEditUser', function () {
-    
+
     var editUserID = document.querySelector("#editUserID");
     var name_userlogin = document.querySelector("#edit_name_userlogin");
     var roles = document.querySelector("#edit_roles");
@@ -324,11 +434,6 @@ $('body').on('click', '.saveEditUser', function () {
 
                 }
             })
-            // var listContainer = document.querySelector('.A');
-            // var listItem = createEmployeeListItem(res.employeeID);
-            // listContainer.appendChild(listItem);
-            // // addNewUserToList();
-            // resetForm();
         }
         // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
         else {

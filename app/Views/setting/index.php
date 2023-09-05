@@ -325,16 +325,7 @@
                           <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( <?php echo $roles ?> )</span>
                         </a>
                       <?php } ?>
-                        <!-- <a class="list-group-item" id="edit" style="cursor: pointer;">
-                          <span>collabbar.bs@gmail.com</span>
-                          <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( Admin )</span>
-                        </a>
-                        <a class="list-group-item" id="edit" style="cursor: pointer;">
-                          <span>collabbar.bs@gmail.com</span>
-                          <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( Admin )</span>
-                        </a> -->
                       </div>
-                      <!-- <p>Accounts : <span data-bind="text: list().length">1</span> / <span data-bind="text : maxUser">5</span></p> -->
                     </div>
                     <div class="col-md-1">
                     </div>
@@ -514,7 +505,8 @@
                                 </label>
                               </li>
                             </ul>
-                            <button type="submit" class="btn btn-primary mt-2 saveEditUser" href="#">Edit</button>
+                            <button type="submit" class="btn btn-primary mt-2 me-2 saveEditUser" href="#">Edit</button>
+                            <button type="submit" class="btn btn-danger mt-2 saveRemoveUser">Remove</button>
                           </div>
                         </div>
                       </div>
