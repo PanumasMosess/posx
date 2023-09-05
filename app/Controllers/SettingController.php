@@ -33,6 +33,7 @@ class SettingController extends BaseController
         <script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/information.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/user_accounts.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/employee_pin_pos.js?v=' . time()) . '"></script>
         ';
 
         echo view('/app', $data);

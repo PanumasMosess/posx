@@ -47,7 +47,7 @@
     top: 50%;
     transform: translateY(-50%);
   }
-  
+
 </style>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
@@ -95,85 +95,93 @@
               <div class="tab-pane fade show active" id="group_product" role="tabpanel" aria-labelledby="group-product-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalGroupProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มหมวดสินค้า</a></div>
-                  <div class="QA_table mb_30">
-                    <table class="table lms_table_active3" id="tableGroupProduct">
-                      <thead>
-                        <tr>
-                          <th style="width: 50px;" scope="col">#</th>
-                          <th style="width: 200px;" scope="col">หมวดสินค้า</th>
-                          <th style="width: 200px;" scope="col">หน่วยสินค้า</th>
-                          <th style="width: 150px;" scope="col">สร้างขึ้นเมื่อ</th>
-                          <th style="width: 150px;" scope="col">แก้ไขล่าสุด</th>
-                          <th style="width: 100px;" scope="col">จัดการ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <div class="QA_section">
+                    <div class="QA_table mb_30">
+                      <table class="table lms_table_active3" id="tableGroupProduct">
+                        <thead>
+                          <tr>
+                            <th style="width: 50px;" scope="col">#</th>
+                            <th style="width: 200px;" scope="col">หมวดสินค้า</th>
+                            <th style="width: 200px;" scope="col">หน่วยสินค้า</th>
+                            <th style="width: 150px;" scope="col">สร้างขึ้นเมื่อ</th>
+                            <th style="width: 150px;" scope="col">แก้ไขล่าสุด</th>
+                            <th style="width: 100px;" scope="col">จัดการ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="supplier" role="tabpanel" aria-labelledby="supplier-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddSupplier();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มSupplier</a></div>
-                  <div class="QA_table mb_30">
-                    <table class="table lms_table_active3" id="tableSupplier">
-                      <thead>
-                        <tr>
-                          <th style="width: 20px;" scope="col">#</th>
-                          <th style="width: 400px;" scope="col">Supplier</th>
-                          <th style="width: 200px;" scope="col">สร้างขึ้นเมื่อ</th>
-                          <th style="width: 200px;" scope="col">แก้ไขล่าสุด</th>
-                          <th style="width: 75px;" scope="col">จัดการ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <div class="QA_section">
+                    <div class="QA_table mb_30">
+                      <table class="table lms_table_active3" id="tableSupplier">
+                        <thead>
+                          <tr>
+                            <th style="width: 20px;" scope="col">#</th>
+                            <th style="width: 400px;" scope="col">Supplier</th>
+                            <th style="width: 200px;" scope="col">สร้างขึ้นเมื่อ</th>
+                            <th style="width: 200px;" scope="col">แก้ไขล่าสุด</th>
+                            <th style="width: 75px;" scope="col">จัดการ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="position" role="tabpanel" aria-labelledby="position-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddPosition();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มตำแหน่ง</a></div>
-                  <div class="QA_table mb_30">
-                    <table class="table lms_table_active3" id="tablePosition">
-                      <thead>
-                        <tr>
-                          <th style="width: 50px;" scope="col">#</th>
-                          <th style="width: 350px;" scope="col">ชื่อตำแหน่ง</th>
-                          <th style="width: 200px;" scope="col">สร้างขึ้นเมื่อ</th>
-                          <th style="width: 200px;" scope="col">แก้ไขล่าสุด</th>
-                          <th style="width: 100px;" scope="col">จัดการ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <div class="QA_section">
+                    <div class="QA_table mb_30">
+                      <table class="table lms_table_active3" id="tablePosition">
+                        <thead>
+                          <tr>
+                            <th style="width: 50px;" scope="col">#</th>
+                            <th style="width: 350px;" scope="col">ชื่อตำแหน่ง</th>
+                            <th style="width: 200px;" scope="col">สร้างขึ้นเมื่อ</th>
+                            <th style="width: 200px;" scope="col">แก้ไขล่าสุด</th>
+                            <th style="width: 100px;" scope="col">จัดการ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="branch" role="tabpanel" aria-labelledby="branch-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddBranch();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสาขา</a></div>
-                  <div class="QA_table mb_30">
-                    <table class="table lms_table_active3" id="tableBranch">
-                      <thead>
-                        <tr>
-                          <th style="width: 50px;" scope="col">#</th>
-                          <th style="width: 250px;" scope="col">ชื่อสาขา</th>
-                          <th style="width: 250px;" scope="col">สร้างขึ้นเมื่อ</th>
-                          <th style="width: 250px;" scope="col">แก้ไขล่าสุด</th>
-                          <th style="width: 100px;" scope="col">จัดการ</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                  <div class="QA_section">
+                    <div class="QA_table mb_30">
+                      <table class="table lms_table_active3" id="tableBranch">
+                        <thead>
+                          <tr>
+                            <th style="width: 50px;" scope="col">#</th>
+                            <th style="width: 250px;" scope="col">ชื่อสาขา</th>
+                            <th style="width: 250px;" scope="col">สร้างขึ้นเมื่อ</th>
+                            <th style="width: 250px;" scope="col">แก้ไขล่าสุด</th>
+                            <th style="width: 100px;" scope="col">จัดการ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -314,17 +322,17 @@
                         </div>
                       </div>
                       <div class="A list-group" data-bind="foreach: list">
-                      <?php foreach ($employees as $employee) { ?>
-                        <?php if($employee->roles == 1){
-                          $roles = 'Admin';
-                        }else{
-                          $roles = 'Custom User';
-                        } ?>
-                        <a class="list-group-item editUser" data-id="<?php echo $employee->id; ?>" style="cursor: pointer;">
-                          <span><?php echo $employee->username ?></span>
-                          <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( <?php echo $roles ?> )</span>
-                        </a>
-                      <?php } ?>
+                        <?php foreach ($employees as $employee) { ?>
+                          <?php if($employee->roles == 1){
+                            $roles = 'Admin';
+                          }else{
+                            $roles = 'Custom User';
+                          } ?>
+                          <a class="list-group-item editUser" data-id="<?php echo $employee->id; ?>" style="cursor: pointer;">
+                            <span><?php echo $employee->username ?></span>
+                            <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( <?php echo $roles ?> )</span>
+                          </a>
+                        <?php } ?>
                       </div>
                     </div>
                     <div class="col-md-1">
@@ -429,14 +437,14 @@
                         </div>
                       </div>
                       <div id="user-detail" style="display: none">
-                      <h3>รายละเอียด</h3>
-                      <input type="hidden" name="editUserID" id="editUserID" />
+                        <h3>รายละเอียด</h3>
+                        <input type="hidden" name="editUserID" id="editUserID" />
                         <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
                             <span>Username</span>
                           </div>
                           <div class="form-group col-md-9">
-                          <input type="text" class="form-control" placeholder="Username" aria-label="edit_username" id="edit_username" aria-describedby="basic-addon1" readonly>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="edit_username" id="edit_username" aria-describedby="basic-addon1" readonly>
                           </div>
                         </div>
                         <div class="input-group mb-3">
@@ -518,26 +526,29 @@
               </div>
               <div class="tab-pane fade" id="pos_pin" role="tabpanel" aria-labelledby="pos-pin-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
-                  <div class="panel panel-default">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading" style="height: 60px">
-                      <h3 style="display: inline" class="panel-title">Employee PIN ใช้สำหรับให้พนักงานคียย์ Order ในหน้าการขาย POS
-                      </h3>
-                      <button class="btn-default btn" style="float: right; display: inline" data-bind="click: $data.addNewUserRequest">AddNew</button>
-                      <span data-bind="visible: showCount" style="color: grey; float: right; display: none; margin-right: 15px; margin-top: 7px;">Max 20</span>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <h5 style="display: inline" class="panel-title">Employee PIN ใช้สำหรับให้พนักงานคีย์ Order ในหน้าการขาย POS</h5>
                     </div>
-                    <div class="panel-body" style="color: gray">
-                      <table class="table table-striped" style=" color: black; margin-left: 1%">
+                    <div class="col-md-2" style="text-align: right;">
+                      <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddEmployeePinPos();"><i class="ti-plus"></i>&nbsp;&nbsp;AddNew</a>
+                    </div>
+                  </div>
+                  <div class="QA_section">
+                    <div class="QA_table mb_30">
+                      <table class="table" id="tableEmployeePinPos">
                         <thead>
                           <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Password</th>
                             <th>Permission (For cashier or manager)</th>
                             <th>Hide Cashier</th>
                           </tr>
                         </thead>
-                        <tbody data-bind="foreach: $data.list">
+                        <tbody>
+                        </tbody>
+                        <!-- <tbody data-bind="foreach: $data.list">
                           <tr data-bind="style: { 'background-color':  $data.justLoad() ?   'aliceblue !important' : '' }">
                             <td>
                               <span data-bind="text : ($index() +1 ) + '.'">1.</span>
@@ -646,7 +657,7 @@
                               <a style="margin-left: 15px" href="#" data-bind="click: $root.removeUser"> <i class="fa fa-trash-o"></i> remove</a>
                             </td>
                           </tr>
-                        </tbody>
+                        </tbody> -->
                       </table>
                     </div>
                   </div>
