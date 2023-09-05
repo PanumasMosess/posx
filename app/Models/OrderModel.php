@@ -501,6 +501,7 @@ class OrderModel
         $builder->groupBy("stock_formula.order_code");
 
         $i = 0;
+        $i2 = 0;
         // loop searchable columns
         foreach ($this->column_search_customer as $item) {
 
@@ -525,6 +526,29 @@ class OrderModel
             }
 
             $i++;
+
+
+            // if datatable send POST for search
+            if ($post_data['columns'][2]['search']['value']) {
+
+                // first loop
+                if ($i2 === 0) {
+                    // open bracket
+                    $builder->groupStart();
+                    $builder->like($item, $post_data['columns'][2]['search']['value']);
+                } else {
+                    $builder->orLike($item, $post_data['columns'][2]['search']['value']);
+                }
+
+                // last loop
+                if (count($this->column_search_customer) - 1 == $i2) {
+                    $builder->like($item, $post_data['columns'][2]['search']['value']);
+                    // close bracket
+                    $builder->groupEnd();
+                }
+            }
+
+            $i2++;
         }
 
         // มีการ order เข้ามา

@@ -140,7 +140,7 @@ function ($routes) {
     $routes->post('deleteTable', 'OrderPosController::deleteTable');  
     $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable');   
     $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');  
-    $routes->get('order_customer_list/(:any)', 'OrderPosController::getPageOrderCustomer/$1');   
+    $routes->get('order_list_customer/(:any)', 'OrderPosController::getPageOrderCustomer/$1');   
     $routes->get('getTableDetalByCode/(:any)', 'OrderPosController::getTableDetailByCode/$1'); 
     $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
     $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
