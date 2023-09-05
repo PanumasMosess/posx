@@ -270,14 +270,14 @@ function arrar_select_function(data) {
 }
 
 function deleteListSelecCustomertComfirm(data) {
+  updateArrayTable();
+  
   for (var i = 0; i < array_select_confirm.length; i++) {
-    if (array_select_confirm[i].id == data) {
+    if (array_select_confirm[i].id === data) {
       array_select_confirm[i].order_pcs = 1;
+      array_select_confirm.splice(i,1);
     }
   }
-  array_select_confirm = array_select_confirm.filter(
-    (item) => item.id !== data
-  );
 
   loadTableOrderCustomer();
   summaryText();
