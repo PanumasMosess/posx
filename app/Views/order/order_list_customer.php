@@ -385,7 +385,7 @@
                                             <select class="form-select" id="vat_type" name="vat_type" required>
                                                 <option value="">เลือกประเภท</option>
                                                 <option style="color: #000;" value="percen">%</option>
-                                                <option style="color: #000;" value="number">จำนวน</option>
+                                                <!-- <option style="color: #000;" value="number">จำนวน</option> -->
                                             </select>
                                         </div>
                                     </div>

@@ -398,14 +398,19 @@ function closeModalVAT() {
 }
 
 function orderConfirm() {
+  array_customer_order = [];
+  let check_kitchen = $('#kitchen_check').is(':checked');
   //get data from table input
   let data = table_order_customer.$("input, text").serialize();
   let str_split = data.replace(/pcs_cut=/g, "");
   let pcs_number_order = str_split.split("&");
 
-  let order_pcs_sum = 0,
-    order_price = 0;
   object_customer_order_temp = {};
+
+  let status = 'OTHER';
+  if(check_kitchen){
+      status ='IN_KITCHEN';
+  }
 
   for (var i = 0; i < array_select_confirm.length; i++) {
     (object_customer_order_temp = {
@@ -414,14 +419,22 @@ function orderConfirm() {
       order_customer_price: array_select_confirm[i].order_price,
       order_customer_pcs: pcs_number_order[i],
       order_customer_table_code: data_table_name,
+      order_price_sum: order_price_total,
+      order_service  : service_total,
+      order_service_type  : service_type,
+      order_discount : discount_total,
+      order_discount_type : discount_type,
+      order_card_charge  : card_charge_total,
+      order_card_charge_type : '-',
+      order_vat_type  : vat_total,
+      order_vat: vat_type,
+      order_status: status
     }),
-      (order_pcs_sum += parseInt(pcs_number_order[i]));
-    order_price +=
-      parseInt(array_select_confirm[i].order_price) *
-      parseInt(pcs_number_order[i]);
-
+      
     array_customer_order.push(object_customer_order_temp);
   }
+
+  console.log(array_customer_order);
 }
 
 function summaryText() {
