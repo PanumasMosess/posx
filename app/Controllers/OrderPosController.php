@@ -463,6 +463,8 @@ class OrderPosController extends BaseController
         $buffer_datetime = date("Y-m-d H:i:s");
         $datas = $_POST["data"];
         $count_cycle = 0;
+        $pcs = 0;
+        $table_code = null;
 
         $check_arr_count = count($datas);
 
@@ -502,10 +504,19 @@ class OrderPosController extends BaseController
                     'order_customer_code'  => $table_running_code,                
                 ];
 
+                $table_code = $data[0]['order_customer_table_code'];
+
+                $data_status_table = [
+                    'table_status'  => 'USE',                
+                ];
+
+                $pcs += $data[0]['order_customer_pcs'];
+
                 $data_summary = [
                     'order_code' =>  $data[0]['order_code'], 
                     'order_table_code' =>  $data[0]['order_customer_table_code'], 
-                    'order_price_sum' =>  $data[0]['order_price_sum'], 
+                    'order_price_sum' =>  $data[0]['order_price_sum'],    
+                    'order_pcs_sum' =>  $pcs, 
                     'order_service' =>  $data[0]['order_service'], 
                     'order_service_type' =>  $data[0]['order_service_type'], 
                     'order_discount' =>  $data[0]['order_discount'], 
@@ -527,7 +538,7 @@ class OrderPosController extends BaseController
             }
 
             if ($create_new) {
-                $create_new2 = $this->OrderModel->insertOrderCustomerSummary($data_summary);
+                $create_new2 = $this->OrderModel->insertOrderCustomerSummary($data_summary, $data_status_table, $table_code);
                 if($create_new2){
                     $count_cycle++;
                 }else{
@@ -554,5 +565,16 @@ class OrderPosController extends BaseController
         } else {
             //  ว่าง
         }
+    }
+
+    public function getSummaryData($table_code = null)
+    {
+        $look_data = $this->OrderModel->getSummayByTable($table_code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
     }
 }

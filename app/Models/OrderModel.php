@@ -607,12 +607,15 @@ class OrderModel
         return ($builder_table_status && $builder_running_status) ? true : false;
     }
 
-    public function insertOrderCustomerSummary($data)
+    public function insertOrderCustomerSummary($data, $table, $table_code)
     {
-        $builder_table = $this->db->table('order_summary');
-        $builder_table_status = $builder_table->insert($data);
+        $builder_summary = $this->db->table('order_summary');
+        $builder_summary_status = $builder_summary->insert($data);
 
-        return $builder_table_status;
+        $builder_table = $this->db->table('table_dynamic');
+        $builder_table_status =  $builder_table->where('table_code', $table_code)->update($table);
+
+        return ($builder_summary_status && $builder_table_status)  ? true : false;
     }
 
     public function getCodeCustomerOrder()
@@ -620,5 +623,12 @@ class OrderModel
         $sql = "SELECT SUBSTRING(order_customer_code, 5,8) as substr_order_cus_code  FROM order_customer_running order by id desc LIMIT 1";
         $builder = $this->db->query($sql);
         return $builder->getResult();
+    }
+
+    public function getSummayByTable($code)
+    {
+        $sql = "SELECT * FROM `order_summary` where order_table_code = '$code' and order_status = 'IN_KITCHEN'";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
     }
 }
