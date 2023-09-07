@@ -457,4 +457,102 @@ class OrderPosController extends BaseController
             "data" => $datas_card,
         ]);
     }
+
+    public function insertOrderCustomer()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+                $table_running_code = '';
+                $buffer_table_code = 0;
+                $new_running_codes = $this->OrderModel->getCodeCustomerOrder();
+
+                foreach ($new_running_codes as $running_code) {
+                    $buffer_table_code = (int)$running_code->substr_order_cus_code;
+                }
+
+                $sum_table_code = $buffer_table_code + 1;
+                $sprintf_area_code = sprintf("%08d", $sum_table_code);
+                $table_running_code = "POXC" . $sprintf_area_code;
+
+
+                //data table table
+                $data_customer_order = [
+                    'order_customer_code'  => $table_running_code,
+                    'order_customer_ordername'  => $data[0]['order_customer_ordername'],
+                    'order_customer_des'   => '',
+                    'order_customer_price'   => $data[0]['order_customer_ordername'],
+                    'order_customer_pcs'  => $data[0]['order_customer_pcs'],
+                    'order_code'   => $data[0]['order_code'],
+                    'order_customer_status'   => $data[0]['order_status'],
+                    'order_customer'  => '', 
+                    'order_customer_table_code' => $data[0]['order_customer_table_code'],                  
+                    'created_at' => $buffer_datetime ,                
+                    'created_by'  => session()->get('username'),
+                    'companies_id'  => session()->get('companies_id')
+                
+                ];
+
+                $data_code = [
+                    'order_customer_code'  => $table_running_code,                
+                ];
+
+                $data_summary = [
+                    'order_code' =>  $data[0]['order_code'], 
+                    'order_table_code' =>  $data[0]['order_customer_table_code'], 
+                    'order_price_sum' =>  $data[0]['order_price_sum'], 
+                    'order_service' =>  $data[0]['order_service'], 
+                    'order_service_type' =>  $data[0]['order_service_type'], 
+                    'order_discount' =>  $data[0]['order_discount'], 
+                    'order_discount_type' =>  $data[0]['order_discount_type'], 
+                    'order_card_charge' =>  $data[0]['order_card_charge'], 
+                    'order_card_charge_type' =>  $data[0]['order_card_charge_type'], 
+                    'order_vat_type' => $data[0]['order_vat_type'] , 
+                    'order_vat' =>  $data[0]['order_vat'], 
+                    'order_time' =>  $buffer_datetime, 
+                    'order_status' =>  $data[0]['order_status'], 
+                    'created_by' =>  session()->get('username'), 
+                    'created_at' =>  $buffer_datetime,
+                    'companies_id'  => session()->get('companies_id')
+                    ];
+
+       
+
+                $create_new = $this->OrderModel->insertOrderCustomer($data_customer_order, $data_code);
+            }
+
+            if ($create_new) {
+                $create_new2 = $this->OrderModel->insertOrderCustomerSummary($data_summary);
+                if($create_new2){
+                    $count_cycle++;
+                }else{
+                    return $this->response->setJSON([
+                        'status' => 200,
+                        'error' => true,
+                        'message' => 'เพิ่มไม่สำเร็จ'
+                    ]);
+                }          
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'เพิ่มไม่สำเร็จ'
+                ]);
+            }
+        
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'เพิ่มรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
 }
