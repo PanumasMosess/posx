@@ -467,7 +467,8 @@ function orderConfirm() {
                 //clear after add
                 array_customer_order = [];
                 array_select_confirm = [];
-                loadTableOrderCustomer();
+                cancleAllTable();
+
               } else {
                 notif({
                   type: "danger",
@@ -482,7 +483,6 @@ function orderConfirm() {
         } else {
         }
 
-        console.log(array_customer_order);
       } else {
         notif({
           type: "warning",

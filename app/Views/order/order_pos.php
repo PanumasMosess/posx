@@ -193,16 +193,16 @@
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รายการ</td>
                                                                                                         <td>
-                                                                                                            xxx รายการ
+                                                                                                           <p id="table_pcs">xxx รายการ</p> 
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">เวลา</td>
-                                                                                                        <td>XXXX</td>
+                                                                                                        <td><p id="time_table">xxx</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รวม</td>
-                                                                                                        <td class="text-dark"><strong>0.00 บาท</strong></td>
+                                                                                                        <td class="text-dark"><strong id="price_sum_table">0.00 บาท</strong></td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
@@ -217,25 +217,25 @@
                                                                                                 <tbody>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="#">SUB TOTAL</a></td>
-                                                                                                        <td>0.00</td>
+                                                                                                        <td><p id='sub_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalServiceType();"> SERVICE</a></td>
                                                                                                         <td>
-                                                                                                            ---
+                                                                                                        <p id='service_total_'>0.00</p>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModaldiscountAllType();"> DISCOUNT ALL</a></td>
-                                                                                                        <td>---</td>
+                                                                                                        <td><p id='discount_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalCardCharge();"> CARD CHARGE</a></td>
-                                                                                                        <td>---</td>
+                                                                                                        <td><p id='card_charge_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalVat();"> VAT</a> </td>
-                                                                                                        <td>---</td>
+                                                                                                        <td><p id='vat_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
