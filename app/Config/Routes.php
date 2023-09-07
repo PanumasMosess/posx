@@ -146,6 +146,8 @@ function ($routes) {
     $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
     $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
 
+    $routes->post('sumOrderItems', 'Test::sumOrderItems');
+    $routes->post('getLiveData', 'Test::getLiveData');
     $routes->get('activity', 'Test::activity');
 });
 /*
