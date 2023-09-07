@@ -10,18 +10,18 @@ var subtotal = 0;
 var order_price_total = 0;
 
 //service Val public
-var service_type;
+var service_type = '';
 var service_number = 0;
 var service_total = 0;
 //discounr val public
-var discount_type = 0;
+var discount_type = '';
 var discount_number = 0;
 var discount_total = 0;
 //charge val public
 var card_charge_number = 0;
 var card_charge_total = 0;
 // vat val public
-var vat_type = 0;
+var vat_type = '';
 var vat_number = 0;
 var vat_total = 0;
 
@@ -398,43 +398,102 @@ function closeModalVAT() {
 }
 
 function orderConfirm() {
-  array_customer_order = [];
-  let check_kitchen = $('#kitchen_check').is(':checked');
-  //get data from table input
-  let data = table_order_customer.$("input, text").serialize();
-  let str_split = data.replace(/pcs_cut=/g, "");
-  let pcs_number_order = str_split.split("&");
+  Swal.fire({
+    title: "เพิ่ม Order",
+    text: "คุณต้องการเพิ่ม Order โต๊ะนี้ !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "ปิด",
+    confirmButtonText: "ตกลง",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      if (array_select_confirm.length != 0) {
+        array_customer_order = [];
+        let check_kitchen = $("#kitchen_check").is(":checked");
+        //get data from table input
+        let data = table_order_customer.$("input, text").serialize();
+        let str_split = data.replace(/pcs_cut=/g, "");
+        let pcs_number_order = str_split.split("&");
 
-  object_customer_order_temp = {};
+        arr_object_customer_order_temp = [];
 
-  let status = 'OTHER';
-  if(check_kitchen){
-      status ='IN_KITCHEN';
-  }
+        let status = "OTHER";
+        if (check_kitchen) {
+          status = "IN_KITCHEN";
+        }
 
-  for (var i = 0; i < array_select_confirm.length; i++) {
-    (object_customer_order_temp = {
-      order_code: array_select_confirm[i].order_code,
-      order_customer_ordername: array_select_confirm[i].order_name,
-      order_customer_price: array_select_confirm[i].order_price,
-      order_customer_pcs: pcs_number_order[i],
-      order_customer_table_code: data_table_name,
-      order_price_sum: order_price_total,
-      order_service  : service_total,
-      order_service_type  : service_type,
-      order_discount : discount_total,
-      order_discount_type : discount_type,
-      order_card_charge  : card_charge_total,
-      order_card_charge_type : '-',
-      order_vat_type  : vat_total,
-      order_vat: vat_type,
-      order_status: status
-    }),
-      
-    array_customer_order.push(object_customer_order_temp);
-  }
+        for (var i = 0; i < array_select_confirm.length; i++) {
+          (arr_object_customer_order_temp = 
+            [{
+              order_code: array_select_confirm[i].order_code,
+              order_customer_ordername: array_select_confirm[i].order_name,
+              order_customer_price: array_select_confirm[i].order_price,
+              order_customer_pcs: pcs_number_order[i],
+              order_customer_table_code: data_table_name,
+              order_price_sum: order_price_total,
+              order_service: service_total,
+              order_service_type: service_type,
+              order_discount: discount_total,
+              order_discount_type: discount_type,
+              order_card_charge: card_charge_total,
+              order_card_charge_type: "-",
+              order_vat_type: vat_total,
+              order_vat: vat_type,
+              order_status: status,
+            }]
+          ),
+            array_customer_order.push(arr_object_customer_order_temp);
+        }
 
-  console.log(array_customer_order);
+        if (isOnline) {
+          $.ajax({
+            url: serverUrl + "order/addOrderCustomer",
+            method: "post",
+            data: {
+              data: array_customer_order,
+            },
+            cache: false,
+            success: function (response) {
+              if ((response.message = "เพิ่มรายการสำเร็จ")) {
+                notif({
+                  type: "success",
+                  msg: "เพิ่มรายการสำเร็จ!",
+                  position: "right",
+                  fade: true,
+                  time: 300,
+                });
+                //clear after add
+                array_customer_order = [];
+                array_select_confirm = [];
+                loadTableOrderCustomer();
+              } else {
+                notif({
+                  type: "danger",
+                  msg: "เพิ่มไม่สำเร็จ",
+                  position: "right",
+                  fade: true,
+                  time: 300,
+                });
+              }
+            },
+          });
+        } else {
+        }
+
+        console.log(array_customer_order);
+      } else {
+        notif({
+          type: "warning",
+          msg: "กรุณาเลือก Order!",
+          position: "right",
+          fade: true,
+          time: 300,
+        });
+      }
+    }
+  });
 }
 
 function summaryText() {

@@ -595,4 +595,30 @@ class OrderModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
+    public function insertOrderCustomer($data, $running)
+    {
+        $builder_table = $this->db->table('order_customer');
+        $builder_table_status = $builder_table->insert($data);
+
+        $builder_running = $this->db->table('order_customer_running');
+        $builder_running_status = $builder_running->insert($running);
+
+        return ($builder_table_status && $builder_running_status) ? true : false;
+    }
+
+    public function insertOrderCustomerSummary($data)
+    {
+        $builder_table = $this->db->table('order_summary');
+        $builder_table_status = $builder_table->insert($data);
+
+        return $builder_table_status;
+    }
+
+    public function getCodeCustomerOrder()
+    {
+        $sql = "SELECT SUBSTRING(order_customer_code, 5,8) as substr_order_cus_code  FROM order_customer_running order by id desc LIMIT 1";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
 }
