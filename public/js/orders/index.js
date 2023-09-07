@@ -1,6 +1,89 @@
 $(document).ready(function() {
 
-    const ORDER = {
+    const TAB_DASHBOARD = {
+        
+        config() {
+        
+            let $orderDashboard = $('#orderDashboard'),
+                $orderDashboardMode = $($orderDashboard.find('#orderDashboardMode')),
+                $orderDashboardMenuViewSummary = $($orderDashboard.find('#orderDashboardMenuViewSummary')),
+                $orderDashboardMenuViewLive = $($orderDashboard.find('#orderDashboardMenuViewLive'))
+
+            let $orderDashboardFilter = $($orderDashboard.find('#orderDashboardFilter'))
+
+            $orderDashboardMode
+                .on('click', 'button', function() {
+
+                    let $me = $(this)
+
+                    switch($me.data('mode')) {
+
+                        case 'live':
+
+                            $me.hide()
+
+                            $($orderDashboardMode.find("button[data-mode='paid']")).show()
+                            $orderDashboardMenuViewSummary.hide()
+                            $orderDashboardMenuViewLive.show()
+
+                            $($orderDashboard.find('h3')).html('Live data')
+
+                            break
+
+                        case 'paid':
+
+                            $me.hide()
+
+                            $($orderDashboardMode.find("button[data-mode='live']")).show()
+                            $orderDashboardMenuViewSummary.show()
+                            $orderDashboardMenuViewLive.hide()
+
+                            $($orderDashboard.find('h3')).html('Summary')
+
+                            break
+                    }
+                })
+
+            $orderDashboardFilter
+                .on('click', 'button', function() {
+
+                    let $me = $(this)
+
+                    switch($me.data('title')) {
+
+                        case 'Receipt':
+                            $orderDashboard.find('h4').html('Receipt')
+                            // TODO:: HANDLE SOMETHING
+                            break
+
+                        case 'Voided Receipt':
+                            $orderDashboard.find('h4').html('Voided Receipt')
+                            // TODO:: HANDLE SOMETHING
+                            break
+
+                        case 'Unsync':
+                            $orderDashboard.find('h4').html('Unsync')
+                            // TODO:: HANDLE SOMETHING
+                            break
+                    }
+                })
+        },
+
+
+        init() {
+            TAB_DASHBOARD.config()
+        }
+    }
+
+    const TAB_TOGO = {
+        init() { console.log('TAB_TOGO') }
+    }
+
+    const TAB_DELIVERY = {
+        init() { console.log('TAB_DELIVERY') }
+    }
+
+    const TAB_ACTIVITY = {
 
         config() {
             
@@ -10,12 +93,22 @@ $(document).ready(function() {
 
             $($stockTabContent.find('#order-activity'))
                 .on('click', '#btnReloadActivity', function() {
-                    ORDER.getActivity()
+                    TAB_ACTIVITY.getActivity()
                 })
                 .on('click', 'tr', function() {
                     let $me = $(this)
 
+                    // TODO:: HANDLE MODAL
                     console.log($me)
+                })
+
+            $('a[data-bs-toggle="tab"]')
+                .on('shown.bs.tab', function (e) {
+
+                    let $tab = e.target
+
+                    if ($($tab).attr('id') == 'order-activity-tab') TAB_ACTIVITY.getActivity()
+
                 })
         },
 
@@ -65,35 +158,19 @@ $(document).ready(function() {
             })
         },
 
-        handleTab() {
-
-            $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-                let $tab = e.target
-
-                switch ($($tab).attr('id')) {
-                    case 'order-togo-tab':
-                        // TODO:: HANDLE
-                        break
-
-                    case 'order-delivery-tab':
-                        // TODO:: HANDLE
-                        break
-
-                    case 'order-activity-tab':
-                        ORDER.getActivity()
-                        break
-                }
-            
-             
-             });
-        },
-
         init() {
-            ORDER.config()
-            ORDER.handleTab()
+            TAB_ACTIVITY.config()
         }
     }
 
-    ORDER.init()
+    const ORDER_POS = {
+        init() {
+            TAB_DASHBOARD.init()
+            TAB_TOGO.init()
+            TAB_DELIVERY.init()
+            TAB_ACTIVITY.init()
+        }
+    }
+
+    ORDER_POS.init()
 })

@@ -4,8 +4,7 @@
             <div class="col-lg-12">
                 <div class="footer_iner text-center">
                     <p>
-                        2020 © Influence - Designed by
-                        <a href="#"> <i class="ti-heart"></i> </a><a href="#"> Dashboard</a>
+                        <span id="copyrightYear"></span>© DEVELOP BY <a href="#"> POSX</a>
                     </p>
                 </div>
             </div>
@@ -108,6 +107,10 @@
 <!-- iziToast -->
 <script src="<?php echo base_url('js/izitoast/iziToast.min.js'); ?>" type="text/javascript"></script>
 
-</body>
+<script>
+    const copyrightFooter = `${new Date().getFullYear()}`
+    document.getElementById('copyrightYear').innerHTML = copyrightFooter
+</script>
 
+</body>
 </html>

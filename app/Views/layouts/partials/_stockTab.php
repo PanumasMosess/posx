@@ -1,7 +1,7 @@
 <ul class="nav" id="stockTab" role="tablist">
 
     <!-- Tab Dashboard -->
-    <li class="nav-item disabled">
+    <li class="nav-item">
         <a class="nav-link " id="order-dashboard-tab" data-bs-toggle="tab" href="#order-dashboard" role="tab" aria-controls="order-togo" aria-selected="true" data-toggle="tooltip" title="DASHBOARD">DASHBOARD</a>
     </li>
 
