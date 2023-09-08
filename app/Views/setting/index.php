@@ -47,7 +47,7 @@
     top: 50%;
     transform: translateY(-50%);
   }
-  
+
 </style>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
@@ -187,7 +187,7 @@
               </div>
               <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
-                  <h3 class="block">User Info </h3>
+                <div class="main-title"><h3 class="mb-2">User Info</h3></div>
                   <div class="input-group mb-1">
                     <div class="input-group-text col-md-2">
                       <span>Username</span>
@@ -204,7 +204,7 @@
                       <a type="text" href="#" class="form-control" placeholder="Password" aria-label="password" id="password" data-bs-toggle="modal" data-bs-target="#EditPasswordCompanies" aria-describedby="basic-addon1">******</a>
                     </div>
                   </div>
-                  <h3 class="block">Shop Info </h3>
+                  <div class="main-title"><h3 class="mb-2">Shop Info</h3></div>
                   <div class="input-group mb-3">
                     <div class="input-group-text col-md-2">
                       <span>ชื่อร้าน</span>
@@ -213,7 +213,7 @@
                       <input class="form-control" placeholder="shopname" aria-label="shopname" id="shopname" aria-describedby="basic-addon1">
                     </div>
                   </div>
-                  <h3 class="block">Set Parameters </h3>
+                  <div class="main-title"><h3 class="mb-2">Set Parameters</h3></div>
                   <div class="input-group mb-1">
                     <div class="input-group-text col-md-2">
                       <span>Service Charge (%)</span>
@@ -263,7 +263,7 @@
                       </div>
                     </div>
                   </div>
-                  <h3 class="block">Tax </h3>
+                  <div class="main-title"><h3 class="mb-2">Tax</h3></div>
                   <div class="input-group mb-1">
                     <div class="input-group-text col-md-2">
                       <span>Tax Status</span>
@@ -315,7 +315,7 @@
                     <div class="col-md-5">
                       <div class="row">
                         <div class="col-md-8">
-                          <h3>Users Accounts</h3>
+                        <div class="main-title"><h3 class="mt-2">Users Accounts</h3></div>
                         </div>
                         <div class="col-md-4" style="text-align: right;">
                           <a href="javascript:void(0);" class="white_btn3 mb-2" id="addUserBtn"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>
@@ -339,7 +339,7 @@
                     </div>
                     <div class="col-md-5 col-md-offset-1">
                       <div id="newUser" style="display: none">
-                        <h3>สร้าง User Login</h3>
+                      <div class="main-title"><h3 class="mb-2">สร้าง User Login</h3></div>
                         <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
                             <span>Username</span>
@@ -438,7 +438,7 @@
                         </div>
                       </div>
                       <div id="user-detail" style="display: none">
-                        <h3>รายละเอียด</h3>
+                      <div class="main-title"><h3 class="mb-2">รายละเอียด</h3></div>
                         <input type="hidden" name="editUserID" id="editUserID" />
                         <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
@@ -529,7 +529,7 @@
               <div class="tab-pane fade" id="pos_pin" role="tabpanel" aria-labelledby="pos-pin-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-10 mt-3">
                       <h5 style="display: inline" class="panel-title">Employee PIN ใช้สำหรับให้พนักงานคีย์ Order ในหน้าการขาย POS</h5>
                     </div>
                     <div class="col-md-2" style="text-align: right;">
@@ -560,7 +560,7 @@
               <div class="tab-pane fade" id="stock_pin" role="tabpanel" aria-labelledby="stock-pin-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-10 mt-3">
                       <h5 style="display: inline" class="panel-title">STOCK Employee PIN ใช้สำหรับหน้า Stock</h5>
                     </div>
                     <div class="col-md-2" style="text-align: right;">
@@ -571,12 +571,19 @@
                     <div class="QA_table mb_30">
                       <table class="table" id="tableEmployeePinStock">
                         <thead>
+                          <!-- <colgroup>
+                            <col style="width: 40px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                            <col style="width: 600px;">
+                            <col style="width: 200px;">
+                          </colgroup> -->
                           <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>PIN</th>
-                            <th>Permission</th>
-                            <th>Acitons</th>
+                            <th style="width: 20px;">#</th>
+                            <th style="width: 90px;">Name</th>
+                            <th style="width: 70px;">PIN</th>
+                            <th style="width: 640px;">Permission</th>
+                            <th style="width: 185px;">Actions</th>
                           </tr>
                         </thead>
                         <tbody></tbody>

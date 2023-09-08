@@ -1350,6 +1350,37 @@ class SettingController extends BaseController
         ]);
     }
 
+    //ajaxDataTablesEmployeePinStock
+    public function ajaxDataTablesEmployeePinStock()
+    {
+        $EmployeePinStockModel = new \App\Models\EmployeePinStockModel();
+
+        $param['search_value'] = $_REQUEST['search']['value'];
+        $param['draw'] = $_REQUEST['draw'];
+        $param['start'] = $_REQUEST['start'];
+        $param['length'] = $_REQUEST['length'];
+
+        if (!empty($param['search_value'])) {
+            // count all data
+            $total_count = $EmployeePinStockModel->getEmployeePinStockSearchcount($param);
+            $data = $EmployeePinStockModel->getEmployeePinStockSearch($param);
+        } else {
+            // count all data
+            $total_count = $EmployeePinStockModel->getEmployeePinStockcount();
+            // get per page data
+            $data = $EmployeePinStockModel->getEmployeePinStock($param);
+        }
+
+        $json_data = array(
+            "draw" => intval($param['draw']),
+            "recordsTotal" => count($total_count),
+            "recordsFiltered" => count($total_count),
+            "data" => $data   // total data array
+        );
+
+        echo json_encode($json_data);
+    }
+
     // addEmployeePinStock data
     public function addEmployeePinStock()
     {
@@ -1404,5 +1435,120 @@ class SettingController extends BaseController
         } catch (\Exception $e) {
             echo $e->getMessage() . ' ' . $e->getLine();
         }
+    }
+
+    //updateEmployeePinPos
+    public function updateEmployeePinStock()
+    {
+        $this->EmployeePinStockModel = new \App\Models\EmployeePinStockModel();
+
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $param['editUserID'] = $_REQUEST['editUserID'];
+            $param['Stock_All'] = $_REQUEST['Stock_All'];
+            $param['Edit_Stock'] = $_REQUEST['Edit_Stock'];
+            $param['Edit_Formula'] = $_REQUEST['Edit_Formula'];
+            $param['Transaction_Add'] = $_REQUEST['Transaction_Add'];
+            $param['Transaction_Withdraw'] = $_REQUEST['Transaction_Withdraw'];
+            $param['Transaction_Adjust'] = $_REQUEST['Transaction_Adjust'];
+
+            if ($param['Stock_All'] == 'false') {
+                $Stock_All = 0;
+
+                if ($param['Edit_Stock'] != 'false') {
+                    $Edit_Stock = 1;
+                } else {
+                    $Edit_Stock = 0;
+                }
+
+                if ($param['Edit_Formula'] != 'false') {
+                    $Edit_Formula = 1;
+                } else {
+                    $Edit_Formula = 0;
+                }
+
+                if ($param['Transaction_Add'] != 'false') {
+                    $Transaction_Add = 1;
+                } else {
+                    $Transaction_Add = 0;
+                }
+
+                if ($param['Transaction_Withdraw'] != 'false') {
+                    $Transaction_Withdraw = 1;
+                } else {
+                    $Transaction_Withdraw = 0;
+                }
+
+                if ($param['Transaction_Adjust'] != 'false') {
+                    $Transaction_Adjust = 1;
+                } else {
+                    $Transaction_Adjust = 0;
+                }
+            } else {
+                $Stock_All = 1;
+                $Edit_Stock = 1;
+                $Edit_Formula = 1;
+                $Transaction_Add = 1;
+                $Transaction_Withdraw = 1;
+                $Transaction_Adjust = 1;
+            }
+
+            // HANDLE REQUEST
+            $update = $this->EmployeePinStockModel->updateEmployeePinStockByID($param['editUserID'], [
+                'pin_stock_all' => $Stock_All,
+                'pin_stock_edit_stock' => $Edit_Stock,
+                'pin_stock_edit_formula' => $Edit_Formula,
+                'pin_stock_transaction_add' => $Transaction_Add,
+                'pin_stock_transaction_withdraw' => $Transaction_Withdraw,
+                'pin_stock_transaction_adjust' => $Transaction_Adjust,
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] พนักงาน Stock',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข พนักงาน Stock สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข พนักงาน Stock ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // deleteUser
+    public function deleteEmployeePinStock($id = null)
+    {
+        $this->EmployeePinStockModel = new \App\Models\EmployeePinStockModel();
+        $this->EmployeePinStockModel->deleteEmployeePinStockByID($id);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] พนักงาน Stock',
+            'ip' => $this->request->getIPAddress()
+        ]);
     }
 }

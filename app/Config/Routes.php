@@ -83,7 +83,10 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->post('updateEmployeePinPos', 'SettingController::updateEmployeePinPos');
     $routes->get('deleteEmployeePinPos/(:num)', 'SettingController::deleteEmployeePinPos/$1');
 
+    $routes->post('ajax-datatableEmployeePinStock', 'SettingController::ajaxDataTablesEmployeePinStock');
     $routes->post('addEmployeePinStock', 'SettingController::addEmployeePinStock');
+    $routes->post('updateEmployeePinStock', 'SettingController::updateEmployeePinStock');
+    $routes->get('deleteEmployeePinStock/(:num)', 'SettingController::deleteEmployeePinStock/$1');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
