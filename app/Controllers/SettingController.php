@@ -33,6 +33,8 @@ class SettingController extends BaseController
         <script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/information.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/user_accounts.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/employee_pin_pos.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/employee_pin_stock.js?v=' . time()) . '"></script>
         ';
 
         echo view('/app', $data);
@@ -69,7 +71,7 @@ class SettingController extends BaseController
         echo json_encode($json_data);
     }
 
-    // addSupplier data 
+    // addGroupProduct data 
     public function addGroupProduct()
     {
         $this->GroupProductModel = new \App\Models\GroupProductModel();
@@ -117,7 +119,7 @@ class SettingController extends BaseController
             echo $e->getMessage() . ' ' . $e->getLine();
         }
     }
-    //edit Supplier
+    //edit editGroupProduct
     public function editGroupProduct($id = null)
     {
         $this->GroupProductModel = new \App\Models\GroupProductModel();
@@ -130,7 +132,7 @@ class SettingController extends BaseController
         }
     }
 
-    //updateSupplier
+    //updateGroupProduct
     public function updateGroupProduct()
     {
         $this->GroupProductModel = new \App\Models\GroupProductModel();
@@ -177,7 +179,7 @@ class SettingController extends BaseController
         }
     }
 
-    // delete Branch
+    // delete deleteGroupProduct
     public function deleteGroupProduct($id = null)
     {
         $this->GroupProductModel = new \App\Models\GroupProductModel();
@@ -1131,6 +1133,7 @@ class SettingController extends BaseController
             echo $e->getMessage() . ' ' . $e->getLine();
         }
     }
+
     // deleteUser
     public function deleteUser($id = null)
     {
@@ -1144,5 +1147,262 @@ class SettingController extends BaseController
             'detail' => '[ลบ] User',
             'ip' => $this->request->getIPAddress()
         ]);
+    }
+
+    //ajaxDataTablesEmployeePinPos
+    public function ajaxDataTablesEmployeePinPos()
+    {
+        $EmployeePinPosModel = new \App\Models\EmployeePinPosModel();
+
+        $param['search_value'] = $_REQUEST['search']['value'];
+        $param['draw'] = $_REQUEST['draw'];
+        $param['start'] = $_REQUEST['start'];
+        $param['length'] = $_REQUEST['length'];
+
+        if (!empty($param['search_value'])) {
+            // count all data
+            $total_count = $EmployeePinPosModel->getEmployeePinPosSearchcount($param);
+            $data = $EmployeePinPosModel->getEmployeePinPosSearch($param);
+        } else {
+            // count all data
+            $total_count = $EmployeePinPosModel->getEmployeePinPoscount();
+            // get per page data
+            $data = $EmployeePinPosModel->getEmployeePinPos($param);
+        }
+
+        $json_data = array(
+            "draw" => intval($param['draw']),
+            "recordsTotal" => count($total_count),
+            "recordsFiltered" => count($total_count),
+            "data" => $data   // total data array
+        );
+
+        echo json_encode($json_data);
+    }
+
+    // addEmployeePinPos data 
+    public function addEmployeePinPos()
+    {
+        $this->EmployeePinPosModel = new \App\Models\EmployeePinPosModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $password = $this->request->getVar('new_password_employee_pos');
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // HANDLE REQUEST
+            $create = $this->EmployeePinPosModel->insertEmployeePinPos([
+                'username' => $this->request->getVar('username_employee_pos'),
+                'pin_pos' => $hashed_password,
+                'pin_pos_all' => '0',
+                'pin_pos_move' => '0',
+                'pin_pos_discount' => '0',
+                'pin_pos_set_price' => '0',
+                'pin_pos_void' => '0',
+                'pin_pos_hide_cahsier' => '0',
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
+            ]);
+            // return redirect()->to('/employee/list');
+            if ($create) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] พนักงาน POS',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม พนักงาน POS สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม พนักงาน POS ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    //updateEmployeePinPos
+    public function updateEmployeePinPos()
+    {
+        $this->EmployeePinPosModel = new \App\Models\EmployeePinPosModel();
+
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $param['editUserID'] = $_REQUEST['editUserID'];
+            $param['All'] = $_REQUEST['All'];
+            $param['Move'] = $_REQUEST['Move'];
+            $param['Discount'] = $_REQUEST['Discount'];
+            $param['Set_Price'] = $_REQUEST['Set_Price'];
+            $param['Void'] = $_REQUEST['Void'];
+            $param['Hide_Cahsier'] = $_REQUEST['Hide_Cahsier'];
+
+            if($param['All'] == 'false'){
+                $All = 0;
+
+                if ($param['Move'] != 'false') {
+                    $Move = 1;
+                } else {
+                    $Move = 0;
+                }
+
+                if ($param['Discount'] != 'false') {
+                    $Discount = 1;
+                } else {
+                    $Discount = 0;
+                }
+
+                if ($param['Set_Price'] != 'false') {
+                    $Set_Price = 1;
+                } else {
+                    $Set_Price = 0;
+                }
+
+                if ($param['Void'] != 'false') {
+                    $Void = 1;
+                } else {
+                    $Void = 0;
+                }
+            } else {
+                $All = 1;
+                $Move = 1;
+                $Discount = 1;
+                $Set_Price = 1;
+                $Void = 1;
+            }
+
+            if ($param['Hide_Cahsier'] != 'false') {
+                $Hide_Cahsier = 1;
+            } else {
+                $Hide_Cahsier = 0;
+            }
+
+            // HANDLE REQUEST
+            $update = $this->EmployeePinPosModel->updateEmployeePinPosByID($param['editUserID'], [
+                'pin_pos_all' => $All,
+                'pin_pos_move' => $Move,
+                'pin_pos_discount' => $Discount,
+                'pin_pos_set_price' => $Set_Price,
+                'pin_pos_void' => $Void,
+                'pin_pos_hide_cahsier' => $Hide_Cahsier,
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] พนักงาน POS',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'แก้ไข พนักงาน POS สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'แก้ไข พนักงาน POS ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // deleteUser
+    public function deleteEmployeePinPos($id = null)
+    {
+        $this->EmployeePinPosModel = new \App\Models\EmployeePinPosModel();
+        $this->EmployeePinPosModel->deleteEmployeePinPosByID($id);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] พนักงาน POS',
+            'ip' => $this->request->getIPAddress()
+        ]);
+    }
+
+    // addEmployeePinStock data
+    public function addEmployeePinStock()
+    {
+        $this->EmployeePinStockModel = new \App\Models\EmployeePinStockModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            $password = $this->request->getVar('new_password_employee_stock');
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // HANDLE REQUEST
+            $create = $this->EmployeePinStockModel->insertEmployeePinStock([
+                'username' => $this->request->getVar('username_employee_stock'),
+                'pin_stock' => $hashed_password,
+                'pin_stock_all' => '0',
+                'pin_stock_edit_stock' => '0',
+                'pin_stock_edit_formula' => '0',
+                'pin_stock_transaction_add' => '0',
+                'pin_stock_transaction_withdraw' => '0',
+                'pin_stock_transaction_adjust' => '0',
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
+            ]);
+            // return redirect()->to('/employee/list');
+            if ($create) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] พนักงาน Stock',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม พนักงาน Stock สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม พนักงาน Stock ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
     }
 }

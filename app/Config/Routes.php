@@ -77,6 +77,13 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('editUser/(:num)', 'SettingController::editUser/$1');
     $routes->post('updateUser', 'SettingController::updateUser');
     $routes->get('deleteUser/(:num)', 'SettingController::deleteUser/$1');
+
+    $routes->post('ajax-datatableEmployeePinPos', 'SettingController::ajaxDataTablesEmployeePinPos');
+    $routes->post('addEmployeePinPos', 'SettingController::addEmployeePinPos');
+    $routes->post('updateEmployeePinPos', 'SettingController::updateEmployeePinPos');
+    $routes->get('deleteEmployeePinPos/(:num)', 'SettingController::deleteEmployeePinPos/$1');
+
+    $routes->post('addEmployeePinStock', 'SettingController::addEmployeePinStock');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {

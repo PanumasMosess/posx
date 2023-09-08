@@ -165,6 +165,19 @@ $(document).ready(function () {
     });
 });
 
+// ฟังก์ชันสำหรับอัพเดต roles ใน A list-group
+function updateListItemRoles(employeeId, newRoles) {
+    console.log('Updating roles for employeeId: ' + employeeId + ', newRoles: ' + newRoles);
+    var listItems = document.querySelectorAll('.A.list-group a[data-id="' + employeeId + '"]');
+    listItems.forEach(function (listItem) {
+        var rolesSpan = listItem.querySelector('span.roles');
+        console.log(rolesSpan);
+        if (rolesSpan) {
+            rolesSpan.textContent = ' ( ' + (newRoles == '1' ? 'Admin' : 'Custom User') + ' )';
+        }
+    });
+}
+
 function removeItemFromAList(itemId) {
     // ทำการลบรายการ A list-group โดยใช้ `data-id`
     $(".A.list-group a[data-id='" + itemId + "']").remove();
@@ -172,7 +185,7 @@ function removeItemFromAList(itemId) {
 
 // ฟังก์ชันสำหรับสร้าง element และเพิ่มลงในรายการ
 function createEmployeeListItem(employee) {
-    var roles = employee.roles === 1 ? 'Admin' : 'Custom User';
+    var roles = employee.roles == '1' ? 'Admin' : 'Custom User';
 
     var listItem = document.createElement('a');
     listItem.className = 'list-group-item editUser';
@@ -183,6 +196,7 @@ function createEmployeeListItem(employee) {
     usernameSpan.textContent = employee.username;
 
     var rolesSpan = document.createElement('span');
+    rolesSpan.className = 'roles';
     rolesSpan.style.marginLeft = '15px';
     rolesSpan.style.fontSize = '0.8em';
     rolesSpan.style.fontStyle = 'italic';
@@ -434,6 +448,7 @@ $('body').on('click', '.saveEditUser', function () {
 
                 }
             })
+            updateListItemRoles(editUserID, roles);
         }
         // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
         else {
