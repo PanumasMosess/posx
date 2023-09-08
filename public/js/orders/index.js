@@ -6,16 +6,70 @@ $(document).ready(function() {
      *
      **************************/
 
-    let $orderDashboard = $('#orderDashboard'),
-        $orderDashboardMode = $($orderDashboard.find('#orderDashboardMode')),
-        $orderDashboardMenuViewSummary = $($orderDashboard.find('#orderDashboardMenuViewSummary')),
-        $orderDashboardMenuViewLive = $($orderDashboard.find('#orderDashboardMenuViewLive'))
+    let $orderDashboard                 = $('#orderDashboard'),
+        $orderDashboardMode             = $($orderDashboard.find('#orderDashboardMode')),
+        $orderDashboardMenuViewSummary  = $($orderDashboard.find('#orderDashboardMenuViewSummary')),
+        $orderDashboardMenuViewLive     = $($orderDashboard.find('#orderDashboardMenuViewLive'))
 
-    let $orderDashboardFilter = $($orderDashboard.find('#orderDashboardFilter'))
+    let $orderDashboardFilter           = $($orderDashboard.find('#orderDashboardFilter'))
+
+    let $dashboardSummary1              = $($orderDashboard.find('#dashboard-summary-1')),
+        $dashboardSummary2              = $($orderDashboard.find('#dashboard-summary-2')),
+        $dashboardSummary3              = $($orderDashboard.find('#dashboard-summary-3')),
+        $dashboardSummary4              = $($orderDashboard.find('#dashboard-summary-4')),
+        $dashboardSummary5              = $($orderDashboard.find('#dashboard-summary-5'))
+
 
     const TAB_DASHBOARD = {
 
         config() {
+
+             /***************************
+             *
+             * จัดการ Event
+             *
+             **************************/
+
+            $orderDashboard
+                // เลือก View
+                .on('change', '#View', function() {
+                    let $me = $(this)
+                    
+                    switch($me.val()) {
+                        case 'Bills':
+                            $('#dashboard-summary-1').show()
+                            $('#dashboard-summary-2').show()
+                            $('#dashboard-summary-3').hide()
+                            $('#dashboard-summary-4').hide()
+                            $('#dashboard-summary-5').hide()
+                            break
+
+                        case 'Detail':
+                            $('#dashboard-summary-1').show()
+                            $('#dashboard-summary-2').hide()
+                            $('#dashboard-summary-3').show()
+                            $('#dashboard-summary-4').show()
+                            $('#dashboard-summary-5').show()
+                            break
+                    }
+                })
+                // เลือก Shift
+                .on('change', '#Shift', function() {
+                    let $me = $(this)
+                    console.log($me.val())
+                })
+                // ออกจากโหมด Terminal
+                .on('click', '.outTerminal', function() {
+                    let $me = $(this)
+                    console.log('ออกจากโหมด Terminal')
+                })
+                // Reload
+                .on('click', '.reload', function() {
+                    let $me = $(this)
+                    console.log('Reload')
+                })
+
+
             $orderDashboardMode
                 .on('click', 'button', function() {
 
@@ -72,6 +126,63 @@ $(document).ready(function() {
 
                         case 'Unsync':
                             $orderDashboard.find('h4').html('Unsync')
+                            // TODO:: HANDLE SOMETHING
+                            break
+                    }
+                })
+
+            $dashboardSummary3
+                .on('click', 'button', function() {
+
+                    let $me = $(this)
+
+                    switch($me.data('title')) {
+
+                        case 'Type':
+                            console.log('Type')
+                            // TODO:: HANDLE SOMETHING
+                            break
+
+                        case 'Group':
+                            console.log('Group')
+                            // TODO:: HANDLE SOMETHING
+                            break
+                    }
+                })
+
+            $dashboardSummary4
+                .on('click', 'button', function() {
+
+                    let $me = $(this)
+
+                    switch($me.data('title')) {
+
+                        case 'Sales':
+                            console.log('Sales')
+                            // TODO:: HANDLE SOMETHING
+                            break
+
+                        case 'Qty':
+                            console.log('Qty')
+                            // TODO:: HANDLE SOMETHING
+                            break
+
+                        case 'Group':
+                            console.log('Group')
+                            // TODO:: HANDLE SOMETHING
+                            break
+                    }
+                })
+
+            $dashboardSummary5
+                .on('click', 'button', function() {
+
+                    let $me = $(this)
+
+                    switch($me.data('title')) {
+
+                        case 'Reload':
+                            console.log('Reload')
                             // TODO:: HANDLE SOMETHING
                             break
                     }
