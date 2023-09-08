@@ -148,6 +148,8 @@ function ($routes) {
     $routes->post('addOrderCustomer', 'OrderPosController::insertOrderCustomer');    
     $routes->get('getSummaryData/(:any)', 'OrderPosController::getSummaryData/$1');   
 
+    $routes->post('sumOrderItems', 'Test::sumOrderItems');
+    $routes->post('getLiveData', 'Test::getLiveData');
     $routes->get('activity', 'Test::activity');
 });
 /*

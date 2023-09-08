@@ -56,8 +56,8 @@
 
                                                             <ul id="orderDashboardMenuViewLive" class="text-start mt-2" style="display: none;">
                                                                 <li class=""><a href="#"><span> <span>LIVE TABLES</span> <span class="round_badge">0.00</span> </span> </a></li>
-                                                                <li><a href="#"> <span> <span>LIVE TOGO</span> <span class="round_badge">0.00</span> </span> </a></li>
-                                                                <li><a href="#"> <span> <span>LIVE DELIVERY</span> <span class="round_badge">0.00</span> </span> </a></li><hr>
+                                                                <li class="disabled"><a href="#"> <span> <span>LIVE TOGO</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li class="disabled"><a href="#"> <span> <span>LIVE DELIVERY</span> <span class="round_badge">0.00</span> </span> </a></li><hr>
                                                                 <li><a href="#"><i class="ti-pin2"></i> <span> <span>SUM</span> <span class="round_badge">0.00</span> </span> </a></li>
                                                             </ul>
                                                         </div>
