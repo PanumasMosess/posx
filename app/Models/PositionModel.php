@@ -55,10 +55,11 @@ class PositionModel
     {
         $start = $param['start'];
         $length = $param['length'];
+        $companies_id = session()->get('companies_id');
 
         $sql = "SELECT *, CONCAT(DATE_FORMAT(position.created_at, '%d-%m-'), YEAR(position.created_at)+543) as date_created,CONCAT(DATE_FORMAT(position.updated_at, '%d-%m-'), YEAR(position.updated_at)+543) as date_updated
                 FROM position 
-                WHERE deleted_at IS NULL
+                WHERE deleted_at IS NULL AND companies_id = $companies_id
                 LIMIT $start, $length";
         $builder = $this->db->query($sql);
 
@@ -67,7 +68,9 @@ class PositionModel
 
     public function getPositioncount()
     {
-        $sql = "SELECT * from position WHERE deleted_at IS NULL
+        $companies_id = session()->get('companies_id');
+
+        $sql = "SELECT * from position WHERE deleted_at IS NULL AND companies_id = $companies_id
                     ";
         $builder = $this->db->query($sql);
 
@@ -79,10 +82,11 @@ class PositionModel
         $search_value = $param['search_value'];
         $start = $param['start'];
         $length = $param['length'];
+        $companies_id = session()->get('companies_id');
 
         $sql = "SELECT *, CONCAT(DATE_FORMAT(position.created_at, '%d-%m-'), YEAR(position.created_at)+543) as date_created,CONCAT(DATE_FORMAT(position.updated_at, '%d-%m-'), YEAR(position.updated_at)+543) as date_updated
             from position 
-            WHERE deleted_at IS NULL AND ((position.position_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            WHERE deleted_at IS NULL AND companies_id = $companies_id AND ((position.position_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
             limit $start, $length
             ";
         $builder = $this->db->query($sql);
@@ -93,10 +97,11 @@ class PositionModel
     public function getPositionSearchcount($param)
     {
         $search_value = $param['search_value'];
+        $companies_id = session()->get('companies_id');
 
         $sql = "SELECT *, CONCAT(DATE_FORMAT(position.created_at, '%d-%m-'), YEAR(position.created_at)+543) as date_created,CONCAT(DATE_FORMAT(position.updated_at, '%d-%m-'), YEAR(position.updated_at)+543) as date_updated
             from position 
-            WHERE deleted_at IS NULL AND ((position.position_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            WHERE deleted_at IS NULL AND companies_id = $companies_id AND ((position.position_name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
             ";
         $builder = $this->db->query($sql);
 

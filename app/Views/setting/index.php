@@ -47,7 +47,7 @@
     top: 50%;
     transform: translateY(-50%);
   }
-
+  
 </style>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
@@ -97,7 +97,7 @@
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalGroupProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มหมวดสินค้า</a></div>
                   <div class="QA_section">
                     <div class="QA_table mb_30">
-                      <table class="table lms_table_active3" id="tableGroupProduct">
+                      <table class="table" id="tableGroupProduct">
                         <thead>
                           <tr>
                             <th style="width: 50px;" scope="col">#</th>
@@ -121,7 +121,7 @@
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddSupplier();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มSupplier</a></div>
                   <div class="QA_section">
                     <div class="QA_table mb_30">
-                      <table class="table lms_table_active3" id="tableSupplier">
+                      <table class="table" id="tableSupplier">
                         <thead>
                           <tr>
                             <th style="width: 20px;" scope="col">#</th>
@@ -144,7 +144,7 @@
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddPosition();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มตำแหน่ง</a></div>
                   <div class="QA_section">
                     <div class="QA_table mb_30">
-                      <table class="table lms_table_active3" id="tablePosition">
+                      <table class="table" id="tablePosition">
                         <thead>
                           <tr>
                             <th style="width: 50px;" scope="col">#</th>
@@ -167,7 +167,7 @@
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddBranch();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มสาขา</a></div>
                   <div class="QA_section">
                     <div class="QA_table mb_30">
-                      <table class="table lms_table_active3" id="tableBranch">
+                      <table class="table" id="tableBranch">
                         <thead>
                           <tr>
                             <th style="width: 50px;" scope="col">#</th>
@@ -323,14 +323,14 @@
                       </div>
                       <div class="A list-group" data-bind="foreach: list">
                         <?php foreach ($employees as $employee) { ?>
-                          <?php if($employee->roles == 1){
+                          <?php if ($employee->roles == 1) {
                             $roles = 'Admin';
-                          }else{
+                          } else {
                             $roles = 'Custom User';
                           } ?>
                           <a class="list-group-item editUser" data-id="<?php echo $employee->id; ?>" style="cursor: pointer;">
                             <span><?php echo $employee->username ?></span>
-                            <span style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( <?php echo $roles ?> )</span>
+                            <span class="roles" style="margin-left: 15px; font-size: 0.8em; font-style: italic; color: gray"> ( <?php echo $roles ?> )</span>
                           </a>
                         <?php } ?>
                       </div>
@@ -432,6 +432,7 @@
                                 </label>
                               </li>
                             </ul>
+                            <br>
                             <button type="submit" class="btn btn-primary mt-2" href="#" id="saveNewUser">Add</button>
                           </div>
                         </div>
@@ -513,6 +514,7 @@
                                 </label>
                               </li>
                             </ul>
+                            <br>
                             <button type="submit" class="btn btn-primary mt-2 me-2 saveEditUser" href="#">Edit</button>
                             <button type="submit" class="btn btn-danger mt-2 saveRemoveUser">Remove</button>
                           </div>
@@ -531,7 +533,7 @@
                       <h5 style="display: inline" class="panel-title">Employee PIN ใช้สำหรับให้พนักงานคีย์ Order ในหน้าการขาย POS</h5>
                     </div>
                     <div class="col-md-2" style="text-align: right;">
-                      <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddEmployeePinPos();"><i class="ti-plus"></i>&nbsp;&nbsp;AddNew</a>
+                      <a href="javascript:void(0);" class="white_btn3 mb-3" onclick="openModalAddEmployeePinPos();"><i class="ti-plus"></i>&nbsp;&nbsp;AddNew</a>
                     </div>
                   </div>
                   <div class="QA_section">
@@ -539,125 +541,17 @@
                       <table class="table" id="tableEmployeePinPos">
                         <thead>
                           <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Password</th>
-                            <th>Permission (For cashier or manager)</th>
-                            <th>Hide Cashier</th>
+                            <th style="width: 8px;">#</th>
+                            <th style="width: 180px;">Name</th>
+                            <th style="width: 120px;">PIN</th>
+                            <th style="width: 500px;">Permission (For cashier or manager)</th>
+                            <th style="width: 100px;">Hide Cashier</th>
+                            <th style="width: 200px;">Acitons</th>
                           </tr>
                         </thead>
                         <tbody>
+
                         </tbody>
-                        <!-- <tbody data-bind="foreach: $data.list">
-                          <tr data-bind="style: { 'background-color':  $data.justLoad() ?   'aliceblue !important' : '' }">
-                            <td>
-                              <span data-bind="text : ($index() +1 ) + '.'">1.</span>
-                            </td>
-                            <td style="font-weight: bold" data-bind="text: $data.Name">ART</td>
-                            <td>*****</td>
-                            <td>
-                              <employee-accesslist params="user : $data, blockPaymentFromEmployee : $parent.blockPaymentFromEmployee">
-                                <div data-bind=" ">
-                                  <label style="font-weight: bold">
-                                    <input type="checkbox" data-bind=" checked: $data.editable">
-                                    <span>All</span>
-                                  </label>
-                                  <ul style="color: gray;  list-style-type: none; display: inline; padding-left: 10px" data-bind="foreach: $data.allList, style: { 'visibility': !$data.editable() == false ? 'hidden' : '' }">
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_move">
-                                        <span data-bind="text : $data.displayText">Move</span>
-                                      </label>
-                                    </li>
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_set_discount">
-                                        <span data-bind="text : $data.displayText">Discount</span>
-                                      </label>
-                                    </li>
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_set_unit_price">
-                                        <span data-bind="text : $data.displayText">Set price</span>
-                                      </label>
-                                    </li>
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_void">
-                                        <span data-bind="text : $data.displayText">Void</span>
-                                      </label>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </employee-accesslist>
-                            </td>
-                            <td>
-                              <label>
-                                <input type="checkbox" data-bind="value : $data.hideCashier,  checked: $data.hideCashier" value="false">
-                                <span style="color: gray;">Hide Cahsier</span>
-                              </label>
-                            </td>
-                            <td>
-                              <a class="btn btn-default  btn-sm" style="background-color: yellow; color: black; visibility: hidden;" href="#" data-bind="click: $root.saveAccessList, style: { 'visibility': $data.dataHasChanged() ? 'visible' : 'hidden' }"> <i class="fa fa-save"></i> Save</a>
-                              <a style="margin-left: 15px" href="#" data-bind="click: $root.removeUser"> <i class="fa fa-trash-o"></i> remove</a>
-                            </td>
-                          </tr>
-                          <tr data-bind="style: { 'background-color':  $data.justLoad() ?   'aliceblue !important' : '' }">
-                            <td>
-                              <span data-bind="text : ($index() +1 ) + '.'">7.</span>
-                            </td>
-                            <td style="font-weight: bold" data-bind="text: $data.Name">Nutcha</td>
-                            <td>*****</td>
-                            <td>
-                              <employee-accesslist params="user : $data, blockPaymentFromEmployee : $parent.blockPaymentFromEmployee">
-                                <div data-bind=" ">
-                                  <label style="font-weight: bold">
-                                    <input type="checkbox" data-bind=" checked: $data.editable">
-                                    <span>All</span>
-                                  </label>
-                                  <ul style="color: gray; list-style-type: none; display: inline; padding-left: 10px; visibility: hidden;" data-bind="foreach: $data.allList, style: { 'visibility': !$data.editable() == false ? 'hidden' : '' }">
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_move">
-                                        <span data-bind="text : $data.displayText">Move</span>
-                                      </label>
-                                    </li>
-
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_set_discount">
-                                        <span data-bind="text : $data.displayText">Discount</span>
-                                      </label>
-                                    </li>
-
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_set_unit_price">
-                                        <span data-bind="text : $data.displayText">Set price</span>
-                                      </label>
-                                    </li>
-                                    <li style="display: inline; margin: 0 10px">
-                                      <label>
-                                        <input type="checkbox" data-bind="checkedValue: $data.value, checked: $parent.currentList" value="pos_void">
-                                        <span data-bind="text : $data.displayText">Void</span>
-                                      </label>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </employee-accesslist>
-                            </td>
-                            <td>
-                              <label>
-                                <input type="checkbox" data-bind="value : $data.hideCashier,  checked: $data.hideCashier" value="false">
-                                <span style="color: gray;">Hide Cahsier</span>
-                              </label>
-                            </td>
-                            <td>
-                              <a class="btn btn-default  btn-sm" style="background-color: yellow; color: black; visibility: hidden;" href="#" data-bind="click: $root.saveAccessList, style: { 'visibility': $data.dataHasChanged() ? 'visible' : 'hidden' }"> <i class="fa fa-save"></i> Save</a>
-                              <a style="margin-left: 15px" href="#" data-bind="click: $root.removeUser"> <i class="fa fa-trash-o"></i> remove</a>
-                            </td>
-                          </tr>
-                        </tbody> -->
                       </table>
                     </div>
                   </div>
@@ -665,27 +559,28 @@
               </div>
               <div class="tab-pane fade" id="stock_pin" role="tabpanel" aria-labelledby="stock-pin-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
-                  <div id="stock-employeepin-setting">
-                    <div>
-                      <div class="panel panel-default">
-                        <div class="panel-heading" style="height: 60px;">
-                          <h3 class="panel-title" style="display: inline;">STOCK Employee PIN <b>ใช้สำหรับหน้า Stock</b></h3><button class="btn-default btn" style="float: right; display: inline;">AddNew</button>
-                        </div>
-                        <div class="panel-body" style="color: gray;">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>PIN</th>
-                                <th>Permission</th>
-                                <th>Acitons</th>
-                              </tr>
-                            </thead>
-                            <tbody></tbody>
-                          </table>
-                        </div>
-                      </div>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <h5 style="display: inline" class="panel-title">STOCK Employee PIN ใช้สำหรับหน้า Stock</h5>
+                    </div>
+                    <div class="col-md-2" style="text-align: right;">
+                      <a href="javascript:void(0);" class="white_btn3 mb-3" onclick="openModalAddEmployeePinStock();"><i class="ti-plus"></i>&nbsp;&nbsp;AddNew</a>
+                    </div>
+                  </div>
+                  <div class="QA_section">
+                    <div class="QA_table mb_30">
+                      <table class="table" id="tableEmployeePinStock">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>PIN</th>
+                            <th>Permission</th>
+                            <th>Acitons</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -849,7 +744,7 @@
   </div>
 </div>
 <!-- Model Add GroupProduct -->
-<div class="modal fade bd-add-group-product" tabindex="-1" role="dialog" aria-labelledby="GroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-add-group-product" tabindex="-1" role="dialog" aria-labelledby="AddGroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -894,7 +789,7 @@
   </div>
 </div>
 <!-- Model Edit GroupProduct -->
-<div class="modal fade bd-edit-group-product" tabindex="-1" role="dialog" aria-labelledby="GroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-edit-group-product" tabindex="-1" role="dialog" aria-labelledby="EditGroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -940,7 +835,7 @@
   </div>
 </div>
 <!-- Model Add Supplier -->
-<div class="modal fade bd-add-supplier" tabindex="-1" role="dialog" aria-labelledby="SupplierModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-add-supplier" tabindex="-1" role="dialog" aria-labelledby="AddSupplierModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -980,7 +875,7 @@
 </div>
 
 <!-- Model Edit Supplier -->
-<div class="modal fade bd-edit-supplier" tabindex="-1" role="dialog" aria-labelledby="SupplierModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-edit-supplier" tabindex="-1" role="dialog" aria-labelledby="EditSupplierModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1020,7 +915,7 @@
   </div>
 </div>
 <!-- Model Add Branch -->
-<div class="modal fade bd-add-branch" tabindex="-1" role="dialog" aria-labelledby="BranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-add-branch" tabindex="-1" role="dialog" aria-labelledby="AddBranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1060,7 +955,7 @@
 </div>
 
 <!-- Model Edit Branch -->
-<div class="modal fade bd-edit-branch" tabindex="-1" role="dialog" aria-labelledby="BranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-edit-branch" tabindex="-1" role="dialog" aria-labelledby="EditBranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1100,7 +995,7 @@
   </div>
 </div>
 <!-- Model Add Position -->
-<div class="modal fade bd-add-position" tabindex="-1" role="dialog" aria-labelledby="PositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-add-position" tabindex="-1" role="dialog" aria-labelledby="AddPositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1140,7 +1035,7 @@
 </div>
 
 <!-- Model Edit Position -->
-<div class="modal fade bd-edit-position" tabindex="-1" role="dialog" aria-labelledby="PositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade bd-edit-position" tabindex="-1" role="dialog" aria-labelledby="EditPositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1181,7 +1076,7 @@
 </div>
 
 <!-- Model Edit Companies Password -->
-<div class="modal fade" id="EditPasswordCompanies" tabindex="-1" role="dialog" aria-labelledby="PasswordModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="EditPasswordCompanies" tabindex="-1" role="dialog" aria-labelledby="EditPasswordModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1221,6 +1116,121 @@
                   ยกเลิก
                 </button>
                 <button type="submit" class="btn btn-outline-success m-1 btnEditPasswordCompanies">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Model Employee PIN POS -->
+<div class="modal fade add-employee-pin-pos" tabindex="-1" role="dialog" aria-labelledby="AddEmployeePinPosModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100">
+          <button type="button" class="close" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Employee PIN POS</h3>
+              </div>
+            </div>
+          </div>
+          <form id="addEmployeePinPos" name="addEmployeePinPos" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body">
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Name</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Name" aria-label="username_employee_pos" id="username_employee_pos" name="username_employee_pos" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">New PIN</span>
+                </div>
+                <input type="password" class="form-control" id="new_password_employee_pos" name="new_password_employee_pos" placeholder="New Password">
+                <div class="input-group-text">
+                  <span toggle="#new_password_employee_pos" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Confirm PIN</span>
+                </div>
+                <input type="password" class="form-control" id="confirm_password_employee_pos" name="confirm_password_employee_pos" placeholder="Confirm Password">
+                <div class="input-group-text">
+                  <span toggle="#confirm_password_employee_pos" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" class="btn btn-outline-danger m-1" aria-label="Close" data-bs-dismiss="modal">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnAddEmployeePinPos">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Model Employee PIN STOCK -->
+<div class="modal fade add-employee-pin-stock" tabindex="-1" role="dialog" aria-labelledby="AddEmployeePinStockModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100">
+          <button type="button" class="close" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Employee PIN STOCK</h3>
+              </div>
+            </div>
+          </div>
+          <form id="addEmployeePinStock" name="addEmployeePinStock" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body">
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Name</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Name" aria-label="username_employee_stock" id="username_employee_stock" name="username_employee_stock" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">New PIN</span>
+                </div>
+                <input type="password" class="form-control" id="new_password_employee_stock" name="new_password_employee_stock" placeholder="New Password">
+                <div class="input-group-text">
+                  <span toggle="#new_password_employee_stock" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Confirm PIN</span>
+                </div>
+                <input type="password" class="form-control" id="confirm_password_employee_stock" name="confirm_password_employee_stock" placeholder="Confirm Password">
+                <div class="input-group-text">
+                  <span toggle="#confirm_password_employee_stock" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" class="btn btn-outline-danger m-1" aria-label="Close" data-bs-dismiss="modal">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnAddEmployeePinStock">
                   ยืนยัน
                 </button>
               </div>
