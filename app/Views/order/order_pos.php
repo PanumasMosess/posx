@@ -1,4 +1,8 @@
 <style>
+    #orderDashboardMenuViewSummary a,
+    #orderDashboardMenuViewLive a {
+        padding-left: 0px !important;
+    }
     .custom_activity_table tbody tr:hover {
         background-color: rgb(255, 255, 153) !important;
     }
@@ -17,7 +21,72 @@
                         <div class="tab-content" id="stockTabContent">
 
                             <div class="tab-pane fade" id="order-dashboard" role="tabpanel" aria-labelledby="order-dashboard-tab">
-                                dashboard
+                                <div class="builder_select">
+                                    <div class="board_wrapper">
+                                        <div class="single_board">
+                                            <div class="main_board_card" id="orderDashboard">
+                                                <div class="row">
+                                    
+                                                    <div class="col-md-4">
+                                                        <div class="email-sidebar white_box">
+                                                            <div class="row align-items-center justify-content-between flex-wrap">
+                                                                <div class="col-lg-4">
+                                                                    <div class="main-title">
+                                                                        <h3 class="m-0">Summary</h3>
+                                                                        <!-- <h3 class="m-0">Live data</h3> -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 text-end d-flex justify-content-end" id="orderDashboardMode">
+                                                                    <button class="btn btn-primary btn-sm" data-mode="live"><i class="fab fa-codiepie"></i> Live</button>
+                                                                    <button class="btn btn-primary btn-sm" data-mode="paid" style="display: none;">Paid</button>
+                                                                </div>
+                                                            </div>
+
+                                                            <hr>
+                                                        
+                                                            <ul id="orderDashboardMenuViewSummary" class="text-start mt-2">
+                                                                <li class=""><a href="#"><span> <span>TOTAL</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li><a href="#"> <span> <span>DISCOUNT ITEMS</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li><a href="#"> <span> <span>SERVICE</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li><a href="#"> <span> <span>DISCOUNT BILL</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li><a href="#"> <span> <span>CREDITCARD CHARGE</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li><a href="#"> <span> <span>VAT</span> <span class="round_badge">0.00</span> </span> </a></li><hr>
+                                                                <li><a href="#"><i class="ti-pin2"></i> <span> <span>GRAND TOTAL</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                            </ul>
+
+                                                            <ul id="orderDashboardMenuViewLive" class="text-start mt-2" style="display: none;">
+                                                                <li class=""><a href="#"><span> <span>LIVE TABLES</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li class="disabled"><a href="#"> <span> <span>LIVE TOGO</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                                <li class="disabled"><a href="#"> <span> <span>LIVE DELIVERY</span> <span class="round_badge">0.00</span> </span> </a></li><hr>
+                                                                <li><a href="#"><i class="ti-pin2"></i> <span> <span>SUM</span> <span class="round_badge">0.00</span> </span> </a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-8">
+                                                        <div class="white_box QA_section mb_30">
+                                                            <div class="white_box_tittle list_header">
+                                                                <h4>Receipts</h4>
+                                                                <div class="box_right d-flex lms_block">
+                                                                    <div class="" id="orderDashboardFilter">                                                                        
+                                                                        <button class="btn btn-primary btn-sm" data-title="Receipt">Receipt 0 bills.</button>
+                                                                        <button class="btn btn-primary btn-sm" data-title="Voided Receipt">Voided Receipt 0 bills.</button>
+                                                                        <button class="btn btn-primary btn-sm" data-title="Unsync">Unsync Data</button>     
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="QA_table ">
+                                                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer text-center">
+                                                                    NO DATA
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="tab-pane fade show active" id="area_table" role="tabpanel" aria-labelledby="Order-tab">
@@ -124,16 +193,16 @@
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รายการ</td>
                                                                                                         <td>
-                                                                                                            xxx รายการ
+                                                                                                           <p id="table_pcs">xxx รายการ</p> 
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">เวลา</td>
-                                                                                                        <td>XXXX</td>
+                                                                                                        <td><p id="time_table">xxx</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รวม</td>
-                                                                                                        <td class="text-dark"><strong>0.00 บาท</strong></td>
+                                                                                                        <td class="text-dark"><strong id="price_sum_table">0.00 บาท</strong></td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
@@ -148,25 +217,25 @@
                                                                                                 <tbody>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="#">SUB TOTAL</a></td>
-                                                                                                        <td>0.00</td>
+                                                                                                        <td><p id='sub_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalServiceType();"> SERVICE</a></td>
                                                                                                         <td>
-                                                                                                            ---
+                                                                                                        <p id='service_total_'>0.00</p>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModaldiscountAllType();"> DISCOUNT ALL</a></td>
-                                                                                                        <td>---</td>
+                                                                                                        <td><p id='discount_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalCardCharge();"> CARD CHARGE</a></td>
-                                                                                                        <td>---</td>
+                                                                                                        <td><p id='card_charge_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalVat();"> VAT</a> </td>
-                                                                                                        <td>---</td>
+                                                                                                        <td><p id='vat_total_'>0.00</p></td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>

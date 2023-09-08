@@ -106,15 +106,15 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="payment-title"><a href="javascript:void(0);" onclick="openModaldiscountAllType();"> DISCOUNT ALL</a></td>
-                                                    <td>---</td>
+                                                    <td><span id="discount_price">---</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="payment-title"><a href="javascript:void(0);" onclick="openModalCardCharge();"> CARD CHARGE</a></td>
-                                                    <td>---</td>
+                                                    <td><span id="cardCharge_price">---</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="payment-title"><a href="javascript:void(0);" onclick="openModalVat();"> VAT</a> </td>
-                                                    <td>---</td>
+                                                    <td><span id="vat_price">---</span></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -243,208 +243,209 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Model Add DISCOUNT ALL -->
-        <div class="modal fade bd-add-discountAll" tabindex="-1" role="dialog" aria-labelledby="discountAll" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content p-4">
-                    <div class="col-lg-12">
-                        <div class="white_card card_height_100 mb_30">
-                            <button type="button" class="close" aria-label="Close" onclick="closeModaladddiscountAll();">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="white_card_header">
-                                <div class=" m-0">
-                                    <div class="justify-content-center" style="display:flex;">
-                                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormDiscountAll">ส่วนลดทั้งหมด</h3>
-                                    </div>
+    <!-- Model Add DISCOUNT ALL -->
+    <div class="modal fade bd-add-discountAll" tabindex="-1" role="dialog" aria-labelledby="discountAll" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-4">
+                <div class="col-lg-12">
+                    <div class="white_card card_height_100 mb_30">
+                        <button type="button" class="close" aria-label="Close" onclick="closeModaladddiscountAll();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="white_card_header">
+                            <div class=" m-0">
+                                <div class="justify-content-center" style="display:flex;">
+                                    <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormDiscountAll">ส่วนลดทั้งหมด</h3>
                                 </div>
                             </div>
-                            <div class="white_card_body">
-                                <form id="adddiscountAll" name="adddiscountAll" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                                    <div class="row col-12">
-                                        <div class="row col-6">
+                        </div>
+                        <div class="white_card_body">
+                            <form id="adddiscountAll" name="adddiscountAll" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                                <div class="row col-12">
+                                    <div class="row col-6">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="adddiscountAll_type">ประเภท</label>
+                                            <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                            <select class="form-select" id="adddiscountAll_type" name="adddiscountAll_type" required="">
+                                                <option value="">เลือกประเภท</option>
+                                                <option style="color: #000;" value="percen">%</option>
+                                                <option style="color: #000;" value="number">จำนวน</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-6">
+                                        <div class="col-12">
                                             <div class="input-group mb-3">
-                                                <label class="input-group-text" for="adddiscountAll_type">ประเภท</label>
-                                                <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
-                                                <select class="form-select" id="adddiscountAll_type" name="adddiscountAll_type" required="">
-                                                    <option value="">เลือกประเภท</option>
-                                                    <option style="color: #000;" value="percen">%</option>
-                                                    <option style="color: #000;" value="number">จำนวน</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row col-6">
-                                            <div class="col-12">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text">
-                                                        <div class="">จำนวน</div>
-                                                    </div>
-                                                    <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_adddiscountAll" name="num_adddiscountAll" placeholder="" required>
+                                                <div class="input-group-text">
+                                                    <div class="">จำนวน</div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-11">
-                                            <div class="input-group mb-3  justify-content-end">
-                                                <button type="button" onclick="closeModaladddiscountAll();" class="btn btn-outline-danger m-1">
-                                                    ยกเลิก
-                                                </button>
-                                                <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
-                                                    ยืนยัน
-                                                </button>
-                                                <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
-                                        ยืนยัน
-                                    </button> -->
+                                                <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_adddiscountAll" name="num_adddiscountAll" placeholder="" required>
                                             </div>
                                         </div>
                                     </div>
-                            </div>
-                            </form>
+                                    <div class="col-11">
+                                        <div class="input-group mb-3  justify-content-end">
+                                            <button type="button" onclick="closeModaladddiscountAll();" class="btn btn-outline-danger m-1">
+                                                ยกเลิก
+                                            </button>
+                                            <button type="submit" class="btn btn-outline-success m-1">
+                                                ยืนยัน
+                                            </button>
+                                            <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Model Add CARD CHANGE -->
-        <div class="modal fade bd-add-cardCharge" tabindex="-1" role="dialog" aria-labelledby="cardChargeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content p-4">
-                    <div class="col-lg-12">
-                        <div class="white_card card_height_100 mb_30">
-                            <button type="button" class="close" aria-label="Close" onclick="closeModalcardCharge();">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="white_card_header">
-                                <div class=" m-0">
-                                    <div class="justify-content-center" style="display:flex;">
-                                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormCardCharge">Credit card charges (percent) ?</h3>
-                                    </div>
+    <!-- Model Add CARD CHANGE -->
+    <div class="modal fade bd-add-cardCharge" tabindex="-1" role="dialog" aria-labelledby="cardChargeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-4">
+                <div class="col-lg-12">
+                    <div class="white_card card_height_100 mb_30">
+                        <button type="button" class="close" aria-label="Close" onclick="closeModalcardCharge();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="white_card_header">
+                            <div class=" m-0">
+                                <div class="justify-content-center" style="display:flex;">
+                                    <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormCardCharge">Credit card charges (percent) ?</h3>
                                 </div>
                             </div>
-                            <div class="white_card_body">
-                                <form id="addcardCharge" name="addcardCharge" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                                    <div class="row col-12">
-                                        <div class="row col-12">
-                                            <div class="col-12">
-                                                <div class="input-group mb-3">
-
-                                                    <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_cardCharge" name="num_cardCharge" placeholder="" required>
-                                                    <div class="input-group-text">
-                                                        <div class="">%</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-11">
-                                            <div class="input-group mb-3  justify-content-end">
-                                                <button type="button" onclick="closeModalcardCharge();" class="btn btn-outline-danger m-1">
-                                                    ยกเลิก
-                                                </button>
-                                                <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
-                                                    ยืนยัน
-                                                </button>
-                                                <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
-                                        ยืนยัน
-                                    </button> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                            </form>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Model Add VAT -->
-        <div class="modal fade bd-add-vat" tabindex="-1" role="dialog" aria-labelledby="vatModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content p-4">
-                    <div class="col-lg-12">
-                        <div class="white_card card_height_100 mb_30">
-                            <button type="button" class="close" aria-label="Close" onclick="closeModalVAT();">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="white_card_header">
-                                <div class=" m-0">
-                                    <div class="justify-content-center" style="display:flex;">
-                                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormVAT">VAT</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="white_card_body">
-                                <form id="addvat" name="addvat" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                        <div class="white_card_body">
+                            <form id="addcardCharge" name="addcardCharge" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                                <div class="row col-12">
                                     <div class="row col-12">
-                                        <div class="row col-6">
+                                        <div class="col-12">
                                             <div class="input-group mb-3">
-                                                <label class="input-group-text" for="service_type">ประเภท</label>
-                                                <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
-                                                <select class="form-select" id="service_type" name="service_type" required="">
-                                                    <option value="">เลือกประเภท</option>
-                                                    <option style="color: #000;" value="percen">%</option>
-                                                    <option style="color: #000;" value="number">จำนวน</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row col-6">
-                                            <div class="col-12">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text">
-                                                        <div class="">จำนวน</div>
-                                                    </div>
-                                                    <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_vat" name="num_vat" placeholder="" required>
+
+                                                <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_cardCharge" name="num_cardCharge" placeholder="" required>
+                                                <div class="input-group-text">
+                                                    <div class="">%</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-11">
-                                            <div class="input-group mb-3  justify-content-end">
-                                                <button type="button" onclick="closeModalVAT();" class="btn btn-outline-danger m-1">
-                                                    ยกเลิก
-                                                </button>
-                                                <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
-                                                    ยืนยัน
-                                                </button>
-                                                <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                    </div>
+                                    <div class="col-11">
+                                        <div class="input-group mb-3  justify-content-end">
+                                            <button type="button" onclick="closeModalcardCharge();" class="btn btn-outline-danger m-1">
+                                                ยกเลิก
+                                            </button>
+                                            <button type="submit" class="btn btn-outline-success m-1">
+                                                ยืนยัน
+                                            </button>
+                                            <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
                                         ยืนยัน
                                     </button> -->
-                                            </div>
                                         </div>
                                     </div>
-                            </div>
-                            </form>
+                                </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="<?php echo base_url('js/jquery1-3.4.1.min.js'); ?>"></script>
+    <!-- Model Add VAT -->
+    <div class="modal fade bd-add-vat" tabindex="-1" role="dialog" aria-labelledby="vatModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-4">
+                <div class="col-lg-12">
+                    <div class="white_card card_height_100 mb_30">
+                        <button type="button" class="close" aria-label="Close" onclick="closeModalVAT();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="white_card_header">
+                            <div class=" m-0">
+                                <div class="justify-content-center" style="display:flex;">
+                                    <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormVAT">VAT</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body">
+                            <form id="addvat" name="addvat" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                                <div class="row col-12">
+                                    <div class="row col-6">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="vat_type">ประเภท</label>
+                                            <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                            <select class="form-select" id="vat_type" name="vat_type" required>
+                                                <option value="">เลือกประเภท</option>
+                                                <option style="color: #000;" value="percen">%</option>
+                                                <!-- <option style="color: #000;" value="number">จำนวน</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-6">
+                                        <div class="col-12">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-text">
+                                                    <div class="">จำนวน</div>
+                                                </div>
+                                                <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_vat" name="num_vat" placeholder="" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-11">
+                                        <div class="input-group mb-3  justify-content-end">
+                                            <button type="button" onclick="closeModalVAT();" class="btn btn-outline-danger m-1">
+                                                ยกเลิก
+                                            </button>
+                                            <button type="submit"  class="btn btn-outline-success m-1">
+                                                ยืนยัน
+                                            </button>
+                                            <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <script src="<?php echo base_url('js/popper1.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/jquery1-3.4.1.min.js'); ?>"></script>
 
-        <script src="<?php echo base_url('js/bootstrap1.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/popper1.min.js'); ?>"></script>
 
-        <script src="<?php echo base_url('vendors/parsleyjs/parsley.min.js'); ?>"></script>
+    <script src="<?php echo base_url('js/bootstrap1.min.js'); ?>"></script>
 
-        <script src="<?php echo base_url('vendors/datatable/js/jquery.dataTables.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/dataTables.responsive.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/dataTables.buttons.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/buttons.flash.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/jszip.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/pdfmake.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/vfs_fonts.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/buttons.html5.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendors/datatable/js/buttons.print.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/parsleyjs/parsley.min.js'); ?>"></script>
 
-        <!-- <script src="<?php //echo base_url('js/custom.js'); 
-                            ?>"></script> -->
+    <script src="<?php echo base_url('vendors/datatable/js/jquery.dataTables.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/dataTables.responsive.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/dataTables.buttons.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/buttons.flash.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/jszip.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/pdfmake.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/vfs_fonts.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/buttons.html5.min.js'); ?>"></script>
+    <script src="<?php echo base_url('vendors/datatable/js/buttons.print.min.js'); ?>"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
-        <?php if (isset($js_critical)) {
-            echo $js_critical;
-        }; ?>
+    <!-- <script src="<?php //echo base_url('js/custom.js'); 
+                        ?>"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
+    <?php if (isset($js_critical)) {
+        echo $js_critical;
+    }; ?>
 </body>
 
 </html>

@@ -144,8 +144,12 @@ function ($routes) {
     $routes->get('order_list_customer/(:any)', 'OrderPosController::getPageOrderCustomer/$1');   
     $routes->get('getTableDetalByCode/(:any)', 'OrderPosController::getTableDetailByCode/$1'); 
     $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
-    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
+    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData'); 
+    $routes->post('addOrderCustomer', 'OrderPosController::insertOrderCustomer');    
+    $routes->get('getSummaryData/(:any)', 'OrderPosController::getSummaryData/$1');   
 
+    $routes->post('sumOrderItems', 'Test::sumOrderItems');
+    $routes->post('getLiveData', 'Test::getLiveData');
     $routes->get('activity', 'Test::activity');
 });
 /*

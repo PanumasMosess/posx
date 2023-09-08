@@ -10,15 +10,21 @@ var subtotal = 0;
 var order_price_total = 0;
 
 //service Val public
-var service_type;
+var service_type = '';
 var service_number = 0;
 var service_total = 0;
-
+//discounr val public
+var discount_type = '';
+var discount_number = 0;
 var discount_total = 0;
-
+//charge val public
+var card_charge_number = 0;
 var card_charge_total = 0;
-
+// vat val public
+var vat_type = '';
+var vat_number = 0;
 var vat_total = 0;
+
 (function ($) {
   let searchParams = window.location.pathname;
   searchParams_ = searchParams.split("/order/order_list_customer/");
@@ -114,6 +120,7 @@ function loadTableOrderCustomer() {
 
     // summaryText();
     calService();
+    calDiscountAll();
   });
 }
 
@@ -283,6 +290,7 @@ function getOrderCard() {
       .on("click", "tr", function (e) {
         let data = table_select_list.row(this).data();
         data.total_price = "";
+        data.order_pcs = 1;
         arrar_select_function(data);
       });
   } else {
@@ -323,11 +331,30 @@ function deleteListSelecCustomertComfirm(data) {
 }
 
 function cancleAllTable() {
+  $("#search").html("");
   order_price_total = 0;
+
+  service_number = 0;
+  service_total = 0;
+
+  discount_number = 0;
+  discount_total = 0;
+
+  card_charge_number = 0;
+  card_charge_total = 0;
+
+  vat_number = 0;
+  vat_total = 0;
+
   array_select_confirm = [];
   loadTableOrderCustomer();
-  getOrderCard();
   summaryText();
+  $("#service_price").html('<span id="service_price"> ' + "---" + " </span>");
+  $("#discount_price").html('<span id="discount_price"> ' + "---" + "</span>");
+  $("#cardCharge_price").html(
+    '<span id="cardCharge_price"> ' + "---" + "</span>"
+  );
+  $("#vat_price").html('<span id="vat_price"> ' + "---" + "</span>");
 }
 
 function openModalServiceType() {
@@ -371,30 +398,102 @@ function closeModalVAT() {
 }
 
 function orderConfirm() {
-  //get data from table input
-  let data = table_order_customer.$("input, text").serialize();
-  let str_split = data.replace(/pcs_cut=/g, "");
-  let pcs_number_order = str_split.split("&");
+  Swal.fire({
+    title: "เพิ่ม Order",
+    text: "คุณต้องการเพิ่ม Order โต๊ะนี้ !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "ปิด",
+    confirmButtonText: "ตกลง",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      if (array_select_confirm.length != 0) {
+        array_customer_order = [];
+        let check_kitchen = $("#kitchen_check").is(":checked");
+        //get data from table input
+        let data = table_order_customer.$("input, text").serialize();
+        let str_split = data.replace(/pcs_cut=/g, "");
+        let pcs_number_order = str_split.split("&");
 
-  let order_pcs_sum = 0,
-    order_price = 0;
-  object_customer_order_temp = {};
+        arr_object_customer_order_temp = [];
 
-  for (var i = 0; i < array_select_confirm.length; i++) {
-    (object_customer_order_temp = {
-      order_code: array_select_confirm[i].order_code,
-      order_customer_ordername: array_select_confirm[i].order_name,
-      order_customer_price: array_select_confirm[i].order_price,
-      order_customer_pcs: pcs_number_order[i],
-      order_customer_table_code: data_table_name,
-    }),
-      (order_pcs_sum += parseInt(pcs_number_order[i]));
-    order_price +=
-      parseInt(array_select_confirm[i].order_price) *
-      parseInt(pcs_number_order[i]);
+        let status = "OTHER";
+        if (check_kitchen) {
+          status = "IN_KITCHEN";
+        }
 
-    array_customer_order.push(object_customer_order_temp);
-  }
+        for (var i = 0; i < array_select_confirm.length; i++) {
+          (arr_object_customer_order_temp = 
+            [{
+              order_code: array_select_confirm[i].order_code,
+              order_customer_ordername: array_select_confirm[i].order_name,
+              order_customer_price: array_select_confirm[i].order_price,
+              order_customer_pcs: pcs_number_order[i],
+              order_customer_table_code: data_table_name,
+              order_price_sum: order_price_total,
+              order_service: service_total,
+              order_service_type: service_type,
+              order_discount: discount_total,
+              order_discount_type: discount_type,
+              order_card_charge: card_charge_total,
+              order_card_charge_type: "-",
+              order_vat_type: vat_total,
+              order_vat: vat_type,
+              order_status: status,
+            }]
+          ),
+            array_customer_order.push(arr_object_customer_order_temp);
+        }
+
+        if (isOnline) {
+          $.ajax({
+            url: serverUrl + "order/addOrderCustomer",
+            method: "post",
+            data: {
+              data: array_customer_order,
+            },
+            cache: false,
+            success: function (response) {
+              if ((response.message = "เพิ่มรายการสำเร็จ")) {
+                notif({
+                  type: "success",
+                  msg: "เพิ่มรายการสำเร็จ!",
+                  position: "right",
+                  fade: true,
+                  time: 300,
+                });
+                //clear after add
+                array_customer_order = [];
+                array_select_confirm = [];
+                cancleAllTable();
+
+              } else {
+                notif({
+                  type: "danger",
+                  msg: "เพิ่มไม่สำเร็จ",
+                  position: "right",
+                  fade: true,
+                  time: 300,
+                });
+              }
+            },
+          });
+        } else {
+        }
+
+      } else {
+        notif({
+          type: "warning",
+          msg: "กรุณาเลือก Order!",
+          position: "right",
+          fade: true,
+          time: 300,
+        });
+      }
+    }
+  });
 }
 
 function summaryText() {
@@ -414,7 +513,12 @@ function summaryText() {
 
   // console.log(order_price);
 
-  order_price_total = order_price + service_total;
+  order_price_total =
+    order_price +
+    service_total -
+    discount_total +
+    card_charge_total +
+    vat_total;
 
   $("#sum_price").html(
     '<span id="sum_price">' +
@@ -476,7 +580,8 @@ function calService() {
     if ($("#service_type").val() == "percen") {
       service_type = $("#service_type").val();
       service_number = $("#num_service").val();
-      let number_ = $("#num_service").val();
+      let number_ = 0;
+      number_ = $("#num_service").val();
       let precen_number = order_price_total * (parseFloat(number_) / 100);
       service_total = precen_number;
       $("#service_price").html(
@@ -485,7 +590,8 @@ function calService() {
       summaryText();
     } else {
       service_number = $("#num_service").val();
-      let number_ = $("#num_service").val();
+      let number_ = 0;
+      number_ = $("#num_service").val();
       service_total = parseFloat(number_);
       $("#service_price").html(
         '<span id="service_price"> ' + number_ + " บาท</span>"
@@ -497,6 +603,162 @@ function calService() {
       summaryText();
       let number_last = order_price_total * (parseFloat(service_number) / 100);
       service_total = number_last;
+      summaryText();
+    } else {
+      summaryText();
+    }
+  }
+}
+
+$("#adddiscountAll").submit(function (e) {
+  e.preventDefault();
+  var adddiscountAll_type = $("#adddiscountAll_type").parsley();
+  var num_adddiscountAll = $("#num_adddiscountAll").parsley();
+
+  if (adddiscountAll_type.isValid() && num_adddiscountAll.isValid()) {
+    isOnline = window.navigator.onLine;
+    if (isOnline) {
+      calDiscountAll();
+      $(".bd-add-discountAll").modal("hide");
+      $("#adddiscountAll")[0].reset();
+      $("#adddiscountAll").parsley().reset();
+    } else {
+      // calDiscountAll();
+      $(".bd-add-discountAll").modal("hide");
+      $("#adddiscountAll")[0].reset();
+      $("#adddiscountAll").parsley().reset();
+    }
+  } else {
+    adddiscountAll_type.validate();
+    num_adddiscountAll.validate();
+  }
+});
+
+function calDiscountAll() {
+  if ($("#adddiscountAll_type").val() != "") {
+    if ($("#adddiscountAll_type").val() == "percen") {
+      discount_type = $("#adddiscountAll_type").val();
+      discount_number = $("#num_adddiscountAll").val();
+      let number_ = 0;
+      number_ = $("#num_adddiscountAll").val();
+      let precen_number = order_price_total * (parseFloat(number_) / 100);
+      discount_total = precen_number;
+      $("#discount_price").html(
+        '<span id="discount_price"> ' + number_ + " %</span>"
+      );
+      summaryText();
+    } else {
+      discount_number = $("#num_adddiscountAll").val();
+      let number_ = 0;
+      number_ = $("#num_adddiscountAll").val();
+      discount_total = parseFloat(number_);
+      $("#discount_price").html(
+        '<span id="discount_price"> ' + number_ + " บาท</span>"
+      );
+      summaryText();
+    }
+  } else {
+    if (adddiscountAll_type == "percen") {
+      summaryText();
+      let number_last = order_price_total * (parseFloat(discount_number) / 100);
+      discount_total = number_last;
+      summaryText();
+    } else {
+      summaryText();
+    }
+  }
+}
+
+$("#addcardCharge").submit(function (e) {
+  e.preventDefault();
+  var num_cardCharge = $("#num_cardCharge").parsley();
+
+  if (num_cardCharge.isValid()) {
+    isOnline = window.navigator.onLine;
+    if (isOnline) {
+      cardCharge();
+      $(".bd-add-cardCharge").modal("hide");
+      $("#addcardCharge")[0].reset();
+      $("#addcardCharge").parsley().reset();
+    } else {
+      // calDiscountAll();
+      $(".bd-add-cardCharge").modal("hide");
+      $("#addcardCharge")[0].reset();
+      $("#addcardCharge").parsley().reset();
+    }
+  } else {
+    num_cardCharge.validate();
+  }
+});
+
+function cardCharge() {
+  if ($("#num_cardCharge").val() != "") {
+    card_charge_number = $("#num_cardCharge").val();
+    let number_ = 0;
+    number_ = $("#num_cardCharge").val();
+    let precen_number = order_price_total * (parseFloat(number_) / 100);
+    card_charge_total = precen_number;
+    $("#cardCharge_price").html(
+      '<span id="cardCharge_price"> ' + number_ + " %</span>"
+    );
+    summaryText();
+  } else {
+    summaryText();
+    let number_last =
+      order_price_total * (parseFloat(card_charge_number) / 100);
+    card_charge_total = number_last;
+    summaryText();
+  }
+}
+
+$("#addvat").submit(function (e) {
+  e.preventDefault();
+  var vat_type = $("#vat_type").parsley();
+  var num_vat = $("#num_vat").parsley();
+
+  if (vat_type.isValid() && num_vat.isValid()) {
+    isOnline = window.navigator.onLine;
+    if (isOnline) {
+      calvat();
+      $(".bd-add-vat").modal("hide");
+      $("#addvat")[0].reset();
+      $("#addvat").parsley().reset();
+    } else {
+      // calDiscountAll();
+      $(".bd-add-vat").modal("hide");
+      $("#addvat")[0].reset();
+      $("#addvat").parsley().reset();
+    }
+  } else {
+    vat_type.validate();
+    num_adddiscountAll.validate();
+  }
+});
+
+function calvat() {
+  if ($("#vat_type").val() != "") {
+    if ($("#vat_type").val() == "percen") {
+      vat_type = $("#vat_type").val();
+      vat_number = $("#num_vat").val();
+      let number_ = 0;
+      number_ = $("#num_vat").val();
+      let precen_number = order_price_total * (parseFloat(number_) / 100);
+      vat_total = precen_number;
+      $("#vat_price").html('<span id="vat_price"> ' + number_ + " %</span>");
+      summaryText();
+    } else {
+      discount_number = $("#num_vat").val();
+      let number_ = 0;
+      number_ = $("#num_vat").val();
+      vat_total = parseFloat(number_);
+      $("#vat_price").html('<span id="vat_price"> ' + number_ + " บาท</span>");
+      summaryText();
+    }
+  } else {
+    if (vat_type == "percen") {
+      summaryText();
+      let number_last = order_price_total * (parseFloat(vat_number) / 100);
+      vat_total = number_last;
       summaryText();
     } else {
       summaryText();

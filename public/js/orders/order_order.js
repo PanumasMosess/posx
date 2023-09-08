@@ -17,7 +17,14 @@ var table_code;
         "<p>" + target.getAttribute("data-name") + "</p>"
       );
       table_code = target.getAttribute("data-code");
-      $("#addOrderCusBtn").removeClass("disable-click");
+
+      if (target.getAttribute("data-use") !== "USE") {
+        $("#addOrderCusBtn").removeClass("disable-click");
+      } else {
+        $("#addOrderCusBtn").addClass("disable-click");
+        detail_summary(target.getAttribute("data-code"));
+      }
+
       event.preventDefault();
     })
     .resizable({
@@ -122,41 +129,83 @@ function drowTableLoad(data) {
       success: function (response) {
         $("#canvaHolder").html("");
         var dataTable = response.data;
+
         for (var i = 0; i < dataTable.length; i++) {
-          $(".canva").append(
-            '<div class="resize-drag' +
-              (dataTable[i].rounded === "yes" ? " circle" : "") +
-              '" id="' +
-              dataTable[i].div_id +
-              '" data-rounded="' +
-              dataTable[i].rounded +
-              '" data-name="' +
-              dataTable[i].table_name +
-              '" data-size="' +
-              dataTable[i].size_table +
-              '"  data-x="' +
-              dataTable[i].x +
-              '" data-y="' +
-              dataTable[i].y +
-              '" data-area="' +
-              dataTable[i].area_code +
-              '" data-code="' +
-              dataTable[i].table_code +
-              '" style="transform: translate(' +
-              dataTable[i].x +
-              "px, " +
-              dataTable[i].y +
-              "px); width: " +
-              dataTable[i].width_div +
-              "px; height: " +
-              dataTable[i].hight_div +
-              'px;" ><p id="Action">' +
-              dataTable[i].table_name +
-              "</p><span  style='opacity: 0.7;'>" +
-              dataTable[i].size_table +
-              " ที่นั่ง" +
-              "</span></div>"
-          );
+          if (dataTable[i].table_status == "USE") {
+            $(".canva").append(
+              '<div class="resize-drag' +
+                (dataTable[i].rounded === "yes" ? " circle" : "") +
+                '" id="' +
+                dataTable[i].div_id +
+                '" data-rounded="' +
+                dataTable[i].rounded +
+                '" data-name="' +
+                dataTable[i].table_name +
+                '" data-size="' +
+                dataTable[i].size_table +
+                '"  data-x="' +
+                dataTable[i].x +
+                '" data-y="' +
+                dataTable[i].y +
+                '" data-area="' +
+                dataTable[i].area_code +
+                '" data-code="' +
+                dataTable[i].table_code +
+                '" data-use="' +
+                dataTable[i].table_status +
+                '" style="transform: translate(' +
+                dataTable[i].x +
+                "px, " +
+                dataTable[i].y +
+                "px); width: " +
+                dataTable[i].width_div +
+                "px; height: " +
+                dataTable[i].hight_div +
+                'px; background-color: #E0E0DE;" ><p id="Action">' +
+                dataTable[i].table_name +
+                " (ไม่ว่าง)</p><span  style='opacity: 0.7;'>" +
+                dataTable[i].size_table +
+                " ที่นั่ง" +
+                "</span></div>"
+            );
+          } else {
+            $(".canva").append(
+              '<div class="resize-drag' +
+                (dataTable[i].rounded === "yes" ? " circle" : "") +
+                '" id="' +
+                dataTable[i].div_id +
+                '" data-rounded="' +
+                dataTable[i].rounded +
+                '" data-name="' +
+                dataTable[i].table_name +
+                '" data-size="' +
+                dataTable[i].size_table +
+                '"  data-x="' +
+                dataTable[i].x +
+                '" data-y="' +
+                dataTable[i].y +
+                '" data-area="' +
+                dataTable[i].area_code +
+                '" data-code="' +
+                dataTable[i].table_code +
+                '" data-use="' +
+                dataTable[i].table_status +
+                '" style="transform: translate(' +
+                dataTable[i].x +
+                "px, " +
+                dataTable[i].y +
+                "px); width: " +
+                dataTable[i].width_div +
+                "px; height: " +
+                dataTable[i].hight_div +
+                'px;" ><p id="Action">' +
+                dataTable[i].table_name +
+                "</p><span  style='opacity: 0.7;'>" +
+                dataTable[i].size_table +
+                " ที่นั่ง" +
+                "</span></div>"
+            );
+          }
         }
       },
     });
@@ -221,4 +270,45 @@ function openAddOrder_customer() {
   };
 
   STOCK_ORDER_LIST.init();
+}
+
+function detail_summary(table_code) {
+  $.ajax({
+    url: serverUrl + "/order/getSummaryData/" + table_code,
+    method: "get",
+    success: function (response) {
+      let sub_total =
+        parseFloat(response.data.order_price_sum) -
+        parseFloat(response.data.order_card_charge) -
+        parseFloat(response.data.order_vat) -
+        parseFloat(response.data.order_service) +
+        parseFloat(response.data.order_discount);
+
+      $("#table_pcs").html(
+        '<p id="table_pcs">' + response.data.order_pcs_sum + " รายการ</p>"
+      );
+      $("#time_table").html(
+        '<p id="time_table">' + response.data.order_time + "</p>"
+      );
+      $("#price_sum_table").html(
+        '<strong id="price_sum_table">' +
+          response.data.order_price_sum +
+          " บาท</strong>"
+      );
+
+      $("#service_total_").html(
+        '<p id="service_total_">' + response.data.order_service + "</p>"
+      );
+      $("#discount_total_").html(
+        '<p id="discount_total_">' + response.data.order_discount + "</p>"
+      );
+      $("#card_charge_total_").html(
+        '<p id="card_charge_total_">' + response.data.order_card_charge + "</p>"
+      );
+      $("#vat_total_").html(
+        '<p id="vat_total_">' + response.data.order_vat + "</p>"
+      );
+      $("#sub_total_").html('<p id="sub_total_">' + sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) + "</p>");
+    },
+  });
 }
