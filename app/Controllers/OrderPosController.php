@@ -487,7 +487,7 @@ class OrderPosController extends BaseController
                 $data_customer_order = [
                     'order_customer_code'  => $table_running_code,
                     'order_customer_ordername'  => $data[0]['order_customer_ordername'],
-                    'order_customer_des'   => '',
+                    'order_customer_des'   =>  $data[0]['order_des'],
                     'order_customer_price'   => $data[0]['order_customer_ordername'],
                     'order_customer_pcs'  => $data[0]['order_customer_pcs'],
                     'order_code'   => $data[0]['order_code'],

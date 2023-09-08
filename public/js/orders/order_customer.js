@@ -10,18 +10,18 @@ var subtotal = 0;
 var order_price_total = 0;
 
 //service Val public
-var service_type = '';
+var service_type = "";
 var service_number = 0;
 var service_total = 0;
 //discounr val public
-var discount_type = '';
+var discount_type = "";
 var discount_number = 0;
 var discount_total = 0;
 //charge val public
 var card_charge_number = 0;
 var card_charge_total = 0;
 // vat val public
-var vat_type = '';
+var vat_type = "";
 var vat_number = 0;
 var vat_total = 0;
 
@@ -58,7 +58,30 @@ function loadTableOrderCustomer() {
         },
       },
       {
-        data: "order_name",
+        data: null,
+        render: function (data, type, full, meta) {
+          let data_order_name = data["order_name"];
+          dataRe =
+            '<div class="box_header m-0"><div class="main-title">' +
+            data_order_name +
+            '<p style="font-size: 13px;">'+ data['order_des']+ '</p>'+
+            "</div>" +
+            '<div class="header_more_tool">' +
+            '<div class="dropdown">' +
+            '<span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">' +
+            '<i class="ti-more-alt"></i>' +
+            "</span>" +
+            '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="">' +
+            '<a class="dropdown-item" href="javascript:void(0);" onclick="openModalComment(' +
+            data["id"] +
+            ');">' +
+            '<i class="ti-comment-alt"></i> Comment</a>' +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+          return dataRe;
+        },
       },
       {
         data: null,
@@ -193,7 +216,12 @@ function getOrderCard() {
           },
         },
         {
-          data: "order_name",
+          data: null,
+          render: function (data, type, full, meta) {
+            let data_order_name = data["order_name"];
+            dataRe = "";
+            return data_order_name;
+          },
         },
         {
           data: "name",
@@ -290,6 +318,7 @@ function getOrderCard() {
       .on("click", "tr", function (e) {
         let data = table_select_list.row(this).data();
         data.total_price = "";
+        data.order_des = "";
         data.order_pcs = 1;
         arrar_select_function(data);
       });
@@ -425,8 +454,8 @@ function orderConfirm() {
         }
 
         for (var i = 0; i < array_select_confirm.length; i++) {
-          (arr_object_customer_order_temp = 
-            [{
+          (arr_object_customer_order_temp = [
+            {
               order_code: array_select_confirm[i].order_code,
               order_customer_ordername: array_select_confirm[i].order_name,
               order_customer_price: array_select_confirm[i].order_price,
@@ -442,8 +471,9 @@ function orderConfirm() {
               order_vat_type: vat_total,
               order_vat: vat_type,
               order_status: status,
-            }]
-          ),
+              order_des: array_select_confirm[i].order_des,
+            },
+          ]),
             array_customer_order.push(arr_object_customer_order_temp);
         }
 
@@ -468,7 +498,6 @@ function orderConfirm() {
                 array_customer_order = [];
                 array_select_confirm = [];
                 cancleAllTable();
-
               } else {
                 notif({
                   type: "danger",
@@ -482,7 +511,6 @@ function orderConfirm() {
           });
         } else {
         }
-
       } else {
         notif({
           type: "warning",
@@ -547,6 +575,17 @@ function updateArrayTable() {
   for (var i = 0; i < array_select_confirm.length; i++) {
     array_select_confirm[i].order_pcs = pcs_number_order[i];
   }
+}
+
+function openModalComment(id) {
+  $(".bd-add-comment").modal("show");
+  $("#text_comment_hiden").val(id);
+}
+
+function closeModalcomment() {
+  $(".bd-add-comment").modal("hide");
+  $("#addcomment")[0].reset();
+  $("#addcomment").parsley().reset();
 }
 
 $("#addService").submit(function (e) {
@@ -764,4 +803,34 @@ function calvat() {
       summaryText();
     }
   }
+}
+
+$("#addcomment").submit(function (e) {
+  e.preventDefault();
+  var text_comment = $("#text_comment").parsley();
+  if (text_comment.isValid()) {
+    isOnline = window.navigator.onLine;
+    if (isOnline) {
+      let data_id = $("#text_comment_hiden").val();
+      addComment(data_id);
+    } else {
+      $(".bd-add-comment").modal("hide");
+      $("#addcomment")[0].reset();
+      $("#addcomment").parsley().reset();
+    }
+  } else {
+    text_comment.validate();
+  }
+});
+
+function addComment(id) {
+  for (var i = 0; i < array_select_confirm.length; i++) {
+    if(array_select_confirm[i].id == id){
+      array_select_confirm[i].order_des = $('#text_comment').val();
+    }
+  }
+  loadTableOrderCustomer();
+  $(".bd-add-comment").modal("hide");
+  $("#addcomment")[0].reset();
+  $("#addcomment").parsley().reset();
 }

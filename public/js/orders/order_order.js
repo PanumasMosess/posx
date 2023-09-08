@@ -20,6 +20,7 @@ var table_code;
 
       if (target.getAttribute("data-use") !== "USE") {
         $("#addOrderCusBtn").removeClass("disable-click");
+        clear_detail_summary();
       } else {
         $("#addOrderCusBtn").addClass("disable-click");
         detail_summary(target.getAttribute("data-code"));
@@ -311,4 +312,32 @@ function detail_summary(table_code) {
       $("#sub_total_").html('<p id="sub_total_">' + sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) + "</p>");
     },
   });
+}
+
+function clear_detail_summary(){
+  $("#table_pcs").html(
+    '<p id="table_pcs">' + "XXX" + " รายการ</p>"
+  );
+  $("#time_table").html(
+    '<p id="time_table">' + "XXX" + "</p>"
+  );
+  $("#price_sum_table").html(
+    '<strong id="price_sum_table">' +
+      "0.00" +
+      " บาท</strong>"
+  );
+
+  $("#service_total_").html(
+    '<p id="service_total_">' + "0.00" + "</p>"
+  );
+  $("#discount_total_").html(
+    '<p id="discount_total_">' + "0.00" + "</p>"
+  );
+  $("#card_charge_total_").html(
+    '<p id="card_charge_total_">' + "0.00" + "</p>"
+  );
+  $("#vat_total_").html(
+    '<p id="vat_total_">' + "0.00" + "</p>"
+  );
+  $("#sub_total_").html('<p id="sub_total_">' + "0.00" + "</p>");
 }

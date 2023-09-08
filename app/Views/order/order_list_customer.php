@@ -404,7 +404,56 @@
                                             <button type="button" onclick="closeModalVAT();" class="btn btn-outline-danger m-1">
                                                 ยกเลิก
                                             </button>
-                                            <button type="submit"  class="btn btn-outline-success m-1">
+                                            <button type="submit" class="btn btn-outline-success m-1">
+                                                ยืนยัน
+                                            </button>
+                                            <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Add COMMENT -->
+    <div class="modal fade bd-add-comment" tabindex="-1" role="dialog" aria-labelledby="cardChargeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content p-4">
+                <div class="col-lg-12">
+                    <div class="white_card card_height_100 mb_30">
+                        <button type="button" class="close" aria-label="Close" onclick="closeModalcomment();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="white_card_header">
+                            <div class=" m-0">
+                                <div class="justify-content-center" style="display:flex;">
+                                    <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormCardCharge">รายละเอียดเพิ่มเติม</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body">
+                            <form id="addcomment" name="addcomment" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                                <div class="row col-12">
+                                    <div class="row col-12">
+                                        <div class="col-12">
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" id="text_comment" name="text_comment" placeholder="add comment or toping" required>
+                                                <input type="hidden" id="text_comment_hiden" name="text_comment_hiden">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-11">
+                                        <div class="input-group mb-3  justify-content-end">
+                                            <button type="button" onclick="closeModalcomment();" class="btn btn-outline-danger m-1">
+                                                ยกเลิก
+                                            </button>
+                                            <button type="submit" class="btn btn-outline-success m-1">
                                                 ยืนยัน
                                             </button>
                                             <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
