@@ -1,8 +1,10 @@
 var isOnline;
 var table_code;
+var itemsArrayMoveTableOffline = [];
 (function ($) {
   $("#order_select_detail").slideUp();
   $("#addOrderCusBtn").addClass("disable-click");
+  $("#move_order_btn").addClass("disable-click");
   selectArea();
   interact(".resize-drag")
     .on("tap", function (event) {
@@ -20,9 +22,11 @@ var table_code;
 
       if (target.getAttribute("data-use") !== "USE") {
         $("#addOrderCusBtn").removeClass("disable-click");
+        $("#move_order_btn").addClass("disable-click");
         clear_detail_summary();
       } else {
         $("#addOrderCusBtn").addClass("disable-click");
+        $("#move_order_btn").removeClass("disable-click");
         detail_summary(target.getAttribute("data-code"));
       }
 
@@ -95,6 +99,17 @@ function selectArea() {
       });
       $("#area_select").niceSelect("destroy");
       area_select.niceSelect();
+
+      //select move
+      var area_move = $("#area_move");
+      area_move.html('<option value="">เลือกพื้นที่</option>');
+      $.each(response.data, function (index, item) {
+        area_move.append(
+          $('<option style="color: #000;"></option>')
+            .val(item.area_code + "###" + item.area_name)
+            .html(item.area_name)
+        );
+      });
     },
   });
 }
@@ -114,6 +129,25 @@ area_select.on("change", function () {
     $("#order_select_detail").slideUp();
     $("#addOrderCusBtn").addClass("disable-click");
   }
+});
+
+var area_move = $("#area_move");
+area_move.on("change", function () {
+  $.ajax({
+    url: serverUrl + "/order/getTableByArea/" + $("#area_move").val(),
+    method: "get",
+    success: function (response) {
+      var table_move = $("#table_move");
+      table_move.html('<option value="">เลือกโต๊ะ</option>');
+      $.each(response.data, function (index, item) {
+        table_move.append(
+          $('<option style="color: #000;"></option>')
+            .val(item.table_code + "###" + item.table_name)
+            .html(item.table_name)
+        );
+      });
+    },
+  });
 });
 
 function drowTableLoad(data) {
@@ -309,35 +343,104 @@ function detail_summary(table_code) {
       $("#vat_total_").html(
         '<p id="vat_total_">' + response.data.order_vat + "</p>"
       );
-      $("#sub_total_").html('<p id="sub_total_">' + sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) + "</p>");
+      $("#sub_total_").html(
+        '<p id="sub_total_">' +
+          sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
+          "</p>"
+      );
     },
   });
 }
 
-function clear_detail_summary(){
-  $("#table_pcs").html(
-    '<p id="table_pcs">' + "XXX" + " รายการ</p>"
-  );
-  $("#time_table").html(
-    '<p id="time_table">' + "XXX" + "</p>"
-  );
+function clear_detail_summary() {
+  $("#table_pcs").html('<p id="table_pcs">' + "XXX" + " รายการ</p>");
+  $("#time_table").html('<p id="time_table">' + "XXX" + "</p>");
   $("#price_sum_table").html(
-    '<strong id="price_sum_table">' +
-      "0.00" +
-      " บาท</strong>"
+    '<strong id="price_sum_table">' + "0.00" + " บาท</strong>"
   );
 
-  $("#service_total_").html(
-    '<p id="service_total_">' + "0.00" + "</p>"
-  );
-  $("#discount_total_").html(
-    '<p id="discount_total_">' + "0.00" + "</p>"
-  );
+  $("#service_total_").html('<p id="service_total_">' + "0.00" + "</p>");
+  $("#discount_total_").html('<p id="discount_total_">' + "0.00" + "</p>");
   $("#card_charge_total_").html(
     '<p id="card_charge_total_">' + "0.00" + "</p>"
   );
-  $("#vat_total_").html(
-    '<p id="vat_total_">' + "0.00" + "</p>"
-  );
+  $("#vat_total_").html('<p id="vat_total_">' + "0.00" + "</p>");
   $("#sub_total_").html('<p id="sub_total_">' + "0.00" + "</p>");
 }
+
+function open_move_order_() {
+  $(".bd-move-table").modal("show");
+}
+
+function close_move_table() {
+  $(".bd-move-table").modal("hide");
+  $("#move_table")[0].reset();
+  $("#move_table").parsley().reset();
+}
+
+$("#move_table").submit(function (e) {
+  e.preventDefault();
+  public_array_move_table = [];
+
+  var str_split =  $("#table_move").val();
+  var str_split_result = str_split.split("###");
+  var tabal_code_new = str_split_result[0];
+ 
+
+  arr_table = [
+    {
+      old_table: table_code,
+      new_table: tabal_code_new,
+    },
+  ];
+
+  var table_move = $("#table_move").parsley();
+
+  if (table_move.isValid()) {
+    if (isOnline) {
+      itemsArrayMoveTableOffline.push(arr_table);
+      localStorage.setItem(
+        "tableMove",
+        JSON.stringify(itemsArrayMoveTableOffline)
+      );
+
+      areaMoveTemp = JSON.parse(localStorage.tableMove);
+      $.ajax({
+        url: serverUrl + "order/updateMoveTable",
+        method: "post",
+        data: {
+          data: areaMoveTemp,
+        },
+        cache: false,
+        success: function (response) {
+          if ((response.message = "ย้ายโต๊ะสำเร็จ")) {
+            localStorage.removeItem("tableMove");
+            areaMoveTemp = [];
+            itemsArrayMoveTableOffline = [];
+            notif({
+              type: "success",
+              msg: "ย้ายโต๊ะสำเร็จ!",
+              position: "right",
+              fade: true,
+              time: 300,
+            });
+            $(".bd-move-table").modal("hide");
+            $("#move_table")[0].reset();
+            $("#move_table").parsley().reset();
+            selectArea();
+            $("#canvaHolder").html("");
+            $("#table_header_name").html("");
+            $("#table_header_name_detail").html("");
+            $("#order_select_detail").slideUp();
+            $("#addOrderCusBtn").addClass("disable-click");
+
+          } else {
+          }
+        },
+      });
+    } else {
+    }
+  } else {
+    table_move.validate();
+  }
+});

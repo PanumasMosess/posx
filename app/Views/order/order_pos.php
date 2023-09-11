@@ -182,7 +182,7 @@
                                                                         </div>
                                                                         <div class="devices_btn justify-content-start">
                                                                             <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" id="addOrderCusBtn" href="javascript:void(0);" onclick="openAddOrder_customer();"><i class="ti-plus"></i> Add</a>
-                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-new-window"></i> Move</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="move_order_btn" href="javascript:void(0);" onclick="open_move_order_();"><i class="ti-new-window"></i> Move</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="fas fa-hryvnia"></i> Discount</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-split-h"></i> SpitBill</a>
                                                                             <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-trash"></i> Void Item</a>
@@ -508,6 +508,66 @@
                                             ยกเลิก
                                         </button>
                                         <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
+                                            ยืนยัน
+                                        </button>
+                                        <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model mover table -->
+<div class="modal fade bd-move-table" tabindex="-1" role="dialog" aria-labelledby="move_table_modal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="close_move_table();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class=" m-0">
+                            <div class="justify-content-center" style="display:flex;">
+                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormMove">ย้ายโต๊ะ</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white_card_body">
+                        <form id="move_table" name="move_table" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="row col-12">
+                                <div class="row col-12">
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" id="old_code_table" />
+                                        <label class="input-group-text" for="area_move">พื้นที่</label>
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="area_move" name="area_move" required="">
+                                            <option value="">เลือกพื้นที่</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row col-12">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="table_move">โต๊ะ</label>
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="table_move" name="table_move" required="">
+                                            <option value="">เลือกโต๊ะ</option>          
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="input-group mb-3  justify-content-end">
+                                        <button type="button" onclick="close_move_table();" class="btn btn-outline-danger m-1">
+                                            ยกเลิก
+                                        </button>
+                                        <button type="submit" id='save_move_table' class="btn btn-outline-success m-1">
                                             ยืนยัน
                                         </button>
                                         <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">

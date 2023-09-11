@@ -157,6 +157,8 @@ function ($routes) {
     $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData'); 
     $routes->post('addOrderCustomer', 'OrderPosController::insertOrderCustomer');    
     $routes->get('getSummaryData/(:any)', 'OrderPosController::getSummaryData/$1');   
+    $routes->get('getTableByArea/(:any)', 'OrderPosController::getTableInArea/$1');      
+    $routes->post('updateMoveTable', 'OrderPosController::updateMoveTable'); 
 
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');

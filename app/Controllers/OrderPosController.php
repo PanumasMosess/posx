@@ -577,4 +577,63 @@ class OrderPosController extends BaseController
             'data' => $look_data
         ]);
     }
+
+    public function updateMoveTable()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $data_table_detail = [
+                'order_customer_table_code' => $data[0]['new_table'],
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_detail_summary = [
+                'order_table_code' => $data[0]['new_table'],
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_old = [
+                'table_status' => 'FINISH',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_new = [
+                'table_status' => 'USE',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->OrderModel->updateTableMove($data_table_detail, $data_table_detail_summary, $data_table_old, $data_table_new ,$data[0]['old_table'], $data[0]['new_table']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ย้ายโต๊ะไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ย้ายโต๊ะสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
 }
