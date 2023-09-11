@@ -1,22 +1,22 @@
 $(document).ready(function () {
     loadTableEmployeePinStock();
 
-    // $('#tableEmployeePinStock').on('change', '#checkbox_All', function () {
-    //     var isChecked = $(this).prop('checked');
-    //     var $currentRow = $(this).closest('tr');
-    //     var rowId = $currentRow.data('row-id'); // รหัสแถวปัจจุบัน
-    //     console.log(rowId);
-    //     var checkboxesToToggle = $('[data-row-id ="' + rowId + '"] .custom-control:not(.custom-control-All)');
+    $('#tableEmployeePinStock').on('change', '#checkbox_Stock_All', function () {
+        var isChecked = $(this).prop('checked');
+        var $currentRow = $(this).closest('tr');
+        var rowId = $currentRow.data('row-id'); // รหัสแถวปัจจุบัน
+        console.log(rowId);
+        var checkboxesToToggle = $('[data-row-id ="' + rowId + '"] .custom-control:not(.custom-control-stock-All)');
 
-    //     if (isChecked) {
-    //         // ถ้า checkbox "All" ถูกติ๊กให้ซ่อน checkbox อื่น ๆ ในแถวนี้
-    //         checkboxesToToggle.hide();
-    //         $('.custom-control-All').show(); // แสดงเฉพาะ checkbox "All"
-    //     } else {
-    //         // ถ้า checkbox "All" ถูกยกเลิกให้แสดง checkbox ทั้งหมดในแถวนี้
-    //         checkboxesToToggle.show();
-    //     }
-    // });
+        if (isChecked) {
+            // ถ้า checkbox "All" ถูกติ๊กให้ซ่อน checkbox อื่น ๆ ในแถวนี้
+            checkboxesToToggle.hide();
+            $('.custom-control-stock-All').show(); // แสดงเฉพาะ checkbox "All"
+        } else {
+            // ถ้า checkbox "All" ถูกยกเลิกให้แสดง checkbox ทั้งหมดในแถวนี้
+            checkboxesToToggle.show();
+        }
+    });
 });
 
 function openModalAddEmployeePinStock() {
@@ -137,115 +137,113 @@ $formAddEmployeePinStock
         }
     });
 
-// //When click saveEditEmployeePinStock
-// $('body').on('click', '.saveEditEmployeePinStock', function () {
-//     var editUserID = $(this).attr('data-id');
+//When click saveEditEmployeePinStock
+$('body').on('click', '.saveEditEmployeePinStock', function () {
+    var editUserID = $(this).attr('data-id');
 
-//     var $row = $('tr[data-row-id="' + editUserID + '"]'); // ใช้ data-row-id เพื่อหาแถวที่ต้องการแก้ไข
+    var $row = $('tr[data-row-id="' + editUserID + '"]'); // ใช้ data-row-id เพื่อหาแถวที่ต้องการแก้ไข
 
-//     var All = $row.find("#checkbox_All").prop('checked');
-//     var Move = $row.find("#checkbox_Move").prop('checked');
-//     var Discount = $row.find("#checkbox_Discount").prop('checked');
-//     var Set_Price = $row.find("#checkbox_Set_Price").prop('checked');
-//     var Void = $row.find("#checkbox_Void").prop('checked');
-//     var Hide_Cahsier = $row.find("#checkbox_Hide_Cahsier").prop('checked');
+    var Stock_All = $row.find("#checkbox_Stock_All").prop('checked');
+    var Edit_Stock = $row.find("#checkbox_Edit_Stock").prop('checked');
+    var Edit_Formula = $row.find("#checkbox_Edit_Formula").prop('checked');
+    var Transaction_Add = $row.find("#checkbox_Transaction_Add").prop('checked');
+    var Transaction_Withdraw = $row.find("#checkbox_Transaction_Withdraw").prop('checked');
+    var Transaction_Adjust = $row.find("#checkbox_Transaction_Adjust").prop('checked');
 
-//     console.log(Move);
+    $.ajax({
+        type: "POST",
+        url: "/setting/updateEmployeePinStock", // Replace with the actual URL
+        data: {
+            editUserID: editUserID, Stock_All: Stock_All, Edit_Stock: Edit_Stock, Edit_Formula: Edit_Formula,
+            Transaction_Add: Transaction_Add, Transaction_Withdraw: Transaction_Withdraw, Transaction_Adjust: Transaction_Adjust
+        },
+    }).done(function (res) {
+        //กรณี: บันทึกสำเร็จ
+        if (res.success = 1) {
 
-//     $.ajax({
-//         type: "POST",
-//         url: "/setting/updateEmployeePinStock", // Replace with the actual URL
-//         data: {
-//             editUserID: editUserID, All: All, Move: Move, Discount: Discount,
-//             Set_Price: Set_Price, Void: Void, Hide_Cahsier: Hide_Cahsier
-//         },
-//     }).done(function (res) {
-//         //กรณี: บันทึกสำเร็จ
-//         if (res.success = 1) {
+            Swal.fire({
+                text: "แก้ไข พนักงาน Stock สำเร็จ",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "ตกลง",
+                timer: "1000",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
 
-//             Swal.fire({
-//                 text: "แก้ไข พนักงาน Stock สำเร็จ",
-//                 icon: "success",
-//                 buttonsStyling: false,
-//                 confirmButtonText: "ตกลง",
-//                 timer: "1000",
-//                 customClass: {
-//                     confirmButton: "btn btn-primary"
-//                 }
-//             }).then(function (result) {
-//                 if (result.isConfirmed) {
+                }
+            })
+        }
+        // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
+        else {
+            // Show error message.
+            Swal.fire({
+                text: res.message,
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "ตกลง",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    // LANDING_PROMOTION.reloadPage()
+                }
+            })
+            $me.attr('disabled', false)
+        }
+    }).fail(function (context) {
+        let messages = context.responseJSON?.messages || 'ไม่สามารถบันทึกได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ'
+        // Show error message.
+        Swal.fire({
+            text: messages,
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "ตกลง",
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
+        })
+        $me.attr('disabled', false)
+    })
+});
 
-//                 }
-//             })
-//         }
-//         // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
-//         else {
-//             // Show error message.
-//             Swal.fire({
-//                 text: res.message,
-//                 icon: "error",
-//                 buttonsStyling: false,
-//                 confirmButtonText: "ตกลง",
-//                 customClass: {
-//                     confirmButton: "btn btn-primary"
-//                 }
-//             }).then(function (result) {
-//                 if (result.isConfirmed) {
-//                     // LANDING_PROMOTION.reloadPage()
-//                 }
-//             })
-//             $me.attr('disabled', false)
-//         }
-//     }).fail(function (context) {
-//         let messages = context.responseJSON?.messages || 'ไม่สามารถบันทึกได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ'
-//         // Show error message.
-//         Swal.fire({
-//             text: messages,
-//             icon: "error",
-//             buttonsStyling: false,
-//             confirmButtonText: "ตกลง",
-//             customClass: {
-//                 confirmButton: "btn btn-primary"
-//             }
-//         })
-//         $me.attr('disabled', false)
-//     })
-// });
+//btnDeleteEmployeePinStock alert
+$('body').on('click', '.btnDeleteEmployeePinStock', function () {
+    var Employee_Pin_Stock_ID = $(this).attr('data-id');
 
-// //btnDeleteEmployeePinStock alert
-// $('body').on('click', '.btnDeleteEmployeePinStock', function () {
-//     var Employee_Pin_Stock_ID = $(this).attr('data-id');
-
-//     // let $me = $(this)
-//     // let $url = $me.data('url')
-//     // alert ($me);
-//     // exit();
-//     Swal.fire({
-//         text: `คุณต้องการลบ`,
-//         icon: "warning",
-//         buttonsStyling: false,
-//         confirmButtonText: "ตกลง",
-//         showCloseButton: true,
-//         customClass: {
-//             confirmButton: "btn btn-primary",
-//         }
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             $.ajax({
-//                 url: '/setting/deleteEmployeePinStock/' + Employee_Pin_Stock_ID,
-//                 method: 'get',
-//                 success: function (response) {
-//                     Swal.fire(
-//                         'ลบสำเร็จ',
-//                         response.message,
-//                         'success'
-//                     )
-//                     loadTableEmployeePinStock();
-//                 }
-//             });
-//         }
-//     })
-// });
+    // let $me = $(this)
+    // let $url = $me.data('url')
+    // alert ($me);
+    // exit();
+    Swal.fire({
+        text: `คุณต้องการลบ`,
+        icon: "warning",
+        buttonsStyling: false,
+        confirmButtonText: "ตกลง",
+        showCloseButton: true,
+        customClass: {
+            confirmButton: "btn btn-primary",
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/setting/deleteEmployeePinStock/' + Employee_Pin_Stock_ID,
+                method: 'get',
+                success: function (response) {
+                    Swal.fire(
+                        'ลบสำเร็จ',
+                        response.message,
+                        'success'
+                    )
+                    loadTableEmployeePinStock();
+                }
+            });
+        }
+    })
+});
 
 function loadTableEmployeePinStock() {
     $("#tableEmployeePinStock").DataTable().clear().destroy();
@@ -288,78 +286,71 @@ function loadTableEmployeePinStock() {
                 "targets": [4],
             },
         ],
-        // "processing": true,
-        // "serverSide": true,
-        // "order": [], //init datatable not ordering
-        // "ajax": {
-        //     'type': 'POST',
-        //     'url': "/setting/ajax-datatableEmployeePinStock",
-        // },
-        // "createdRow": function (row, data, dataIndex) {
-        //     // กำหนด id ให้กับแต่ละ <tr> โดยใช้ dataIndex แทน
-        //     $(row).attr('data-row-id', data["id"]);
-        // },
-        // "columns": [{
-        //     data: null,
-        //     "sortable": false,
-        //     render: function (data, type, row, meta) {
-        //         return meta.row + meta.settings._iDisplayStart + 1;
-        //     }
-        // },
-        // {
-        //     data: "username"
-        // },
-        // {
-        //     data: null,
-        //     render: function (data, type, row, meta) {
-        //         return (
-        //             '******'
-        //         );
-        //     },
-        // },
-        // {
-        //     data: null,
-        //     render: function (data, type, row, meta) {
-        //         var all = data["setting_all"] == 1 ? 'checked' : '';
-        //         var move = data["setting_move"] == 1 ? 'checked' : '';
-        //         var discount = data["setting_discount"] == 1 ? 'checked' : '';
-        //         var set_price = data["setting_set_price"] == 1 ? 'checked' : '';
-        //         var setting_void = data["setting_void"] == 1 ? 'checked' : '';
+        "processing": true,
+        "serverSide": true,
+        "order": [], //init datatable not ordering
+        "ajax": {
+            'type': 'POST',
+            'url': "/setting/ajax-datatableEmployeePinStock",
+        },
+        "createdRow": function (row, data, dataIndex) {
+            // กำหนด id ให้กับแต่ละ <tr> โดยใช้ dataIndex แทน
+            $(row).attr('data-row-id', data["id"]);
+        },
+        "columns": [{
+            data: null,
+            "sortable": false,
+            render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }
+        },
+        {
+            data: "username"
+        },
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return (
+                    '******'
+                );
+            },
+        },
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                var all = data["pin_stock_all"] == 1 ? 'checked' : '';
+                var edit_stock = data["pin_stock_edit_stock"] == 1 ? 'checked' : '';
+                var edit_formula = data["pin_stock_edit_formula"] == 1 ? 'checked' : '';
+                var transaction_add = data["pin_stock_transaction_add"] == 1 ? 'checked' : '';
+                var transaction_withdraw = data["pin_stock_transaction_withdraw"] == 1 ? 'checked' : '';
+                var transaction_adjust = data["pin_stock_transaction_adjust"] == 1 ? 'checked' : '';
 
-        //         if (all === 'checked') {
-        //             return ('<label class="custom-control-All custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input checkbox_All" name="checkbox_All" id="checkbox_All" ' + all + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">All</span></label>' +
-        //                 '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Move" id="checkbox_Move" ' + move + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Move</span></label>' +
-        //                 '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Discount" id="checkbox_Discount" ' + discount + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Discount</span></label>' +
-        //                 '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Set_Price" id="checkbox_Set_Price" ' + set_price + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Set price</span></label>' +
-        //                 '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Void" id="checkbox_Void" ' + setting_void + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Void</span></label>');
-        //         }
+                if (all === 'checked') {
+                    return ('<label class="custom-control-stock-All custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input checkbox_Stock_All" name="checkbox_Stock_All" id="checkbox_Stock_All" ' + all + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">All</span></label>' +
+                        '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Edit_Stock" id="checkbox_Edit_Stock" ' + edit_stock + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Edit Stock</span></label>' +
+                        '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Edit_Formula" id="checkbox_Edit_Formula" ' + edit_formula + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Edit Formula</span></label>' +
+                        '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Transaction_Add" id="checkbox_Transaction_Add" ' + transaction_add + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Transaction Add</span></label>' +
+                        '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Transaction_Withdraw" id="checkbox_Transaction_Withdraw" ' + transaction_withdraw + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Transaction Withdraw</span></label>' +
+                        '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;display: none;"><input type="checkbox" class="custom-control-input" name="checkbox_Transaction_Adjust" id="checkbox_Transaction_Adjust" ' + transaction_adjust + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Transaction Adjust</span></label>');
+                }
 
-        //         return ('<label class="custom-control-All custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input checkbox_All" name="checkbox_All" id="checkbox_All" ' + all + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">All</span></label>' +
-        //             '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Move" id="checkbox_Move" ' + move + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Move</span></label>' +
-        //             '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Discount" id="checkbox_Discount" ' + discount + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Discount</span></label>' +
-        //             '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Set_Price" id="checkbox_Set_Price" ' + set_price + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Set price</span></label>' +
-        //             '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Void" id="checkbox_Void" ' + setting_void + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Void</span></label>')
-        //     },
-        // },
-        // {
-        //     data: "setting_hide_cahsier",
-        //     render: function (data, type, row, meta) {
-        //         var isChecked = data == 1 ? 'checked' : '';
-
-        //         return (
-        //             '<label class="custom-control-hide-cahsier custom-checkbox custom-control-md mb-1"><input type="checkbox" class="custom-control-input" name="checkbox_Hide_Cahsier" id="checkbox_Hide_Cahsier" ' + isChecked + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Hide Cahsier</span></label>'
-        //         );
-        //     },
-        // },
-        // {
-        //     data: null,
-        //     render: function (data, type, row, meta) {
-        //         return (
-        //             '<div class="action_btns d-flex" style="justify-content: center;"><button type="button" class="btn btn-primary f_s_14 saveEditEmployeePinStock me-2" data-id="' + data["id"] + '"><i class="ti-save f_s_13 me-2"></i>Save</button><button type="button" class="btn btn-danger f_s_14 btnDeleteEmployeePinStock" data-id="' + data["id"] + '"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button></div>'
-        //         );
-        //     },
-        // }
-        // ],
-        // "bFilter": true, // to display datatable search
+                return ('<label class="custom-control-stock-All custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input checkbox_Stock_All" name="checkbox_Stock_All" id="checkbox_Stock_All" ' + all + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">All</span></label>' +
+                    '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Edit_Stock" id="checkbox_Edit_Stock" ' + edit_stock + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Edit Stock</span></label>' +
+                    '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Edit_Formula" id="checkbox_Edit_Formula" ' + edit_formula + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;"> Formula</span></label>' +
+                    '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Transaction_Add" id="checkbox_Transaction_Add" ' + transaction_add + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Transaction Add</span></label>' +
+                    '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Transaction_Withdraw" id="checkbox_Transaction_Withdraw" ' + transaction_withdraw + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Transaction Withdraw</span></label>' +
+                    '<label class="custom-control custom-checkbox custom-control-md mb-1" style="margin-right: 10px;"><input type="checkbox" class="custom-control-input" name="checkbox_Transaction_Adjust" id="checkbox_Transaction_Adjust" ' + transaction_adjust + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Transaction Adjust</span></label>')
+            },
+        },
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return (
+                    '<div class="action_btns d-flex" style="justify-content: center;"><button type="button" class="btn btn-primary f_s_14 saveEditEmployeePinStock me-2" data-id="' + data["id"] + '"><i class="ti-save f_s_13 me-2"></i>Save</button><button type="button" class="btn btn-danger f_s_14 btnDeleteEmployeePinStock" data-id="' + data["id"] + '"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button></div>'
+                );
+            },
+        }
+        ],
+        "bFilter": true, // to display datatable search
     });
 }
