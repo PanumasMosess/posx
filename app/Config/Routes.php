@@ -159,6 +159,7 @@ function ($routes) {
     $routes->get('getSummaryData/(:any)', 'OrderPosController::getSummaryData/$1');   
     $routes->get('getTableByArea/(:any)', 'OrderPosController::getTableInArea/$1');      
     $routes->post('updateMoveTable', 'OrderPosController::updateMoveTable'); 
+    $routes->post('updateVoidOrderTable', 'OrderPosController::updateVoidOrderTable');
 
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');

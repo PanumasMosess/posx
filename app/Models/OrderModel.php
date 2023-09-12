@@ -652,4 +652,21 @@ class OrderModel
 
         return ($builder_status && $builder_summary_status && $builder_table_dynamic_old_status && $builder_table_dynamic_new_status) ? true : false;
     }
+
+    public function updateOrderCencel($detail = null, $detail_sum = null, $table = null, $code_table = null)
+    {
+        $builder = $this->db->table('order_customer');
+        $array_order = array('order_customer_table_code' => $code_table, 'order_customer_status' => 'IN_KITCHEN');
+        $builder_status = $builder->where($array_order)->update($detail);
+
+        $builder_summary = $this->db->table('order_summary');
+        $array_summary = array('order_table_code' => $code_table, 'order_status' => 'IN_KITCHEN');
+        $builder_summary_status = $builder_summary->where($array_summary)->update($detail_sum);
+
+        $builder_table_dynamic_new = $this->db->table('table_dynamic');
+        $array_table_dynamic_new = array('table_code' => $code_table, 'table_status' => 'USE');
+        $builder_table_dynamic_new_status = $builder_table_dynamic_new->where($array_table_dynamic_new)->update($table);
+
+        return ($builder_status && $builder_summary_status  && $builder_table_dynamic_new_status) ? true : false;
+    }
 }
