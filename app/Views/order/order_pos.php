@@ -185,7 +185,7 @@
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="move_order_btn" href="javascript:void(0);" onclick="open_move_order_();"><i class="ti-new-window"></i> Move</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="fas fa-hryvnia"></i> Discount</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-split-h"></i> SpitBill</a>
-                                                                            <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-trash"></i> Void Item</a>
+                                                                            <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" id="void_order_btn" href="javascript:void(0);" onclick="voidItem();"><i class="ti-trash"></i> Void Item</a>
                                                                         </div>
                                                                         <div class="QA_section">
                                                                             <div class="QA_table mb_30">

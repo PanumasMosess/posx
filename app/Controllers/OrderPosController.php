@@ -636,4 +636,57 @@ class OrderPosController extends BaseController
             //  ว่าง
         }
     }
+
+    public function updateVoidOrderTable()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $data_table_detail = [
+                'order_customer_status' => 'CANCEL',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_detail_summary = [
+                'order_status' => 'CANCEL',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table = [
+                'table_status' => 'FINISH',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->OrderModel->updateOrderCencel($data_table_detail, $data_table_detail_summary, $data_table ,$data[0]['code_table']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ยกเลิกรายการไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ยกเลิกรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
 }
