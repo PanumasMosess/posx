@@ -2,19 +2,19 @@ $(document).ready(function () {
     loadTableEmployeePinPos();
 
     $('#tableEmployeePinPos').on('change', '#checkbox_All', function () {
-        var isChecked = $(this).prop('checked');
-        var $currentRow = $(this).closest('tr');
-        var rowId = $currentRow.data('row-id'); // รหัสแถวปัจจุบัน
-        console.log(rowId);
-        var checkboxesToToggle = $('[data-row-id ="' + rowId + '"] .custom-control:not(.custom-control-All)');
+        var isCheckedPinPos = $(this).prop('checked');
+        var $currentRowPinPos = $(this).closest('tr');
+        var PinPosrowId = $currentRowPinPos.data('pos-id'); // รหัสแถวปัจจุบัน
+        // console.log(PinPosrowId+'p');
+        var checkboxesPinPosToToggle = $('[data-pos-id ="' + PinPosrowId + '"] .custom-control:not(.custom-control-All)');
 
-        if (isChecked) {
+        if (isCheckedPinPos) {
             // ถ้า checkbox "All" ถูกติ๊กให้ซ่อน checkbox อื่น ๆ ในแถวนี้
-            checkboxesToToggle.hide();
+            checkboxesPinPosToToggle.hide();
             $('.custom-control-All').show(); // แสดงเฉพาะ checkbox "All"
         } else {
             // ถ้า checkbox "All" ถูกยกเลิกให้แสดง checkbox ทั้งหมดในแถวนี้
-            checkboxesToToggle.show();
+            checkboxesPinPosToToggle.show();
         }
     });
 });
@@ -141,7 +141,7 @@ $formAddEmployeePinPos
 $('body').on('click', '.saveEditEmployeePinPos', function () {
     var editUserID = $(this).attr('data-id');
 
-    var $row = $('tr[data-row-id="' + editUserID + '"]'); // ใช้ data-row-id เพื่อหาแถวที่ต้องการแก้ไข
+    var $row = $('tr[data-pos-id="' + editUserID + '"]'); // ใช้ data-pos-id เพื่อหาแถวที่ต้องการแก้ไข
 
     var All = $row.find("#checkbox_All").prop('checked');
     var Move = $row.find("#checkbox_Move").prop('checked');
@@ -301,7 +301,7 @@ function loadTableEmployeePinPos() {
         },
         "createdRow": function (row, data, dataIndex) {
             // กำหนด id ให้กับแต่ละ <tr> โดยใช้ dataIndex แทน
-            $(row).attr('data-row-id', data["id"]);
+            $(row).attr('data-pos-id', data["id"]);
         },
         "columns": [{
             data: null,
