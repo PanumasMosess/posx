@@ -32,26 +32,32 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 5px;
+    /* margin-top: 5px; */
   }
 
-  .input-container {
+  /* .input-container {
     position: relative;
     display: inline-block;
-  }
+  } */
 
-  .percentage-sign {
+  /* .percentage-sign {
     position: absolute;
     right: 10px;
-    /* ปรับตำแหน่งตามที่คุณต้องการ */
     top: 50%;
     transform: translateY(-50%);
-  }
+  } */
 
   /* ให้คลาส bg-warning เป็นสีจางลง */
   .bg-warning-light {
     background-color: #fff3cd;
     /* เปลี่ยนค่า alpha (0.5) เพื่อทำให้สีพื้นหลังเป็นสีจางลง */
+  }
+
+  #tableEmployeePinPos td,
+  #tableEmployeePinStock td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
 <div class="main_content_iner">
@@ -68,14 +74,14 @@
                 <li class="nav-item">
                   <a class="nav-link" id="supplier-tab" data-bs-toggle="tab" href="#supplier" role="tab" aria-controls="supplier" aria-selected="false">Supplier</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" id="position-tab" data-bs-toggle="tab" href="#position" role="tab" aria-controls="position" aria-selected="false">ตำแหน่ง</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="branch-tab" data-bs-toggle="tab" href="#branch" role="tab" aria-controls="branch" aria-selected="false">สาขา</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                  <a class="nav-link" id="information-tab" data-bs-toggle="tab" href="#information" role="tab" aria-controls="information" aria-selected="false">Information</a>
+                  <a class="nav-link" id="information-tab" data-bs-toggle="tab" href="#information" role="tab" aria-controls="information" aria-selected="false">information</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="user-accounts-tab" data-bs-toggle="tab" href="#user_accounts" role="tab" aria-controls="user_accounts" aria-selected="false">User Accounts</a>
@@ -144,7 +150,7 @@
                   </div>
                 </div>
               </div>
-              <div class="tab-pane fade" id="position" role="tabpanel" aria-labelledby="position-tab">
+              <!-- <div class="tab-pane fade" id="position" role="tabpanel" aria-labelledby="position-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalAddPosition();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มตำแหน่ง</a></div>
                   <div class="QA_section">
@@ -189,190 +195,299 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
-                <div class="col-lg-12 col-xl-12 col-md-12">
-                  <div class="main-title">
-                    <h3 class="mb-2">User Info</h3>
-                  </div>
-                  <form class="row mb-3">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <div class="input-group-text col-md-2">
-                          <div class="">Username</div>
-                        </div>
-                        <input type="text" class="form-control" id="information_username" placeholder="Username" value="<?php echo $companies->companies_user; ?>" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <div class="input-group-text col-md-2">
-                          <div class="">Password</div>
-                        </div>
-                        <a type="text" href="#" class="form-control" placeholder="Password" aria-label="password" id="password" data-bs-toggle="modal" data-bs-target="#EditPasswordCompanies" aria-describedby="basic-addon1">******</a>
-                      </div>
-                    </div>
-                  </form>
-                  <div class="main-title">
-                    <h3 class="mb-2">Shop Info</h3>
-                  </div>
-                  <div class="col-md-12 mb-3">
-                    <div class="input-group">
-                      <div class="input-group-text col-md-1">
-                        <div class="">ชื่อร้าน</div>
-                      </div>
-                      <input class="form-control" placeholder="shopname" aria-label="shopname" id="shopname" aria-describedby="basic-addon1">
-                    </div>
-                  </div>
-                  <div class="main-title">
-                    <h3 class="mb-2">Set Parameters</h3>
-                  </div>
-                  <form class="row mb-3">
-                    <div class="col-md-3">
-                      <div class="input-group">
-                        <div class="input-group-text col-md-8">
-                          <div class="">Service Charge (%)</div>
-                        </div>
-                        <div class="input-container col-md-4">
-                          <input type="text" class="form-control" placeholder="0.00" aria-label="service_charge" id="service_charge" aria-describedby="basic-addon1">
-                          <span class="percentage-sign">%</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="input-group">
-                        <div class="input-group-text col-md-8">
-                          <div class="">ส่วนลด (%)</div>
-                        </div>
-                        <div class="input-container col-md-4">
-                          <input type="text" class="form-control discount-text" placeholder="0.00" aria-label="discount" id="discount" aria-describedby="basic-addon1">
-                          <span class="percentage-sign">%</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group">
-                        <div class="input-group-text col-md-3">
-                          <div class="">Discount Mode</div>
-                        </div>
-                        <select class="form-select" name="discount_mode" id="discount_mode">
-                          <option value="0">% ส่วนลดท้ายบิล</option>
-                          <option value="1">ส่วนลดราคา</option>
-                          <option value="2">% ลดเปอร์เซ็น (โดยไม่รวมสินค้าที่มีการลดแล้ว)</option>
-                        </select>
-                      </div>
-                    </div>
-                  </form>
-                  <div class="input-group mb-3">
-                    <div class="input-group-text col-md-2">
-                      <span>Email Report</span>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="email-container">
-                        <?php foreach ($email_reports as $email_report) { ?>
-                          <div class="email-row" data-id="<?php echo $email_report->id; ?>">
-                            <p class="email"><?php echo $email_report->email; ?></p>
-                            <button type="button" class="btn btn-danger f_s_14" onclick="removeEmail(this.parentNode)"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+              </div> -->
+              <!-- <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
+                <div class="builder_select">
+                  <div class="board_wrapper">
+                    <div class="single_board">
+                      <div class="main_board_card">
+                        <div class="row">
+                          <div class="col-lg-12 col-xl-6 col-md-12">
+                            <div class="white_card card_height_100 mb_20">
+                              <div class="main-title">
+                                <h3 class="mb-2">User Info</h3>
+                              </div>
+                              <form class="row mb-3">
+                                <div class="col-md-6">
+                                  <div class="input-group mb-2">
+                                    <div class="input-group-text col-md-2">
+                                      <div class="">Username</div>
+                                    </div>
+                                    <input type="text" class="form-control" id="information_username" placeholder="Username" value="<?php echo $companies->companies_user; ?>" readonly>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="input-group mb-2">
+                                    <div class="input-group-text col-md-2">
+                                      <div class="">Password</div>
+                                    </div>
+                                    <a type="text" href="#" class="form-control" placeholder="Password" aria-label="password" id="password" data-bs-toggle="modal" data-bs-target="#EditPasswordCompanies" aria-describedby="basic-addon1">******</a>
+                                  </div>
+                                </div>
+                              </form>
+                              <div class="main-title">
+                                <h3 class="mb-2">Shop Info</h3>
+                              </div>
+                              <div class="col-md-12 mb-3">
+                                <div class="input-group">
+                                  <div class="input-group-text col-md-1">
+                                    <div class="">ชื่อร้าน</div>
+                                  </div>
+                                  <input class="form-control" placeholder="shopname" aria-label="shopname" id="shopname" aria-describedby="basic-addon1">
+                                </div>
+                              </div>
+                              <div class="col-md-12 mt-2">
+                                <button type="submit" class="btn btn-primary" href="#" id="EditInformation">Edit</button>
+                              </div>
+                            </div>
                           </div>
-                        <?php } ?>
-                      </div>
-                      <div class="add-container">
-                        <input class="form-control add-input" type="text" placeholder="Enter email report" aria-label="addemail" id="addemail" aria-describedby="basic-addon1">
-                        <button type="submit" class="btn btn-success f_s_14" id="AddEmail">Add</button>
+                          <div class="col-lg-12 col-xl-6 col-md-12">
+                            <div class="white_card card_height_100 mb_20">
+                              <div class="main-title">
+                                <h3 class="mb-2">Set Parameters</h3>
+                              </div>
+                              <form class="row mb-3">
+                                <div class="col-md-3">
+                                  <div class="input-group">
+                                    <div class="input-group-text col-md-8">
+                                      <div class="">Service Charge (%)</div>
+                                    </div>
+                                    <div class="input-container col-md-4">
+                                      <input type="text" class="form-control" placeholder="0.00" aria-label="service_charge" id="service_charge" aria-describedby="basic-addon1">
+                                      <span class="percentage-sign">%</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="input-group">
+                                    <div class="input-group-text col-md-8">
+                                      <div class="">ส่วนลด (%)</div>
+                                    </div>
+                                    <div class="input-container col-md-4">
+                                      <input type="text" class="form-control discount-text" placeholder="0.00" aria-label="discount" id="discount" aria-describedby="basic-addon1">
+                                      <span class="percentage-sign">%</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="input-group">
+                                    <div class="input-group-text col-md-3">
+                                      <div class="">Discount Mode</div>
+                                    </div>
+                                    <select class="form-select" name="discount_mode" id="discount_mode">
+                                      <option value="0">% ส่วนลดท้ายบิล</option>
+                                      <option value="1">ส่วนลดราคา</option>
+                                      <option value="2">% ลดเปอร์เซ็น (โดยไม่รวมสินค้าที่มีการลดแล้ว)</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </form>
+                              <div class="main-title">
+                                <h3 class="mb-2">Tax</h3>
+                              </div>
+                              <form class="row mb-3">
+                                <div class="col-md-3">
+                                  <div class="input-group">
+                                    <div class="input-group-text col-md-5">
+                                      <div class="">Tax Status</div>
+                                    </div>
+                                    <select class="form-select" name="taxStatus" id="taxStatus">
+                                      <option value="0">No</option>
+                                      <option value="1">Active</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="input-group">
+                                    <div class="input-group-text col-md-5">
+                                      <div class="">Tax Id</div>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Tax Id" aria-label="taxId" id="taxId" aria-describedby="basic-addon1">
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="input-group">
+                                    <div class="input-group-text col-md-5">
+                                      <div class="">VAT Mode</div>
+                                    </div>
+                                    <select class="form-select" name="taxMode" id="taxMode">
+                                      <option value="0">No Vat</option>
+                                      <option value="1">Included</option>
+                                      <option value="2">Excluded</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="input-group">
+                                    <div class="input-group-text col-md-8">
+                                      <div class="">Rate (%)</div>
+                                    </div>
+                                    <div class="input-container col-md-4">
+                                      <input type="text" class="form-control" placeholder="0.00" aria-label="taxRate" id="taxRate" aria-describedby="basic-addon1">
+                                      <span class="percentage-sign">%</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                              <div class="col-md-12 mt-2">
+                                <button type="submit" class="btn btn-primary" href="#" id="EditInformation">Edit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="main-title">
-                    <h3 class="mb-2">Tax</h3>
-                  </div>
-                  <form class="row mb-3">
-                    <div class="col-md-3">
-                      <div class="input-group">
-                        <div class="input-group-text col-md-5">
-                          <div class="">Tax Status</div>
+                </div>
+              </div> -->
+              <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
+                <div class="main_content_iner ">
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-12 col-md-12">
+                      <div class="white_card card_height_100 mb_20">
+                        <div class="white_card_header">
+                          <div class="box_header m-0">
+                            <div class="main-title">
+                              <h3 class="m-0">Setting Info</h3>
+                            </div>
+                          </div>
                         </div>
-                        <select class="form-select" name="taxStatus" id="taxStatus">
-                          <option value="0">No</option>
-                          <option value="1">Active</option>
-                        </select>
+                        <div class="white_card_body">
+                          <label class="form-label">User Info</label>
+                          <!-- <h5 class="card-title font-16">User Info</h5> -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">Username</div>
+                            </div>
+                            <input type="text" class="form-control" id="information_username" placeholder="Username" value="<?php echo $companies->companies_user; ?>" readonly>
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">Password</div>
+                            </div>
+                            <a type="text" href="#" class="form-control" placeholder="Password" aria-label="password" id="password" data-bs-toggle="modal" data-bs-target="#EditPasswordCompanies" aria-describedby="basic-addon1">******</a>
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text col-md-3">
+                              <span>Email Report</span>
+                            </div>
+                            <div class="col-md-9">
+                              <?php if ($email_reports == null) {
+                                $displayEmail = 'style="display: none"';
+                              } else {
+                                $displayEmail = '';
+                              } ?>
+                              <div class="email-container" <?php echo $displayEmail; ?>>
+                                <?php foreach ($email_reports as $email_report) { ?>
+                                  <div class="email-row" data-id="<?php echo $email_report->id; ?>">
+                                    <p class="email"><?php echo $email_report->email; ?></p>
+                                    <button type="button" class="btn btn-danger f_s_14" onclick="removeEmail(this.parentNode)"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+                                  </div>
+                                <?php } ?>
+                              </div>
+                              <div class="add-container">
+                                <input class="form-control add-input" type="text" placeholder="Enter email report" aria-label="addemail" id="addemail" aria-describedby="basic-addon1">
+                                <button type="submit" class="btn btn-success f_s_14" id="AddEmail">Add</button>
+                              </div>
+                            </div>
+                          </div>
+                          <label class="form-label">Shop Info</label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">ชื่อร้าน</div>
+                            </div>
+                            <input class="form-control" placeholder="shopname" aria-label="shopname" id="shopname" aria-describedby="basic-addon1">
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="input-group">
-                        <div class="input-group-text col-md-5">
-                          <div class="">Tax Id</div>
+                    <div class="col-xl-6 col-lg-12 col-md-12">
+                      <div class="white_card card_height_100 mb_20">
+                        <div class="white_card_header">
+                          <div class="box_header m-0">
+                            <div class="main-title">
+                              <h3 class="m-0">Setting Parameters/Tax</h3>
+                            </div>
+                          </div>
                         </div>
-                        <input type="text" class="form-control" placeholder="Tax Id" aria-label="taxId" id="taxId" aria-describedby="basic-addon1">
+                        <div class="white_card_body">
+                          <label class="form-label">Set Parameters</label>
+                          <!-- <h5 class="card-title font-16">User Info</h5> -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">Service Charge (%)</div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="0.00" aria-label="service_charge" id="service_charge" aria-describedby="basic-addon1">
+                            <div class="input-group-text">
+                              <span class="">%</span>
+                            </div>
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">ส่วนลด (%)</div>
+                            </div>
+                            <input type="text" class="form-control discount-text" placeholder="0.00" aria-label="discount" id="discount" aria-describedby="basic-addon1">
+                            <div class="input-group-text">
+                              <span class="">%</span>
+                            </div>
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">Discount Mode</div>
+                            </div>
+                            <select class="form-select" name="discount_mode" id="discount_mode">
+                              <option value="0">% ส่วนลดท้ายบิล</option>
+                              <option value="1">ส่วนลดราคา</option>
+                              <option value="2">% ลดเปอร์เซ็น (โดยไม่รวมสินค้าที่มีการลดแล้ว)</option>
+                            </select>
+                          </div>
+                          <label class="form-label">Tax</label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">Tax Status</div>
+                            </div>
+                            <select class="form-select" name="taxStatus" id="taxStatus">
+                              <option value="0">No</option>
+                              <option value="1">Active</option>
+                            </select>
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">Tax Id</div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Tax Id" aria-label="taxId" id="taxId" aria-describedby="basic-addon1">
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">VAT Mode</div>
+                            </div>
+                            <select class="form-select" name="taxMode" id="taxMode">
+                              <option value="0">No Vat</option>
+                              <option value="1">Included</option>
+                              <option value="2">Excluded</option>
+                            </select>
+                          </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">Rate (%)</div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="0.00" aria-label="taxRate" id="taxRate" aria-describedby="basic-addon1">
+                            <div class="input-group-text">
+                              <span class="">%</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="input-group">
-                        <div class="input-group-text col-md-5">
-                          <div class="">VAT Mode</div>
-                        </div>
-                        <select class="form-select" name="taxMode" id="taxMode">
-                          <option value="0">No Vat</option>
-                          <option value="1">Included</option>
-                          <option value="2">Excluded</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="input-group">
-                        <div class="input-group-text col-md-8">
-                          <div class="">Rate (%)</div>
-                        </div>
-                        <div class="input-container col-md-4">
-                          <input type="text" class="form-control" placeholder="0.00" aria-label="taxRate" id="taxRate" aria-describedby="basic-addon1">
-                          <span class="percentage-sign">%</span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-
-                  <!-- <div class="input-group mb-3">
-                    <div class="input-group-text col-md-2">
-                      <span>Tax Status</span>
-                    </div>
-                    <div class="col-md-10">
-                      <select class="form-select" name="taxStatus" id="taxStatus">
-                        <option value="0">No</option>
-                        <option value="1">Active</option>
-                      </select>
-                    </div>
                   </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-text col-md-2">
-                      <span>Tax Id</span>
+                  <button type="submit" class="btn btn-primary" href="#" id="EditInformation" style="float: right; margin-top: -18px;">Edit</button>
+                  <!-- <div class="row">
+                    <div class="col-xl-11 col-lg-12 col-md-12">
                     </div>
-                    <div class="col-md-10">
-                      <input type="text" class="form-control" placeholder="Tax Id" aria-label="taxId" id="taxId" aria-describedby="basic-addon1">
-                    </div>
-                  </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-text col-md-2">
-                      <span>VAT Mode</span>
-                    </div>
-                    <div class="col-md-10">
-                      <select class="form-select" name="taxMode" id="taxMode">
-                        <option value="0">No Vat</option>
-                        <option value="1">Included</option>
-                        <option value="2">Excluded</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-text col-md-2">
-                      <span>Rate (%)*</span>
-                    </div>
-                    <div class="input-container col-md-10">
-                      <input type="text" class="form-control" placeholder="Rate (%)" aria-label="taxRate" id="taxRate" aria-describedby="basic-addon1">
-                      <span class="percentage-sign">%</span>
+                    <div class="col-xl-1 col-lg-12 col-md-12">
+                      <button type="submit" class="btn btn-primary" href="#" id="EditInformation" style="float: right; margin-top: -15px;">Edit</button>
                     </div>
                   </div> -->
-                  <div class="col-md-12 mt-2">
-                    <button type="submit" class="btn btn-primary" href="#" id="EditInformation">Edit</button>
-                  </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="user_accounts" role="tabpanel" aria-labelledby="user-accounts-tab">
@@ -622,12 +737,12 @@
                       <table class="tables" id="tableEmployeePinPos">
                         <thead>
                           <tr>
-                            <th style="width: 8px;">#</th>
-                            <th style="width: 180px;">Name</th>
-                            <th style="width: 120px;">PIN</th>
-                            <th style="width: 500px;">Permission (For cashier or manager)</th>
-                            <th style="width: 100px;">Hide Cashier</th>
-                            <th style="width: 200px;">Acitons</th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>PIN</th>
+                            <th>Permission (For cashier or manager)</th>
+                            <th>Hide Cashier</th>
+                            <th>Acitons</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -653,11 +768,11 @@
                       <table class="table" id="tableEmployeePinStock">
                         <thead>
                           <tr>
-                            <th style="width: 20px;">#</th>
-                            <th style="width: 90px;">Name</th>
-                            <th style="width: 70px;">PIN</th>
-                            <th style="width: 640px;">Permission</th>
-                            <th style="width: 185px;">Actions</th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>PIN</th>
+                            <th>Permission</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody></tbody>
@@ -693,7 +808,7 @@
                             <td class=" text-center">c0f65</td>
                             <td class=" text-center"><i class="fa fa-mobile"></i></td>
                             <td class=" text-center">
-                            <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+                              <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
                             </td>
                           </tr>
                           <tr data-row-id="2" role="row">
@@ -701,7 +816,7 @@
                             <td class=" text-center">d7d57</td>
                             <td class=" text-center"><i class="fa fa-mobile"></i></td>
                             <td class=" text-center">
-                            <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+                              <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
                             </td>
                           </tr>
                           <tr data-row-id="3" role="row">
@@ -709,7 +824,7 @@
                             <td class=" text-center">as48s</td>
                             <td class=" text-center"><i class="fa fa-mobile"></i></td>
                             <td class=" text-center">
-                            <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+                              <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
                             </td>
                           </tr>
                         </tbody>
