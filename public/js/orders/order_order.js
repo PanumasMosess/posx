@@ -5,8 +5,10 @@ var itemsArrayCancelOrderTableOffline = [];
 (function ($) {
   $("#order_select_detail").slideUp();
   $("#addOrderCusBtn").addClass("disable-click");
-  $("#move_order_btn").addClass("disable-click");   
-  $("#void_order_btn").addClass("disable-click");  
+  $("#move_order_btn").addClass("disable-click");
+  $("#void_order_btn").addClass("disable-click");
+  $("#discount_order_btn").addClass("disable-click");
+  $("#split_order_btn").addClass("disable-click");
   selectArea();
   interact(".resize-drag")
     .on("tap", function (event) {
@@ -25,12 +27,15 @@ var itemsArrayCancelOrderTableOffline = [];
       if (target.getAttribute("data-use") !== "USE") {
         $("#addOrderCusBtn").removeClass("disable-click");
         $("#move_order_btn").addClass("disable-click");
-        $("#void_order_btn").addClass("disable-click"); 
+        $("#void_order_btn").addClass("disable-click");
+
         clear_detail_summary();
       } else {
         $("#addOrderCusBtn").addClass("disable-click");
         $("#move_order_btn").removeClass("disable-click");
         $("#void_order_btn").removeClass("disable-click");
+        $("#discount_order_btn").addClass("disable-click");
+        $("#split_order_btn").addClass("disable-click");
         detail_summary(target.getAttribute("data-code"));
       }
 
@@ -386,10 +391,9 @@ $("#move_table").submit(function (e) {
   e.preventDefault();
   public_array_move_table = [];
 
-  var str_split =  $("#table_move").val();
+  var str_split = $("#table_move").val();
   var str_split_result = str_split.split("###");
   var tabal_code_new = str_split_result[0];
- 
 
   arr_table = [
     {
@@ -437,7 +441,6 @@ $("#move_table").submit(function (e) {
             $("#table_header_name_detail").html("");
             $("#order_select_detail").slideUp();
             $("#addOrderCusBtn").addClass("disable-click");
-
           } else {
           }
         },
@@ -449,8 +452,7 @@ $("#move_table").submit(function (e) {
   }
 });
 
-
-function voidItem(){
+function voidItem() {
   Swal.fire({
     title: "ยกเลิก Order",
     text: "คุณต้องยกเลิก Order โต๊ะนี้ !",
@@ -461,10 +463,10 @@ function voidItem(){
     cancelButtonText: "ปิด",
     confirmButtonText: "ตกลง",
   }).then((result) => {
-    if(result.isConfirmed){
+    if (result.isConfirmed) {
       arr_cancel = [
         {
-          code_table: table_code
+          code_table: table_code,
         },
       ];
       itemsArrayCancelOrderTableOffline.push(arr_cancel);
@@ -475,44 +477,38 @@ function voidItem(){
 
       areaCancelTemp = JSON.parse(localStorage.tableCancel);
 
-      if(isOnline){
-       
-   $.ajax({
-        url: serverUrl + "order/updateVoidOrderTable",
-        method: "post",
-        data: {
-          data: areaCancelTemp,
-        },
-        cache: false,
-        success: function (response) {
-          if ((response.message = "ยกเลิกรายการสำเร็จ")) {
-            localStorage.removeItem("tableCancel");
-            areaCancelTemp = [];
-            itemsArrayCancelOrderTableOffline = [];
-            notif({
-              type: "success",
-              msg: "ยกเลิกรายการสำเร็จ!",
-              position: "right",
-              fade: true,
-              time: 300,
-            });
-           
-            selectArea();
-            $("#canvaHolder").html("");
-            $("#order_select_detail").slideUp();
-            $("#void_order_btn").addClass("disable-click");  
-           
-          } else {
+      if (isOnline) {
+        $.ajax({
+          url: serverUrl + "order/updateVoidOrderTable",
+          method: "post",
+          data: {
+            data: areaCancelTemp,
+          },
+          cache: false,
+          success: function (response) {
+            if ((response.message = "ยกเลิกรายการสำเร็จ")) {
+              localStorage.removeItem("tableCancel");
+              areaCancelTemp = [];
+              itemsArrayCancelOrderTableOffline = [];
+              notif({
+                type: "success",
+                msg: "ยกเลิกรายการสำเร็จ!",
+                position: "right",
+                fade: true,
+                time: 300,
+              });
 
-          }
-        },
-      });
-
-      }else{
-
+              selectArea();
+              $("#canvaHolder").html("");
+              $("#order_select_detail").slideUp();
+              $("#void_order_btn").addClass("disable-click");
+            } else {
+            }
+          },
+        });
+      } else {
       }
-    }else{
-
+    } else {
     }
   });
 }

@@ -205,6 +205,7 @@ function getOrderCard() {
           data: null,
           className: "text-center",
           render: function (data, type, full, meta) {
+            // let out_of_stock = checkOutOfStock(data["order_code"]);
             data =
               "<div class='card-body'><img src='" +
               serverUrl +
@@ -833,4 +834,14 @@ function addComment(id) {
   $(".bd-add-comment").modal("hide");
   $("#addcomment")[0].reset();
   $("#addcomment").parsley().reset();
+}
+
+function checkOutOfStock(code) {
+  $.ajax({
+    url: serverUrl + "/order/outofstock/" + code,
+    method: "get",
+    success: function (response) {
+     console.log(response.data[0].length);  
+    }
+  });
 }

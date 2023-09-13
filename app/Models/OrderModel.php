@@ -495,10 +495,10 @@ class OrderModel
         order.order_pcs
        ");
 
-        $builder->join('stock_formula', 'order.order_code = stock_formula.order_code', 'right');
+        // $builder->join('stock_formula', 'order.order_code = stock_formula.order_code', 'right');
         $builder->join('group_product', 'order.group_id = group_product.id', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
-        $builder->groupBy("stock_formula.order_code");
+        // $builder->groupBy("stock_formula.order_code");
 
         $i = 0;
         $i2 = 0;
@@ -571,6 +571,27 @@ class OrderModel
     public function getAllDataOrderCustomerFilter()
     {
 
+        // $sql = "            
+        // select
+        // a.id, 
+        // a.order_code ,
+        // a.order_name , 
+        // a.order_price  ,
+        // a.src_order_picture , 
+        // a.order_status,
+        // a.group_id , 
+        // a.companies_id ,
+        // a.order_promotion,
+        // a.order_pcs,
+        // c.`name`
+        // from `order` a 
+        // right join stock_formula b  on 
+        // a.order_code = b.order_code 
+        // left join group_product c on  
+        // a.group_id = c.id
+        // group by b.order_code
+        // ";
+
         $sql = "            
         select
         a.id, 
@@ -585,15 +606,22 @@ class OrderModel
         a.order_pcs,
         c.`name`
         from `order` a 
-        right join stock_formula b  on 
-        a.order_code = b.order_code 
         left join group_product c on  
         a.group_id = c.id
-        group by b.order_code
         ";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
+    }
+
+    public function getFormulaTransectionByOrder()
+    {
+
+    }
+
+    public function getStockTransectionByOrder()
+    {
+
     }
 
     public function insertOrderCustomer($data, $running)
@@ -668,5 +696,39 @@ class OrderModel
         $builder_table_dynamic_new_status = $builder_table_dynamic_new->where($array_table_dynamic_new)->update($table);
 
         return ($builder_status && $builder_summary_status  && $builder_table_dynamic_new_status) ? true : false;
+    }
+
+    public function getOutofstock($code = null)
+    {
+        $sql = "SELECT * FROM stock_formula 
+        where order_code = '$code'
+        ORDER BY order_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function getStockTransectionUpdate($stock_code = null)
+    {
+        $sql = "SELECT * FROM stock_posx 
+        where stock_code = '$stock_code'
+        ORDER BY stock_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateTransectionSold($stock_code, $data_trans, $stock_pcs)
+    {
+
+        $builder_stock_transaction = $this->db->table('stock_transaction');
+        $builder_stock_transaction_status = $builder_stock_transaction->insert($data_trans);
+
+        $builder_stock_pcs = $this->db->table('stock_posx');
+        $array_stock_pcs = array('stock_code' => $stock_code, 'status_stock' => 'IN_STOCK');
+        $builder_stock_pcs_status = $builder_stock_pcs->where($array_stock_pcs)->update($stock_pcs);
+
+
+        return ($builder_stock_pcs_status && $builder_stock_transaction_status) ? true : false;
     }
 }
