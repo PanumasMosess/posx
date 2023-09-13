@@ -49,9 +49,22 @@ $(document).ready(function () {
     var editUserElements = document.querySelectorAll('.editUser');
     var UserDetail = document.getElementById("user-detail");
     var editcheckboxes = document.getElementById("editcheckboxes");
-
+    var previousEditUserElement = null;
+    
     editUserElements.forEach(function (editUserElement) {
         editUserElement.addEventListener('click', function () {
+
+            if (previousEditUserElement !== null) {
+                // ถ้ามีองค์ประกอบที่ถูกเลือกก่อนหน้า ให้ลบคลาส `bg-warning-light` ออก
+                previousEditUserElement.classList.remove('bg-warning-light');
+            }
+    
+            // เพิ่มคลาส `bg-warning-light` ให้กับองค์ประกอบ `editUser` ที่ถูกคลิก
+            editUserElement.classList.add('bg-warning-light');
+    
+            // อัพเดตองค์ประกอบ `previousEditUserElement` เป็นองค์ประกอบปัจจุบันที่ถูกคลิก
+            previousEditUserElement = editUserElement;
+
             var Employee_id = editUserElement.getAttribute('data-id');
             // console.log('1');
             $.ajax({
@@ -101,6 +114,8 @@ $(document).ready(function () {
                 },
             });
 
+            editUserElement.classList.add("bg-warning-light");
+
             // ตรวจสอบว่า "newUser" ถูกแสดงหรือไม่
             if (newUser.style.display === "block") {
                 // ถ้า "newUser" ถูกแสดงอยู่ ให้ซ่อน "newUser" และแสดง "user-detail"
@@ -118,6 +133,15 @@ $(document).ready(function () {
     var addUserBtnButton = document.getElementById("addUserBtn");
 
     addUserBtnButton.addEventListener("click", function () {
+
+        // เลือกองค์ประกอบทั้งหมดที่มีคลาส "editUser" และ "bg-warning-light"
+        var editUserElements = document.querySelectorAll('.editUser.bg-warning-light');
+
+        // ลบคลาส "bg-warning-light" ออกจากทุกองค์ประกอบที่มี
+        editUserElements.forEach(function (editUserElement) {
+            editUserElement.classList.remove('bg-warning-light');
+        });
+
         // ซ่อน "user-detail" และแสดง "addUser"
         UserDetail.style.display = "none";
         showAddUser();
@@ -354,7 +378,7 @@ $('body').on('click', '#saveNewUser', function () {
                         }
                     },
                 });
-    
+
                 // ตรวจสอบว่า "newUser" ถูกแสดงหรือไม่
                 if (newUser.style.display === "block") {
                     // ถ้า "newUser" ถูกแสดงอยู่ ให้ซ่อน "newUser" และแสดง "user-detail"

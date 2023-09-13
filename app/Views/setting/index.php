@@ -48,6 +48,11 @@
     transform: translateY(-50%);
   }
 
+  /* ให้คลาส bg-warning เป็นสีจางลง */
+  .bg-warning-light {
+    background-color: #fff3cd;
+    /* เปลี่ยนค่า alpha (0.5) เพื่อทำให้สีพื้นหลังเป็นสีจางลง */
+  }
 </style>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
@@ -187,63 +192,77 @@
               </div>
               <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
-                <div class="main-title"><h3 class="mb-2">User Info</h3></div>
-                  <div class="input-group mb-1">
-                    <div class="input-group-text col-md-2">
-                      <span>Username</span>
-                    </div>
-                    <div class="col-md-10">
-                      <input type="text" class="form-control" placeholder="Username" aria-label="information_username" id="information_username" aria-describedby="basic-addon1" value="<?php echo $companies->companies_user; ?>" readonly>
-                    </div>
+                  <div class="main-title">
+                    <h3 class="mb-2">User Info</h3>
                   </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-text col-md-2">
-                      <span>Password</span>
+                  <form class="row mb-3">
+                    <div class="col-md-6">
+                      <div class="input-group mb-2">
+                        <div class="input-group-text col-md-2">
+                          <div class="">Username</div>
+                        </div>
+                        <input type="text" class="form-control" id="information_username" placeholder="Username" value="<?php echo $companies->companies_user; ?>" readonly>
+                      </div>
                     </div>
-                    <div class="col-md-10">
-                      <a type="text" href="#" class="form-control" placeholder="Password" aria-label="password" id="password" data-bs-toggle="modal" data-bs-target="#EditPasswordCompanies" aria-describedby="basic-addon1">******</a>
+                    <div class="col-md-6">
+                      <div class="input-group mb-2">
+                        <div class="input-group-text col-md-2">
+                          <div class="">Password</div>
+                        </div>
+                        <a type="text" href="#" class="form-control" placeholder="Password" aria-label="password" id="password" data-bs-toggle="modal" data-bs-target="#EditPasswordCompanies" aria-describedby="basic-addon1">******</a>
+                      </div>
                     </div>
+                  </form>
+                  <div class="main-title">
+                    <h3 class="mb-2">Shop Info</h3>
                   </div>
-                  <div class="main-title"><h3 class="mb-2">Shop Info</h3></div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-text col-md-2">
-                      <span>ชื่อร้าน</span>
-                    </div>
-                    <div class="form-group col-md-10">
+                  <div class="col-md-12 mb-3">
+                    <div class="input-group">
+                      <div class="input-group-text col-md-1">
+                        <div class="">ชื่อร้าน</div>
+                      </div>
                       <input class="form-control" placeholder="shopname" aria-label="shopname" id="shopname" aria-describedby="basic-addon1">
                     </div>
                   </div>
-                  <div class="main-title"><h3 class="mb-2">Set Parameters</h3></div>
-                  <div class="input-group mb-1">
-                    <div class="input-group-text col-md-2">
-                      <span>Service Charge (%)</span>
-                    </div>
-                    <div class="input-container col-md-10">
-                      <input type="text" class="form-control" placeholder="Service Charge (%)" aria-label="service_charge" id="service_charge" aria-describedby="basic-addon1">
-                      <span class="percentage-sign">%</span>
-                    </div>
+                  <div class="main-title">
+                    <h3 class="mb-2">Set Parameters</h3>
                   </div>
-                  <div class="input-group mb-1">
-                    <div class="input-group-text col-md-2">
-                      <span>ส่วนลด (%)</span>
+                  <form class="row mb-3">
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <div class="input-group-text col-md-8">
+                          <div class="">Service Charge (%)</div>
+                        </div>
+                        <div class="input-container col-md-4">
+                          <input type="text" class="form-control" placeholder="0.00" aria-label="service_charge" id="service_charge" aria-describedby="basic-addon1">
+                          <span class="percentage-sign">%</span>
+                        </div>
+                      </div>
                     </div>
-                    <div class="input-container col-md-10">
-                      <input type="text" class="form-control discount-text" placeholder="ส่วนลด (%)" aria-label="discount" id="discount" aria-describedby="basic-addon1">
-                      <span class="percentage-sign">%</span>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <div class="input-group-text col-md-8">
+                          <div class="">ส่วนลด (%)</div>
+                        </div>
+                        <div class="input-container col-md-4">
+                          <input type="text" class="form-control discount-text" placeholder="0.00" aria-label="discount" id="discount" aria-describedby="basic-addon1">
+                          <span class="percentage-sign">%</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div class="input-group mb-1">
-                    <div class="input-group-text col-md-2">
-                      <span>Discount Mode</span>
+                    <div class="col-md-6">
+                      <div class="input-group">
+                        <div class="input-group-text col-md-3">
+                          <div class="">Discount Mode</div>
+                        </div>
+                        <select class="form-select" name="discount_mode" id="discount_mode">
+                          <option value="0">% ส่วนลดท้ายบิล</option>
+                          <option value="1">ส่วนลดราคา</option>
+                          <option value="2">% ลดเปอร์เซ็น (โดยไม่รวมสินค้าที่มีการลดแล้ว)</option>
+                        </select>
+                      </div>
                     </div>
-                    <div class="col-md-10">
-                      <select class="form-control SlectBox" name="discount_mode" id="discount_mode">
-                        <option value="0">% ส่วนลดท้ายบิล</option>
-                        <option value="1">ส่วนลดราคา</option>
-                        <option value="2">% ลดเปอร์เซ็น (โดยไม่รวมสินค้าที่มีการลดแล้ว)</option>
-                      </select>
-                    </div>
-                  </div>
+                  </form>
                   <div class="input-group mb-3">
                     <div class="input-group-text col-md-2">
                       <span>Email Report</span>
@@ -263,19 +282,66 @@
                       </div>
                     </div>
                   </div>
-                  <div class="main-title"><h3 class="mb-2">Tax</h3></div>
-                  <div class="input-group mb-1">
+                  <div class="main-title">
+                    <h3 class="mb-2">Tax</h3>
+                  </div>
+                  <form class="row mb-3">
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <div class="input-group-text col-md-5">
+                          <div class="">Tax Status</div>
+                        </div>
+                        <select class="form-select" name="taxStatus" id="taxStatus">
+                          <option value="0">No</option>
+                          <option value="1">Active</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <div class="input-group-text col-md-5">
+                          <div class="">Tax Id</div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Tax Id" aria-label="taxId" id="taxId" aria-describedby="basic-addon1">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <div class="input-group-text col-md-5">
+                          <div class="">VAT Mode</div>
+                        </div>
+                        <select class="form-select" name="taxMode" id="taxMode">
+                          <option value="0">No Vat</option>
+                          <option value="1">Included</option>
+                          <option value="2">Excluded</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="input-group">
+                        <div class="input-group-text col-md-8">
+                          <div class="">Rate (%)</div>
+                        </div>
+                        <div class="input-container col-md-4">
+                          <input type="text" class="form-control" placeholder="0.00" aria-label="taxRate" id="taxRate" aria-describedby="basic-addon1">
+                          <span class="percentage-sign">%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                  <!-- <div class="input-group mb-3">
                     <div class="input-group-text col-md-2">
                       <span>Tax Status</span>
                     </div>
                     <div class="col-md-10">
-                      <select class="form-control SlectBox" name="taxStatus" id="taxStatus">
+                      <select class="form-select" name="taxStatus" id="taxStatus">
                         <option value="0">No</option>
                         <option value="1">Active</option>
                       </select>
                     </div>
                   </div>
-                  <div class="input-group mb-1">
+                  <div class="input-group mb-3">
                     <div class="input-group-text col-md-2">
                       <span>Tax Id</span>
                     </div>
@@ -283,19 +349,19 @@
                       <input type="text" class="form-control" placeholder="Tax Id" aria-label="taxId" id="taxId" aria-describedby="basic-addon1">
                     </div>
                   </div>
-                  <div class="input-group mb-1">
+                  <div class="input-group mb-3">
                     <div class="input-group-text col-md-2">
                       <span>VAT Mode</span>
                     </div>
                     <div class="col-md-10">
-                      <select class="form-control SlectBox" name="taxMode" id="taxMode">
+                      <select class="form-select" name="taxMode" id="taxMode">
                         <option value="0">No Vat</option>
                         <option value="1">Included</option>
                         <option value="2">Excluded</option>
                       </select>
                     </div>
                   </div>
-                  <div class="input-group mb-1">
+                  <div class="input-group mb-3">
                     <div class="input-group-text col-md-2">
                       <span>Rate (%)*</span>
                     </div>
@@ -303,7 +369,7 @@
                       <input type="text" class="form-control" placeholder="Rate (%)" aria-label="taxRate" id="taxRate" aria-describedby="basic-addon1">
                       <span class="percentage-sign">%</span>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-md-12 mt-2">
                     <button type="submit" class="btn btn-primary" href="#" id="EditInformation">Edit</button>
                   </div>
@@ -315,10 +381,12 @@
                     <div class="col-md-5">
                       <div class="row">
                         <div class="col-md-8">
-                        <div class="main-title"><h3 class="mt-2">Users Accounts</h3></div>
+                          <div class="main-title">
+                            <h3 class="mt-2">Users Accounts</h3>
+                          </div>
                         </div>
                         <div class="col-md-4" style="text-align: right;">
-                          <a href="javascript:void(0);" class="white_btn3 mb-2" id="addUserBtn"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>
+                          <a href="javascript:void(0);" class="white_btn3 mb-3" id="addUserBtn"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>
                         </div>
                       </div>
                       <div class="A list-group" data-bind="foreach: list">
@@ -339,18 +407,18 @@
                     </div>
                     <div class="col-md-5 col-md-offset-1">
                       <div id="newUser" style="display: none">
-                      <div class="main-title"><h3 class="mb-2">สร้าง User Login</h3></div>
-                        <div class="input-group mb-3">
-                          <div class="input-group-text col-md-3">
-                            <span>Username</span>
-                          </div>
-                          <div class="form-group col-md-9">
-                            <input class="form-control" placeholder="Username" aria-label="username" id="username" aria-describedby="basic-addon1">
-                          </div>
+                        <div class="main-title">
+                          <h3 class="mb-3">สร้าง User Login</h3>
                         </div>
                         <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
-                            <span class id="basic-addon1">Password</span>
+                            <div class="">Username</div>
+                          </div>
+                          <input class="form-control" placeholder="Username" aria-label="username" id="username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-text col-md-3">
+                            <div class="">Password</div>
                           </div>
                           <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Password">
                           <div class="input-group-text">
@@ -359,7 +427,7 @@
                         </div>
                         <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
-                            <span class id="basic-addon1">Re Password</span>
+                            <div class="">Re Password</div>
                           </div>
                           <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Re Password">
                           <div class="input-group-text">
@@ -375,23 +443,23 @@
                           </div>
                           <div class="col-md-3">
                           </div>
-                          <div class="col-md-9 mt-1">
+                          <div class="col-md-9 mt-2">
                             <span class="help-inline">ชื่อจะแสดงตอนพิมพ์ใบเสร็จ</span>
                           </div>
                         </div>
-                        <div class="input-group mb-1">
+                        <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
                             <span>Role</span>
                           </div>
                           <div class="col-md-9">
-                            <select class="form-control SlectBox" name="roles" id="roles">
+                            <select class="form-select" name="roles" id="roles">
                               <option value="1">Admin</option>
                               <option value="0">Custom User</option>
                             </select>
                           </div>
                           <div class="col-md-3">
                           </div>
-                          <div class="col-md-9 mt-1">
+                          <div class="col-md-9 mt-2">
                             <span class="help-inline">กำหนดสิทธิ์การใช้งาน <br>Admin สามารถใช้งานได้ทุก Features<br>Custom User สามารถกำหนดการใช้งานบาง Feature ได้</span>
                             <!-- เงื่อนไขสำหรับแสดง/ซ่อนกล่องเช็ค -->
                             <ul id="checkboxes" style="list-style-type: none; display: none;margin-top: 5px;">
@@ -432,13 +500,20 @@
                                 </label>
                               </li>
                             </ul>
-                            <br>
+                            <!-- <br>
+                            <button type="submit" class="btn btn-primary mt-2" href="#" id="saveNewUser">Add</button> -->
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-9">
                             <button type="submit" class="btn btn-primary mt-2" href="#" id="saveNewUser">Add</button>
                           </div>
                         </div>
                       </div>
                       <div id="user-detail" style="display: none">
-                      <div class="main-title"><h3 class="mb-2">รายละเอียด</h3></div>
+                        <div class="main-title">
+                          <h3 class="mb-3">รายละเอียด</h3>
+                        </div>
                         <input type="hidden" name="editUserID" id="editUserID" />
                         <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
@@ -461,12 +536,12 @@
                             <span class="help-inline">ชื่อจะแสดงตอนพิมพ์ใบเสร็จ</span>
                           </div>
                         </div>
-                        <div class="input-group mb-1">
+                        <div class="input-group mb-3">
                           <div class="input-group-text col-md-3">
                             <span>Role</span>
                           </div>
                           <div class="col-md-9">
-                            <select class="form-control SlectBox" name="edit_roles" id="edit_roles">
+                            <select class="form-select" name="edit_roles" id="edit_roles">
                               <option value="1">Admin</option>
                               <option value="0">Custom User</option>
                             </select>
@@ -514,7 +589,13 @@
                                 </label>
                               </li>
                             </ul>
-                            <br>
+                            <!-- <br>
+                            <button type="submit" class="btn btn-primary mt-2 me-2 saveEditUser" href="#">Edit</button>
+                            <button type="submit" class="btn btn-danger mt-2 saveRemoveUser">Remove</button> -->
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-9">
                             <button type="submit" class="btn btn-primary mt-2 me-2 saveEditUser" href="#">Edit</button>
                             <button type="submit" class="btn btn-danger mt-2 saveRemoveUser">Remove</button>
                           </div>
@@ -538,7 +619,7 @@
                   </div>
                   <div class="QA_section">
                     <div class="QA_table mb_30">
-                      <table class="table" id="tableEmployeePinPos">
+                      <table class="tables" id="tableEmployeePinPos">
                         <thead>
                           <tr>
                             <th style="width: 8px;">#</th>
@@ -571,13 +652,6 @@
                     <div class="QA_table mb_30">
                       <table class="table" id="tableEmployeePinStock">
                         <thead>
-                          <!-- <colgroup>
-                            <col style="width: 40px;">
-                            <col style="width: 100px;">
-                            <col style="width: 100px;">
-                            <col style="width: 600px;">
-                            <col style="width: 200px;">
-                          </colgroup> -->
                           <tr>
                             <th style="width: 20px;">#</th>
                             <th style="width: 90px;">Name</th>
@@ -594,86 +668,52 @@
               </div>
               <div class="tab-pane fade" id="mobile" role="tabpanel" aria-labelledby="mobile-tab">
                 <div class="col-lg-12 col-xl-12 col-md-12">
-                  <div class="panel panel-default">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading">
-                      <h3 class="panel-title">Paired mobiles (เชื่อมต่อการสั่งอาหารผ่านมือถือ Package 1390+)
-                        <span style="float: right">
-                          <span data-bind="text: $root.pairedList() ? pairedList().length : 0 ">3</span>
-                          <span data-bind=" text: ' / ' +  $root.currentQuota()"> / 5</span>
-                        </span>
-                      </h3>
+                  <div class="row">
+                    <div class="col-md-10 mt-3">
+                      <h5 style="display: inline" class="panel-title">Paired mobiles (เชื่อมต่อการสั่งอาหารผ่านมือถือ Package 1390+)</h5>
                     </div>
-                    <div class="panel-body" style="color: gray">
+                    <div class="col-md-2" style="text-align: right;">
+                      <a href="javascript:void(0);" class="white_btn3 mb-3" onclick="openModalAddMobile();"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>
                     </div>
-                    <div class="row" style="margin: 0px">
-                      <div class="col-lg-offset-1  col-md-3">
-                        <p>Device Id</p>
-                      </div>
-                      <div class="col-md-4">
-                        <p>Model</p>
-                      </div>
-                    </div>
-                    <!-- List group -->
-                    <ul class="list-group" data-bind="foreach: $data.pairedList ">
-                      <li class="list-group-item" style="line-height: 30px">
-                        <div class="row">
-                          <div class="col-lg-offset-1 col-md-3">
-                            <p data-bind="text : $data.deviceId">c0f65</p>
-                          </div>
-                          <div class="col-md-4">
-                            <p>
-                              <i class="fa fa-mobile"></i>
-                              <span data-bind="text: $data.model"></span>
-                            </p>
-                          </div>
-                          <div class="col-md-2">
-                            <a href="#" data-bind="click : $root.remove">remove</a>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="list-group-item" style="line-height: 30px">
-                        <div class="row">
-                          <div class="col-lg-offset-1 col-md-3">
-                            <p data-bind="text : $data.deviceId">d7d57</p>
-                          </div>
-                          <div class="col-md-4">
-                            <p>
-                              <i class="fa fa-mobile"></i>
-                              <span data-bind="text: $data.model"></span>
-                            </p>
-                          </div>
-                          <div class="col-md-2">
-                            <a href="#" data-bind="click : $root.remove">remove</a>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="list-group-item" style="line-height: 30px">
-                        <div class="row">
-                          <div class="col-lg-offset-1 col-md-3">
-                            <p data-bind="text : $data.deviceId">c308c</p>
-                          </div>
-                          <div class="col-md-4">
-                            <p>
-                              <i class="fa fa-mobile"></i>
-                              <span data-bind="text: $data.model"></span>
-                            </p>
-                          </div>
-                          <div class="col-md-2">
-                            <a href="#" data-bind="click : $root.remove">remove</a>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                    <div class="row" style="margin: 10px 0px">
-                      <div class="col-lg-offset-1  col-md-3">
-                        <div class="input-group input-large">
-                          <span class="input-group-btn">
-                            <button data-bind="click : $root.add" class="btn blue" type="button">Add</button>
-                          </span>
-                          <input data-bind="value : $root.input" type="text" class="form-control" placeholder="Enter Device Id">
-                        </div>
-                      </div>
+                  </div>
+                  <div class="QA_section">
+                    <div class="QA_table mb_30">
+                      <table class="table" id="tableMobile">
+                        <thead>
+                          <tr>
+                            <th class="text-center" style="width: 50px;">#</th>
+                            <th class="text-center" style="width: 350px;">Device Id</th>
+                            <th class="text-center" style="width: 350px;">Model</th>
+                            <th class="text-center" style="width: 400px;">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr data-row-id="1" role="row">
+                            <td class=" text-center">1</td>
+                            <td class=" text-center">c0f65</td>
+                            <td class=" text-center"><i class="fa fa-mobile"></i></td>
+                            <td class=" text-center">
+                            <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+                            </td>
+                          </tr>
+                          <tr data-row-id="2" role="row">
+                            <td class=" text-center">2</td>
+                            <td class=" text-center">d7d57</td>
+                            <td class=" text-center"><i class="fa fa-mobile"></i></td>
+                            <td class=" text-center">
+                            <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+                            </td>
+                          </tr>
+                          <tr data-row-id="3" role="row">
+                            <td class=" text-center">3</td>
+                            <td class=" text-center">as48s</td>
+                            <td class=" text-center"><i class="fa fa-mobile"></i></td>
+                            <td class=" text-center">
+                            <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>

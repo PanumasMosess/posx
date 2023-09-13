@@ -1190,13 +1190,13 @@ class SettingController extends BaseController
             $response['success'] = 0;
             $response['message'] = '';
 
-            $password = $this->request->getVar('new_password_employee_pos');
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            // $password = $this->request->getVar('new_password_employee_pos');
+            // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             // HANDLE REQUEST
             $create = $this->EmployeePinPosModel->insertEmployeePinPos([
                 'username' => $this->request->getVar('username_employee_pos'),
-                'pin_pos' => $hashed_password,
+                'pin_pos' => $this->request->getVar('new_password_employee_pos'),
                 'pin_pos_all' => '0',
                 'pin_pos_move' => '0',
                 'pin_pos_discount' => '0',
@@ -1391,13 +1391,13 @@ class SettingController extends BaseController
             $response['success'] = 0;
             $response['message'] = '';
 
-            $password = $this->request->getVar('new_password_employee_stock');
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            // $password = $this->request->getVar('new_password_employee_stock');
+            // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             // HANDLE REQUEST
             $create = $this->EmployeePinStockModel->insertEmployeePinStock([
                 'username' => $this->request->getVar('username_employee_stock'),
-                'pin_stock' => $hashed_password,
+                'pin_stock' => $this->request->getVar('new_password_employee_stock'),
                 'pin_stock_all' => '0',
                 'pin_stock_edit_stock' => '0',
                 'pin_stock_edit_formula' => '0',

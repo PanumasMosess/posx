@@ -2,19 +2,19 @@ $(document).ready(function () {
     loadTableEmployeePinStock();
 
     $('#tableEmployeePinStock').on('change', '#checkbox_Stock_All', function () {
-        var isChecked = $(this).prop('checked');
-        var $currentRow = $(this).closest('tr');
-        var rowId = $currentRow.data('row-id'); // รหัสแถวปัจจุบัน
-        console.log(rowId);
-        var checkboxesToToggle = $('[data-row-id ="' + rowId + '"] .custom-control:not(.custom-control-stock-All)');
+        var isCheckedPinStock = $(this).prop('checked');
+        var $currentRowPinStock = $(this).closest('tr');
+        var PinStockrowId = $currentRowPinStock.data('stock-id'); // รหัสแถวปัจจุบัน
+        // console.log(PinStockrowId+'s');
+        var checkboxesPinStockToToggle = $('[data-stock-id ="' + PinStockrowId + '"] .custom-control:not(.custom-control-stock-All)');
 
-        if (isChecked) {
+        if (isCheckedPinStock) {
             // ถ้า checkbox "All" ถูกติ๊กให้ซ่อน checkbox อื่น ๆ ในแถวนี้
-            checkboxesToToggle.hide();
+            checkboxesPinStockToToggle.hide();
             $('.custom-control-stock-All').show(); // แสดงเฉพาะ checkbox "All"
         } else {
             // ถ้า checkbox "All" ถูกยกเลิกให้แสดง checkbox ทั้งหมดในแถวนี้
-            checkboxesToToggle.show();
+            checkboxesPinStockToToggle.show();
         }
     });
 });
@@ -141,7 +141,7 @@ $formAddEmployeePinStock
 $('body').on('click', '.saveEditEmployeePinStock', function () {
     var editUserID = $(this).attr('data-id');
 
-    var $row = $('tr[data-row-id="' + editUserID + '"]'); // ใช้ data-row-id เพื่อหาแถวที่ต้องการแก้ไข
+    var $row = $('tr[data-stock-id="' + editUserID + '"]'); // ใช้ data-stock-id เพื่อหาแถวที่ต้องการแก้ไข
 
     var Stock_All = $row.find("#checkbox_Stock_All").prop('checked');
     var Edit_Stock = $row.find("#checkbox_Edit_Stock").prop('checked');
@@ -295,7 +295,7 @@ function loadTableEmployeePinStock() {
         },
         "createdRow": function (row, data, dataIndex) {
             // กำหนด id ให้กับแต่ละ <tr> โดยใช้ dataIndex แทน
-            $(row).attr('data-row-id', data["id"]);
+            $(row).attr('data-stock-id', data["id"]);
         },
         "columns": [{
             data: null,
