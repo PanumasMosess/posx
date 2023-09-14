@@ -53,17 +53,23 @@ class StockController extends BaseController
             $sprintf_stock_code = sprintf("%08d", $sum_stock_code);
             $stock_running_code = "POXS" . $sprintf_stock_code;
 
+
             $file = $data[0]['src_picture'];
+            $file_name  = '';
+            if ($file != null) {
+                $new_file = explode(";", $file);
+                $new_file_move = explode(",", $file);
+                $type = $new_file[0];
+                $type_real = explode("/", $type);
 
-            $new_file = explode(";", $file);
-            $new_file_move = explode(",", $file);
-            $type = $new_file[0];
-            $type_real = explode("/", $type);
+                // var_dump($type_real[1]);
+                // exit;
 
-            // var_dump($type_real[1]);
-            // exit;
+                $file_name = $stock_running_code . '.' . $type_real[1];
 
-            file_put_contents('uploads/temps_stock/' . $stock_running_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+                file_put_contents('uploads/temps_stock/' . $stock_running_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+            }
+
 
             //data stock table
             $data_stock = [
@@ -76,7 +82,7 @@ class StockController extends BaseController
                 'price' =>  $data[0]['price'],
                 'pcs' =>  $data[0]['pcs'],
                 'status_stock' => 'IN_STOCK',
-                'src_picture' => $stock_running_code . '.' . $type_real[1],
+                'src_picture' => $file_name,
                 'created_by' => session()->get('username'),
                 'companies_id' => session()->get('companies_id')
             ];
@@ -177,7 +183,7 @@ class StockController extends BaseController
                     'price' =>  $data[0]['price'],
                     'pcs' =>  $data[0]['pcs'],
                     'src_picture' => 'uploads/temps_stock/' . $stock_running_code->stock_code . '.' . $type_real[1],
-                    'updated_by' =>  session()->get('username'),  
+                    'updated_by' =>  session()->get('username'),
                     'updated_at' => $buffer_datetime
                 ];
 
@@ -194,7 +200,7 @@ class StockController extends BaseController
                     'MIN' => $data[0]['MIN'],
                     'price' =>  $data[0]['price'],
                     'pcs' =>  $data[0]['pcs'],
-                    'updated_by' =>  session()->get('username'),  
+                    'updated_by' =>  session()->get('username'),
                     'updated_at' =>  $buffer_datetime
                 ];
             }
@@ -239,7 +245,7 @@ class StockController extends BaseController
 
             $data_stock = [
                 'status_stock' => 'CANCEL_STOCK',
-                'updated_by' =>  session()->get('username'),  
+                'updated_by' =>  session()->get('username'),
                 'deleted_at' => $buffer_datetime
             ];
 
