@@ -208,6 +208,7 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
             <script src="' . base_url('/js/interact.min.js') . '"></script> 
+            <script src="' . base_url('/js/sweet-alert/sweetalert.min.js') . '"></script> 
             <script src="' . base_url('/js/orders/order_table.js?v=' . time()) . '"></script>     
         ';
         $data['codeArea'] = $code;
@@ -719,6 +720,24 @@ class OrderPosController extends BaseController
     public function outofstock($code = null)
     {
         $look_data = $this->OrderModel->getOutofstock($code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
+    }
+
+    public function loadTableOrderList()
+    {
+
+        $datas = $_POST["data"];
+        $data_code_table = '';
+        foreach ($datas as $data) {
+            $data_code_table = $data[0]['code_table'];
+        }
+
+        $look_data = $this->OrderModel->getOrderListByTable($data_code_table);
 
         return $this->response->setJSON([
             'status' => 200,

@@ -616,12 +616,10 @@ class OrderModel
 
     public function getFormulaTransectionByOrder()
     {
-
     }
 
     public function getStockTransectionByOrder()
     {
-
     }
 
     public function insertOrderCustomer($data, $running)
@@ -730,5 +728,17 @@ class OrderModel
 
 
         return ($builder_stock_pcs_status && $builder_stock_transaction_status) ? true : false;
+    }
+
+    public function getOrderListByTable($table_code = null)
+    {
+        $sql = "SELECT * FROM order_customer as a
+        left join `order` as b
+        on a.order_code = b.order_code
+        where order_customer_table_code = '$table_code' and a.order_customer_status = 'IN_KITCHEN'
+        ORDER BY a.order_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
     }
 }

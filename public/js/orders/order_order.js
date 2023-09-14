@@ -1,7 +1,9 @@
 var isOnline;
 var table_code;
+var table_order_table;
 var itemsArrayMoveTableOffline = [];
 var itemsArrayCancelOrderTableOffline = [];
+var itemsArrayOrderTableListOffline = [];
 (function ($) {
   $("#order_select_detail").slideUp();
   $("#addOrderCusBtn").addClass("disable-click");
@@ -108,13 +110,18 @@ function selectArea() {
       // });
       // $("#area_select").niceSelect("destroy");
       // area_select.niceSelect();
-       let btn_area = ''
-       $.each(response.data, function (index, item) {
-        btn_area +=  ' <button type="button" class="btn btn-outline-primary" id="'+item.area_code + "###" + item.area_name+'" onclick="drowTableLoad(this.id)">'+item.area_name+'</button>';
-        $('#btn_area').html(btn_area);
+      let btn_area = "";
+      $.each(response.data, function (index, item) {
+        btn_area +=
+          ' <button type="button" class="btn btn-outline-primary" id="' +
+          item.area_code +
+          "###" +
+          item.area_name +
+          '" onclick="drowTableLoad(this.id)">' +
+          item.area_name +
+          "</button>";
+        $("#btn_area").html(btn_area);
       });
-
-     
 
       //select move
       var area_move = $("#area_move");
@@ -167,7 +174,6 @@ area_move.on("change", function () {
 });
 
 function drowTableLoad(data) {
-
   if (data != "") {
     $("#table_header_name").html("");
     $("#table_header_name_detail").html("");
@@ -376,6 +382,8 @@ function detail_summary(table_code) {
           sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
           "</p>"
       );
+
+      listOrder(table_code);
     },
   });
 }
@@ -394,6 +402,7 @@ function clear_detail_summary() {
   );
   $("#vat_total_").html('<p id="vat_total_">' + "0.00" + "</p>");
   $("#sub_total_").html('<p id="sub_total_">' + "0.00" + "</p>");
+  $("#orderListInTable").DataTable().clear().destroy();
 }
 
 function open_move_order_() {
@@ -530,4 +539,79 @@ function voidItem() {
     } else {
     }
   });
+}
+
+function listOrder(tableCode) {
+  arr_table_order = [
+    {
+      code_table: tableCode,
+    },
+  ];
+  itemsArrayOrderTableListOffline.push(arr_table_order);
+  localStorage.setItem(
+    "tableOrdeList",
+    JSON.stringify(itemsArrayOrderTableListOffline)
+  );
+
+  areaorderTemp = JSON.parse(localStorage.tableOrdeList);
+
+  $("#orderListInTable").DataTable().clear().destroy();
+  table_order_table = $("#orderListInTable").DataTable({
+    order: [],
+    // serverSide: true,
+    ajax: {
+      url: serverUrl + "order/loadTableOrderList",
+      type: "POST",
+      data: {
+        data: areaorderTemp
+      }
+    },
+    // data: array_select_confirm,
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + meta.settings._iDisplayStart + 1;
+        },
+      },
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return "<font>" + data["order_customer_ordername"] + "</font>";
+        },
+      },
+      {
+        data: "order_customer_pcs",
+      },
+      {
+        orderable: false,
+        data: null,
+        render: function (data, type, row, meta) {
+          let price_sum = data["order_customer_pcs"] * data["order_price"];
+          return "<font>" + price_sum + "</font>";
+        },
+      },
+    ],
+    columnDefs: [
+      {
+        targets: 0,
+        className: "text-left",
+      },
+      {
+        targets: 2,
+        className: "text-center",
+      },
+      {
+        targets: 3,
+        className: "text-right",
+      },
+    ],
+    responsive: true,
+    searching: false,
+    info: true,
+  });
+
+  localStorage.removeItem("tableOrdeList");
+  areaorderTemp = [];
+  itemsArrayOrderTableListOffline = [];
 }
