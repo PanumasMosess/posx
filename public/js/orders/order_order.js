@@ -224,9 +224,9 @@ function drowTableLoad(data) {
                 dataTable[i].width_div +
                 "px; height: " +
                 dataTable[i].hight_div +
-                'px; background-color: #E0E0DE;" ><p id="Action">' +
+                'px; background-color: #E0E0DE;" ><p id="Action" style="pointer-events:none;">' +
                 dataTable[i].table_name +
-                " (ไม่ว่าง)</p><span  style='opacity: 0.7;'>" +
+                " (ไม่ว่าง)</p><span  style='opacity: 0.7;pointer-events:none;'>" +
                 dataTable[i].size_table +
                 " ที่นั่ง" +
                 "</span></div>"
@@ -261,9 +261,9 @@ function drowTableLoad(data) {
                 dataTable[i].width_div +
                 "px; height: " +
                 dataTable[i].hight_div +
-                'px;" ><p id="Action">' +
+                'px;" ><p id="Action" style="pointer-events:none;">' +
                 dataTable[i].table_name +
-                "</p><span  style='opacity: 0.7;'>" +
+                "</p><span  style='opacity: 0.7; pointer-events:none;'>" +
                 dataTable[i].size_table +
                 " ที่นั่ง" +
                 "</span></div>"

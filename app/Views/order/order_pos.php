@@ -83,6 +83,11 @@
                                                                             </select>
                                                                         </div> -->
                                                                         <div id='btn_area'></div>
+                                                                        <div class="action_btns d-flex">
+                                                                            <a href="#" class="action_btn" id='' onclick="drowTableLoad(this.id);" data-toggle="tooltip" data-placement="top" title="รีโหลด">
+                                                                                <i class="ti-reload"></i>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
