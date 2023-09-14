@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>POSX <?php echo $title; ?></title>
-    <link rel="icon" href="<?php echo base_url('img/mini_logo.png'); ?>" type="image/png" />
+    <link rel="icon" href="<?php echo base_url('img/icon.png'); ?>" type="image/png" />
 
     <link rel="stylesheet" href="<?php echo base_url('css/bootstrap1.min.css'); ?>" />
 
@@ -67,8 +67,8 @@
 <body class="crm_body_bg">
     <nav class="sidebar" id="nav_theme">
         <div class="logo d-flex justify-content-between">
-            <a class="large_logo" href="index.html"><img src="https://cdn.discordapp.com/attachments/1101414559291551784/1146749543426306049/373452635_316968594334061_9160180745837028469_n.jpg" alt /></a>
-            <a class="small_logo" href="index.html"><img src="<?php echo base_url('img/mini_logo.png'); ?>" alt /></a>
+            <a class="large_logo" href="index.html"><img src="<?php echo base_url('img/POSX_2.png'); ?>" alt /></a>
+            <a class="small_logo" href="index.html"><img src="<?php echo base_url('img/icon.png'); ?>" alt /></a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>
