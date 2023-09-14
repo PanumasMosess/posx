@@ -421,9 +421,9 @@ class OrderPosController extends BaseController
         $data['content'] = 'order/order_list_customer';
         $data['title'] = 'รายการสินค้า';
         $data['css_critical'] = '
-        <link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />   
-        <link rel="stylesheet" href="' . base_url('css/tableStyle.css') . '" />
-        <link rel="stylesheet" href="' . base_url('css/tableCards.css') . '" />
+        <link rel="stylesheet" href="' . base_url('css/err_style.css?v=' . time()) . '" />   
+        <link rel="stylesheet" href="' . base_url('css/tableStyle.css?v=' . time()) . '" />
+        <link rel="stylesheet" href="' . base_url('css/tableCards.css?v=' . time()) . '" />
         ';
         $data['js_critical'] = '    
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
