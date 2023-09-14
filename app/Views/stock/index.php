@@ -413,7 +413,7 @@
                             </div>
                             <div class="row g-12">
                                 <div class="input-group mb-3">
-                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);" required />
+                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);"  />
                                     <input type="hidden" id="file_product_base64" name="file_product_base64" />
                                     <input type="hidden" id="file_oldname" name="file_oldname" />
                                 </div>
