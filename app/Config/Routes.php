@@ -55,17 +55,17 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->post('updateSupplier', 'SettingController::updateSupplier');
     $routes->get('deleteSupplier/(:num)', 'SettingController::deleteSupplier/$1');
 
-    $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
-    $routes->post('addPosition', 'SettingController::addPosition');
-    $routes->get('editPosition/(:num)', 'SettingController::editPosition/$1');
-    $routes->post('updatePosition', 'SettingController::updatePosition');
-    $routes->get('deletePosition/(:num)', 'SettingController::deletePosition/$1');
+    // $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
+    // $routes->post('addPosition', 'SettingController::addPosition');
+    // $routes->get('editPosition/(:num)', 'SettingController::editPosition/$1');
+    // $routes->post('updatePosition', 'SettingController::updatePosition');
+    // $routes->get('deletePosition/(:num)', 'SettingController::deletePosition/$1');
 
-    $routes->post('ajax-datatableBranch', 'SettingController::ajaxDataTablesBranch');
-    $routes->post('addBranch', 'SettingController::addBranch');
-    $routes->get('editBranch/(:num)', 'SettingController::editBranch/$1');
-    $routes->post('updateBranch', 'SettingController::updateBranch');
-    $routes->get('deleteBranch/(:num)', 'SettingController::deleteBranch/$1');
+    // $routes->post('ajax-datatableBranch', 'SettingController::ajaxDataTablesBranch');
+    // $routes->post('addBranch', 'SettingController::addBranch');
+    // $routes->get('editBranch/(:num)', 'SettingController::editBranch/$1');
+    // $routes->post('updateBranch', 'SettingController::updateBranch');
+    // $routes->get('deleteBranch/(:num)', 'SettingController::deleteBranch/$1');
 
     $routes->get('information', 'SettingController::information');
     $routes->post('updateInformation', 'SettingController::updateInformation');
