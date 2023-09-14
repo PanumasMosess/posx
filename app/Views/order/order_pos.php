@@ -73,15 +73,16 @@
                                             <div class="main_board_card">
                                                 <div class="row">
                                                     <div class="col-xl-7 col-lg-7 col-md-12">
-                                                        <div class="white_card  mb_20">
+                                                        <div class="white_card mb_20">
                                                             <div class="white_card_header">
-                                                                <div class="justify-content-end d-flex mb-2 mt-2">
+                                                                <div class="mt-2 mr-2">
                                                                     <div class="box_header m-1">
-                                                                        <div class="common_select">
+                                                                        <!-- <div class="common_select">
                                                                             <select class="nice_Select wide mb-10" style="display: none;" id="area_select">
                                                                                 <option value="">เลือกพื้นที่</option>
                                                                             </select>
-                                                                        </div>
+                                                                        </div> -->
+                                                                        <div id='btn_area'></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -129,12 +130,14 @@
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รายการ</td>
                                                                                                         <td>
-                                                                                                           <p id="table_pcs">xxx รายการ</p> 
+                                                                                                            <p id="table_pcs">xxx รายการ</p>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">เวลา</td>
-                                                                                                        <td><p id="time_table">xxx</p></td>
+                                                                                                        <td>
+                                                                                                            <p id="time_table">xxx</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รวม</td>
@@ -153,25 +156,33 @@
                                                                                                 <tbody>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="#">SUB TOTAL</a></td>
-                                                                                                        <td><p id='sub_total_'>0.00</p></td>
+                                                                                                        <td>
+                                                                                                            <p id='sub_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalServiceType();"> SERVICE</a></td>
                                                                                                         <td>
-                                                                                                        <p id='service_total_'>0.00</p>
+                                                                                                            <p id='service_total_'>0.00</p>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModaldiscountAllType();"> DISCOUNT ALL</a></td>
-                                                                                                        <td><p id='discount_total_'>0.00</p></td>
+                                                                                                        <td>
+                                                                                                            <p id='discount_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalCardCharge();"> CARD CHARGE</a></td>
-                                                                                                        <td><p id='card_charge_total_'>0.00</p></td>
+                                                                                                        <td>
+                                                                                                            <p id='card_charge_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalVat();"> VAT</a> </td>
-                                                                                                        <td><p id='vat_total_'>0.00</p></td>
+                                                                                                        <td>
+                                                                                                            <p id='vat_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
@@ -183,8 +194,8 @@
                                                                         <div class="devices_btn justify-content-start">
                                                                             <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" id="addOrderCusBtn" href="javascript:void(0);" onclick="openAddOrder_customer();"><i class="ti-plus"></i> Add</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="move_order_btn" href="javascript:void(0);" onclick="open_move_order_();"><i class="ti-new-window"></i> Move</a>
-                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;"  id="discount_order_btn" href="javascript:void(0);"><i class="fas fa-hryvnia"></i> Discount</a>
-                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;"  id="split_order_btn" href="javascript:void(0);"><i class="ti-split-h"></i> SpitBill</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="discount_order_btn" href="javascript:void(0);"><i class="fas fa-hryvnia"></i> Discount</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="split_order_btn" href="javascript:void(0);"><i class="ti-split-h"></i> SpitBill</a>
                                                                             <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" id="void_order_btn" href="javascript:void(0);" onclick="voidItem();"><i class="ti-trash"></i> Void Item</a>
                                                                         </div>
                                                                         <div class="QA_section">
@@ -558,7 +569,7 @@
                                         <label class="input-group-text" for="table_move">โต๊ะ</label>
                                         <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
                                         <select class="form-select" id="table_move" name="table_move" required="">
-                                            <option value="">เลือกโต๊ะ</option>          
+                                            <option value="">เลือกโต๊ะ</option>
                                         </select>
                                     </div>
                                 </div>

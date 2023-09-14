@@ -97,17 +97,24 @@ function selectArea() {
     method: "get",
     success: function (response) {
       //init order select
-      var area_select = $("#area_select");
-      area_select.html('<option value="">เลือกพื้นที่</option>');
-      $.each(response.data, function (index, item) {
-        area_select.append(
-          $('<option style="color: #000;"></option>')
-            .val(item.area_code + "###" + item.area_name)
-            .html(item.area_name)
-        );
+      // var area_select = $("#area_select");
+      // area_select.html('<option value="">เลือกพื้นที่</option>');
+      // $.each(response.data, function (index, item) {
+      //   area_select.append(
+      //     $('<option style="color: #000;"></option>')
+      //       .val(item.area_code + "###" + item.area_name)
+      //       .html(item.area_name)
+      //   );
+      // });
+      // $("#area_select").niceSelect("destroy");
+      // area_select.niceSelect();
+       let btn_area = ''
+       $.each(response.data, function (index, item) {
+        btn_area +=  ' <button type="button" class="btn btn-outline-primary" id="'+item.area_code + "###" + item.area_name+'" onclick="drowTableLoad(this.id)">'+item.area_name+'</button>';
+        $('#btn_area').html(btn_area);
       });
-      $("#area_select").niceSelect("destroy");
-      area_select.niceSelect();
+
+     
 
       //select move
       var area_move = $("#area_move");
@@ -160,6 +167,18 @@ area_move.on("change", function () {
 });
 
 function drowTableLoad(data) {
+
+  if (data != "") {
+    $("#table_header_name").html("");
+    $("#table_header_name_detail").html("");
+    $("#order_select_detail").slideDown();
+  } else {
+    $("#canvaHolder").html("");
+    $("#table_header_name").html("");
+    $("#table_header_name_detail").html("");
+    $("#order_select_detail").slideUp();
+    $("#addOrderCusBtn").addClass("disable-click");
+  }
   // interact.removeDocument(document);
   var str_split = data;
   var str_split_result = str_split.split("###");
