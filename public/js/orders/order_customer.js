@@ -211,7 +211,7 @@ function getOrderCard() {
               serverUrl +
               "/uploads/temps_order/" +
               data["src_order_picture"] +
-              "' width='100px' height='100px' style='border-radius: .40rem; box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;'></div>";
+              "' width='100px' height='100px' style='border-radius: .40rem; box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;' class='zoom'></div>";
 
             return data;
           },
