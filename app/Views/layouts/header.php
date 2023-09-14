@@ -67,8 +67,8 @@
 <body class="crm_body_bg">
     <nav class="sidebar" id="nav_theme">
         <div class="logo d-flex justify-content-between">
-            <a class="large_logo" href="index.html"><img src="<?php echo base_url('img/POSX_2.png'); ?>" alt /></a>
-            <a class="small_logo" href="index.html"><img src="<?php echo base_url('img/icon.png'); ?>" alt /></a>
+            <a class="large_logo" href="<?php echo base_url('/dashboard'); ?>"><img src="<?php echo base_url('img/POSX_2.png'); ?>" alt /></a>
+            <a class="small_logo" href="<?php echo base_url('/dashboard'); ?>"><img src="<?php echo base_url('img/icon.png'); ?>" alt /></a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>
@@ -76,7 +76,7 @@
         <ul id="sidebar_menu">
 
             <li class="">
-                <a href="<?php echo base_url(); ?>" aria-expanded="false">
+                <a href="<?php echo base_url('/dashboard');  ?>" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/dashboard.svg'); ?>" alt="">
                     </div>
