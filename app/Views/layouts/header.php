@@ -154,6 +154,25 @@
                     </div>
                 </a>
             </li>
+
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'manager') {
+                                echo 'active';
+                            } ?>">
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
+                    </div>
+                    <div class="nav_title">
+                        <span>ผู้จัดการ</span>
+                    </div>
+                </a>
+                <ul>
+                    <li><a href="<?php echo base_url('/manager/index'); ?>">เมนู</a></li>
+                </ul>
+                <ul class="disabled">
+                    <li><a href="<?php echo base_url('/manager/edit_bill'); ?>">แก้ไขบิล</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
 

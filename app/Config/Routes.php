@@ -42,19 +42,6 @@ $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
 $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('index', 'SettingController::index');
-    $routes->post('ajax-datatableGroupProduct', 'SettingController::ajaxDataTablesGroupProduct');
-    $routes->post('addGroupProduct', 'SettingController::addGroupProduct');
-    $routes->get('editGroupProduct/(:num)', 'SettingController::editGroupProduct/$1');
-    $routes->post('updateGroupProduct', 'SettingController::updateGroupProduct');
-    $routes->get('deleteGroupProduct/(:num)', 'SettingController::deleteGroupProduct/$1');
-    // $routes->post('insertGroupProduct', 'SettingController::insertgroupproduct');
-
-    $routes->post('ajax-datatableSupplier', 'SettingController::ajaxDataTablesSupplier');
-    $routes->post('addSupplier', 'SettingController::addSupplier');
-    $routes->get('editSupplier/(:num)', 'SettingController::editSupplier/$1');
-    $routes->post('updateSupplier', 'SettingController::updateSupplier');
-    $routes->get('deleteSupplier/(:num)', 'SettingController::deleteSupplier/$1');
-
     // $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
     // $routes->post('addPosition', 'SettingController::addPosition');
     // $routes->get('editPosition/(:num)', 'SettingController::editPosition/$1');
@@ -87,6 +74,11 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->post('addEmployeePinStock', 'SettingController::addEmployeePinStock');
     $routes->post('updateEmployeePinStock', 'SettingController::updateEmployeePinStock');
     $routes->get('deleteEmployeePinStock/(:num)', 'SettingController::deleteEmployeePinStock/$1');
+
+    $routes->post('ajax-datatablePaymentType', 'SettingController::ajaxDataTablesPaymentType');
+    $routes->post('addPaymentType', 'SettingController::addPaymentType');
+    $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
+    $routes->get('deletePaymentType/(:num)', 'SettingController::deletePaymentType/$1');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
@@ -97,6 +89,23 @@ $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('editEmployee/(:num)', 'EmployeeController::editEmployee/$1');
     $routes->post('updateEmployee', 'EmployeeController::updateEmployee');
     $routes->get('deleteEmployee/(:num)', 'EmployeeController::deleteEmployee/$1');
+});
+
+$routes->group('manager', ['filter' => 'employeeAuth'] ,function ($routes) {
+    $routes->get('index', 'ManagerController::index');
+
+    $routes->post('ajax-datatableGroupProduct', 'ManagerController::ajaxDataTablesGroupProduct');
+    $routes->post('addGroupProduct', 'ManagerController::addGroupProduct');
+    $routes->get('editGroupProduct/(:num)', 'ManagerController::editGroupProduct/$1');
+    $routes->post('updateGroupProduct', 'ManagerController::updateGroupProduct');
+    $routes->get('deleteGroupProduct/(:num)', 'ManagerController::deleteGroupProduct/$1');
+    // $routes->post('insertGroupProduct', 'SettingController::insertgroupproduct');
+
+    $routes->post('ajax-datatableSupplier', 'ManagerController::ajaxDataTablesSupplier');
+    $routes->post('addSupplier', 'ManagerController::addSupplier');
+    $routes->get('editSupplier/(:num)', 'ManagerController::editSupplier/$1');
+    $routes->post('updateSupplier', 'ManagerController::updateSupplier');
+    $routes->get('deleteSupplier/(:num)', 'ManagerController::deleteSupplier/$1');
 });
 
 // stock management

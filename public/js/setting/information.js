@@ -13,6 +13,13 @@ $(document).ready(function () {
     });
 });
 
+function closeModalEditPassword() {
+    $("#EditPasswordCompanies").modal("hide");
+    $("#editPasswordCompanies")[0].reset();
+    $("#editPasswordCompanies").parsley().reset();
+    $("#editPasswordCompanies .parsley-required").hide();
+}
+
 //When click add Email
 $('body').on('click', '#EditInformation', function () {
     var shopname = document.querySelector("#shopname");
