@@ -499,6 +499,7 @@ function orderConfirm() {
                 array_customer_order = [];
                 array_select_confirm = [];
                 cancleAllTable();
+                localStorage.setItem('isCallNewOrder', 'yes');
               } else {
                 notif({
                   type: "danger",

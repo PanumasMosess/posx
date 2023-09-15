@@ -123,7 +123,7 @@
                                                                                 <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
                                                                                     <div class="builder_select">
                                                                                         <div class="total-payment p-3 mt-3">
-                                                                                            <h4 class="header-title">Info Order</h4>
+                                                                                            <h4 class="header-title">INFO ORDER</h4>
                                                                                             <table class="table">
                                                                                                 <tbody>
                                                                                                     <tr>

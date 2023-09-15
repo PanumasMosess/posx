@@ -741,4 +741,53 @@ class OrderModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
+    public function getStatusOrderRunning($order_code, $order_customer_table_code)
+    {
+        $sql = "SELECT IF(EXISTS(SELECT * FROM order_customer  WHERE 
+        order_code ='$order_code' and  
+        order_customer_status = 'IN_KITCHEN' and 
+        order_customer_table_code = '$order_customer_table_code'),
+        'true','false' ) AS result";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderRunning($order_code, $order_customer_table_code)
+    {
+        $sql = "SELECT * FROM order_customer  WHERE 
+        order_code ='$order_code' and  
+        order_customer_status = 'IN_KITCHEN' and 
+        order_customer_table_code = '$order_customer_table_code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderSummaryRuning($order_customer_table_code)
+    {
+        $sql = "SELECT * FROM order_summary  WHERE 
+        order_status = 'IN_KITCHEN' and 
+        order_table_code = '$order_customer_table_code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateOrderCustomer($data_order, $order_code,  $order_customer_table_code)
+    {
+        $builder_order_update = $this->db->table('order_customer');
+        $array_order_update = array('order_code' => $order_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $order_customer_table_code);
+        $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
+        return ($builder_order_update_status) ? true : false;
+    }
+
+    public function updateOrderCustomerSummary($data_order, $order_customer_table_code)
+    {
+        $builder_order_sum_update = $this->db->table('order_summary');
+        $array_order_sum_update = array('order_status' => 'IN_KITCHEN', 'order_table_code' => $order_customer_table_code);
+        $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
+        return ($builder_order_sum_update_status) ? true : false;
+    }
 }

@@ -12,7 +12,7 @@ var itemsArrayOrderTableListOffline = [];
   $("#discount_order_btn").addClass("disable-click");
   $("#split_order_btn").addClass("disable-click");
   selectArea();
-  interact(".resize-drag")
+  interact(".resize-drag,.resize-drag-b")
     .on("tap", function (event) {
       var target = event.target;
       //   console.log(target.getAttribute("data-area"));
@@ -33,7 +33,7 @@ var itemsArrayOrderTableListOffline = [];
 
         clear_detail_summary();
       } else {
-        $("#addOrderCusBtn").addClass("disable-click");
+        $("#addOrderCusBtn").removeClass("disable-click");
         $("#move_order_btn").removeClass("disable-click");
         $("#void_order_btn").removeClass("disable-click");
         $("#discount_order_btn").addClass("disable-click");
@@ -202,7 +202,7 @@ function drowTableLoad(data) {
         for (var i = 0; i < dataTable.length; i++) {
           if (dataTable[i].table_status == "USE") {
             $(".canva").append(
-              '<div class="resize-drag' +
+              '<div class="resize-drag-b' +
                 (dataTable[i].rounded === "yes" ? " circle" : "") +
                 '" id="' +
                 dataTable[i].div_id +
@@ -230,7 +230,7 @@ function drowTableLoad(data) {
                 dataTable[i].width_div +
                 "px; height: " +
                 dataTable[i].hight_div +
-                'px; background-color: #E0E0DE;" ><p id="Action" style="pointer-events:none;">' +
+                'px;"  ><p id="Action" style="pointer-events:none;">' +
                 dataTable[i].table_name +
                 " (ไม่ว่าง)</p><span  style='opacity: 0.7;pointer-events:none;'>" +
                 dataTable[i].size_table +
@@ -588,7 +588,7 @@ function listOrder(tableCode) {
         data: null,
         render: function (data, type, row, meta) {
           let price_sum = data["order_customer_pcs"] * data["order_price"];
-          return "<font>" + price_sum + "</font>";
+          return "<font>" + price_sum.toLocaleString(undefined, { minimumFractionDigits: 2 }) + "</font>";
         },
       },
     ],
@@ -615,3 +615,12 @@ function listOrder(tableCode) {
   areaorderTemp = [];
   itemsArrayOrderTableListOffline = [];
 }
+
+
+setInterval(function(){
+  var isCallNewOrder = localStorage.getItem('isCallNewOrder');
+  if(isCallNewOrder == 'yes'){
+    detail_summary(table_code);
+    localStorage.setItem('isCallNewOrder', 'no');
+  }
+}, 500);
