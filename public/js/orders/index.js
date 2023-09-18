@@ -22,6 +22,56 @@ $(document).ready(function() {
 
     const TAB_DASHBOARD = {
 
+        getDataDashboard($type) {
+
+            $($dashboardSummary2.find('.white_card_body')).hide()
+
+            let dataObj = {
+                type: $type
+            }
+
+            $.ajax({
+                type: "POST",
+                url: `${serverUrl}/order/getDataDashboard`,
+                data: JSON.stringify(dataObj),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (res) {
+
+                if (res.success) {
+
+                    let data = res.data
+
+                    $($dashboardSummary2.find('.white_card_body')).fadeIn(500)
+                    $($dashboardSummary2.find('.white_card_body')).html(data.html)
+
+                } 
+                
+                else {
+
+                    swal({
+                        title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                        text: 'Redirecting...',
+                        icon: 'warning',
+                        timer: 2000,
+                        buttons: false
+                    })
+
+                    reload()
+                }
+            }).fail(function () {
+
+                swal({
+                    title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                    text: 'Redirecting...',
+                    icon: 'warning',
+                    timer: 2000,
+                    buttons: false
+                })
+
+                reload()
+            })
+        },
+
         config() {
 
              /***************************
@@ -116,19 +166,18 @@ $(document).ready(function() {
 
                         case 'Receipt':
                             $orderDashboard.find('h4').html('Receipt')
-                            // TODO:: HANDLE SOMETHING
                             break
 
                         case 'Voided Receipt':
                             $orderDashboard.find('h4').html('Voided Receipt')
-                            // TODO:: HANDLE SOMETHING
                             break
 
                         case 'Unsync':
                             $orderDashboard.find('h4').html('Unsync')
-                            // TODO:: HANDLE SOMETHING
                             break
                     }
+
+                    TAB_DASHBOARD.getDataDashboard($me.data('title'))
                 })
 
             $dashboardSummary3
