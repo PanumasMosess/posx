@@ -75,6 +75,10 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->post('updateEmployeePinStock', 'SettingController::updateEmployeePinStock');
     $routes->get('deleteEmployeePinStock/(:num)', 'SettingController::deleteEmployeePinStock/$1');
 
+    $routes->post('ajax-datatableMobile', 'SettingController::ajaxDataTablesMobile');
+    $routes->post('addMobile', 'SettingController::addMobile');
+    $routes->get('deleteMobile/(:num)', 'SettingController::deleteMobile/$1');
+
     $routes->post('ajax-datatablePaymentType', 'SettingController::ajaxDataTablesPaymentType');
     $routes->post('addPaymentType', 'SettingController::addPaymentType');
     $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
