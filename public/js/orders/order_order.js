@@ -2,6 +2,7 @@ var isOnline;
 var table_code;
 var table_order_table;
 var itemsArrayMoveTableOffline = [];
+var itemsArrayDiscountOffline = [];
 var itemsArrayCancelOrderTableOffline = [];
 var itemsArrayOrderTableListOffline = [];
 (function ($) {
@@ -30,13 +31,14 @@ var itemsArrayOrderTableListOffline = [];
         $("#addOrderCusBtn").removeClass("disable-click");
         $("#move_order_btn").addClass("disable-click");
         $("#void_order_btn").addClass("disable-click");
+        $("#discount_order_btn").addClass("disable-click");
 
         clear_detail_summary();
       } else {
         $("#addOrderCusBtn").removeClass("disable-click");
         $("#move_order_btn").removeClass("disable-click");
         $("#void_order_btn").removeClass("disable-click");
-        $("#discount_order_btn").addClass("disable-click");
+        $("#discount_order_btn").removeClass("disable-click");
         $("#split_order_btn").addClass("disable-click");
         detail_summary(target.getAttribute("data-code"));
       }
@@ -413,6 +415,7 @@ function close_move_table() {
   $(".bd-move-table").modal("hide");
   $("#move_table")[0].reset();
   $("#move_table").parsley().reset();
+  // $("#addOrderCusBtn").addClass("disable-click");
 }
 
 $("#move_table").submit(function (e) {
@@ -621,6 +624,79 @@ setInterval(function(){
   var isCallNewOrder = localStorage.getItem('isCallNewOrder');
   if(isCallNewOrder == 'yes'){
     detail_summary(table_code);
+    drowTableLoad(table_code);
     localStorage.setItem('isCallNewOrder', 'no');
   }
 }, 500);
+
+
+function openModaldiscountAllType_() {
+  $(".bd-add-discountAll").modal("show");
+}
+
+function closeModaladddiscountAll_() {
+  $(".bd-add-discountAll").modal("hide");
+  $("#adddiscountAll_")[0].reset();
+  $("#adddiscountAll_").parsley().reset();
+  // $("#discount_order_btn").addClass("disable-click");
+}
+
+
+$("#adddiscountAll_").submit(function (e) {
+  e.preventDefault();
+  // console.log(table_code);
+  public_array_discount = [];
+  var type_discount = $("#adddiscountAll_type").parsley()
+  var num_discount = $("#num_adddiscountAll").parsley();
+
+  if (type_discount.isValid() && num_discount.isValid()) {
+
+    arr_discount = [
+      {
+        table_discount: table_code,
+        type_discount: $("#adddiscountAll_type").val(),
+        num_discount: $("#num_adddiscountAll").val()
+      },
+    ];
+
+    if (isOnline) {
+      itemsArrayDiscountOffline.push(arr_discount);
+      localStorage.setItem(
+        "discount",
+        JSON.stringify(itemsArrayDiscountOffline)
+      );
+
+      arrDiscountTemp = JSON.parse(localStorage.discount);
+
+      $.ajax({
+        url: serverUrl + "order/updateDiscount",
+        method: "post",
+        data: {
+          data: arrDiscountTemp,
+        },
+        cache: false,
+        success: function (response) {
+          if ((response.message = "เพิ่มส่วนลดสำเร็จ")) {
+            localStorage.removeItem("discount");
+            areaMoveTemp = [];
+            itemsArrayDiscountOffline = [];
+            notif({
+              type: "success",
+              msg: "เพิ่มส่วนลดสำเร็จ!",
+              position: "right",
+              fade: true,
+              time: 300,
+            });
+            closeModaladddiscountAll_();
+            detail_summary(table_code);
+          } else {
+          }
+        },
+      });
+    } else {
+    }
+  } else {
+    type_discount.validate();
+    num_discount.validate();
+  }
+});
