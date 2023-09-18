@@ -199,7 +199,7 @@
                                                                         <div class="devices_btn justify-content-start">
                                                                             <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" id="addOrderCusBtn" href="javascript:void(0);" onclick="openAddOrder_customer();"><i class="ti-plus"></i> Add</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="move_order_btn" href="javascript:void(0);" onclick="open_move_order_();"><i class="ti-new-window"></i> Move</a>
-                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="discount_order_btn" href="javascript:void(0);"><i class="fas fa-hryvnia"></i> Discount</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="discount_order_btn" href="javascript:void(0);" onclick="openModaldiscountAllType_();"><i class="fas fa-hryvnia"></i> Discount</a>
                                                                             <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="split_order_btn" href="javascript:void(0);"><i class="ti-split-h"></i> SpitBill</a>
                                                                             <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" id="void_order_btn" href="javascript:void(0);" onclick="voidItem();"><i class="ti-trash"></i> Void Item</a>
                                                                         </div>
@@ -370,7 +370,7 @@
         <div class="modal-content p-4">
             <div class="col-lg-12">
                 <div class="white_card card_height_100 mb_30">
-                    <button type="button" class="close" aria-label="Close" onclick="closeModaladddiscountAll();">
+                    <button type="button" class="close" aria-label="Close" onclick="closeModaladddiscountAll_();">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="white_card_header">
@@ -381,7 +381,7 @@
                         </div>
                     </div>
                     <div class="white_card_body">
-                        <form id="adddiscountAll" name="adddiscountAll" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                        <form id="adddiscountAll_" name="adddiscountAll_" action="#" method="POST" enctype="multipart/form-data" novalidate>
                             <div class="row col-12">
                                 <div class="row col-6">
                                     <div class="input-group mb-3">
@@ -406,10 +406,10 @@
                                 </div>
                                 <div class="col-11">
                                     <div class="input-group mb-3  justify-content-end">
-                                        <button type="button" onclick="closeModaladddiscountAll();" class="btn btn-outline-danger m-1">
+                                        <button type="button" onclick="closeModaladddiscountAll_();" class="btn btn-outline-danger m-1">
                                             ยกเลิก
                                         </button>
-                                        <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
+                                        <button type="submit"  class="btn btn-outline-success m-1">
                                             ยืนยัน
                                         </button>
                                         <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
