@@ -40,10 +40,7 @@ class Test extends BaseController
 
             // HANDLE REQUEST
             $requestPayload = $this->request->getJSON();
-            $businessMode = $requestPayload->businessMode ?? null;
-    
-            $status = 200;
-            $response['success'] = 1;
+            // $businessMode = $requestPayload->businessMode ?? null;
 
             $data = $this->OrderModel->getDataSummaryToday();
 
@@ -55,7 +52,9 @@ class Test extends BaseController
             $VAT = $data->VAT;
             $GRAND_TOTAL = ($TOTAL - $DISCOUNT_ITEMS) + $SERVICE + $DISCOUNT_BILL + $CREDITCARD_CHARGE + $VAT;
 
-            // TODO:: HANDLE DATA
+            $status = 200;
+            $response['success'] = 1;
+
             $response['data'] = [
                 number_format($TOTAL, 2),
                 number_format($DISCOUNT_ITEMS, 2),
@@ -87,16 +86,15 @@ class Test extends BaseController
             // HANDLE REQUEST
             $requestPayload = $this->request->getJSON();
     
-            $status = 200;
-            $response['success'] = 1;
-
             $counterLiveTables = $this->TableModel->getCounterTableAvailable();
             $counterLiveToGo = 0;
             $counterLiveDelivery = 0;
 
             $sum = $counterLiveTables + $counterLiveToGo + $counterLiveDelivery;
 
-            // TODO:: HANDLE DATA
+            $status = 200;
+            $response['success'] = 1;
+
             $response['data'] = [
                 $counterLiveTables,
                 0, // 'LIVE TOGO' => '1.11',
