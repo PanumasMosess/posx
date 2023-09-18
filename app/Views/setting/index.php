@@ -55,6 +55,7 @@
 
   #tableEmployeePinPos td,
   #tableEmployeePinStock td,
+  #tableMobile td,
   #tablePaymentType td {
     white-space: nowrap;
     overflow: hidden;
@@ -779,30 +780,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr data-row-id="1" role="row">
-                            <td class=" text-center">1</td>
-                            <td class=" text-center">c0f65</td>
-                            <td class=" text-center"><i class="fa fa-mobile"></i></td>
-                            <td class=" text-center">
-                              <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
-                            </td>
-                          </tr>
-                          <tr data-row-id="2" role="row">
-                            <td class=" text-center">2</td>
-                            <td class=" text-center">d7d57</td>
-                            <td class=" text-center"><i class="fa fa-mobile"></i></td>
-                            <td class=" text-center">
-                              <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
-                            </td>
-                          </tr>
-                          <tr data-row-id="3" role="row">
-                            <td class=" text-center">3</td>
-                            <td class=" text-center">as48s</td>
-                            <td class=" text-center"><i class="fa fa-mobile"></i></td>
-                            <td class=" text-center">
-                              <button type="button" class="btn btn-danger f_s_14"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button>
-                            </td>
-                          </tr>
+
                         </tbody>
                       </table>
                     </div>
@@ -1165,6 +1143,45 @@
                   ยกเลิก
                 </button>
                 <button type="submit" class="btn btn-outline-success m-1 btnAddEmployeePinStock">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Model AddMobileModal -->
+<div class="modal fade add-mobile" tabindex="-1" role="dialog" aria-labelledby="AddMobileModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100 mb_30">
+          <button type="button" class="close" aria-label="Close" onclick="closeModalAddMobile();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Mobile</h3>
+              </div>
+            </div>
+          </div>
+          <form id="addMobile" name="addMobile" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body" style="margin-bottom: -35px;">
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">Device Id</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Device Id" aria-label="device_id" id="device_id" name="device_id" required />
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" onclick="closeModalAddMobile();" class="btn btn-outline-danger m-1">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnAddMobile">
                   ยืนยัน
                 </button>
               </div>
