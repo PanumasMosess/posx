@@ -1,33 +1,32 @@
 
-function openModalGroupProduct() {
-    $(".bd-add-group-product").modal("show");
+
+function openModalAddSupplier() {
+    $(".bd-add-supplier").modal("show");
 }
 
-function closeModalAddGroupProduct() {
-    $(".bd-add-group-product").modal("hide");
-    $("#addGroupProduct")[0].reset();
-    $("#addGroupProduct").parsley().reset();
-    $("#addGroupProduct .parsley-required").hide();
+function closeModalAddSupplier() {
+    $(".bd-add-supplier").modal("hide");
+    $("#addSupplier")[0].reset();
+    $("#addSupplier").parsley().reset();
+    $("#addSupplier .parsley-required").hide();
 }
 
 $(document).ready(function () {
-    loadTableGroupProduct();
+    loadTableSupplier();
 });
-// ModalAddGroupProduct
-let $ModalAddGroupProduct = $(".bd-add-group-product")
-let $formAddGroupProduct = $ModalAddGroupProduct.find('form')
 
-$formAddGroupProduct
+// ModalAddSupplier
+let $ModalAddSupplier = $(".bd-add-supplier")
+let $formAddSupplier = $ModalAddSupplier.find('form')
+
+$formAddSupplier
     // บันทึกข้อมูล
-    .on('click', '.btnSaveGroupProduct', function (e) {
+    .on('click', '.btnSave', function (e) {
         e.preventDefault()
 
         // เช็คข้อมูล
-        if ($formAddGroupProduct.find('input[name=category_name]').val() == '') {
-            alert('กรุณาระบุชื่อหมวดหมู่สินค้า')
-            return false;
-        } else if ($formAddGroupProduct.find('input[name=productunit]').val() == '') {
-            alert('กรุณาระบุชื่อหน่วยสินค้า')
+        if ($formAddSupplier.find('input[name=supplier_name]').val() == '') {
+            alert('กรุณาระบุชื่อSupplier')
             return false;
         }
         // ผ่าน
@@ -37,13 +36,13 @@ $formAddGroupProduct
 
             $me.attr('disabled', false)
 
-            let formData = new FormData($formAddGroupProduct[0])
+            let formData = new FormData($formAddSupplier[0])
 
-            formData.append('content', $formAddGroupProduct.find('.ql-editor').html())
+            formData.append('content', $formAddSupplier.find('.ql-editor').html())
 
             $.ajax({
                 type: "POST",
-                url: `${serverUrl}/setting/addGroupProduct`,
+                url: `${serverUrl}/manager/addSupplier`,
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -53,7 +52,7 @@ $formAddGroupProduct
                 if (res.success = 1) {
 
                     Swal.fire({
-                        text: "เพิ่ม GroupProduct สำเร็จ",
+                        text: "เพิ่ม Supplier สำเร็จ",
                         icon: "success",
                         buttonsStyling: false,
                         confirmButtonText: "ตกลง",
@@ -66,11 +65,11 @@ $formAddGroupProduct
 
                         }
                     })
-                    $(".bd-add-group-product").modal("hide");
-                    $("#addGroupProduct")[0].reset();
-                    $("#addGroupProduct").parsley().reset();
-                    $("#addGroupProduct .parsley-required").hide();
-                    loadTableGroupProduct();
+                    $(".bd-add-supplier").modal("hide");
+                    $("#addSupplier")[0].reset();
+                    $("#addSupplier").parsley().reset();
+                    $("#addSupplier .parsley-required").hide();
+                    loadTableSupplier();
                 }
 
                 // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
@@ -111,42 +110,38 @@ $formAddGroupProduct
         }
     });
 
-//When click edit GroupProduct
-$('body').on('click', '.btnEditGroupProduct', function () {
-    var GroupProduct_Id = $(this).attr('data-id');
+//When click edit Supplier
+$('body').on('click', '.btnEditSupplier', function () {
+    var Supplier_id = $(this).attr('data-id');
     //    alert(employee_id);
     //    exit();
     $.ajax({
-        url: '/setting/editGroupProduct/' + GroupProduct_Id,
+        url: '/manager/editSupplier/' + Supplier_id,
         type: "GET",
         dataType: 'json',
         success: function (res) {
             // let $data = res.data
-            $('.bd-edit-group-product').modal('show');
-            $('#editGroupProduct #GroupProductId').val(res.data.id);
-            $('#editGroupProduct #category_name').val(res.data.name);
-            $('#editGroupProduct #productunit').val(res.data.unit);
-            // console.log(res.data.GroupProduct_name)
+            $('.bd-edit-supplier').modal('show');
+            $('#editSupplier #SupplierId').val(res.data.id);
+            $('#editSupplier #supplier_name').val(res.data.supplier_name);
+            // console.log(res.data.supplier_name)
         },
         error: function (data) { }
     });
 });
 
-//modalUpdateGroupProduct
-let $modalEditGroupProduct = $(".bd-edit-group-product")
-let $formEditGroupProduct = $modalEditGroupProduct.find('form')
+//modalUpdateSupplier
+let $modalEditSupplier = $(".bd-edit-supplier")
+let $formEditSupplier = $modalEditSupplier.find('form')
 
-$formEditGroupProduct
+$formEditSupplier
     // บันทึกข้อมูล
-    .on('click', '.btnSaveEditGroupProduct', function (e) {
+    .on('click', '.btnEditSave', function (e) {
         e.preventDefault()
 
         // เช็คข้อมูล
-        if ($formEditGroupProduct.find('input[name=category_name]').val() == '') {
-            alert('กรุณาระบุชื่อหมวดหมู่สินค้า')
-            return false;
-        } else if ($formEditGroupProduct.find('input[name=productunit]').val() == '') {
-            alert('กรุณาระบุชื่อหน่วยสินค้า')
+        if ($formEditSupplier.find('input[name=supplier_name]').val() == '') {
+            alert('กรุณาระบุชื่อSupplier')
             return false;
         }
         // ผ่าน
@@ -155,13 +150,13 @@ $formEditGroupProduct
 
             $me.attr('disabled', false)
 
-            let formData = new FormData($formEditGroupProduct[0])
+            let formData = new FormData($formEditSupplier[0])
 
-            formData.append('content', $formEditGroupProduct.find('.ql-editor').html())
+            formData.append('content', $formEditSupplier.find('.ql-editor').html())
 
             $.ajax({
                 type: "POST",
-                url: '/setting/updateGroupProduct',
+                url: '/manager/updateSupplier',
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -170,7 +165,7 @@ $formEditGroupProduct
                 if (res.success = 1) {
 
                     Swal.fire({
-                        text: "แก้ไข GroupProduct สำเร็จ",
+                        text: "แก้ไข Supplier สำเร็จ",
                         icon: "success",
                         buttonsStyling: false,
                         confirmButtonText: "ตกลง",
@@ -180,13 +175,14 @@ $formEditGroupProduct
                         }
                     }).then(function (result) {
                         if (result.isConfirmed) {
+
                         }
                     })
-                    $(".bd-edit-group-product").modal("hide");
-                    $("#editGroupProduct")[0].reset();
-                    $("#editGroupProduct").parsley().reset();
-                    $("#editGroupProduct .parsley-required").hide();
-                    loadTableGroupProduct();
+                    $(".bd-edit-supplier").modal("hide");
+                    $("#editSupplier")[0].reset();
+                    $("#editSupplier").parsley().reset();
+                    $("#editSupplier .parsley-required").hide();
+                    loadTableSupplier();
                 }
 
                 // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
@@ -227,9 +223,9 @@ $formEditGroupProduct
         }
     });
 
-//btnDeleteGroupProduct alert
-$('body').on('click', '.btnDeleteGroupProduct', function () {
-    var GroupProduct_id = $(this).attr('data-id');
+//btnDeleteSupplier alert
+$('body').on('click', '.btnDeleteSupplier', function () {
+    var Supplier_id = $(this).attr('data-id');
 
     // let $me = $(this)
     // let $url = $me.data('url')
@@ -247,7 +243,7 @@ $('body').on('click', '.btnDeleteGroupProduct', function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/setting/deleteGroupProduct/' + GroupProduct_id,
+                url: '/manager/deleteSupplier/' + Supplier_id,
                 method: 'get',
                 success: function (response) {
                     Swal.fire(
@@ -256,15 +252,15 @@ $('body').on('click', '.btnDeleteGroupProduct', function () {
                         'success'
 
                     )
-                    loadTableGroupProduct();
+                    loadTableSupplier();
                 }
             });
         }
     })
 });
-function loadTableGroupProduct() {
-    $("#tableGroupProduct").DataTable().clear().destroy();
-    $("#tableGroupProduct").DataTable({
+function loadTableSupplier() {
+    $("#tableSupplier").DataTable().clear().destroy();
+    $("#tableSupplier").DataTable({
         "oLanguage": {
             "sInfo": "กำลังแสดง _START_ ถึง _END_ จาก _TOTAL_ แถว หน้า _PAGE_ ใน _PAGES_",
             "sLengthMenu": "แสดง _MENU_ แถว",
@@ -283,28 +279,24 @@ function loadTableGroupProduct() {
         "lengthMenu": [[5, 15, 25, -1], [5, 15, 25, "ทั้งหมด"]],
         "columnDefs": [
             {
-                'className': 'text-center',
+                'className':'text-center',
                 "targets": [0],
             },
             {
-                'className': 'text-left',
+                'className':'text-left',
                 "targets": [1],
             },
             {
-                'className': 'text-left',
+                'className':'text-center',
                 "targets": [2],
             },
             {
-                'className': 'text-center',
+                'className':'text-center',
                 "targets": [3],
             },
             {
-                'className': 'text-center',
+                'className':'text-center',
                 "targets": [4],
-            },
-            {
-                'className': 'text-center',
-                "targets": [5],
             }
         ],
         "processing": true,
@@ -312,7 +304,7 @@ function loadTableGroupProduct() {
         "order": [], //init datatable not ordering
         "ajax": {
             'type': 'POST',
-            'url': "/setting/ajax-datatableGroupProduct",
+            'url': "/manager/ajax-datatableSupplier",
         },
         "columns": [{
             data: null,
@@ -322,10 +314,7 @@ function loadTableGroupProduct() {
             }
         },
         {
-            data: "name"
-        },
-        {
-            data: "unit"
+            data: "supplier_name"
         },
         {
             data: "date_created"
@@ -337,7 +326,7 @@ function loadTableGroupProduct() {
             data: null,
             render: function (data, type, row, meta) {
                 return (
-                    '<div class="action_btns d-flex" style="justify-content: center;"><a href="#" class="action_btn btnEditGroupProduct mr_10" data-id="' + data["id"] + '"> <i class="far fa-edit"></i> </a><a href="#" class="action_btn btnDeleteGroupProduct" data-id="' + data["id"] + '"> <i class="fas fa-trash"></i> </a></div>'
+                    '<div class="action_btns d-flex" style="justify-content: center;"><a href="#" class="action_btn btnEditSupplier mr_10" data-id="' + data["id"] + '"> <i class="far fa-edit"></i> </a><a href="#" class="action_btn btnDeleteSupplier" data-id="' + data["id"] + '"> <i class="fas fa-trash"></i> </a></div>'
                 );
             },
         }
@@ -345,5 +334,4 @@ function loadTableGroupProduct() {
         "bFilter": true, // to display datatable search
     });
 }
-
 

@@ -208,6 +208,7 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
             <script src="' . base_url('/js/interact.min.js') . '"></script> 
+            <script src="' . base_url('/js/sweet-alert/sweetalert.min.js') . '"></script> 
             <script src="' . base_url('/js/orders/order_table.js?v=' . time()) . '"></script>     
         ';
         $data['codeArea'] = $code;
@@ -420,9 +421,9 @@ class OrderPosController extends BaseController
         $data['content'] = 'order/order_list_customer';
         $data['title'] = 'รายการสินค้า';
         $data['css_critical'] = '
-        <link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />   
-        <link rel="stylesheet" href="' . base_url('css/tableStyle.css') . '" />
-        <link rel="stylesheet" href="' . base_url('css/tableCards.css') . '" />
+        <link rel="stylesheet" href="' . base_url('css/err_style.css?v=' . time()) . '" />   
+        <link rel="stylesheet" href="' . base_url('css/tableStyle.css?v=' . time()) . '" />
+        <link rel="stylesheet" href="' . base_url('css/tableCards.css?v=' . time()) . '" />
         ';
         $data['js_critical'] = '    
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
@@ -455,6 +456,364 @@ class OrderPosController extends BaseController
             'recordsTotal' => count($filter),
             'recordsFiltered' => count($filter),
             "data" => $datas_card,
+        ]);
+    }
+
+    public function insertOrderCustomer()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+        $pcs = 0;
+        $table_code = null;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $ststus_check = '';
+
+            $ststus_check = $this->OrderModel->getStatusOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
+       
+
+            if ($ststus_check->result == 'true') {
+
+             $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
+             $summary_for_update =  $this->OrderModel->getOrderSummaryRuning($data[0]['order_customer_table_code']);
+
+             
+             $data_order = [
+                'order_customer_pcs'  => ($data[0]['order_customer_pcs'] + $order_for_update->order_customer_pcs),
+                'updated_at' => $buffer_datetime,
+                'updated_by'  => session()->get('username')
+             ];
+
+             if($count_cycle == 0){
+                $data_order_summary = [
+                    'order_price_sum' => ($data[0]['order_price_sum'] + $summary_for_update->order_price_sum),
+                    'order_pcs_sum'  => ($data[0]['order_customer_pcs'] + $summary_for_update->order_pcs_sum),
+                    'updated_at' => $buffer_datetime,
+                    'updated_by'  => session()->get('username')
+                 ];
+             }else
+             {
+                $data_order_summary = [
+                    'order_pcs_sum'  => ($data[0]['order_customer_pcs'] + $summary_for_update->order_pcs_sum),
+                    'updated_at' => $buffer_datetime,
+                    'updated_by'  => session()->get('username')
+                 ];
+             }
+
+   
+             $get_formulars = $this->OrderModel->getOutofstock($data[0]['order_code']);
+
+             if (count($get_formulars) != 0) {
+                 foreach ($get_formulars as $get_formular) {
+                     $result_pcs_stock =  $this->OrderModel->getStockTransectionUpdate($get_formular->stock_code);
+                     $data_balance = $result_pcs_stock->pcs -  ($get_formular->formula_pcs * $data[0]['order_customer_pcs']);
+
+                     $data_transec = [
+                         'stock_code' => $get_formular->stock_code,
+                         'begin' => $result_pcs_stock->pcs,
+                         'sold' => ($get_formular->formula_pcs * $data[0]['order_customer_pcs']),
+                         'balance' => $data_balance,
+                         'created_at' => $buffer_datetime
+                     ];
+
+                     $data_stock_posx = [
+                         'pcs' => $data_balance,
+                         'updated_by' => session()->get('username'),
+                         'updated_at' => $buffer_datetime
+                     ];
+
+                     $result =  $this->OrderModel->updateTransectionSold($get_formular->stock_code, $data_transec, $data_stock_posx);
+                 }
+             }
+
+
+             $update_order_new = $this->OrderModel->updateOrderCustomer($data_order, $data[0]['order_code'],  $data[0]['order_customer_table_code']);
+             
+             $update_order_summary_new = $this->OrderModel->updateOrderCustomerSummary($data_order_summary,  $data[0]['order_customer_table_code']);
+                 
+
+             if ($update_order_new) {
+                 $count_cycle++;
+             } else {
+                 return $this->response->setJSON([
+                     'status' => 200,
+                     'error' => true,
+                     'message' => 'เพิ่มไม่สำเร็จ'
+                 ]);
+             }
+
+            } else {
+                
+                $table_running_code = '';
+                $buffer_table_code = 0;
+                $new_running_codes = $this->OrderModel->getCodeCustomerOrder();
+
+                foreach ($new_running_codes as $running_code) {
+                    $buffer_table_code = (int)$running_code->substr_order_cus_code;
+                }
+
+                $sum_table_code = $buffer_table_code + 1;
+                $sprintf_area_code = sprintf("%08d", $sum_table_code);
+                $table_running_code = "POXC" . $sprintf_area_code;
+
+
+                //data table table
+                $data_customer_order = [
+                    'order_customer_code'  => $table_running_code,
+                    'order_customer_ordername'  => $data[0]['order_customer_ordername'],
+                    'order_customer_des'   =>  $data[0]['order_des'],                
+                    'order_customer_pcs'  => $data[0]['order_customer_pcs'],
+                    'order_code'   => $data[0]['order_code'],
+                    'order_customer_status'   => $data[0]['order_status'],
+                    'order_customer'  => '',
+                    'order_customer_table_code' => $data[0]['order_customer_table_code'],
+                    'created_at' => $buffer_datetime,
+                    'created_by'  => session()->get('username'),
+                    'companies_id'  => session()->get('companies_id')
+
+                ];
+
+                $data_code = [
+                    'order_customer_code'  => $table_running_code,
+                ];
+
+                $table_code = $data[0]['order_customer_table_code'];
+
+                $data_status_table = [
+                    'table_status'  => 'USE',
+                ];
+
+                $pcs += $data[0]['order_customer_pcs'];
+
+                $data_summary = [
+                    'order_code' =>  $data[0]['order_code'],
+                    'order_table_code' =>  $data[0]['order_customer_table_code'],
+                    'order_price_sum' =>  $data[0]['order_price_sum'],
+                    'order_pcs_sum' =>  $pcs,
+                    'order_service' =>  $data[0]['order_service'],
+                    'order_service_type' =>  $data[0]['order_service_type'],
+                    'order_discount' =>  $data[0]['order_discount'],
+                    'order_discount_type' =>  $data[0]['order_discount_type'],
+                    'order_card_charge' =>  $data[0]['order_card_charge'],
+                    'order_card_charge_type' =>  $data[0]['order_card_charge_type'],
+                    'order_vat_type' => $data[0]['order_vat_type'],
+                    'order_vat' =>  $data[0]['order_vat'],
+                    'order_time' =>  $buffer_datetime,
+                    'order_status' =>  $data[0]['order_status'],
+                    'created_by' =>  session()->get('username'),
+                    'created_at' =>  $buffer_datetime,
+                    'companies_id'  => session()->get('companies_id')
+                ];
+
+
+                $get_formulars = $this->OrderModel->getOutofstock($data[0]['order_code']);
+
+                if (count($get_formulars) != 0) {
+                    foreach ($get_formulars as $get_formular) {
+                        $result_pcs_stock =  $this->OrderModel->getStockTransectionUpdate($get_formular->stock_code);
+                        $data_balance = $result_pcs_stock->pcs -  ($get_formular->formula_pcs * $data[0]['order_customer_pcs']);
+
+                        $data_transec = [
+                            'stock_code' => $get_formular->stock_code,
+                            'begin' => $result_pcs_stock->pcs,
+                            'sold' => ($get_formular->formula_pcs * $data[0]['order_customer_pcs']),
+                            'balance' => $data_balance,
+                            'created_at' => $buffer_datetime
+                        ];
+
+                        $data_stock_posx = [
+                            'pcs' => $data_balance,
+                            'updated_by' => session()->get('username'),
+                            'updated_at' => $buffer_datetime
+                        ];
+
+                        $result =  $this->OrderModel->updateTransectionSold($get_formular->stock_code, $data_transec, $data_stock_posx);
+                    }
+                }
+
+
+                $create_new = $this->OrderModel->insertOrderCustomer($data_customer_order, $data_code);
+                if($count_cycle == 0)
+                {
+                    $create_new2 = $this->OrderModel->insertOrderCustomerSummary($data_summary, $data_status_table, $table_code);
+                }
+                if ($create_new) {
+                    $count_cycle++;
+                } else {
+                    return $this->response->setJSON([
+                        'status' => 200,
+                        'error' => true,
+                        'message' => 'เพิ่มไม่สำเร็จ'
+                    ]);
+                }
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+           
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'เพิ่มรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function getSummaryData($table_code = null)
+    {
+        $look_data = $this->OrderModel->getSummayByTable($table_code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
+    }
+
+    public function updateMoveTable()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $data_table_detail = [
+                'order_customer_table_code' => $data[0]['new_table'],
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_detail_summary = [
+                'order_table_code' => $data[0]['new_table'],
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_old = [
+                'table_status' => 'FINISH',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_new = [
+                'table_status' => 'USE',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->OrderModel->updateTableMove($data_table_detail, $data_table_detail_summary, $data_table_old, $data_table_new, $data[0]['old_table'], $data[0]['new_table']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ย้ายโต๊ะไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ย้ายโต๊ะสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function updateVoidOrderTable()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+            $data_table_detail = [
+                'order_customer_status' => 'CANCEL',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table_detail_summary = [
+                'order_status' => 'CANCEL',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+            $data_table = [
+                'table_status' => 'FINISH',
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->OrderModel->updateOrderCencel($data_table_detail, $data_table_detail_summary, $data_table, $data[0]['code_table']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ยกเลิกรายการไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ยกเลิกรายการสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function outofstock($code = null)
+    {
+        $look_data = $this->OrderModel->getOutofstock($code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
+        ]);
+    }
+
+    public function loadTableOrderList()
+    {
+
+        $datas = $_POST["data"];
+        $data_code_table = '';
+        foreach ($datas as $data) {
+            $data_code_table = $data[0]['code_table'];
+        }
+
+        $look_data = $this->OrderModel->getOrderListByTable($data_code_table);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $look_data
         ]);
     }
 }

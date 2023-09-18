@@ -495,10 +495,10 @@ class OrderModel
         order.order_pcs
        ");
 
-        $builder->join('stock_formula', 'order.order_code = stock_formula.order_code', 'right');
+        // $builder->join('stock_formula', 'order.order_code = stock_formula.order_code', 'right');
         $builder->join('group_product', 'order.group_id = group_product.id', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
-        $builder->groupBy("stock_formula.order_code");
+        // $builder->groupBy("stock_formula.order_code");
 
         $i = 0;
         $i2 = 0;
@@ -571,6 +571,27 @@ class OrderModel
     public function getAllDataOrderCustomerFilter()
     {
 
+        // $sql = "            
+        // select
+        // a.id, 
+        // a.order_code ,
+        // a.order_name , 
+        // a.order_price  ,
+        // a.src_order_picture , 
+        // a.order_status,
+        // a.group_id , 
+        // a.companies_id ,
+        // a.order_promotion,
+        // a.order_pcs,
+        // c.`name`
+        // from `order` a 
+        // right join stock_formula b  on 
+        // a.order_code = b.order_code 
+        // left join group_product c on  
+        // a.group_id = c.id
+        // group by b.order_code
+        // ";
+
         $sql = "            
         select
         a.id, 
@@ -585,16 +606,14 @@ class OrderModel
         a.order_pcs,
         c.`name`
         from `order` a 
-        right join stock_formula b  on 
-        a.order_code = b.order_code 
         left join group_product c on  
         a.group_id = c.id
-        group by b.order_code
         ";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
 
     public function getOrderCustomersToday($type)
     {
@@ -631,4 +650,180 @@ class OrderModel
         return $builder->getRow();
     }
 
+    public function getFormulaTransectionByOrder()
+    {
+    }
+
+    public function getStockTransectionByOrder()
+    {
+    }
+
+    public function insertOrderCustomer($data, $running)
+    {
+        $builder_table = $this->db->table('order_customer');
+        $builder_table_status = $builder_table->insert($data);
+
+        $builder_running = $this->db->table('order_customer_running');
+        $builder_running_status = $builder_running->insert($running);
+
+        return ($builder_table_status && $builder_running_status) ? true : false;
+    }
+
+    public function insertOrderCustomerSummary($data, $table, $table_code)
+    {
+        $builder_summary = $this->db->table('order_summary');
+        $builder_summary_status = $builder_summary->insert($data);
+
+        $builder_table = $this->db->table('table_dynamic');
+        $builder_table_status =  $builder_table->where('table_code', $table_code)->update($table);
+
+        return ($builder_summary_status && $builder_table_status)  ? true : false;
+    }
+
+    public function getCodeCustomerOrder()
+    {
+        $sql = "SELECT SUBSTRING(order_customer_code, 5,8) as substr_order_cus_code  FROM order_customer_running order by id desc LIMIT 1";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function getSummayByTable($code)
+    {
+        $sql = "SELECT * FROM `order_summary` where order_table_code = '$code' and order_status = 'IN_KITCHEN'";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateTableMove($detail = null, $detail_sum = null, $table_old = null, $table_new = null, $code_old = null, $code_new = null)
+    {
+        $builder = $this->db->table('order_customer');
+        $array_order = array('order_customer_table_code' => $code_old, 'order_customer_status' => 'IN_KITCHEN');
+        $builder_status = $builder->where($array_order)->update($detail);
+
+        $builder_summary = $this->db->table('order_summary');
+        $array_summary = array('order_table_code' => $code_old, 'order_status' => 'IN_KITCHEN');
+        $builder_summary_status = $builder_summary->where($array_summary)->update($detail_sum);
+
+        $builder_table_dynamic_old = $this->db->table('table_dynamic');
+        $array_table_dynamic_old = array('table_code' => $code_old, 'table_status' => 'USE');
+        $builder_table_dynamic_old_status = $builder_table_dynamic_old->where($array_table_dynamic_old)->update($table_old);
+
+        $builder_table_dynamic_new = $this->db->table('table_dynamic');
+        $array_table_dynamic_new = array('table_code' => $code_new);
+        $builder_table_dynamic_new_status = $builder_table_dynamic_new->where($array_table_dynamic_new)->update($table_new);
+
+        return ($builder_status && $builder_summary_status && $builder_table_dynamic_old_status && $builder_table_dynamic_new_status) ? true : false;
+    }
+
+    public function updateOrderCencel($detail = null, $detail_sum = null, $table = null, $code_table = null)
+    {
+        $builder = $this->db->table('order_customer');
+        $array_order = array('order_customer_table_code' => $code_table, 'order_customer_status' => 'IN_KITCHEN');
+        $builder_status = $builder->where($array_order)->update($detail);
+
+        $builder_summary = $this->db->table('order_summary');
+        $array_summary = array('order_table_code' => $code_table, 'order_status' => 'IN_KITCHEN');
+        $builder_summary_status = $builder_summary->where($array_summary)->update($detail_sum);
+
+        $builder_table_dynamic_new = $this->db->table('table_dynamic');
+        $array_table_dynamic_new = array('table_code' => $code_table, 'table_status' => 'USE');
+        $builder_table_dynamic_new_status = $builder_table_dynamic_new->where($array_table_dynamic_new)->update($table);
+
+        return ($builder_status && $builder_summary_status  && $builder_table_dynamic_new_status) ? true : false;
+    }
+
+    public function getOutofstock($code = null)
+    {
+        $sql = "SELECT * FROM stock_formula 
+        where order_code = '$code'
+        ORDER BY order_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function getStockTransectionUpdate($stock_code = null)
+    {
+        $sql = "SELECT * FROM stock_posx 
+        where stock_code = '$stock_code'
+        ORDER BY stock_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateTransectionSold($stock_code, $data_trans, $stock_pcs)
+    {
+
+        $builder_stock_transaction = $this->db->table('stock_transaction');
+        $builder_stock_transaction_status = $builder_stock_transaction->insert($data_trans);
+
+        $builder_stock_pcs = $this->db->table('stock_posx');
+        $array_stock_pcs = array('stock_code' => $stock_code, 'status_stock' => 'IN_STOCK');
+        $builder_stock_pcs_status = $builder_stock_pcs->where($array_stock_pcs)->update($stock_pcs);
+
+
+        return ($builder_stock_pcs_status && $builder_stock_transaction_status) ? true : false;
+    }
+
+    public function getOrderListByTable($table_code = null)
+    {
+        $sql = "SELECT * FROM order_customer as a
+        left join `order` as b
+        on a.order_code = b.order_code
+        where order_customer_table_code = '$table_code' and a.order_customer_status = 'IN_KITCHEN'
+        ORDER BY a.order_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function getStatusOrderRunning($order_code, $order_customer_table_code)
+    {
+        $sql = "SELECT IF(EXISTS(SELECT * FROM order_customer  WHERE 
+        order_code ='$order_code' and  
+        order_customer_status = 'IN_KITCHEN' and 
+        order_customer_table_code = '$order_customer_table_code'),
+        'true','false' ) AS result";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderRunning($order_code, $order_customer_table_code)
+    {
+        $sql = "SELECT * FROM order_customer  WHERE 
+        order_code ='$order_code' and  
+        order_customer_status = 'IN_KITCHEN' and 
+        order_customer_table_code = '$order_customer_table_code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderSummaryRuning($order_customer_table_code)
+    {
+        $sql = "SELECT * FROM order_summary  WHERE 
+        order_status = 'IN_KITCHEN' and 
+        order_table_code = '$order_customer_table_code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateOrderCustomer($data_order, $order_code,  $order_customer_table_code)
+    {
+        $builder_order_update = $this->db->table('order_customer');
+        $array_order_update = array('order_code' => $order_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $order_customer_table_code);
+        $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
+        return ($builder_order_update_status) ? true : false;
+    }
+
+    public function updateOrderCustomerSummary($data_order, $order_customer_table_code)
+    {
+        $builder_order_sum_update = $this->db->table('order_summary');
+        $array_order_sum_update = array('order_status' => 'IN_KITCHEN', 'order_table_code' => $order_customer_table_code);
+        $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
+        return ($builder_order_sum_update_status) ? true : false;
+    }
 }

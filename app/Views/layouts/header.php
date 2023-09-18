@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>POSX <?php echo $title; ?></title>
-    <link rel="icon" href="<?php echo base_url('img/mini_logo.png'); ?>" type="image/png" />
+    <link rel="icon" href="<?php echo base_url('img/icon.png'); ?>" type="image/png" />
 
     <link rel="stylesheet" href="<?php echo base_url('css/bootstrap1.min.css'); ?>" />
 
@@ -78,8 +78,8 @@
 <body class="crm_body_bg">
     <nav class="sidebar" id="nav_theme">
         <div class="logo d-flex justify-content-between">
-            <a class="large_logo" href="index.html"><img src="https://cdn.discordapp.com/attachments/1101414559291551784/1146749543426306049/373452635_316968594334061_9160180745837028469_n.jpg" alt /></a>
-            <a class="small_logo" href="index.html"><img src="<?php echo base_url('img/mini_logo.png'); ?>" alt /></a>
+            <a class="large_logo" href="<?php echo base_url('/dashboard'); ?>"><img src="<?php echo base_url('img/POSX_2.png'); ?>" alt /></a>
+            <a class="small_logo" href="<?php echo base_url('/dashboard'); ?>"><img src="<?php echo base_url('img/icon.png'); ?>" alt /></a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>
@@ -87,7 +87,7 @@
         <ul id="sidebar_menu">
 
             <li class="">
-                <a href="<?php echo base_url(); ?>" aria-expanded="false">
+                <a href="<?php echo base_url('/dashboard');  ?>" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/dashboard.svg'); ?>" alt="">
                     </div>
@@ -164,6 +164,25 @@
                         <span>รายงาน</span>
                     </div>
                 </a>
+            </li>
+
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'manager') {
+                                echo 'active';
+                            } ?>">
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
+                    </div>
+                    <div class="nav_title">
+                        <span>ผู้จัดการ</span>
+                    </div>
+                </a>
+                <ul>
+                    <li><a href="<?php echo base_url('/manager/index'); ?>">เมนู</a></li>
+                </ul>
+                <ul class="disabled">
+                    <li><a href="<?php echo base_url('/manager/edit_bill'); ?>">แก้ไขบิล</a></li>
+                </ul>
             </li>
         </ul>
     </nav>

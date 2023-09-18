@@ -73,14 +73,20 @@
                                             <div class="main_board_card">
                                                 <div class="row">
                                                     <div class="col-xl-7 col-lg-7 col-md-12">
-                                                        <div class="white_card  mb_20">
+                                                        <div class="white_card mb_20">
                                                             <div class="white_card_header">
-                                                                <div class="justify-content-end d-flex mb-2 mt-2">
+                                                                <div class="mt-2 mr-2">
                                                                     <div class="box_header m-1">
-                                                                        <div class="common_select">
+                                                                        <!-- <div class="common_select">
                                                                             <select class="nice_Select wide mb-10" style="display: none;" id="area_select">
                                                                                 <option value="">เลือกพื้นที่</option>
                                                                             </select>
+                                                                        </div> -->
+                                                                        <div id='btn_area'></div>
+                                                                        <div class="action_btns d-flex">
+                                                                            <a href="#" class="action_btn" id='' onclick="drowTableLoad(this.id);" data-toggle="tooltip" data-placement="top" title="รีโหลด">
+                                                                                <i class="ti-reload"></i>
+                                                                            </a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -117,7 +123,7 @@
                                                                                 <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
                                                                                     <div class="builder_select">
                                                                                         <div class="total-payment p-3 mt-3">
-                                                                                            <h4 class="header-title">Info Order</h4>
+                                                                                            <h4 class="header-title">INFO ORDER</h4>
                                                                                             <table class="table">
                                                                                                 <tbody>
                                                                                                     <tr>
@@ -129,16 +135,18 @@
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รายการ</td>
                                                                                                         <td>
-                                                                                                            xxx รายการ
+                                                                                                            <p id="table_pcs">xxx รายการ</p>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">เวลา</td>
-                                                                                                        <td>XXXX</td>
+                                                                                                        <td>
+                                                                                                            <p id="time_table">xxx</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รวม</td>
-                                                                                                        <td class="text-dark"><strong>0.00 บาท</strong></td>
+                                                                                                        <td class="text-dark"><strong id="price_sum_table">0.00 บาท</strong></td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
@@ -153,25 +161,33 @@
                                                                                                 <tbody>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="#">SUB TOTAL</a></td>
-                                                                                                        <td>0.00</td>
+                                                                                                        <td>
+                                                                                                            <p id='sub_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalServiceType();"> SERVICE</a></td>
                                                                                                         <td>
-                                                                                                            ---
+                                                                                                            <p id='service_total_'>0.00</p>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModaldiscountAllType();"> DISCOUNT ALL</a></td>
-                                                                                                        <td>---</td>
+                                                                                                        <td>
+                                                                                                            <p id='discount_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalCardCharge();"> CARD CHARGE</a></td>
-                                                                                                        <td>---</td>
+                                                                                                        <td>
+                                                                                                            <p id='card_charge_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title"><a href="javascript:void(0);" onclick="openModalVat();"> VAT</a> </td>
-                                                                                                        <td>---</td>
+                                                                                                        <td>
+                                                                                                            <p id='vat_total_'>0.00</p>
+                                                                                                        </td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
@@ -182,10 +198,10 @@
                                                                         </div>
                                                                         <div class="devices_btn justify-content-start">
                                                                             <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" id="addOrderCusBtn" href="javascript:void(0);" onclick="openAddOrder_customer();"><i class="ti-plus"></i> Add</a>
-                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-new-window"></i> Move</a>
-                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="fas fa-hryvnia"></i> Discount</a>
-                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-split-h"></i> SpitBill</a>
-                                                                            <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-trash"></i> Void Item</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="move_order_btn" href="javascript:void(0);" onclick="open_move_order_();"><i class="ti-new-window"></i> Move</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="discount_order_btn" href="javascript:void(0);"><i class="fas fa-hryvnia"></i> Discount</a>
+                                                                            <a class="btn btn-outline-secondary mb-3" style="margin-right: 9px; line-height:1.3;" id="split_order_btn" href="javascript:void(0);"><i class="ti-split-h"></i> SpitBill</a>
+                                                                            <a class="btn btn-outline-danger mb-3" style="margin-right: 9px; line-height:1.3;" id="void_order_btn" href="javascript:void(0);" onclick="voidItem();"><i class="ti-trash"></i> Void Item</a>
                                                                         </div>
                                                                         <div class="QA_section">
                                                                             <div class="QA_table mb_30">
@@ -508,6 +524,66 @@
                                             ยกเลิก
                                         </button>
                                         <button type="button" id='save_table_btn' onclick="addDervice();" class="btn btn-outline-success m-1">
+                                            ยืนยัน
+                                        </button>
+                                        <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model mover table -->
+<div class="modal fade bd-move-table" tabindex="-1" role="dialog" aria-labelledby="move_table_modal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="close_move_table();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class=" m-0">
+                            <div class="justify-content-center" style="display:flex;">
+                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormMove">ย้ายโต๊ะ</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white_card_body">
+                        <form id="move_table" name="move_table" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="row col-12">
+                                <div class="row col-12">
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" id="old_code_table" />
+                                        <label class="input-group-text" for="area_move">พื้นที่</label>
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="area_move" name="area_move" required="">
+                                            <option value="">เลือกพื้นที่</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row col-12">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="table_move">โต๊ะ</label>
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="table_move" name="table_move" required="">
+                                            <option value="">เลือกโต๊ะ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="input-group mb-3  justify-content-end">
+                                        <button type="button" onclick="close_move_table();" class="btn btn-outline-danger m-1">
+                                            ยกเลิก
+                                        </button>
+                                        <button type="submit" id='save_move_table' class="btn btn-outline-success m-1">
                                             ยืนยัน
                                         </button>
                                         <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">

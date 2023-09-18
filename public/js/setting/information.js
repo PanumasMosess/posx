@@ -13,6 +13,13 @@ $(document).ready(function () {
     });
 });
 
+function closeModalEditPassword() {
+    $("#EditPasswordCompanies").modal("hide");
+    $("#editPasswordCompanies")[0].reset();
+    $("#editPasswordCompanies").parsley().reset();
+    $("#editPasswordCompanies .parsley-required").hide();
+}
+
 //When click add Email
 $('body').on('click', '#EditInformation', function () {
     var shopname = document.querySelector("#shopname");
@@ -102,7 +109,11 @@ $('body').on('click', '#AddEmail', function () {
             url: "/setting/addEmail", // Replace with the actual URL
             data: { email: email },
             success: function (data) {
-                addEmail();
+                if ($('.email-container').css('display') === 'none') {
+                    $('.email-container').css('display', 'block'); // ถ้า email-container มี style display: none ให้ลบ style ออก
+                }
+                // console.log(data.EmailReportIdID.id);
+                addEmail(data.EmailReportIdID.id);
             },
             error: function () {
                 alert("An error occurred while adding the email.");
@@ -135,19 +146,24 @@ function removeEmail(emailElement) {
                         'ลบสำเร็จ',
                         response.message,
                         'success'
-                    )
+                    );
                     var emailContainer = document.querySelector(".email-container");
                     emailContainer.removeChild(emailElement);
+
+                    // Check if there are no more emails, then hide the email-container
+                    if (emailContainer.children.length === 0) {
+                        emailContainer.style.display = 'none';
+                    }
                 },
                 error: function () {
                     alert("An error occurred while removing the email.");
                 }
             });
         }
-    })
+    });
 }
 
-function addEmail() {
+function addEmail(id) {
     var emailInput = document.querySelector(".add-input");
     var email = emailInput.value;
 
@@ -156,6 +172,7 @@ function addEmail() {
     var emailContainer = document.querySelector(".email-container");
     var emailRow = document.createElement("div");
     emailRow.className = "email-row";
+    emailRow.setAttribute("data-id", id);
 
     var emailText = document.createElement("p");
     emailText.className = "email";

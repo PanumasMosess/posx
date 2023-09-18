@@ -51,4 +51,15 @@ class EmailReportModel
 
         return $builder;
     }
+
+    public function getByEmailReportID()
+    {
+        $builder = $this->db->table('email_report');
+
+        return $builder
+            ->where('companies_id', session()->get('companies_id'))
+            ->orderBy('created_at', 'DESC')
+            ->get()
+            ->getRow();
+    }
 }

@@ -62,10 +62,11 @@ class SupplierModel
     {
         $start = $param['start'];
         $length = $param['length'];
+        $companies_id = session()->get('companies_id');
 
         $sql = "SELECT *, CONCAT(DATE_FORMAT(supplier.created_at, '%d-%m-'), YEAR(supplier.created_at)+543) as date_created,CONCAT(DATE_FORMAT(supplier.updated_at, '%d-%m-'), YEAR(supplier.updated_at)+543) as date_updated
                 FROM supplier 
-                WHERE deleted_at IS NULL
+                WHERE deleted_at IS NULL AND companies_id = $companies_id
                 LIMIT $start, $length";
         $builder = $this->db->query($sql);
 
@@ -74,7 +75,9 @@ class SupplierModel
 
     public function getSuppliercount()
     {
-        $sql = "SELECT * from supplier WHERE deleted_at IS NULL
+        $companies_id = session()->get('companies_id');
+
+        $sql = "SELECT * from supplier WHERE deleted_at IS NULL AND companies_id = $companies_id
                     ";
         $builder = $this->db->query($sql);
 
@@ -86,10 +89,11 @@ class SupplierModel
         $search_value = $param['search_value'];
         $start = $param['start'];
         $length = $param['length'];
+        $companies_id = session()->get('companies_id');
 
         $sql = "SELECT *, CONCAT(DATE_FORMAT(supplier.created_at, '%d-%m-'), YEAR(supplier.created_at)+543) as date_created,CONCAT(DATE_FORMAT(supplier.updated_at, '%d-%m-'), YEAR(supplier.updated_at)+543) as date_updated
             from supplier 
-            WHERE deleted_at IS NULL AND ((supplier.name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            WHERE deleted_at IS NULL AND companies_id = $companies_id AND ((supplier.name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
             limit $start, $length
             ";
         $builder = $this->db->query($sql);
@@ -100,10 +104,11 @@ class SupplierModel
     public function getSupplierSearchcount($param)
     {
         $search_value = $param['search_value'];
+        $companies_id = session()->get('companies_id');
 
         $sql = "SELECT *, CONCAT(DATE_FORMAT(supplier.created_at, '%d-%m-'), YEAR(supplier.created_at)+543) as date_created,CONCAT(DATE_FORMAT(supplier.updated_at, '%d-%m-'), YEAR(supplier.updated_at)+543) as date_updated
             from supplier 
-            WHERE deleted_at IS NULL AND ((supplier.name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
+            WHERE deleted_at IS NULL AND companies_id = $companies_id AND ((supplier.name like '%" . $search_value . "%') OR (created_at like '%" . $search_value . "%') OR (updated_at like '%" . $search_value . "%'))
             ";
         $builder = $this->db->query($sql);
 

@@ -10,18 +10,18 @@ var subtotal = 0;
 var order_price_total = 0;
 
 //service Val public
-var service_type;
+var service_type = "";
 var service_number = 0;
 var service_total = 0;
 //discounr val public
-var discount_type = 0;
+var discount_type = "";
 var discount_number = 0;
 var discount_total = 0;
 //charge val public
 var card_charge_number = 0;
 var card_charge_total = 0;
 // vat val public
-var vat_type = 0;
+var vat_type = "";
 var vat_number = 0;
 var vat_total = 0;
 
@@ -58,7 +58,30 @@ function loadTableOrderCustomer() {
         },
       },
       {
-        data: "order_name",
+        data: null,
+        render: function (data, type, full, meta) {
+          let data_order_name = data["order_name"];
+          dataRe =
+            '<div class="box_header m-0"><div class="main-title">' +
+            data_order_name +
+            '<p style="font-size: 13px;">'+ data['order_des']+ '</p>'+
+            "</div>" +
+            '<div class="header_more_tool">' +
+            '<div class="dropdown">' +
+            '<span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">' +
+            '<i class="ti-more-alt"></i>' +
+            "</span>" +
+            '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="">' +
+            '<a class="dropdown-item" href="javascript:void(0);" onclick="openModalComment(' +
+            data["id"] +
+            ');">' +
+            '<i class="ti-comment-alt"></i> Comment</a>' +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+          return dataRe;
+        },
       },
       {
         data: null,
@@ -182,18 +205,24 @@ function getOrderCard() {
           data: null,
           className: "text-center",
           render: function (data, type, full, meta) {
+            // let out_of_stock = checkOutOfStock(data["order_code"]);
             data =
               "<div class='card-body'><img src='" +
               serverUrl +
               "/uploads/temps_order/" +
               data["src_order_picture"] +
-              "' width='100px' height='100px' style='border-radius: .40rem; box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;'></div>";
+              "' width='100px' height='100px' style='border-radius: .40rem; box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;' class='zoom'></div>";
 
             return data;
           },
         },
         {
-          data: "order_name",
+          data: null,
+          render: function (data, type, full, meta) {
+            let data_order_name = data["order_name"];
+            dataRe = "";
+            return data_order_name;
+          },
         },
         {
           data: "name",
@@ -290,6 +319,7 @@ function getOrderCard() {
       .on("click", "tr", function (e) {
         let data = table_select_list.row(this).data();
         data.total_price = "";
+        data.order_des = "";
         data.order_pcs = 1;
         arrar_select_function(data);
       });
@@ -398,43 +428,102 @@ function closeModalVAT() {
 }
 
 function orderConfirm() {
-  array_customer_order = [];
-  let check_kitchen = $('#kitchen_check').is(':checked');
-  //get data from table input
-  let data = table_order_customer.$("input, text").serialize();
-  let str_split = data.replace(/pcs_cut=/g, "");
-  let pcs_number_order = str_split.split("&");
+  Swal.fire({
+    title: "เพิ่ม Order",
+    text: "คุณต้องการเพิ่ม Order โต๊ะนี้ !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "ปิด",
+    confirmButtonText: "ตกลง",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      if (array_select_confirm.length != 0) {
+        array_customer_order = [];
+        let check_kitchen = $("#kitchen_check").is(":checked");
+        //get data from table input
+        let data = table_order_customer.$("input, text").serialize();
+        let str_split = data.replace(/pcs_cut=/g, "");
+        let pcs_number_order = str_split.split("&");
 
-  object_customer_order_temp = {};
+        arr_object_customer_order_temp = [];
 
-  let status = 'OTHER';
-  if(check_kitchen){
-      status ='IN_KITCHEN';
-  }
+        let status = "OTHER";
+        if (check_kitchen) {
+          status = "IN_KITCHEN";
+        }
 
-  for (var i = 0; i < array_select_confirm.length; i++) {
-    (object_customer_order_temp = {
-      order_code: array_select_confirm[i].order_code,
-      order_customer_ordername: array_select_confirm[i].order_name,
-      order_customer_price: array_select_confirm[i].order_price,
-      order_customer_pcs: pcs_number_order[i],
-      order_customer_table_code: data_table_name,
-      order_price_sum: order_price_total,
-      order_service  : service_total,
-      order_service_type  : service_type,
-      order_discount : discount_total,
-      order_discount_type : discount_type,
-      order_card_charge  : card_charge_total,
-      order_card_charge_type : '-',
-      order_vat_type  : vat_total,
-      order_vat: vat_type,
-      order_status: status
-    }),
-      
-    array_customer_order.push(object_customer_order_temp);
-  }
+        for (var i = 0; i < array_select_confirm.length; i++) {
+          (arr_object_customer_order_temp = [
+            {
+              order_code: array_select_confirm[i].order_code,
+              order_customer_ordername: array_select_confirm[i].order_name,
+              order_customer_price: array_select_confirm[i].order_price,
+              order_customer_pcs: pcs_number_order[i],
+              order_customer_table_code: data_table_name,
+              order_price_sum: order_price_total,
+              order_service: service_total,
+              order_service_type: service_type,
+              order_discount: discount_total,
+              order_discount_type: discount_type,
+              order_card_charge: card_charge_total,
+              order_card_charge_type: "-",
+              order_vat_type: vat_total,
+              order_vat: vat_type,
+              order_status: status,
+              order_des: array_select_confirm[i].order_des,
+            },
+          ]),
+            array_customer_order.push(arr_object_customer_order_temp);
+        }
 
-  console.log(array_customer_order);
+        if (isOnline) {
+          $.ajax({
+            url: serverUrl + "order/addOrderCustomer",
+            method: "post",
+            data: {
+              data: array_customer_order,
+            },
+            cache: false,
+            success: function (response) {
+              if ((response.message = "เพิ่มรายการสำเร็จ")) {
+                notif({
+                  type: "success",
+                  msg: "เพิ่มรายการสำเร็จ!",
+                  position: "right",
+                  fade: true,
+                  time: 300,
+                });
+                //clear after add
+                array_customer_order = [];
+                array_select_confirm = [];
+                cancleAllTable();
+                localStorage.setItem('isCallNewOrder', 'yes');
+              } else {
+                notif({
+                  type: "danger",
+                  msg: "เพิ่มไม่สำเร็จ",
+                  position: "right",
+                  fade: true,
+                  time: 300,
+                });
+              }
+            },
+          });
+        } else {
+        }
+      } else {
+        notif({
+          type: "warning",
+          msg: "กรุณาเลือก Order!",
+          position: "right",
+          fade: true,
+          time: 300,
+        });
+      }
+    }
+  });
 }
 
 function summaryText() {
@@ -488,6 +577,17 @@ function updateArrayTable() {
   for (var i = 0; i < array_select_confirm.length; i++) {
     array_select_confirm[i].order_pcs = pcs_number_order[i];
   }
+}
+
+function openModalComment(id) {
+  $(".bd-add-comment").modal("show");
+  $("#text_comment_hiden").val(id);
+}
+
+function closeModalcomment() {
+  $(".bd-add-comment").modal("hide");
+  $("#addcomment")[0].reset();
+  $("#addcomment").parsley().reset();
 }
 
 $("#addService").submit(function (e) {
@@ -705,4 +805,44 @@ function calvat() {
       summaryText();
     }
   }
+}
+
+$("#addcomment").submit(function (e) {
+  e.preventDefault();
+  var text_comment = $("#text_comment").parsley();
+  if (text_comment.isValid()) {
+    isOnline = window.navigator.onLine;
+    if (isOnline) {
+      let data_id = $("#text_comment_hiden").val();
+      addComment(data_id);
+    } else {
+      $(".bd-add-comment").modal("hide");
+      $("#addcomment")[0].reset();
+      $("#addcomment").parsley().reset();
+    }
+  } else {
+    text_comment.validate();
+  }
+});
+
+function addComment(id) {
+  for (var i = 0; i < array_select_confirm.length; i++) {
+    if(array_select_confirm[i].id == id){
+      array_select_confirm[i].order_des = $('#text_comment').val();
+    }
+  }
+  loadTableOrderCustomer();
+  $(".bd-add-comment").modal("hide");
+  $("#addcomment")[0].reset();
+  $("#addcomment").parsley().reset();
+}
+
+function checkOutOfStock(code) {
+  $.ajax({
+    url: serverUrl + "/order/outofstock/" + code,
+    method: "get",
+    success: function (response) {
+     console.log(response.data[0].length);  
+    }
+  });
 }

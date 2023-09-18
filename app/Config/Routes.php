@@ -12,7 +12,7 @@ $routes = Services::routes();
  */
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
-$routes->setDefaultMethod('index');
+// $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
@@ -42,30 +42,17 @@ $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
 $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('index', 'SettingController::index');
-    $routes->post('ajax-datatableGroupProduct', 'SettingController::ajaxDataTablesGroupProduct');
-    $routes->post('addGroupProduct', 'SettingController::addGroupProduct');
-    $routes->get('editGroupProduct/(:num)', 'SettingController::editGroupProduct/$1');
-    $routes->post('updateGroupProduct', 'SettingController::updateGroupProduct');
-    $routes->get('deleteGroupProduct/(:num)', 'SettingController::deleteGroupProduct/$1');
-    // $routes->post('insertGroupProduct', 'SettingController::insertgroupproduct');
+    // $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
+    // $routes->post('addPosition', 'SettingController::addPosition');
+    // $routes->get('editPosition/(:num)', 'SettingController::editPosition/$1');
+    // $routes->post('updatePosition', 'SettingController::updatePosition');
+    // $routes->get('deletePosition/(:num)', 'SettingController::deletePosition/$1');
 
-    $routes->post('ajax-datatableSupplier', 'SettingController::ajaxDataTablesSupplier');
-    $routes->post('addSupplier', 'SettingController::addSupplier');
-    $routes->get('editSupplier/(:num)', 'SettingController::editSupplier/$1');
-    $routes->post('updateSupplier', 'SettingController::updateSupplier');
-    $routes->get('deleteSupplier/(:num)', 'SettingController::deleteSupplier/$1');
-
-    $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
-    $routes->post('addPosition', 'SettingController::addPosition');
-    $routes->get('editPosition/(:num)', 'SettingController::editPosition/$1');
-    $routes->post('updatePosition', 'SettingController::updatePosition');
-    $routes->get('deletePosition/(:num)', 'SettingController::deletePosition/$1');
-
-    $routes->post('ajax-datatableBranch', 'SettingController::ajaxDataTablesBranch');
-    $routes->post('addBranch', 'SettingController::addBranch');
-    $routes->get('editBranch/(:num)', 'SettingController::editBranch/$1');
-    $routes->post('updateBranch', 'SettingController::updateBranch');
-    $routes->get('deleteBranch/(:num)', 'SettingController::deleteBranch/$1');
+    // $routes->post('ajax-datatableBranch', 'SettingController::ajaxDataTablesBranch');
+    // $routes->post('addBranch', 'SettingController::addBranch');
+    // $routes->get('editBranch/(:num)', 'SettingController::editBranch/$1');
+    // $routes->post('updateBranch', 'SettingController::updateBranch');
+    // $routes->get('deleteBranch/(:num)', 'SettingController::deleteBranch/$1');
 
     $routes->get('information', 'SettingController::information');
     $routes->post('updateInformation', 'SettingController::updateInformation');
@@ -77,6 +64,21 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('editUser/(:num)', 'SettingController::editUser/$1');
     $routes->post('updateUser', 'SettingController::updateUser');
     $routes->get('deleteUser/(:num)', 'SettingController::deleteUser/$1');
+
+    $routes->post('ajax-datatableEmployeePinPos', 'SettingController::ajaxDataTablesEmployeePinPos');
+    $routes->post('addEmployeePinPos', 'SettingController::addEmployeePinPos');
+    $routes->post('updateEmployeePinPos', 'SettingController::updateEmployeePinPos');
+    $routes->get('deleteEmployeePinPos/(:num)', 'SettingController::deleteEmployeePinPos/$1');
+
+    $routes->post('ajax-datatableEmployeePinStock', 'SettingController::ajaxDataTablesEmployeePinStock');
+    $routes->post('addEmployeePinStock', 'SettingController::addEmployeePinStock');
+    $routes->post('updateEmployeePinStock', 'SettingController::updateEmployeePinStock');
+    $routes->get('deleteEmployeePinStock/(:num)', 'SettingController::deleteEmployeePinStock/$1');
+
+    $routes->post('ajax-datatablePaymentType', 'SettingController::ajaxDataTablesPaymentType');
+    $routes->post('addPaymentType', 'SettingController::addPaymentType');
+    $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
+    $routes->get('deletePaymentType/(:num)', 'SettingController::deletePaymentType/$1');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
@@ -87,6 +89,23 @@ $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('editEmployee/(:num)', 'EmployeeController::editEmployee/$1');
     $routes->post('updateEmployee', 'EmployeeController::updateEmployee');
     $routes->get('deleteEmployee/(:num)', 'EmployeeController::deleteEmployee/$1');
+});
+
+$routes->group('manager', ['filter' => 'employeeAuth'] ,function ($routes) {
+    $routes->get('index', 'ManagerController::index');
+
+    $routes->post('ajax-datatableGroupProduct', 'ManagerController::ajaxDataTablesGroupProduct');
+    $routes->post('addGroupProduct', 'ManagerController::addGroupProduct');
+    $routes->get('editGroupProduct/(:num)', 'ManagerController::editGroupProduct/$1');
+    $routes->post('updateGroupProduct', 'ManagerController::updateGroupProduct');
+    $routes->get('deleteGroupProduct/(:num)', 'ManagerController::deleteGroupProduct/$1');
+    // $routes->post('insertGroupProduct', 'SettingController::insertgroupproduct');
+
+    $routes->post('ajax-datatableSupplier', 'ManagerController::ajaxDataTablesSupplier');
+    $routes->post('addSupplier', 'ManagerController::addSupplier');
+    $routes->get('editSupplier/(:num)', 'ManagerController::editSupplier/$1');
+    $routes->post('updateSupplier', 'ManagerController::updateSupplier');
+    $routes->get('deleteSupplier/(:num)', 'ManagerController::deleteSupplier/$1');
 });
 
 // stock management
@@ -144,7 +163,14 @@ function ($routes) {
     $routes->get('order_list_customer/(:any)', 'OrderPosController::getPageOrderCustomer/$1');   
     $routes->get('getTableDetalByCode/(:any)', 'OrderPosController::getTableDetailByCode/$1'); 
     $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
-    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');   
+    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData'); 
+    $routes->post('addOrderCustomer', 'OrderPosController::insertOrderCustomer');    
+    $routes->get('getSummaryData/(:any)', 'OrderPosController::getSummaryData/$1');   
+    $routes->get('getTableByArea/(:any)', 'OrderPosController::getTableInArea/$1');      
+    $routes->post('updateMoveTable', 'OrderPosController::updateMoveTable'); 
+    $routes->post('updateVoidOrderTable', 'OrderPosController::updateVoidOrderTable');  
+    $routes->get('outofstock/(:any)', 'OrderPosController::outofstock/$1');   
+    $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');  
 
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');
