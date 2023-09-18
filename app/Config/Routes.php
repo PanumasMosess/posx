@@ -174,7 +174,8 @@ function ($routes) {
     $routes->post('updateMoveTable', 'OrderPosController::updateMoveTable'); 
     $routes->post('updateVoidOrderTable', 'OrderPosController::updateVoidOrderTable');  
     $routes->get('outofstock/(:any)', 'OrderPosController::outofstock/$1');   
-    $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');  
+    $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
+    $routes->post('updateDiscount', 'OrderPosController::updateDiscount');  
 
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');
