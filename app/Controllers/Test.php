@@ -30,6 +30,79 @@ class Test extends BaseController
         $this->OrderModel = new \App\Models\OrderModel();
     }
 
+    public function getDataDashboard()
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+            $type = $requestPayload->type ?? null;
+
+            $orderCustomersToday = $this->OrderModel->getOrderCustomersToday($type);
+
+            $html = '';
+
+            if ($orderCustomersToday) {
+                foreach($orderCustomersToday as $data) {
+
+                    // $html .= '
+                    //     <div class="single_user_pil d-flex align-items-center justify-content-between">
+                    //         <div class="user_pils_thumb d-flex align-items-center">
+                    //             <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
+                    //                 <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
+                    //             </div>
+                    //             <div class="user_info">
+                    //                 Customer
+                    //             </div>
+                    //             <div class="action_btns d-flex">
+                    //             <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                    //             <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                    //         </div>
+                    //     </div>
+                    // ';
+
+                    $html .= '
+                        <div class="single_user_pil d-flex align-items-center justify-content-between">
+                            <div class="user_pils_thumb d-flex align-items-center">
+                                <div class="thumb_34 mr_15 mt-0">
+                                ' . $data->order_customer_code . '
+                                </div>
+                                <span class="f_s_14 f_w_400 text_color_11">ชื่อ ' . $data->order_customer_ordername . '</span>
+                            </div>
+                            <div class="user_info">
+                                ยอดรวม: ' . $data->order_customer_price . '
+                            </div>
+                            <div class="action_btns d-flex">
+                                <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
+                                <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
+                            </div>
+                        </div>
+                    ';
+                }
+            } else {
+                $html = 'NO DATA';
+            }
+
+
+            $status = 200;
+            $response['success'] = 1;
+
+            $response['data']['html'] = $html;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
+    }
+
     public function sumOrderItems()
     {
         $status = 500;

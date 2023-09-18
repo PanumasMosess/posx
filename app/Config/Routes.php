@@ -149,6 +149,7 @@ function ($routes) {
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');
     $routes->get('activity', 'Test::activity');
+    $routes->post('getDataDashboard', 'Test::getDataDashboard');
 });
 /*
  * --------------------------------------------------------------------

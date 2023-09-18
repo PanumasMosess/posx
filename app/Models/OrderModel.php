@@ -596,6 +596,21 @@ class OrderModel
         return $builder->getResult();
     }
 
+    public function getOrderCustomersToday($type)
+    {
+        $sql = "
+            SELECT *
+            FROM `order_customer` 
+            WHERE DATE(created_at) = CURDATE()
+            ORDER BY created_at DESC
+        ";
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+
     public function getDataSummaryToday()
     {
         $sql = "
@@ -607,7 +622,8 @@ class OrderModel
                 SUM(order_card_charge) AS CREDITCARD_CHARGE,
                 SUM(order_vat) AS VAT
             FROM `order_summary` 
-            WHERE DATE(created_at) = CURDATE();
+            WHERE DATE(created_at) = CURDATE()
+            ORDER BY created_at DESC
         ";
 
         $builder = $this->db->query($sql);

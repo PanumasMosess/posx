@@ -23,8 +23,8 @@
                         </div>
                     </div>
                     <div class="col-6" style="text-align: right;">
-                        <button class="outTerminal btn btn-primary">ออกจากโหมด Terminal</button>
-                        <button class="reload btn btn-primary"><i class="fas fa-sync-alt"></i> Reloard</button>
+                        <button class="outTerminal btn btn-primary disabled">ออกจากโหมด Terminal</button>
+                        <button class="reload btn btn-primary disabled"><i class="fas fa-sync-alt"></i> Reloard</button>
                     </div>
                 </div>
 
@@ -80,10 +80,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="QA_table ">
-                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer text-center">
-                                    NO DATA
-                                </div>
+                            <div class="white_card_body p-0">
+                                NO DATA
                             </div>
                         </div>
                     </div>
