@@ -595,4 +595,24 @@ class OrderModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
+    public function getDataSummaryToday()
+    {
+        $sql = "
+            SELECT 
+                SUM(order_price_sum) AS TOTAL,
+                SUM(order_discount) AS DISCOUNT_ITEMS,
+                SUM(order_service) AS SERVICE,
+                0 AS DISCOUNT_BILL,
+                SUM(order_card_charge) AS CREDITCARD_CHARGE,
+                SUM(order_vat) AS VAT
+            FROM `order_summary` 
+            WHERE DATE(created_at) = CURDATE();
+        ";
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getRow();
+    }
+
 }

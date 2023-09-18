@@ -26,6 +26,8 @@ class Test extends BaseController
 
         // Model
         $this->ActivityLogModel = new \App\Models\ActivityLogModel();
+        $this->TableModel = new \App\Models\TableModel();
+        $this->OrderModel = new \App\Models\OrderModel();
     }
 
     public function sumOrderItems()
@@ -43,15 +45,25 @@ class Test extends BaseController
             $status = 200;
             $response['success'] = 1;
 
+            $data = $this->OrderModel->getDataSummaryToday();
+
+            $TOTAL = $data->TOTAL;
+            $DISCOUNT_ITEMS = $data->DISCOUNT_ITEMS;
+            $SERVICE = $data->SERVICE;
+            $DISCOUNT_BILL = $data->DISCOUNT_BILL;
+            $CREDITCARD_CHARGE = $data->CREDITCARD_CHARGE;
+            $VAT = $data->VAT;
+            $GRAND_TOTAL = ($TOTAL - $DISCOUNT_ITEMS) + $SERVICE + $DISCOUNT_BILL + $CREDITCARD_CHARGE + $VAT;
+
             // TODO:: HANDLE DATA
             $response['data'] = [
-                'TOTAL' => '0.00',
-                'DISCOUNT ITEMS' => '1.11',
-                'SERVICE' => '2.22',
-                'DISCOUNT BILL' => '3.33',
-                'CREDITCARD CHARGE' => '4.44',
-                'VAT' => '5.55',
-                'GRAND TOTAL' => '0.00',
+                number_format($TOTAL, 2),
+                number_format($DISCOUNT_ITEMS, 2),
+                number_format($SERVICE, 2),
+                number_format($DISCOUNT_BILL, 2),
+                number_format($CREDITCARD_CHARGE, 2),
+                number_format($VAT, 2),
+                number_format($GRAND_TOTAL, 2),
             ];
 
         } catch (\Exception $e) {
@@ -78,12 +90,18 @@ class Test extends BaseController
             $status = 200;
             $response['success'] = 1;
 
+            $counterLiveTables = $this->TableModel->getCounterTableAvailable();
+            $counterLiveToGo = 0;
+            $counterLiveDelivery = 0;
+
+            $sum = $counterLiveTables + $counterLiveToGo + $counterLiveDelivery;
+
             // TODO:: HANDLE DATA
             $response['data'] = [
-                'LIVE TABLES' => '0.00',
-                'LIVE TOGO' => '1.11',
-                'LIVE DELIVERY' => '2.22',
-                'SUM' => '0'
+                $counterLiveTables,
+                0, // 'LIVE TOGO' => '1.11',
+                0, // 'LIVE DELIVERY' => '2.22',
+                $sum
             ];
 
         } catch (\Exception $e) {

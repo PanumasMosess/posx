@@ -215,6 +215,7 @@ $(document).ready(function() {
                     $listSummary.each(function(key) {
                         // TODO:: เก็บรายละเอียด
                         let $me = $(this)
+                        console.log(data)
                         $($me.find('.round_badge')).html(data[key])
                     })
                 } 
