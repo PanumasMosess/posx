@@ -671,15 +671,19 @@ class OrderModel
     {
     }
 
-    public function insertOrderCustomer($data, $running)
+    public function insertOrderCustomer($data, $running , $datacount = null)
     {
         $builder_table = $this->db->table('order_customer');
         $builder_table_status = $builder_table->insert($data);
 
-        $builder_running = $this->db->table('order_customer_running');
-        $builder_running_status = $builder_running->insert($running);
+        if($datacount == 0)
+        {
+            $builder_running = $this->db->table('order_customer_running');
+            $builder_running_status = $builder_running->insert($running);
+        }
 
-        return ($builder_table_status && $builder_running_status) ? true : false;
+
+        return ($builder_table_status) ? true : false;
     }
 
     public function insertOrderCustomerSummary($data, $table, $table_code)
@@ -793,11 +797,21 @@ class OrderModel
 
     public function getStatusOrderRunning($order_code, $order_customer_table_code)
     {
-        $sql = "SELECT IF(EXISTS(SELECT * FROM order_customer  WHERE 
-        order_code ='$order_code' and  
-        order_customer_status = 'IN_KITCHEN' and 
-        order_customer_table_code = '$order_customer_table_code'),
-        'true','false' ) AS result";
+        $sql = "SELECT (IF(EXISTS(SELECT * FROM order_customer 
+        WHERE  order_code ='$order_code' and  order_customer_status = 'IN_KITCHEN'
+        and order_customer_table_code = '$order_customer_table_code'),'true','false' ))  
+        AS result";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getStatusOrderSummary($order_customer_table_code)
+    {
+        $sql = "SELECT (IF(EXISTS(SELECT * FROM order_summary 
+        WHERE  order_status = 'IN_KITCHEN'
+        and order_table_code = '$order_customer_table_code'), 'true','false' ))  
+        AS result";
 
         $builder = $this->db->query($sql);
         return $builder->getRow();
@@ -839,6 +853,7 @@ class OrderModel
         $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
         return ($builder_order_sum_update_status) ? true : false;
     }
+
 
     public function getOrderByOrderCode($orderCode)
     {
