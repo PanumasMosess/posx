@@ -671,12 +671,12 @@ class OrderModel
     {
     }
 
-    public function insertOrderCustomer($data, $running , $datacount = null)
+    public function insertOrderCustomer($data, $running , $datacount = null, $status)
     {
         $builder_table = $this->db->table('order_customer');
         $builder_table_status = $builder_table->insert($data);
 
-        if($datacount == 0)
+        if(($datacount == 0) && ($status == null))
         {
             $builder_running = $this->db->table('order_customer_running');
             $builder_running_status = $builder_running->insert($running);

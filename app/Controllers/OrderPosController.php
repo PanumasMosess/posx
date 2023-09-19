@@ -477,7 +477,9 @@ class OrderPosController extends BaseController
 
             $ststus_check = $this->OrderModel->getStatusOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
             $ststus_sum_check = $this->OrderModel->getStatusOrderSummary($data[0]['order_customer_table_code']);
+            $ststus_sum_order_code = $this->OrderModel->getOrderSummaryRuning($data[0]['order_customer_table_code']);
 
+            $ststus_sum_order_code  = $ststus_sum_order_code ?? null;
 
             if ($ststus_check->result == 'true') {
 
@@ -554,9 +556,14 @@ class OrderPosController extends BaseController
                         $buffer_table_code = (int)$running_code->substr_order_cus_code;
                     }
 
-                    $sum_table_code = $buffer_table_code + 1;
-                    $sprintf_area_code = sprintf("%08d", $sum_table_code);
-                    $table_running_code = "POXC" . $sprintf_area_code;
+                    if($ststus_sum_order_code != null){                      
+                        $table_running_code = $ststus_sum_order_code->order_customer_code;
+                    }else{
+                        $sum_table_code = $buffer_table_code + 1;
+                        $sprintf_area_code = sprintf("%08d", $sum_table_code);
+                        $table_running_code = "POXC" . $sprintf_area_code;
+                    } 
+
                 }
 
                 //data table table
@@ -634,7 +641,7 @@ class OrderPosController extends BaseController
                 }
 
 
-                $create_new = $this->OrderModel->insertOrderCustomer($data_customer_order, $data_code, $count_cycle);
+                $create_new = $this->OrderModel->insertOrderCustomer($data_customer_order, $data_code, $count_cycle, $ststus_sum_order_code);
 
                 if ($create_new) {
                     $count_cycle++;
