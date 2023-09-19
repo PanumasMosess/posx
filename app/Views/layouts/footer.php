@@ -18,6 +18,9 @@
         <i class="ti-angle-up"></i>
     </a>
 </div>
+
+<?php echo $this->include('/layouts/partials/_modal'); ?>
+
 <script src="<?php echo base_url('js/jquery1-3.4.1.min.js'); ?>"></script>
 
 <script src="<?php echo base_url('js/popper1.min.js'); ?>"></script>

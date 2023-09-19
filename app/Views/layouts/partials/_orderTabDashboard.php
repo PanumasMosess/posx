@@ -80,8 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="white_card_body p-0">
-                                NO DATA
+                            <div class="QA_table">
                             </div>
                         </div>
                     </div>

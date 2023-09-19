@@ -1,3 +1,7 @@
+function reload() {
+    console.log('reload')
+}
+
 $(document).ready(function() {
 
     /***************************
@@ -19,12 +23,12 @@ $(document).ready(function() {
         $dashboardSummary4              = $($orderDashboard.find('#dashboard-summary-4')),
         $dashboardSummary5              = $($orderDashboard.find('#dashboard-summary-5'))
 
-
+    let $orderDetailModal               = $('#orderDetailModal')
     const TAB_DASHBOARD = {
 
         getDataDashboard($type) {
 
-            $($dashboardSummary2.find('.white_card_body')).hide()
+            $($dashboardSummary2.find('.QA_table')).hide()
 
             let dataObj = {
                 type: $type
@@ -41,9 +45,8 @@ $(document).ready(function() {
 
                     let data = res.data
 
-                    $($dashboardSummary2.find('.white_card_body')).fadeIn(500)
-                    $($dashboardSummary2.find('.white_card_body')).html(data.html)
-
+                    $($dashboardSummary2.find('.QA_table')).fadeIn(500)
+                    $($dashboardSummary2.find('.QA_table')).html(data.html)
                 } 
                 
                 else {
@@ -178,6 +181,50 @@ $(document).ready(function() {
                     }
 
                     TAB_DASHBOARD.getDataDashboard($me.data('title'))
+                })
+
+            $dashboardSummary2
+                .on('click', '.btnLookupOrderDetail', function() {
+
+                    let $me = $(this)
+
+                    let orderCode = $me.data('order-code')
+
+                    $.ajax({
+                        type: "GET",
+                        url: `${serverUrl}/order/orderDetail/${orderCode}`
+                    }).done(function (res) {
+        
+                        if (res.success) {
+                            let $data = res.data
+                            $('#exampleModalLongTitle').html('ODER ID: #' + $data.order_code)
+                            $orderDetailModal.find('.modal-body').html($data.html)
+                        } 
+                        
+                        else {
+        
+                            swal({
+                                title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                                text: 'Redirecting...',
+                                icon: 'warning',
+                                timer: 2000,
+                                buttons: false
+                            })
+        
+                            reload()
+                        }
+                    }).fail(function () {
+        
+                        swal({
+                            title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                            text: 'Redirecting...',
+                            icon: 'warning',
+                            timer: 2000,
+                            buttons: false
+                        })
+        
+                        reload()
+                    })
                 })
 
             $dashboardSummary3

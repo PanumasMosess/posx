@@ -176,6 +176,7 @@ function ($routes) {
     $routes->post('getLiveData', 'Test::getLiveData');
     $routes->get('activity', 'Test::activity');
     $routes->post('getDataDashboard', 'Test::getDataDashboard');
+    $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1');
 });
 /*
  * --------------------------------------------------------------------

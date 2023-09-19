@@ -629,6 +629,19 @@ class OrderModel
         return $builder->getResult();
     }
 
+    public function getOrderCustomersSummaryToday()
+    {
+        $sql = "
+            SELECT *
+            FROM `order_summary` 
+            WHERE DATE(created_at) = CURDATE()
+            ORDER BY created_at DESC
+        ";
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
 
     public function getDataSummaryToday()
     {
@@ -825,5 +838,26 @@ class OrderModel
         $array_order_sum_update = array('order_status' => 'IN_KITCHEN', 'order_table_code' => $order_customer_table_code);
         $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
         return ($builder_order_sum_update_status) ? true : false;
+    }
+
+    public function getOrderByOrderCode($orderCode)
+    {
+        $builder = $this->db->table('order_customer');
+
+        return $builder
+            ->where('order_code', $orderCode)
+            ->orderBy('created_at', 'DESC')
+            ->get()
+            ->getResult();
+    }
+
+    public function getOrderSummaryByOrderCode($orderCode)
+    {
+        $builder = $this->db->table('order_summary');
+
+        return $builder
+            ->where('order_code', $orderCode)
+            ->get()
+            ->getRow();
     }
 }
