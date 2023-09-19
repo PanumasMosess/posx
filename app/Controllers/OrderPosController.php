@@ -588,7 +588,7 @@ class OrderPosController extends BaseController
                 $pcs += $data[0]['order_customer_pcs'];
 
                 $data_summary = [
-                    'order_code' =>  $table_running_code,
+                    'order_customer_code' =>  $table_running_code,
                     'order_table_code' =>  $data[0]['order_customer_table_code'],
                     'order_price_sum' =>  $data[0]['order_price_sum'],
                     'order_pcs_sum' =>  $pcs,
