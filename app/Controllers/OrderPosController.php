@@ -9,6 +9,7 @@ use App\Controllers\BaseController;
 class OrderPosController extends BaseController
 {
 
+
     public function __construct()
     {
         // Model Order
@@ -544,18 +545,19 @@ class OrderPosController extends BaseController
                 }
             } else {
 
-                $table_running_code = '';
-                $buffer_table_code = 0;
-                $new_running_codes = $this->OrderModel->getCodeCustomerOrder();
+                if ($count_cycle == 0) {
+                    $table_running_code = '';
+                    $buffer_table_code = 0;
+                    $new_running_codes = $this->OrderModel->getCodeCustomerOrder();
 
-                foreach ($new_running_codes as $running_code) {
-                    $buffer_table_code = (int)$running_code->substr_order_cus_code;
+                    foreach ($new_running_codes as $running_code) {
+                        $buffer_table_code = (int)$running_code->substr_order_cus_code;
+                    }
+
+                    $sum_table_code = $buffer_table_code + 1;
+                    $sprintf_area_code = sprintf("%08d", $sum_table_code);
+                    $table_running_code = "POXC" . $sprintf_area_code;
                 }
-
-                $sum_table_code = $buffer_table_code + 1;
-                $sprintf_area_code = sprintf("%08d", $sum_table_code);
-                $table_running_code = "POXC" . $sprintf_area_code;
-
 
                 //data table table
                 $data_customer_order = [
@@ -586,7 +588,7 @@ class OrderPosController extends BaseController
                 $pcs += $data[0]['order_customer_pcs'];
 
                 $data_summary = [
-                    'order_code' =>  $data[0]['order_code'],
+                    'order_code' =>  $table_running_code,
                     'order_table_code' =>  $data[0]['order_customer_table_code'],
                     'order_price_sum' =>  $data[0]['order_price_sum'],
                     'order_pcs_sum' =>  $pcs,
@@ -632,7 +634,7 @@ class OrderPosController extends BaseController
                 }
 
 
-                $create_new = $this->OrderModel->insertOrderCustomer($data_customer_order, $data_code);
+                $create_new = $this->OrderModel->insertOrderCustomer($data_customer_order, $data_code, $count_cycle);
 
                 if ($create_new) {
                     $count_cycle++;

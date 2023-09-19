@@ -658,15 +658,19 @@ class OrderModel
     {
     }
 
-    public function insertOrderCustomer($data, $running)
+    public function insertOrderCustomer($data, $running , $datacount = null)
     {
         $builder_table = $this->db->table('order_customer');
         $builder_table_status = $builder_table->insert($data);
 
-        $builder_running = $this->db->table('order_customer_running');
-        $builder_running_status = $builder_running->insert($running);
+        if($datacount == 0)
+        {
+            $builder_running = $this->db->table('order_customer_running');
+            $builder_running_status = $builder_running->insert($running);
+        }
 
-        return ($builder_table_status && $builder_running_status) ? true : false;
+
+        return ($builder_table_status) ? true : false;
     }
 
     public function insertOrderCustomerSummary($data, $table, $table_code)

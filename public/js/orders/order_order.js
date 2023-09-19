@@ -700,3 +700,27 @@ $("#adddiscountAll_").submit(function (e) {
     num_discount.validate();
   }
 });
+
+ function printPreview(){
+
+  let arr_table_bill = [
+    {
+      table_discount: table_code
+    },
+  ];
+
+  if(isOnline){
+    print_specific_content();
+  }else{
+
+  }
+ 
+ }
+
+ function print_specific_content() {
+  var content = "Printed using Ahmed El-Essawy Code";
+
+  var win = window.open('', '', 'left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status =0');
+  win.document.write("<html><body onload=\"window.print(); window.close();\">" + content + "</body></html>");
+  win.document.close();
+}

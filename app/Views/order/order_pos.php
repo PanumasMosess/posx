@@ -221,7 +221,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="devices_btn justify-content-start">
-                                                                            <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" href="#"><i class="ti-printer"></i> Print Preview</a>
+                                                                            <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" href="javascript:void(0);" onclick="printPreview();"><i class="ti-printer"></i> Print Preview</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
