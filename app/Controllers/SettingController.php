@@ -910,7 +910,7 @@ class SettingController extends BaseController
             $param['Void'] = $_REQUEST['Void'];
             $param['Hide_Cahsier'] = $_REQUEST['Hide_Cahsier'];
 
-            if($param['All'] == 'false'){
+            if ($param['All'] == 'false') {
                 $All = 0;
 
                 if ($param['Move'] != 'false') {
@@ -1207,6 +1207,98 @@ class SettingController extends BaseController
         ]);
     }
 
+    //ajaxDataTablesMobile
+    public function ajaxDataTablesMobile()
+    {
+        $MobileModel = new \App\Models\MobileModel();
+
+        $param['search_value'] = $_REQUEST['search']['value'];
+        $param['draw'] = $_REQUEST['draw'];
+        $param['start'] = $_REQUEST['start'];
+        $param['length'] = $_REQUEST['length'];
+
+        if (!empty($param['search_value'])) {
+            // count all data
+            $total_count = $MobileModel->getMobileSearchcount($param);
+            $data = $MobileModel->getMobileSearch($param);
+        } else {
+            // count all data
+            $total_count = $MobileModel->getMobilecount();
+            // get per page data
+            $data = $MobileModel->getMobile($param);
+        }
+
+        $json_data = array(
+            "draw" => intval($param['draw']),
+            "recordsTotal" => count($total_count),
+            "recordsFiltered" => count($total_count),
+            "data" => $data   // total data array
+        );
+
+        echo json_encode($json_data);
+    }
+
+    // addMobile data 
+    public function addMobile()
+    {
+        $this->MobileModel = new \App\Models\MobileModel();
+        try {
+            // SET CONFIG
+            $status = 500;
+            $response['success'] = 0;
+            $response['message'] = '';
+
+            // HANDLE REQUEST
+            $create = $this->MobileModel->insertMobile([
+                'device_id' => $this->request->getVar('device_id'),
+                'created_by' => session()->get('username'),
+                'companies_id' => session()->get('companies_id')
+            ]);
+            // return redirect()->to('/employee/list');
+            if ($create) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'เพิ่ม',
+                    'detail' => '[เพิ่ม] Mobile',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'เพิ่ม Mobile สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'เพิ่ม Mobile ไม่สำเร็จ';
+            }
+            // print_r($response['success']);
+            // exit();
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    // deleteMobile
+    public function deleteMobile($id = null)
+    {
+        $this->MobileModel = new \App\Models\MobileModel();
+        $this->MobileModel->deleteMobileByID($id);
+
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] Mobile',
+            'ip' => $this->request->getIPAddress()
+        ]);
+    }
+
     //ajaxDataTablesPaymentType
     public function ajaxDataTablesPaymentType()
     {
@@ -1359,7 +1451,7 @@ class SettingController extends BaseController
             'employee_id' => session()->get('employeeID'),
             'username' => session()->get('username'),
             'event' => 'ลบ',
-            'detail' => '[ลบ] พนักงาน POS',
+            'detail' => '[ลบ] PaymentType',
             'ip' => $this->request->getIPAddress()
         ]);
     }

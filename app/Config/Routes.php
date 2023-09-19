@@ -75,6 +75,10 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->post('updateEmployeePinStock', 'SettingController::updateEmployeePinStock');
     $routes->get('deleteEmployeePinStock/(:num)', 'SettingController::deleteEmployeePinStock/$1');
 
+    $routes->post('ajax-datatableMobile', 'SettingController::ajaxDataTablesMobile');
+    $routes->post('addMobile', 'SettingController::addMobile');
+    $routes->get('deleteMobile/(:num)', 'SettingController::deleteMobile/$1');
+
     $routes->post('ajax-datatablePaymentType', 'SettingController::ajaxDataTablesPaymentType');
     $routes->post('addPaymentType', 'SettingController::addPaymentType');
     $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
@@ -170,7 +174,8 @@ function ($routes) {
     $routes->post('updateMoveTable', 'OrderPosController::updateMoveTable'); 
     $routes->post('updateVoidOrderTable', 'OrderPosController::updateVoidOrderTable');  
     $routes->get('outofstock/(:any)', 'OrderPosController::outofstock/$1');   
-    $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');  
+    $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
+    $routes->post('updateDiscount', 'OrderPosController::updateDiscount');     
 
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');
