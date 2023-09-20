@@ -1,6 +1,7 @@
 var isOnline;
 var table_code;
 var table_order_table;
+var table_array_code;
 var itemsArrayMoveTableOffline = [];
 var itemsArrayDiscountOffline = [];
 var itemsArrayCancelOrderTableOffline = [];
@@ -191,6 +192,8 @@ function drowTableLoad(data) {
   var str_split = data;
   var str_split_result = str_split.split("###");
   var area_code = str_split_result[0];
+
+  table_array_code = area_code;
   isOnline = window.navigator.onLine;
 
   if (isOnline) {
@@ -530,6 +533,7 @@ function voidItem() {
               });
 
               selectArea();
+              detail_summary(table_code);
               $("#canvaHolder").html("");
               $("#order_select_detail").slideUp();
               $("#void_order_btn").addClass("disable-click");
@@ -624,7 +628,7 @@ setInterval(function(){
   var isCallNewOrder = localStorage.getItem('isCallNewOrder');
   if(isCallNewOrder == 'yes'){
     detail_summary(table_code);
-    drowTableLoad(table_code);
+    drowTableLoad(table_array_code);
     localStorage.setItem('isCallNewOrder', 'no');
   }
 }, 500);

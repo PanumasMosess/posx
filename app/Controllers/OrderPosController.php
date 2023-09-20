@@ -532,6 +532,14 @@ class OrderPosController extends BaseController
                             $data_order_summary = [
                                 'order_price_sum' => ($data[0]['order_price_sum'] + $summary_for_update->order_price_sum),
                                 'order_pcs_sum'  => ($data[0]['order_customer_pcs'] + $summary_for_update->order_pcs_sum),
+                                'order_service' => ($data[0]['order_service'] + $summary_for_update->order_service),
+                                'order_service_type' =>  $data[0]['order_service_type']  == '' ? $summary_for_update->order_service_type :  $data[0]['order_service_type'],
+                                'order_discount' => ($data[0]['order_discount'] + $summary_for_update->order_discount),
+                                'order_discount_type' =>  $data[0]['order_discount_type'] == '' ? $summary_for_update->order_discount_type : $data[0]['order_discount_type'],
+                                'order_card_charge' => ($data[0]['order_card_charge'] + $summary_for_update->order_discount),
+                                'order_card_charge_type' =>  $data[0]['order_card_charge_type'] == '-' ?  $summary_for_update->order_card_charge_type : $data[0]['order_card_charge_type'],
+                                'order_vat_type' => $data[0]['order_vat_type'] == '' ? $summary_for_update->order_vat_type :  $data[0]['order_vat_type'],
+                                'order_vat' => ($data[0]['order_vat'] + $summary_for_update->order_vat),
                                 'updated_at' => $buffer_datetime,
                                 'updated_by'  => session()->get('username')
                             ];
@@ -556,14 +564,13 @@ class OrderPosController extends BaseController
                         $buffer_table_code = (int)$running_code->substr_order_cus_code;
                     }
 
-                    if($ststus_sum_order_code != null){                      
+                    if ($ststus_sum_order_code != null) {
                         $table_running_code = $ststus_sum_order_code->order_customer_code;
-                    }else{
+                    } else {
                         $sum_table_code = $buffer_table_code + 1;
                         $sprintf_area_code = sprintf("%08d", $sum_table_code);
                         $table_running_code = "POXC" . $sprintf_area_code;
-                    } 
-
+                    }
                 }
 
                 //data table table
@@ -654,6 +661,14 @@ class OrderPosController extends BaseController
                             $data_order_summary = [
                                 'order_price_sum' => ($data[0]['order_price_sum'] + $summary_for_update->order_price_sum),
                                 'order_pcs_sum'  => ($data[0]['order_customer_pcs'] + $summary_for_update->order_pcs_sum),
+                                'order_service' => ($data[0]['order_service'] + $summary_for_update->order_service),
+                                'order_service_type' =>  $data[0]['order_service_type']  == '' ? $summary_for_update->order_service_type :  $data[0]['order_service_type'],
+                                'order_discount' => ($data[0]['order_discount'] + $summary_for_update->order_discount),
+                                'order_discount_type' =>  $data[0]['order_discount_type'] == '' ? $summary_for_update->order_discount_type : $data[0]['order_discount_type'],
+                                'order_card_charge' => ($data[0]['order_card_charge'] + $summary_for_update->order_discount),
+                                'order_card_charge_type' =>  $data[0]['order_card_charge_type'] == '-' ?  $summary_for_update->order_card_charge_type : $data[0]['order_card_charge_type'],
+                                'order_vat_type' => $data[0]['order_vat_type'] == '' ? $summary_for_update->order_vat_type :  $data[0]['order_vat_type'],
+                                'order_vat' => ($data[0]['order_vat'] + $summary_for_update->order_vat),
                                 'updated_at' => $buffer_datetime,
                                 'updated_by'  => session()->get('username')
                             ];
