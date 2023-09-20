@@ -55,7 +55,7 @@ class TableModel
         $sql = "
             SELECT COUNT(id) AS counter
             FROM table_dynamic
-            WHERE table_status IS NULL
+            WHERE table_status = 'USE'
         ";
 
         $builder = $this->db->query($sql);

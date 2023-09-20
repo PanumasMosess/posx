@@ -238,7 +238,7 @@ class Test extends BaseController
             $status = 200;
             $response['success'] = 1;
 
-            $response['data']['order_code'] = $orderCode;
+            $response['data']['order_customer_code '] = $orderCode;
             $response['data']['html'] = $html;
 
         } catch (\Exception $e) {
@@ -291,7 +291,7 @@ class Test extends BaseController
             if ($orderCustomersSummaryToday) {
                 foreach($orderCustomersSummaryToday as $data) {
                     $html .= '
-                        <tr role="row" data-order-code="' . $data->order_code . '">
+                        <tr role="row" data-order-code="' . $data->order_customer_code  . '">
                             <!-- <th scope="row" tabindex="0" class="sorting_1">
                                 <label class="form-label primary_checkbox d-flex me-12 ">
                                     <input type="checkbox">
@@ -305,7 +305,7 @@ class Test extends BaseController
                             <td></td>
                             <td>' . $data->created_by . '</td>
                             <td>
-                                <button class="btn btn-info btn-sm btnLookupOrderDetail" data-bs-toggle="modal" data-bs-target="#orderDetailModal" data-order-code="' . $data->order_code . '"> <i class="far fa-edit"></i> View</button>
+                                <button class="btn btn-info btn-sm btnLookupOrderDetail" data-bs-toggle="modal" data-bs-target="#orderDetailModal" data-order-code="' . $data->order_customer_code  . '"> <i class="far fa-edit"></i> View</button>
                                 <button class="btn btn-danger btn-sm disabled"> <i class="fas fa-trash"></i> Voide Bills</button>
                             </td>
                         </tr>
