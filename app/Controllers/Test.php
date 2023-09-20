@@ -30,6 +30,44 @@ class Test extends BaseController
         $this->OrderModel = new \App\Models\OrderModel();
     }
 
+    public function view($viewType)
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+           
+            switch($viewType) {
+
+                case 'Bills':
+                    $receipt = $this->OrderModel->getOrderByType('NORMAL');
+                    $voidReceipt = $this->OrderModel->getOrderByType('CANCEL');
+                    break;
+
+                case 'Detail':
+                    break;
+            }
+
+            $status = 200;
+            $response['success'] = 1;
+
+            $response['data']['receipt'] = $receipt;
+            $response['data']['voidReceipt'] = $voidReceipt;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
+    }
+
     public function getOrderDetail($orderCode)
     {
         $status = 500;
@@ -238,7 +276,7 @@ class Test extends BaseController
             $status = 200;
             $response['success'] = 1;
 
-            $response['data']['order_customer_code '] = $orderCode;
+            $response['data']['order_code'] = $orderCode;
             $response['data']['html'] = $html;
 
         } catch (\Exception $e) {

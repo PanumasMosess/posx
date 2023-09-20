@@ -875,4 +875,34 @@ class OrderModel
             ->get()
             ->getRow();
     }
+
+    
+
+    public function getOrderByType($type)
+    {
+
+        switch($type) {
+            case 'NORMAL':
+                $sql = "
+                    SELECT *
+                    FROM `order_summary` 
+                    WHERE DATE(created_at) = CURDATE() AND order_status != 'CANCEL'
+                    ORDER BY created_at DESC
+                ";
+                break;
+
+            case 'CANCEL':
+                $sql = "
+                    SELECT *
+                    FROM `order_summary` 
+                    WHERE DATE(created_at) = CURDATE() AND order_status = 'CANCEL'
+                    ORDER BY created_at DESC
+                ";
+                break;
+        }
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
 }
