@@ -860,7 +860,7 @@ class OrderModel
         $builder = $this->db->table('order_customer');
 
         return $builder
-            ->where('order_code', $orderCode)
+            ->where('order_customer_code', $orderCode)
             ->orderBy('created_at', 'DESC')
             ->get()
             ->getResult();
@@ -871,7 +871,7 @@ class OrderModel
         $builder = $this->db->table('order_summary');
 
         return $builder
-            ->where('order_code', $orderCode)
+            ->where('order_customer_code', $orderCode)
             ->get()
             ->getRow();
     }

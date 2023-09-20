@@ -76,7 +76,7 @@
                                     <div class="" id="orderDashboardFilter">
                                         <button class="btn btn-primary btn-sm" data-title="Receipt">Receipt 0 bills.</button>
                                         <button class="btn btn-primary btn-sm" data-title="Voided Receipt">Voided Receipt 0 bills.</button>
-                                        <button class="btn btn-primary btn-sm" data-title="Unsync">Unsync Data</button>
+                                        <!-- <button class="btn btn-primary btn-sm" data-title="Unsync">Unsync Data</button> -->
                                     </div>
                                 </div>
                             </div>
