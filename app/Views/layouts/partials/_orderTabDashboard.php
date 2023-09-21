@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-6" style="text-align: right;">
                         <button class="outTerminal btn btn-primary disabled">ออกจากโหมด Terminal</button>
-                        <button class="reload btn btn-primary disabled"><i class="fas fa-sync-alt"></i> Reloard</button>
+                        <button class="reload btn btn-primary"><i class="fas fa-sync-alt"></i> Reload</button>
                     </div>
                 </div>
 

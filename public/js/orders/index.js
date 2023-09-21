@@ -1,5 +1,5 @@
 function reload() {
-    console.log('reload')
+    location.reload()
 }
 
 $(document).ready(function() {
@@ -13,24 +13,7 @@ $(document).ready(function() {
 
             switch ($($tab).attr('id')) {
                 case 'order-dashboard-tab':
-
-                    TAB_DASHBOARD.getSummary()
-                    TAB_DASHBOARD.getLiveData()
-
-                    if ($("#View option:selected").val() == 'Bills') {
-                        TAB_DASHBOARD.getCounterReceipt('Bills')
-                        TAB_DASHBOARD.getReceipt()
-                        $('#dashboard-summary-1').show()
-                        $('#dashboard-summary-2').show()
-                        $('#dashboard-summary-3').hide()
-                        $('#dashboard-summary-4').hide()
-                        $('#dashboard-summary-5').hide()
-                    }
-
-                    else {
-
-                    }
-                    
+                    TAB_DASHBOARD.fetData()
                     break
 
                 case 'order-activity-tab':
@@ -116,13 +99,13 @@ $(document).ready(function() {
             TAB_DASHBOARD.getDataDashboard($data)
         },
 
-        getDataDashboard($type) {
-
-            $($dashboardSummary2.find('.QA_table')).hide()
+        getDataDashboard(type = null) {
 
             let dataObj = {
-                type: $type
+                type: type
             }
+            
+            console.log(dataObj)
 
             $.ajax({
                 type: "POST",
@@ -135,7 +118,6 @@ $(document).ready(function() {
 
                     let data = res.data
 
-                    $($dashboardSummary2.find('.QA_table')).fadeIn(500)
                     $($dashboardSummary2.find('.QA_table')).html(data.html)
                 } 
                 
@@ -149,7 +131,7 @@ $(document).ready(function() {
                         buttons: false
                     })
 
-                    reload()
+                    // reload()
                 }
             }).fail(function () {
 
@@ -161,7 +143,7 @@ $(document).ready(function() {
                     buttons: false
                 })
 
-                reload()
+                // reload()
             })
         },
 
@@ -213,7 +195,7 @@ $(document).ready(function() {
                 // Reload
                 .on('click', '.reload', function() {
                     let $me = $(this)
-                    console.log('Reload')
+                    TAB_DASHBOARD.fetData()
                 })
 
 
@@ -259,22 +241,25 @@ $(document).ready(function() {
 
                     let $me = $(this)
 
+                    $orderDashboardFilter.find('button').removeClass('active')
+                    $me.addClass('active')
+
                     switch($me.data('title')) {
 
                         case 'Receipt':
                             $orderDashboard.find('h4').html('Receipt')
+                            TAB_DASHBOARD.getDataDashboard($me.data('title'))
                             break
 
                         case 'Voided Receipt':
                             $orderDashboard.find('h4').html('Voided Receipt')
+                            TAB_DASHBOARD.getDataDashboard($me.data('title'))
                             break
 
                         // case 'Unsync':
                         //     $orderDashboard.find('h4').html('Unsync')
                         //     break
                     }
-
-                    TAB_DASHBOARD.getDataDashboard($me.data('title'))
                 })
 
             $dashboardSummary2
@@ -319,6 +304,88 @@ $(document).ready(function() {
         
                         reload()
                     })
+                })
+                .on('click', '.btnLookupOrderVoide', function() {
+
+                    let swalConfig = {},
+                        order = {},
+                        dataObj = {}
+
+                    
+                    let $me = $(this),
+                    $orderCustomerCode = $me.data('order-customer-code'),
+                    $status = $me.data('status')
+
+                    order = {
+                        orderCustomerCode: $orderCustomerCode,
+                        status: $status,
+                    }
+
+                    $me.attr('disabled', true)
+
+                    swalConfig.title = "คุณต้องการยกเลิกบิลนี้"
+                    swalConfig.text = "กรุณาระบุเหตุผล"
+                    swalConfig.icon = "warning"
+                    swalConfig.buttons = ['ยกเลิก', 'ตกลง']
+                    swalConfig.dangerMode = true
+                    swalConfig.content = "input"
+
+                    swal(swalConfig)
+                        .then(async (willDelete) => {
+    
+                            // ยืนยัน
+                            if (willDelete != null) {
+
+                                order.description = willDelete
+        
+                                dataObj = { order: order }
+        
+                                $.ajax({
+                                    type: "POST",
+                                    url: `${serverUrl}/order/update-status`,
+                                    data: JSON.stringify(dataObj),
+                                    contentType: "application/json; charset=utf-8"
+                                }).done(function (res) {
+                                    if (res.success) {
+                                        swal({
+                                            title: 'อัพเดทสำเร็จ',
+                                            icon: 'success',
+                                            button: 'Great!',
+                                            timer: 2000
+                                        })
+            
+                                    } else {
+                                        swal({
+                                            title: res.messages,
+                                            text: 'Redirecting...',
+                                            icon: 'warning',
+                                            timer: 2000,
+                                            buttons: false
+                                        })
+            
+                                        reload()
+                                    }
+                                }).fail(function (err) {
+                                    const message = err.responseJSON?.messages || 'ไม่สามารถอัพเดทได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ';
+                                    swal({
+                                        title: message,
+                                        text: 'Redirecting...',
+                                        icon: 'warning',
+                                        timer: 2000,
+                                        buttons: false
+                                    })
+            
+                                    // $dataTableInCompleted.ajax.reload()
+                                    // $dataTableCompleted.ajax.reload()
+            
+                                })
+
+                            } 
+                            
+                            else {
+                                $me.attr('disabled', false)
+                            }
+                        })
                 })
 
             $dashboardSummary3
@@ -485,9 +552,37 @@ $(document).ready(function() {
             })
         },
 
+        fetData() {
+
+            TAB_DASHBOARD.getSummary()
+            TAB_DASHBOARD.getLiveData()
+
+            if ($("#View option:selected").val() == 'Bills') {
+                TAB_DASHBOARD.getCounterReceipt('Bills')
+                TAB_DASHBOARD.getReceipt()
+                $('#dashboard-summary-1').show()
+                $('#dashboard-summary-2').show()
+                $('#dashboard-summary-3').hide()
+                $('#dashboard-summary-4').hide()
+                $('#dashboard-summary-5').hide()
+            }
+
+            else {
+
+            }
+        },
+
         init() {
             TAB_DASHBOARD.config()
             TAB_DASHBOARD.getSummary()
+                        
+            // TODO:: Refactor 
+            // เดิมคือใช้ AJAX LOOP ทุก 5วิในการดึงข้อมูล
+            // เปลี่ยนเป็น เมื่อมีการเปลี่ยนแปลง DB ให้ใช้ phuser ยิงเข้ามา เพื่อดึงข้อมูลแทน
+
+            setInterval(function() {
+                TAB_DASHBOARD.fetData()
+            }, 5000)
         }
     }
 
