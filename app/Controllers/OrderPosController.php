@@ -467,6 +467,7 @@ class OrderPosController extends BaseController
         $count_cycle = 0;
         $pcs = 0;
         $table_code = null;
+ 
 
         $check_arr_count = count($datas);
 
@@ -481,18 +482,22 @@ class OrderPosController extends BaseController
 
             $ststus_sum_order_code  = $ststus_sum_order_code ?? null;
 
+            // var_dump($ststus_sum_order_code);
+            // exit;
+
             if ($ststus_check->result == 'true') {
 
                 $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
 
                 $data_order = [
                     'order_customer_pcs'  => ($data[0]['order_customer_pcs'] + $order_for_update->order_customer_pcs),
+                    'discount_type_by_order' => $data[0]['order_discount_type_by_order'],
+                    'discount_by_order' => $data[0]['order_discount_by_order'],
                     'updated_at' => $buffer_datetime,
                     'updated_by'  => session()->get('username')
                 ];
 
-
-
+                $pcs += $data[0]['order_customer_pcs'];
 
                 $get_formulars = $this->OrderModel->getOutofstock($data[0]['order_code']);
 
@@ -531,7 +536,7 @@ class OrderPosController extends BaseController
                             $summary_for_update =  $this->OrderModel->getOrderSummaryRuning($data[0]['order_customer_table_code']);
                             $data_order_summary = [
                                 'order_price_sum' => ($data[0]['order_price_sum'] + $summary_for_update->order_price_sum),
-                                'order_pcs_sum'  => ($data[0]['order_customer_pcs'] + $summary_for_update->order_pcs_sum),
+                                'order_pcs_sum'  => ($pcs + $summary_for_update->order_pcs_sum),
                                 'order_service' => ($data[0]['order_service'] + $summary_for_update->order_service),
                                 'order_service_type' =>  $data[0]['order_service_type']  == '' ? $summary_for_update->order_service_type :  $data[0]['order_service_type'],
                                 'order_discount' => ($data[0]['order_discount'] + $summary_for_update->order_discount),
@@ -554,28 +559,43 @@ class OrderPosController extends BaseController
                     ]);
                 }
             } else {
+                $order_running_code = '';
 
                 if ($count_cycle == 0) {
-                    $table_running_code = '';
-                    $buffer_table_code = 0;
+                    $buffer_order_code = 0;
                     $new_running_codes = $this->OrderModel->getCodeCustomerOrder();
 
                     foreach ($new_running_codes as $running_code) {
-                        $buffer_table_code = (int)$running_code->substr_order_cus_code;
+                        $buffer_order_code = (int)$running_code->substr_order_cus_code;
                     }
 
                     if ($ststus_sum_order_code != null) {
-                        $table_running_code = $ststus_sum_order_code->order_customer_code;
-                    } else {
-                        $sum_table_code = $buffer_table_code + 1;
-                        $sprintf_area_code = sprintf("%08d", $sum_table_code);
-                        $table_running_code = "POXC" . $sprintf_area_code;
+                        $order_running_code = $ststus_sum_order_code->order_customer_code;
+                    } else {               
+                        $sum_order_code = $buffer_order_code + 1;
+                        $sprintf_order_code = sprintf("%08d", $sum_order_code);
+                        $order_running_code = "POXC" . $sprintf_order_code;
+                    }
+                }else{
+                    $buffer_order_code = 0;
+                    $new_running_codes = $this->OrderModel->getCodeCustomerOrder();
+
+                    foreach ($new_running_codes as $running_code) {
+                        $buffer_order_code = (int)$running_code->substr_order_cus_code;
+                    }
+
+                    if ($ststus_sum_order_code != null) {
+                        $order_running_code = $ststus_sum_order_code->order_customer_code;
+                    } else {               
+                        $sum_order_code = $buffer_order_code;
+                        $sprintf_order_code = sprintf("%08d", $sum_order_code);
+                        $order_running_code = "POXC" . $sprintf_order_code;
                     }
                 }
 
                 //data table table
                 $data_customer_order = [
-                    'order_customer_code'  => $table_running_code,
+                    'order_customer_code'  => $order_running_code,
                     'order_customer_ordername'  => $data[0]['order_customer_ordername'],
                     'order_customer_des'   =>  $data[0]['order_des'],
                     'order_customer_pcs'  => $data[0]['order_customer_pcs'],
@@ -583,6 +603,8 @@ class OrderPosController extends BaseController
                     'order_customer_status'   => $data[0]['order_status'],
                     'order_customer'  => '',
                     'order_customer_table_code' => $data[0]['order_customer_table_code'],
+                    'discount_type_by_order' => $data[0]['order_discount_type_by_order'],
+                    'discount_by_order' => $data[0]['order_discount_by_order'],
                     'created_at' => $buffer_datetime,
                     'created_by'  => session()->get('username'),
                     'companies_id'  => session()->get('companies_id')
@@ -590,7 +612,7 @@ class OrderPosController extends BaseController
                 ];
 
                 $data_code = [
-                    'order_customer_code'  => $table_running_code,
+                    'order_customer_code'  => $order_running_code,
                 ];
 
                 $table_code = $data[0]['order_customer_table_code'];
@@ -602,7 +624,7 @@ class OrderPosController extends BaseController
                 $pcs += $data[0]['order_customer_pcs'];
 
                 $data_summary = [
-                    'order_customer_code' =>  $table_running_code,
+                    'order_customer_code' =>  $order_running_code,
                     'order_table_code' =>  $data[0]['order_customer_table_code'],
                     'order_price_sum' =>  $data[0]['order_price_sum'],
                     'order_pcs_sum' =>  $pcs,

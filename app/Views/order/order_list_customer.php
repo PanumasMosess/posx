@@ -307,6 +307,69 @@
         </div>
     </div>
 
+    <!-- Model Add DISCOUNT By Order -->
+    <div class="modal fade bd-add-discountByOrder" tabindex="-1" role="dialog" aria-labelledby="discountByOrder" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-4">
+                <div class="col-lg-12">
+                    <div class="white_card card_height_100 mb_30">
+                        <button type="button" class="close" aria-label="Close" onclick="closeModaladddiscountByOrder();">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="white_card_header">
+                            <div class=" m-0">
+                                <div class="justify-content-center" style="display:flex;">
+                                    <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormDiscountAll">ส่วนลดต่อรายการ</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white_card_body">
+                            <form id="adddiscountByOrder" name="adddiscountByOrder" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                                <div class="row col-12">
+                                    <div class="row col-6">
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="adddiscountbyorder_type">ประเภท</label>
+                                            <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                            <select class="form-select" id="adddiscountbyorder_type" name="adddiscountbyorder_type" required="">
+                                                <option value="">เลือกประเภท</option>
+                                                <option style="color: #000;" value="percen">%</option>
+                                                <option style="color: #000;" value="number">จำนวน</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-6">
+                                        <div class="col-12">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-text">
+                                                    <div class="">จำนวน</div>
+                                                </div>
+                                                <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_adddiscountbyorder" name="num_adddiscountbyorder" placeholder="" required>
+                                                <input type="hidden" id="text_discount_order_hiden" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-11">
+                                        <div class="input-group mb-3  justify-content-end">
+                                            <button type="button" onclick="closeModaladddiscountByOrder();" class="btn btn-outline-danger m-1">
+                                                ยกเลิก
+                                            </button>
+                                            <button type="submit" class="btn btn-outline-success m-1">
+                                                ยืนยัน
+                                            </button>
+                                            <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Model Add CARD CHANGE -->
     <div class="modal fade bd-add-cardCharge" tabindex="-1" role="dialog" aria-labelledby="cardChargeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg">
