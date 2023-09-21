@@ -1,5 +1,5 @@
 function reload() {
-    console.log('reload')
+    location.reload()
 }
 
 $(document).ready(function() {
@@ -193,7 +193,7 @@ $(document).ready(function() {
                 // Reload
                 .on('click', '.reload', function() {
                     let $me = $(this)
-                    console.log('Reload')
+                    TAB_DASHBOARD.fetData()
                 })
 
 
