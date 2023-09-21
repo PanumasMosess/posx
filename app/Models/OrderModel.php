@@ -643,6 +643,26 @@ class OrderModel
         return $builder->getResult();
     }
 
+    public function getOrderCustomersSummaryTodayByOrderStatus($orderStatus)
+    {
+        $condition = " AND order_status != 'CANCEL'";
+
+        if ($orderStatus != NULL) {
+            $condition = " AND order_status = '$orderStatus'";
+        }
+
+        $sql = "
+            SELECT *
+            FROM `order_summary` 
+            WHERE DATE(created_at) = CURDATE() $condition
+            ORDER BY created_at DESC
+        ";
+ 
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
     public function getDataSummaryToday()
     {
         $sql = "
@@ -904,5 +924,19 @@ class OrderModel
         $builder = $this->db->query($sql);
 
         return $builder->getResult();
+    }
+
+    public function updateOrderCustomerByOrderCustomerCode($orderCustomerCode, $data)
+    {
+        $builder = $this->db->table('order_customer');
+
+        return $builder->where('order_customer_code', $orderCustomerCode)->update($data);
+    }
+
+    public function updateOrderSummaryByOrderCustomerCode($orderCustomerCode, $data)
+    {
+        $builder = $this->db->table('order_summary');
+
+        return $builder->where('order_customer_code', $orderCustomerCode)->update($data);
     }
 }

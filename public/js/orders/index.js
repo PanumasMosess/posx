@@ -99,11 +99,13 @@ $(document).ready(function() {
             TAB_DASHBOARD.getDataDashboard($data)
         },
 
-        getDataDashboard($type) {
+        getDataDashboard(type = null) {
 
             let dataObj = {
-                type: $type
+                type: type
             }
+            
+            console.log(dataObj)
 
             $.ajax({
                 type: "POST",
@@ -129,7 +131,7 @@ $(document).ready(function() {
                         buttons: false
                     })
 
-                    reload()
+                    // reload()
                 }
             }).fail(function () {
 
@@ -141,7 +143,7 @@ $(document).ready(function() {
                     buttons: false
                 })
 
-                reload()
+                // reload()
             })
         },
 
@@ -239,22 +241,25 @@ $(document).ready(function() {
 
                     let $me = $(this)
 
+                    $orderDashboardFilter.find('button').removeClass('active')
+                    $me.addClass('active')
+
                     switch($me.data('title')) {
 
                         case 'Receipt':
                             $orderDashboard.find('h4').html('Receipt')
+                            TAB_DASHBOARD.getDataDashboard($me.data('title'))
                             break
 
                         case 'Voided Receipt':
                             $orderDashboard.find('h4').html('Voided Receipt')
+                            TAB_DASHBOARD.getDataDashboard($me.data('title'))
                             break
 
                         // case 'Unsync':
                         //     $orderDashboard.find('h4').html('Unsync')
                         //     break
                     }
-
-                    TAB_DASHBOARD.getDataDashboard($me.data('title'))
                 })
 
             $dashboardSummary2
@@ -299,6 +304,88 @@ $(document).ready(function() {
         
                         reload()
                     })
+                })
+                .on('click', '.btnLookupOrderVoide', function() {
+
+                    let swalConfig = {},
+                        order = {},
+                        dataObj = {}
+
+                    
+                    let $me = $(this),
+                    $orderCustomerCode = $me.data('order-customer-code'),
+                    $status = $me.data('status')
+
+                    order = {
+                        orderCustomerCode: $orderCustomerCode,
+                        status: $status,
+                    }
+
+                    $me.attr('disabled', true)
+
+                    swalConfig.title = "คุณต้องการยกเลิกบิลนี้"
+                    swalConfig.text = "กรุณาระบุเหตุผล"
+                    swalConfig.icon = "warning"
+                    swalConfig.buttons = ['ยกเลิก', 'ตกลง']
+                    swalConfig.dangerMode = true
+                    swalConfig.content = "input"
+
+                    swal(swalConfig)
+                        .then(async (willDelete) => {
+    
+                            // ยืนยัน
+                            if (willDelete != null) {
+
+                                order.description = willDelete
+        
+                                dataObj = { order: order }
+        
+                                $.ajax({
+                                    type: "POST",
+                                    url: `${serverUrl}/order/update-status`,
+                                    data: JSON.stringify(dataObj),
+                                    contentType: "application/json; charset=utf-8"
+                                }).done(function (res) {
+                                    if (res.success) {
+                                        swal({
+                                            title: 'อัพเดทสำเร็จ',
+                                            icon: 'success',
+                                            button: 'Great!',
+                                            timer: 2000
+                                        })
+            
+                                    } else {
+                                        swal({
+                                            title: res.messages,
+                                            text: 'Redirecting...',
+                                            icon: 'warning',
+                                            timer: 2000,
+                                            buttons: false
+                                        })
+            
+                                        reload()
+                                    }
+                                }).fail(function (err) {
+                                    const message = err.responseJSON?.messages || 'ไม่สามารถอัพเดทได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ';
+                                    swal({
+                                        title: message,
+                                        text: 'Redirecting...',
+                                        icon: 'warning',
+                                        timer: 2000,
+                                        buttons: false
+                                    })
+            
+                                    // $dataTableInCompleted.ajax.reload()
+                                    // $dataTableCompleted.ajax.reload()
+            
+                                })
+
+                            } 
+                            
+                            else {
+                                $me.attr('disabled', false)
+                            }
+                        })
                 })
 
             $dashboardSummary3

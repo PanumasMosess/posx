@@ -30,6 +30,55 @@ class Test extends BaseController
         $this->OrderModel = new \App\Models\OrderModel();
     }
 
+    public function updateStatus()
+    {
+        try {
+
+            $status = 500;
+            $response['success'] = 0;
+            $response['messages'] = '';
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+            $order = $requestPayload->order;
+            $orderCustomerCode = $order->orderCustomerCode;
+            $status = $order->status;
+            $description = $order->description;
+
+            // อัพเดทสถานะที่ตาราง order_summary
+            $updateOrderSummary = $this->OrderModel->updateOrderSummaryByOrderCustomerCode($orderCustomerCode, [
+                'order_status' => $status
+            ]);
+
+            // อัพเดทสถานะที่ตาราง order_customer
+            $updateOrderCustomer = $this->OrderModel->updateOrderCustomerByOrderCustomerCode($orderCustomerCode, [
+                'order_customer_status' => $status
+            ]);
+
+            if ($updateOrderSummary && $updateOrderCustomer) {
+                $status = 200;
+                $response['success'] = 1;
+                $response['messages'] = 'สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+
+        } catch (\Exception $e) {
+
+            $status = 500;
+            $response['success'] = 0;
+            $response['messages'] = '';
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        }
+    }
+
     public function view($viewType)
     {
         $status = 500;
@@ -299,9 +348,13 @@ class Test extends BaseController
 
             // HANDLE REQUEST
             $requestPayload = $this->request->getJSON();
-            $type = $requestPayload->type ?? null;
+            $type = $requestPayload->type;
 
-            $orderCustomersSummaryToday = $this->OrderModel->getOrderCustomersSummaryToday();
+            $orderStatus = NULL;
+
+            if ($type == 'Voided Receipt') $orderStatus = 'CANCEL';
+
+            $orderCustomersSummaryToday = $this->OrderModel->getOrderCustomersSummaryTodayByOrderStatus($orderStatus);
 
             $html = '
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
@@ -344,7 +397,7 @@ class Test extends BaseController
                             <td>' . $data->created_by . '</td>
                             <td>
                                 <button class="btn btn-info btn-sm btnLookupOrderDetail" data-bs-toggle="modal" data-bs-target="#orderDetailModal" data-order-code="' . $data->order_customer_code  . '"> <i class="far fa-edit"></i> View</button>
-                                <button class="btn btn-danger btn-sm disabled"> <i class="fas fa-trash"></i> Voide Bills</button>
+                                <button class="btn btn-danger btn-sm btnLookupOrderVoide" data-status="ยกเลิก" data-order-customer-code="' . $data->order_customer_code  . '"> <i class="fas fa-trash"></i> Voide Bills</button>
                             </td>
                         </tr>
                     ';
@@ -365,7 +418,7 @@ class Test extends BaseController
             $response['data']['html'] = $html;
 
         } catch (\Exception $e) {
-            echo  $e->getMessage();
+            echo  $e->getMessage() . $e->getLine();
         }
 
         return $this->response
