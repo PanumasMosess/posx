@@ -365,7 +365,7 @@ class Test extends BaseController
             $response['data']['html'] = $html;
 
         } catch (\Exception $e) {
-            
+            echo  $e->getMessage();
         }
 
         return $this->response

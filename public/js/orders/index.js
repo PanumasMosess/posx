@@ -13,24 +13,7 @@ $(document).ready(function() {
 
             switch ($($tab).attr('id')) {
                 case 'order-dashboard-tab':
-
-                    TAB_DASHBOARD.getSummary()
-                    TAB_DASHBOARD.getLiveData()
-
-                    if ($("#View option:selected").val() == 'Bills') {
-                        TAB_DASHBOARD.getCounterReceipt('Bills')
-                        TAB_DASHBOARD.getReceipt()
-                        $('#dashboard-summary-1').show()
-                        $('#dashboard-summary-2').show()
-                        $('#dashboard-summary-3').hide()
-                        $('#dashboard-summary-4').hide()
-                        $('#dashboard-summary-5').hide()
-                    }
-
-                    else {
-
-                    }
-                    
+                    TAB_DASHBOARD.fetData()
                     break
 
                 case 'order-activity-tab':
@@ -118,8 +101,6 @@ $(document).ready(function() {
 
         getDataDashboard($type) {
 
-            $($dashboardSummary2.find('.QA_table')).hide()
-
             let dataObj = {
                 type: $type
             }
@@ -135,7 +116,6 @@ $(document).ready(function() {
 
                     let data = res.data
 
-                    $($dashboardSummary2.find('.QA_table')).fadeIn(500)
                     $($dashboardSummary2.find('.QA_table')).html(data.html)
                 } 
                 
@@ -485,9 +465,37 @@ $(document).ready(function() {
             })
         },
 
+        fetData() {
+
+            TAB_DASHBOARD.getSummary()
+            TAB_DASHBOARD.getLiveData()
+
+            if ($("#View option:selected").val() == 'Bills') {
+                TAB_DASHBOARD.getCounterReceipt('Bills')
+                TAB_DASHBOARD.getReceipt()
+                $('#dashboard-summary-1').show()
+                $('#dashboard-summary-2').show()
+                $('#dashboard-summary-3').hide()
+                $('#dashboard-summary-4').hide()
+                $('#dashboard-summary-5').hide()
+            }
+
+            else {
+
+            }
+        },
+
         init() {
             TAB_DASHBOARD.config()
             TAB_DASHBOARD.getSummary()
+                        
+            // TODO:: Refactor 
+            // เดิมคือใช้ AJAX LOOP ทุก 5วิในการดึงข้อมูล
+            // เปลี่ยนเป็น เมื่อมีการเปลี่ยนแปลง DB ให้ใช้ phuser ยิงเข้ามา เพื่อดึงข้อมูลแทน
+
+            setInterval(function() {
+                TAB_DASHBOARD.fetData()
+            }, 5000)
         }
     }
 
