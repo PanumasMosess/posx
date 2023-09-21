@@ -182,6 +182,7 @@ function ($routes) {
     $routes->get('activity', 'Test::activity');
     $routes->post('getDataDashboard', 'Test::getDataDashboard');
     $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1');
+    $routes->get('view/(:any)', 'Test::view/$1');
 });
 /*
  * --------------------------------------------------------------------

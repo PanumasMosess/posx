@@ -4,6 +4,41 @@ function reload() {
 
 $(document).ready(function() {
 
+    let $stockTabContent = $('#stockTabContent')
+
+    $('a[data-bs-toggle="tab"]')
+        .on('shown.bs.tab', function (e) {
+
+            let $tab = e.target
+
+            switch ($($tab).attr('id')) {
+                case 'order-dashboard-tab':
+
+                    TAB_DASHBOARD.getSummary()
+                    TAB_DASHBOARD.getLiveData()
+
+                    if ($("#View option:selected").val() == 'Bills') {
+                        TAB_DASHBOARD.getCounterReceipt('Bills')
+                        TAB_DASHBOARD.getReceipt()
+                        $('#dashboard-summary-1').show()
+                        $('#dashboard-summary-2').show()
+                        $('#dashboard-summary-3').hide()
+                        $('#dashboard-summary-4').hide()
+                        $('#dashboard-summary-5').hide()
+                    }
+
+                    else {
+
+                    }
+                    
+                    break
+
+                case 'order-activity-tab':
+                    TAB_ACTIVITY.getActivity()
+                    break
+            }
+        })
+
     /***************************
      *
      * TAB DASHBOARD
@@ -24,7 +59,62 @@ $(document).ready(function() {
         $dashboardSummary5              = $($orderDashboard.find('#dashboard-summary-5'))
 
     let $orderDetailModal               = $('#orderDetailModal')
+    
     const TAB_DASHBOARD = {
+
+        getCounterReceipt(viewType) {
+
+            $.ajax({
+                type: "GET",
+                url: `${serverUrl}/order/view/${viewType}`
+            }).done(function (res) {
+
+                if (res.success) {
+                    let $data = res.data
+                    
+                    $btnReceipt = $orderDashboardFilter.find(`[data-title='Receipt']`)
+                    $btnReceipt.html('Receipt ' + $data.receipt.length + ' bills.')
+
+                    $btnVoidReceipt = $orderDashboardFilter.find(`[data-title='Voided Receipt']`)
+                    $btnVoidReceipt.html('Voided Receipt ' + $data.voidReceipt.length + ' bills.')
+                } 
+                
+                else {
+
+                    swal({
+                        title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                        text: 'Redirecting...',
+                        icon: 'warning',
+                        timer: 2000,
+                        buttons: false
+                    })
+
+                    reload()
+                }
+            }).fail(function () {
+
+                swal({
+                    title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                    text: 'Redirecting...',
+                    icon: 'warning',
+                    timer: 2000,
+                    buttons: false
+                })
+
+                reload()
+            })
+        },
+
+        getReceipt() {
+            
+            $btnActive = $orderDashboardFilter.find('button.active')
+
+            $data = 'Receipt'
+
+            if ($btnActive) $data = $btnActive.data('title')
+
+            TAB_DASHBOARD.getDataDashboard($data)
+        },
 
         getDataDashboard($type) {
 
@@ -87,7 +177,7 @@ $(document).ready(function() {
                 // เลือก View
                 .on('change', '#View', function() {
                     let $me = $(this)
-                    
+
                     switch($me.val()) {
                         case 'Bills':
                             $('#dashboard-summary-1').show()
@@ -95,6 +185,10 @@ $(document).ready(function() {
                             $('#dashboard-summary-3').hide()
                             $('#dashboard-summary-4').hide()
                             $('#dashboard-summary-5').hide()
+
+                            TAB_DASHBOARD.getCounterReceipt('Bills')
+                            TAB_DASHBOARD.getReceipt()
+
                             break
 
                         case 'Detail':
@@ -107,10 +201,10 @@ $(document).ready(function() {
                     }
                 })
                 // เลือก Shift
-                .on('change', '#Shift', function() {
-                    let $me = $(this)
-                    console.log($me.val())
-                })
+                // .on('change', '#Shift', function() {
+                //     let $me = $(this)
+                //     console.log($me.val())
+                // })
                 // ออกจากโหมด Terminal
                 .on('click', '.outTerminal', function() {
                     let $me = $(this)
@@ -175,9 +269,9 @@ $(document).ready(function() {
                             $orderDashboard.find('h4').html('Voided Receipt')
                             break
 
-                        case 'Unsync':
-                            $orderDashboard.find('h4').html('Unsync')
-                            break
+                        // case 'Unsync':
+                        //     $orderDashboard.find('h4').html('Unsync')
+                        //     break
                     }
 
                     TAB_DASHBOARD.getDataDashboard($me.data('title'))
@@ -429,8 +523,6 @@ $(document).ready(function() {
             
             $('[data-toggle="tooltip"]').tooltip()
 
-            let $stockTabContent = $('#stockTabContent')
-
             $($stockTabContent.find('#order-activity'))
                 .on('click', '#btnReloadActivity', function() {
                     TAB_ACTIVITY.getActivity()
@@ -440,15 +532,6 @@ $(document).ready(function() {
 
                     // TODO:: HANDLE MODAL
                     console.log($me)
-                })
-
-            $('a[data-bs-toggle="tab"]')
-                .on('shown.bs.tab', function (e) {
-
-                    let $tab = e.target
-
-                    if ($($tab).attr('id') == 'order-activity-tab') TAB_ACTIVITY.getActivity()
-
                 })
         },
 
