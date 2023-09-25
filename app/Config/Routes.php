@@ -40,6 +40,11 @@ $routes->get('logout', 'Authentication::logout', ['filter' => 'employeeAuth']);
 
 $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
+$routes->get('pdf_bill', 'PdfController::pdf_Bill', ['filter' => 'employeeAuth']);
+$routes->get('pdf_receipt', 'PdfController::pdf_Receipt', ['filter' => 'employeeAuth']);
+$routes->get('pdf_BillOrder', 'PdfController::pdf_BillOrder', ['filter' => 'employeeAuth']);
+$routes->get('pdf_CancelledBillOrder', 'PdfController::pdf_CancelledBillOrder', ['filter' => 'employeeAuth']);
+
 $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('index', 'SettingController::index');
     // $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
