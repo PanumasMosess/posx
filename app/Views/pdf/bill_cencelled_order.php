@@ -13,12 +13,12 @@
             <th style="font-size: 5px;"></th>
         </tr>
         <tr>
-            <th width="13%">Date : </th>
-            <th width="86%"><?php echo date('d/m/Y H:i:s') ?></th>
+            <th width="14%">Date : </th>
+            <th width="85%"><?php echo date('d/m/Y H:i:s') ?></th>
         </tr>
         <tr>
-            <th width="8%">by : </th>
-            <th width="91%">Test</th>
+            <th width="9%">by : </th>
+            <th width="90%">Test</th>
         </tr>
         <tr>
             <th style="font-size: 3px;"></th>
@@ -59,12 +59,12 @@
             <th style="font-size: 10px;"></th>
         </tr>
         <tr>
-            <th width="17%">Reason : </th>
-            <th width="82%"></th>
+            <th width="19%">Reason : </th>
+            <th width="80%"></th>
         </tr>
         <tr>
-            <th width="11%">Sign : </th>
-            <th width="88%"></th>
+            <th width="13%">Sign : </th>
+            <th width="86%"></th>
         </tr>
         <tr>
             <th style="font-size: 10px;"></th>
