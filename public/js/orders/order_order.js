@@ -570,8 +570,8 @@ function listOrder(tableCode) {
       url: serverUrl + "order/loadTableOrderList",
       type: "POST",
       data: {
-        data: areaorderTemp
-      }
+        data: areaorderTemp,
+      },
     },
     // data: array_select_confirm,
     columns: [
@@ -584,7 +584,30 @@ function listOrder(tableCode) {
       {
         data: null,
         render: function (data, type, row, meta) {
-          return "<font>" + data["order_customer_ordername"] + "</font>";
+          // "<font>" + data["order_customer_ordername"] + "</font>";
+          let data_order_name = data["order_customer_ordername"];
+          dataRe =
+            '<div class="box_header m-0"><div class="main-title">' +
+            data_order_name +
+            '<p style="font-size: 13px;">' +
+            data["order_des"] +
+            "</p>" +
+            "</div>" +
+            '<div class="header_more_tool">' +
+            '<div class="dropdown">' +
+            '<span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">' +
+            '<i class="ti-more-alt"></i>' +
+            "</span>" +
+            '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="">' +
+            '<a class="dropdown-item" href="javascript:void(0);" onclick="openSplitOrder(' +
+            data["id"] +
+            ');">' +
+            '<i class="ti-split-v"></i> Split Order</a>' +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+          return dataRe;
         },
       },
       {
@@ -595,7 +618,11 @@ function listOrder(tableCode) {
         data: null,
         render: function (data, type, row, meta) {
           let price_sum = data["order_customer_pcs"] * data["order_price"];
-          return "<font>" + price_sum.toLocaleString(undefined, { minimumFractionDigits: 2 }) + "</font>";
+          return (
+            "<font>" +
+            price_sum.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
+            "</font>"
+          );
         },
       },
     ],
@@ -623,16 +650,14 @@ function listOrder(tableCode) {
   itemsArrayOrderTableListOffline = [];
 }
 
-
-setInterval(function(){
-  var isCallNewOrder = localStorage.getItem('isCallNewOrder');
-  if(isCallNewOrder == 'yes'){
+setInterval(function () {
+  var isCallNewOrder = localStorage.getItem("isCallNewOrder");
+  if (isCallNewOrder == "yes") {
     detail_summary(table_code);
     drowTableLoad(table_array_code);
-    localStorage.setItem('isCallNewOrder', 'no');
+    localStorage.setItem("isCallNewOrder", "no");
   }
 }, 500);
-
 
 function openModaldiscountAllType_() {
   $(".bd-add-discountAll").modal("show");
@@ -645,21 +670,19 @@ function closeModaladddiscountAll_() {
   // $("#discount_order_btn").addClass("disable-click");
 }
 
-
 $("#adddiscountAll_").submit(function (e) {
   e.preventDefault();
   // console.log(table_code);
   public_array_discount = [];
-  var type_discount = $("#adddiscountAll_type").parsley()
+  var type_discount = $("#adddiscountAll_type").parsley();
   var num_discount = $("#num_adddiscountAll").parsley();
 
   if (type_discount.isValid() && num_discount.isValid()) {
-
     arr_discount = [
       {
         table_discount: table_code,
         type_discount: $("#adddiscountAll_type").val(),
-        num_discount: $("#num_adddiscountAll").val()
+        num_discount: $("#num_adddiscountAll").val(),
       },
     ];
 
@@ -705,26 +728,46 @@ $("#adddiscountAll_").submit(function (e) {
   }
 });
 
- function printPreview(){
-
+function printPreview() {
   let arr_table_bill = [
     {
-      table_discount: table_code
+      table_discount: table_code,
     },
   ];
 
-  if(isOnline){
+  if (isOnline) {
     print_specific_content();
-  }else{
-
+  } else {
   }
- 
- }
+}
 
- function print_specific_content() {
+function print_specific_content() {
   var content = "Printed using Ahmed El-Essawy Code";
 
-  var win = window.open('', '', 'left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status =0');
-  win.document.write("<html><body onload=\"window.print(); window.close();\">" + content + "</body></html>");
+  var win = window.open(
+    "",
+    "",
+    "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status =0"
+  );
+  win.document.write(
+    '<html><body onload="window.print(); window.close();">' +
+      content +
+      "</body></html>"
+  );
   win.document.close();
 }
+
+function openSplitOrder(id) {
+  $(".bd-split-pcs").modal("show");
+}
+
+function closeModalsplit()
+{
+  $("..bd-split-pcs").modal("hide");
+  $("#split-pcs")[0].reset();
+  $("#split-pcs").parsley().reset();
+}
+
+$("#split-pcs").submit(function (e) {
+  
+});
