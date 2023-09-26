@@ -763,7 +763,7 @@ function openSplitOrder(id) {
 
 function closeModalsplit()
 {
-  $("..bd-split-pcs").modal("hide");
+  $(".bd-split-pcs").modal("hide");
   $("#split-pcs")[0].reset();
   $("#split-pcs").parsley().reset();
 }
