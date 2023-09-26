@@ -86,8 +86,10 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
 
     $routes->post('ajax-datatablePaymentType', 'SettingController::ajaxDataTablesPaymentType');
     $routes->post('addPaymentType', 'SettingController::addPaymentType');
-    $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
+    // $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
     $routes->get('deletePaymentType/(:num)', 'SettingController::deletePaymentType/$1');
+    $routes->post('updateCreditCard', 'SettingController::updateCreditCard');
+    $routes->post('updateEntertain', 'SettingController::updateEntertain');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
