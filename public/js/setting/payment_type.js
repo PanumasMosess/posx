@@ -270,9 +270,13 @@ function loadTablePaymentType() {
             data: "type"
         },
         {
-            data: "credit_card",
+            data: null,
             render: function (data, type, row, meta) {
-                var checked_credit_card = data == 1 ? 'checked' : '';
+                var checked_credit_card = data["credit_card"] == 1 ? 'checked' : '';
+
+                if (data["type"] === 'Cash') {
+                    return ('');
+                }
 
                 return (
                     '<label class="custom-control-hide-cahsier custom-checkbox custom-control-md mb-1"><input type="checkbox" class="custom-control-input" name="checkbox_Credit_Card" id="checkbox_Credit_Card" ' + checked_credit_card + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Credit Card</span></label>'
@@ -280,9 +284,13 @@ function loadTablePaymentType() {
             },
         },
         {
-            data: "entertain",
+            data: null,
             render: function (data, type, row, meta) {
-                var checked_entertain = data == 1 ? 'checked' : '';
+                var checked_entertain = data["entertain"] == 1 ? 'checked' : '';
+                // console.log(data["type"]);
+                if (data["type"] === 'Cash') {
+                    return ('');
+                }
 
                 return (
                     '<label class="custom-control-hide-cahsier custom-checkbox custom-control-md mb-1"><input type="checkbox" class="custom-control-input" name="checkbox_Entertain" id="checkbox_Entertain" ' + checked_entertain + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Entertain</span></label>'
@@ -292,6 +300,9 @@ function loadTablePaymentType() {
         {
             data: null,
             render: function (data, type, row, meta) {
+                if (data["type"] === 'Cash') {
+                    return ('');
+                }
                 return (
                     '<div class="action_btns d-flex" style="justify-content: center;"><button type="button" class="btn btn-primary f_s_14 saveEditPaymentType me-2" data-id="' + data["id"] + '"><i class="ti-save f_s_13 me-2"></i>Save</button><button type="button" class="btn btn-danger f_s_14 btnDeletePaymentType" data-id="' + data["id"] + '"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button></div>'
                 );
