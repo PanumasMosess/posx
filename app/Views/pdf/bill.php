@@ -3,18 +3,18 @@
 <body>
     <table>
         <tr>
-            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/POSX_2.png" style="height:80px;width:140px;"></th>
+            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;"></th>
         </tr>
         <tr>
             <th style="font-size: 3px;"></th>
         </tr>
         <tr>
-            <th width="13%">Date : </th>
-            <th width="86%"><?php echo date('d/m/Y H:i:s') ?></th>
+            <th width="15%">Date : </th>
+            <th width="84%"><?php echo date('d/m/Y H:i:s') ?></th>
         </tr>
         <tr>
-            <th width="17%">Cashier : </th>
-            <th width="82%">Test</th>
+            <th width="19%">Cashier : </th>
+            <th width="80%">Test</th>
         </tr>
         <tr>
             <th style="font-size: 3px;"></th>

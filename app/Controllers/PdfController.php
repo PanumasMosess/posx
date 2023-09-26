@@ -9,7 +9,7 @@ class PdfController extends BaseController
     public function pdf_Bill()
     {
         // create new PDF document
-        $pdf = new TCPDF('P', 'mm', array(80, 200), true, 'UTF-8', false);
+        $pdf = new TCPDF('P', 'mm', array(72, 300), true, 'UTF-8', false);
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
@@ -33,6 +33,8 @@ class PdfController extends BaseController
         // $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
         $pdf->SetHeaderData(false, false, false, false, false, _hex2rgb('#ffffff'));
+
+        $pdf->SetFooterData(array(255, 255, 255), array(255, 255, 255));
         // set header and footer fonts
         // $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         // $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -80,7 +82,7 @@ class PdfController extends BaseController
     public function pdf_BillOrder()
     {
         // create new PDF document
-        $pdf = new TCPDF('P', 'mm', array(80, 100), true, 'UTF-8', false);
+        $pdf = new TCPDF('P', 'mm', array(72, 150), true, 'UTF-8', false);
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
@@ -104,6 +106,8 @@ class PdfController extends BaseController
         // $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
         $pdf->SetHeaderData(false, false, false, false, false, _hex2rgb('#ffffff'));
+
+        $pdf->SetFooterData(array(255, 255, 255), array(255, 255, 255));
         // set header and footer fonts
         // $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         // $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -151,7 +155,7 @@ class PdfController extends BaseController
     public function pdf_CancelledBillOrder()
     {
         // create new PDF document
-        $pdf = new TCPDF('P', 'mm', array(80, 110), true, 'UTF-8', false);
+        $pdf = new TCPDF('P', 'mm', array(72, 150), true, 'UTF-8', false);
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
@@ -175,6 +179,8 @@ class PdfController extends BaseController
         // $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
         $pdf->SetHeaderData(false, false, false, false, false, _hex2rgb('#ffffff'));
+
+        $pdf->SetFooterData(array(255, 255, 255), array(255, 255, 255));
         // set header and footer fonts
         // $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         // $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -239,7 +245,7 @@ class PdfController extends BaseController
     public function pdf_Receipt()
     {
         // create new PDF document
-        $pdf = new TCPDF('P', 'mm', array(80, 200), true, 'UTF-8', false);
+        $pdf = new TCPDF('P', 'mm', array(72, 300), true, 'UTF-8', false);
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
@@ -263,6 +269,8 @@ class PdfController extends BaseController
         // $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
         $pdf->SetHeaderData(false, false, false, false, false, _hex2rgb('#ffffff'));
+
+        $pdf->SetFooterData(array(255, 255, 255), array(255, 255, 255));
         // set header and footer fonts
         // $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         // $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
