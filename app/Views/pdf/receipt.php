@@ -3,7 +3,7 @@
 <body>
     <table>
         <tr>
-            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/POSX_2.png" style="height:80px;width:140px;"></th>
+            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;"></th>
         </tr>
         <tr>
             <th width="99%" style="text-align: center;">Receipt</th>
@@ -12,20 +12,20 @@
             <th style="font-size: 5px;"></th>
         </tr>
         <tr>
-            <th width="26%" style="font-weight: bold;">Receipt No : </th>
-            <th width="73%" style="font-weight: bold;">2549846215</th>
+            <th width="29%" style="font-weight: bold;">Receipt No : </th>
+            <th width="70%" style="font-weight: bold;">2549846215</th>
         </tr>
         <tr>
-            <th width="13%" style="font-weight: bold;">Date : </th>
-            <th width="86%" style="font-weight: bold;"><?php echo date('d/m/Y H:i:s') ?></th>
+            <th width="15%" style="font-weight: bold;">Date : </th>
+            <th width="84%" style="font-weight: bold;"><?php echo date('d/m/Y H:i:s') ?></th>
         </tr>
         <tr>
-            <th width="17%">Cashier : </th>
-            <th width="82%">Test</th>
+            <th width="19%">Cashier : </th>
+            <th width="80%">Test</th>
         </tr>
         <tr>
-            <th width="32%">Payment Type : </th>
-            <th width="67%">Cash</th>
+            <th width="35%">Payment Type : </th>
+            <th width="64%">Cash</th>
         </tr>
         <tr>
             <th style="font-size: 5px;"></th>
