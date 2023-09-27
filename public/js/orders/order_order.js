@@ -391,6 +391,14 @@ function detail_summary(table_code) {
           "</p>"
       );
 
+      $("#sub_total_").html(
+        '<p id="sub_total_">' +
+          sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
+          "</p>"
+      );
+
+      $("#order_customer_code_hide").val(response.data.order_customer_code);
+
       listOrder(table_code);
     },
   });
@@ -770,7 +778,9 @@ function closeModalsplit() {
   $("#split-pcs").parsley().reset();
 }
 
-$("#split-pcs").submit(function (e) {});
+$("#split-pcs").submit(function (e) {
+  e.preventDefault();
+});
 
 function paymentTable() {
   $(".bd-payment").modal("show");
@@ -809,3 +819,32 @@ function closePayment() {
   $("#payment-form")[0].reset();
   $("#payment-form").parsley().reset();
 }
+
+$("#payment-form").submit(function (e) {
+  e.preventDefault();
+
+  public_array_payment = [];
+
+  var str_split = $("#cash_type").val();
+  var str_split_result = str_split.split("###");
+  var cash_type_id = str_split_result[0];
+  var cash_type = str_split_result[1];
+
+  var cash_type = $("#cash_type").parsley();
+  var num_price_payment = $("#num_price_payment").parsley();
+
+  if (cash_type.isValid() && num_price_payment.isValid()) {
+    arr_payment = [
+      {
+        table_code: table_code,
+        order_customer_code: $("#order_customer_code_hide").val(),
+        cash_type: cash_type,
+      },
+    ];
+
+    alert("ส่วนนี้กำลังดำเนินการ");
+  } else {
+    cash_type.validate();
+    num_price_payment.validate();
+  }
+});

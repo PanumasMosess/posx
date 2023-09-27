@@ -681,7 +681,7 @@
                                 <div class="row col-12">
                                     <div class="col-12">
                                         <div class="input-group mb-3">
-                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_price" name="num_price" placeholder="รับเงิน" required>
+                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_price_payment" name="num_price_payment" placeholder="รับเงิน" required>
                                             <div class="input-group-text">
                                                 <div class=""><i class="fab fa-btc"></i></div>
                                             </div>
@@ -690,7 +690,7 @@
                                 </div>
                                 <div class="row col-12">
                                     <div class="input-group mb-3">
-                                        <input type="hidden" id="cash_type_hide" />
+                                        <input type="hidden" id="order_customer_code_hide" />
                                         <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
                                         <select class="form-select" id="cash_type" name="cash_type" required="">
                                             <option value="">เลือกประเภทการชำระ</option>
@@ -703,7 +703,7 @@
                                             <div class="input-group-text">
                                                 <span class="">Note.</span>
                                             </div>
-                                            <textarea class="form-control" aria-label="With textarea"></textarea>
+                                            <textarea class="form-control" aria-label="With textarea" id="note_payment" name="note_payment"></textarea>
                                         </div>
                                     </div>
                                 </div>
