@@ -931,4 +931,15 @@ class OrderPosController extends BaseController
             //  ว่าง
         }
     }
+
+    public function getTypePlayMent()
+    {
+        $data = $this->OrderModel->getTypePlayMentModel();
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $data
+        ]);
+    }
 }

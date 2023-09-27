@@ -13,6 +13,7 @@ var itemsArrayOrderTableListOffline = [];
   $("#void_order_btn").addClass("disable-click");
   $("#discount_order_btn").addClass("disable-click");
   $("#split_order_btn").addClass("disable-click");
+  $("#parmentButtonId").hide();
   selectArea();
   interact(".resize-drag,.resize-drag-b")
     .on("tap", function (event) {
@@ -33,6 +34,7 @@ var itemsArrayOrderTableListOffline = [];
         $("#move_order_btn").addClass("disable-click");
         $("#void_order_btn").addClass("disable-click");
         $("#discount_order_btn").addClass("disable-click");
+        $("#parmentButtonId").hide();
 
         clear_detail_summary();
       } else {
@@ -42,6 +44,7 @@ var itemsArrayOrderTableListOffline = [];
         $("#discount_order_btn").removeClass("disable-click");
         $("#split_order_btn").addClass("disable-click");
         detail_summary(target.getAttribute("data-code"));
+        $("#parmentButtonId").show();
       }
 
       event.preventDefault();
@@ -761,13 +764,48 @@ function openSplitOrder(id) {
   $(".bd-split-pcs").modal("show");
 }
 
-function closeModalsplit()
-{
+function closeModalsplit() {
   $(".bd-split-pcs").modal("hide");
   $("#split-pcs")[0].reset();
   $("#split-pcs").parsley().reset();
 }
 
-$("#split-pcs").submit(function (e) {
-  
-});
+$("#split-pcs").submit(function (e) {});
+
+function paymentTable() {
+  $(".bd-payment").modal("show");
+
+  $.ajax({
+    url: serverUrl + "/order/getSummaryData/" + table_code,
+    method: "get",
+    success: function (response) {
+      $("#bill_model_total").html(
+        '<h3 class="f_s_25 f_w_700 dark_text mr_30">Total: ' +
+          response.data.order_price_sum +
+          "</h3>"
+      );
+    },
+  });
+
+  $.ajax({
+    url: serverUrl + "/order/getTypePlayMent",
+    method: "get",
+    success: function (response) {
+      var cash_type = $("#cash_type");
+      cash_type.html('<option value="">เลือกประเภทการชำระ</option>');
+      $.each(response.data, function (index, item) {
+        cash_type.append(
+          $('<option style="color: #000;"></option>')
+            .val(item.id + "###" + item.type)
+            .html(item.type)
+        );
+      });
+    },
+  });
+}
+
+function closePayment() {
+  $(".bd-payment").modal("hide");
+  $("#payment-form")[0].reset();
+  $("#payment-form").parsley().reset();
+}
