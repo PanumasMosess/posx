@@ -939,4 +939,11 @@ class OrderModel
 
         return $builder->where('order_customer_code', $orderCustomerCode)->update($data);
     }
+
+    public function getTypePlayMentModel()
+    {
+        $sql = "SELECT * FROM payment_type ORDER BY id DESC";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
 }

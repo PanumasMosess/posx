@@ -222,6 +222,7 @@
                                                                         </div>
                                                                         <div class="devices_btn justify-content-start">
                                                                             <a class="btn btn-outline-primary mb-3" style="margin-right: 9px; line-height:1.3;" href="javascript:void(0);" onclick="printPreview();"><i class="ti-printer"></i> Print Preview</a>
+                                                                            <a class="btn btn-outline-warning mb-3" id="parmentButtonId" style="margin-right: 9px; line-height:1.3;" href="javascript:void(0);" onclick="paymentTable();"><i class="ti-credit-card"></i> Payment</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -634,8 +635,85 @@
                                         <button type="button" onclick="closeModalsplit();" class="btn btn-outline-danger m-1">
                                             ยกเลิก
                                         </button>
-                                        <button type="submit"  class="btn btn-outline-success m-1">
+                                        <button type="submit" class="btn btn-outline-success m-1">
                                             ยืนยัน
+                                        </button>
+                                        <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
+                                        ยืนยัน
+                                    </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model Payment -->
+<div class="modal fade bd-payment" tabindex="-1" role="dialog" aria-labelledby="split-pcs" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content p-4">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <button type="button" class="close" aria-label="Close" onclick="closePayment();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="white_card_header">
+                        <div class=" m-0">
+                            <div class="justify-content-center" style="display:flex;">
+                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameFormPaymentOrder">Payment</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white_card_body">
+                        <form id="payment-form" name="payment-form" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="row col-12">
+                                <div class="row col-12">
+                                    <div class="col-12">
+                                        <div class="main-title">
+                                            <div id="bill_model_total">Total: </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-12">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_price" name="num_price" placeholder="รับเงิน" required>
+                                            <div class="input-group-text">
+                                                <div class=""><i class="fab fa-btc"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-12">
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" id="cash_type_hide" />
+                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
+                                        <select class="form-select" id="cash_type" name="cash_type" required="">
+                                            <option value="">เลือกประเภทการชำระ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row col-12">
+                                    <div class=" col-12">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-text">
+                                                <span class="">Note.</span>
+                                            </div>
+                                            <textarea class="form-control" aria-label="With textarea"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-11">
+                                    <div class="input-group mb-3  justify-content-end">
+                                        <button type="button" onclick="closePayment();" class="btn btn-outline-danger m-1">
+                                            ยกเลิก
+                                        </button>
+                                        <button type="submit" class="btn btn-outline-success m-1">
+                                            จ่าย
                                         </button>
                                         <!-- <button type="button" id='update_table_btn' class="btn btn-outline-warning m-1" onclick="submitupdateDetailTable();">
                                         ยืนยัน
