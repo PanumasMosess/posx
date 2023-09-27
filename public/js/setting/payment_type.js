@@ -108,73 +108,73 @@ $formAddPaymentType
         }
     });
 
-//When click saveEditPaymentType
-$('body').on('click', '.saveEditPaymentType', function () {
-    var PaymentTypeID = $(this).attr('data-id');
+// //When click saveEditPaymentType
+// $('body').on('click', '.saveEditPaymentType', function () {
+//     var PaymentTypeID = $(this).attr('data-id');
 
-    var $row = $('tr[data-type-id="' + PaymentTypeID + '"]'); // ใช้ data-type-id เพื่อหาแถวที่ต้องการแก้ไข
+//     var $row = $('tr[data-type-id="' + PaymentTypeID + '"]'); // ใช้ data-type-id เพื่อหาแถวที่ต้องการแก้ไข
 
-    var Credit_Card = $row.find("#checkbox_Credit_Card").prop('checked');
-    var Entertain = $row.find("#checkbox_Entertain").prop('checked');
+//     var Credit_Card = $row.find("#checkbox_Credit_Card").prop('checked');
+//     var Entertain = $row.find("#checkbox_Entertain").prop('checked');
 
-    $.ajax({
-        type: "POST",
-        url: "/setting/updatePaymentType", // Replace with the actual URL
-        data: {
-            PaymentTypeID: PaymentTypeID, Credit_Card: Credit_Card, Entertain: Entertain
-        },
-    }).done(function (res) {
-        //กรณี: บันทึกสำเร็จ
-        if (res.success = 1) {
+//     $.ajax({
+//         type: "POST",
+//         url: "/setting/updatePaymentType", // Replace with the actual URL
+//         data: {
+//             PaymentTypeID: PaymentTypeID, Credit_Card: Credit_Card, Entertain: Entertain
+//         },
+//     }).done(function (res) {
+//         //กรณี: บันทึกสำเร็จ
+//         if (res.success = 1) {
 
-            Swal.fire({
-                text: "แก้ไข PaymentType สำเร็จ",
-                icon: "success",
-                buttonsStyling: false,
-                confirmButtonText: "ตกลง",
-                timer: "1000",
-                customClass: {
-                    confirmButton: "btn btn-primary"
-                }
-            }).then(function (result) {
-                if (result.isConfirmed) {
+//             Swal.fire({
+//                 text: "แก้ไข PaymentType สำเร็จ",
+//                 icon: "success",
+//                 buttonsStyling: false,
+//                 confirmButtonText: "ตกลง",
+//                 timer: "1000",
+//                 customClass: {
+//                     confirmButton: "btn btn-primary"
+//                 }
+//             }).then(function (result) {
+//                 if (result.isConfirmed) {
 
-                }
-            })
-        }
-        // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
-        else {
-            // Show error message.
-            Swal.fire({
-                text: res.message,
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "ตกลง",
-                customClass: {
-                    confirmButton: "btn btn-primary"
-                }
-            }).then(function (result) {
-                if (result.isConfirmed) {
-                    // LANDING_PROMOTION.reloadPage()
-                }
-            })
-            $me.attr('disabled', false)
-        }
-    }).fail(function (context) {
-        let messages = context.responseJSON?.messages || 'ไม่สามารถบันทึกได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ'
-        // Show error message.
-        Swal.fire({
-            text: messages,
-            icon: "error",
-            buttonsStyling: false,
-            confirmButtonText: "ตกลง",
-            customClass: {
-                confirmButton: "btn btn-primary"
-            }
-        })
-        $me.attr('disabled', false)
-    })
-});
+//                 }
+//             })
+//         }
+//         // กรณี: Server มีการตอบกลับ แต่ไม่สำเร็จ
+//         else {
+//             // Show error message.
+//             Swal.fire({
+//                 text: res.message,
+//                 icon: "error",
+//                 buttonsStyling: false,
+//                 confirmButtonText: "ตกลง",
+//                 customClass: {
+//                     confirmButton: "btn btn-primary"
+//                 }
+//             }).then(function (result) {
+//                 if (result.isConfirmed) {
+//                     // LANDING_PROMOTION.reloadPage()
+//                 }
+//             })
+//             $me.attr('disabled', false)
+//         }
+//     }).fail(function (context) {
+//         let messages = context.responseJSON?.messages || 'ไม่สามารถบันทึกได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ'
+//         // Show error message.
+//         Swal.fire({
+//             text: messages,
+//             icon: "error",
+//             buttonsStyling: false,
+//             confirmButtonText: "ตกลง",
+//             customClass: {
+//                 confirmButton: "btn btn-primary"
+//             }
+//         })
+//         $me.attr('disabled', false)
+//     })
+// });
 
 //btnDeletePaymentType alert
 $('body').on('click', '.btnDeletePaymentType', function () {
@@ -202,6 +202,88 @@ $('body').on('click', '.btnDeletePaymentType', function () {
                     loadTablePaymentType();
                 }
             });
+        }
+    })
+});
+
+$('body').on('click', '#checkbox_Credit_Card', function () {
+
+    let $data = {
+        id: $(this).attr('data-id'),
+        status: this.checked == false ? '0' : '1'
+    }
+    $.ajax({
+        type: "POST",
+        url: `${serverUrl}/setting/updateCreditCard`,
+        data: $data,
+        success: function (res) {
+            Swal.fire({
+                text: "อัพเดท Credit Card สำเร็จ",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "ตกลง",
+                timer: "800",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
+
+                }
+            })
+        },
+        error: function () {
+            // Show error message.
+            Swal.fire({
+                text: 'ไม่สามารถบันทึกได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "ตกลง",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            })
+        }
+    })
+});
+
+$('body').on('click', '#checkbox_Entertain', function () {
+
+    let $data = {
+        id: $(this).attr('data-id'),
+        status: this.checked == false ? '0' : '1'
+    }
+    $.ajax({
+        type: "POST",
+        url: `${serverUrl}/setting/updateEntertain`,
+        data: $data,
+        success: function (res) {
+            Swal.fire({
+                text: "อัพเดท Entertain สำเร็จ",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "ตกลง",
+                timer: "800",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
+
+                }
+            })
+         },
+        error: function () {
+            // Show error message.
+            Swal.fire({
+                text: 'ไม่สามารถบันทึกได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "ตกลง",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            })
         }
     })
 });
@@ -270,30 +352,42 @@ function loadTablePaymentType() {
             data: "type"
         },
         {
-            data: "credit_card",
+            data: null,
             render: function (data, type, row, meta) {
-                var checked_credit_card = data == 1 ? 'checked' : '';
+                var checked_credit_card = data["credit_card"] == 1 ? 'checked' : '';
+
+                if (data["type"] === 'Cash') {
+                    return ('');
+                }
 
                 return (
-                    '<label class="custom-control-hide-cahsier custom-checkbox custom-control-md mb-1"><input type="checkbox" class="custom-control-input" name="checkbox_Credit_Card" id="checkbox_Credit_Card" ' + checked_credit_card + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Credit Card</span></label>'
-                );
-            },
-        },
-        {
-            data: "entertain",
-            render: function (data, type, row, meta) {
-                var checked_entertain = data == 1 ? 'checked' : '';
-
-                return (
-                    '<label class="custom-control-hide-cahsier custom-checkbox custom-control-md mb-1"><input type="checkbox" class="custom-control-input" name="checkbox_Entertain" id="checkbox_Entertain" ' + checked_entertain + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Entertain</span></label>'
+                    '<label class="custom-control-hide-cahsier custom-checkbox custom-control-md mb-1"><input type="checkbox" class="custom-control-input" data-id="' + data["id"] + '" name="checkbox_Credit_Card" id="checkbox_Credit_Card" ' + checked_credit_card + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Credit Card</span></label>'
                 );
             },
         },
         {
             data: null,
             render: function (data, type, row, meta) {
+                var checked_entertain = data["entertain"] == 1 ? 'checked' : '';
+                // console.log(data["type"]);
+                if (data["type"] === 'Cash') {
+                    return ('');
+                }
+
                 return (
-                    '<div class="action_btns d-flex" style="justify-content: center;"><button type="button" class="btn btn-primary f_s_14 saveEditPaymentType me-2" data-id="' + data["id"] + '"><i class="ti-save f_s_13 me-2"></i>Save</button><button type="button" class="btn btn-danger f_s_14 btnDeletePaymentType" data-id="' + data["id"] + '"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button></div>'
+                    '<label class="custom-control-hide-cahsier custom-checkbox custom-control-md mb-1"><input type="checkbox" class="custom-control-input" data-id="' + data["id"] + '" name="checkbox_Entertain" id="checkbox_Entertain" ' + checked_entertain + '><span class="custom-control-label custom-control-label-md ms-1" style="vertical-align: text-bottom;">Entertain</span></label>'
+                );
+            },
+        },
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                if (data["type"] === 'Cash') {
+                    return ('');
+                }
+                // <button type="button" class="btn btn-primary f_s_14 saveEditPaymentType me-2" data-id="' + data["id"] + '"><i class="ti-save f_s_13 me-2"></i>Save</button>
+                return (
+                    '<div class="action_btns d-flex" style="justify-content: center;"><button type="button" class="btn btn-danger f_s_14 btnDeletePaymentType" data-id="' + data["id"] + '"><i class="fas fa-trash f_s_13 me-2"></i>Remove</button></div>'
                 );
             },
         }

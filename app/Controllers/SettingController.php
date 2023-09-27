@@ -1378,37 +1378,94 @@ class SettingController extends BaseController
         }
     }
 
-    //updatePaymentType
-    public function updatePaymentType()
+    // //updatePaymentType
+    // public function updatePaymentType()
+    // {
+    //     $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
+
+    //     try {
+    //         // SET CONFIG
+    //         $status = 500;
+    //         $response['success'] = 0;
+    //         $response['message'] = '';
+
+    //         $param['PaymentTypeID'] = $_REQUEST['PaymentTypeID'];
+    //         $param['Credit_Card'] = $_REQUEST['Credit_Card'];
+    //         $param['Entertain'] = $_REQUEST['Entertain'];
+
+    //         if ($param['Credit_Card'] != 'false') {
+    //             $Credit_Card = 1;
+    //         } else {
+    //             $Credit_Card = 0;
+    //         }
+
+    //         if ($param['Entertain'] != 'false') {
+    //             $Entertain = 1;
+    //         } else {
+    //             $Entertain = 0;
+    //         }
+
+    //         // HANDLE REQUEST
+    //         $update = $this->PaymentTypeModel->updatePaymentTypeByID($param['PaymentTypeID'], [
+    //             'credit_card' => $Credit_Card,
+    //             'entertain' => $Entertain,
+    //             'updated_by' => session()->get('username'),
+    //             'updated_at' => date('Y-m-d H:i:s')
+    //         ]);
+
+    //         if ($update) {
+
+    //             logger_store([
+    //                 'employee_id' => session()->get('employeeID'),
+    //                 'username' => session()->get('username'),
+    //                 'event' => 'อัพเดท',
+    //                 'detail' => '[อัพเดท] PaymentType',
+    //                 'ip' => $this->request->getIPAddress()
+    //             ]);
+
+    //             $status = 200;
+    //             $response['success'] = 1;
+    //             $response['message'] = 'แก้ไข PaymentType สำเร็จ';
+    //         } else {
+    //             $status = 200;
+    //             $response['success'] = 0;
+    //             $response['message'] = 'แก้ไข PaymentType ไม่สำเร็จ';
+    //         }
+
+    //         return $this->response
+    //             ->setStatusCode($status)
+    //             ->setContentType('application/json')
+    //             ->setJSON($response);
+    //     } catch (\Exception $e) {
+    //         echo $e->getMessage() . ' ' . $e->getLine();
+    //     }
+    // }
+
+    // deletePaymentType
+    public function deletePaymentType($id = null)
     {
         $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
+        $this->PaymentTypeModel->deletePaymentTypeByID($id);
 
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] PaymentType',
+            'ip' => $this->request->getIPAddress()
+        ]);
+    }
+
+    public function updateCreditCard()
+    {
         try {
-            // SET CONFIG
+
+            $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
             $status = 500;
             $response['success'] = 0;
-            $response['message'] = '';
 
-            $param['PaymentTypeID'] = $_REQUEST['PaymentTypeID'];
-            $param['Credit_Card'] = $_REQUEST['Credit_Card'];
-            $param['Entertain'] = $_REQUEST['Entertain'];
-
-            if ($param['Credit_Card'] != 'false') {
-                $Credit_Card = 1;
-            } else {
-                $Credit_Card = 0;
-            }
-
-            if ($param['Entertain'] != 'false') {
-                $Entertain = 1;
-            } else {
-                $Entertain = 0;
-            }
-
-            // HANDLE REQUEST
-            $update = $this->PaymentTypeModel->updatePaymentTypeByID($param['PaymentTypeID'], [
-                'credit_card' => $Credit_Card,
-                'entertain' => $Entertain,
+            $update = $this->PaymentTypeModel->updatePaymentTypeByID($this->request->getVar('id'), [
+                'credit_card' => $this->request->getVar('status'),
                 'updated_by' => session()->get('username'),
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
@@ -1425,11 +1482,6 @@ class SettingController extends BaseController
 
                 $status = 200;
                 $response['success'] = 1;
-                $response['message'] = 'แก้ไข PaymentType สำเร็จ';
-            } else {
-                $status = 200;
-                $response['success'] = 0;
-                $response['message'] = 'แก้ไข PaymentType ไม่สำเร็จ';
             }
 
             return $this->response
@@ -1441,18 +1493,40 @@ class SettingController extends BaseController
         }
     }
 
-    // deletePaymentType
-    public function deletePaymentType($id = null)
+    public function updateEntertain()
     {
-        $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
-        $this->PaymentTypeModel->deletePaymentTypeByID($id);
+        try {
 
-        logger_store([
-            'employee_id' => session()->get('employeeID'),
-            'username' => session()->get('username'),
-            'event' => 'ลบ',
-            'detail' => '[ลบ] PaymentType',
-            'ip' => $this->request->getIPAddress()
-        ]);
+            $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
+            $status = 500;
+            $response['success'] = 0;
+
+            $update = $this->PaymentTypeModel->updatePaymentTypeByID($this->request->getVar('id'), [
+                'entertain' => $this->request->getVar('status'),
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] PaymentType',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
     }
 }
