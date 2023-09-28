@@ -942,4 +942,52 @@ class OrderPosController extends BaseController
             'data' => $data
         ]);
     }
+
+    public function paymentStore()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+ 
+        $check_arr_count = count($datas);
+        foreach ($datas as $data) {
+
+            $data_detail = [
+                'order_customer_code' => $data[0]['order_customer_code'],
+                'table_code' => $data[0]['table_code'],
+                'receive_total' =>  $data[0]['receive_total'],
+                'change_total' =>  $data[0]['change_total'],
+                'credit_card' =>  '',
+                'entertain' =>  '',
+                'note' => $data[0]['note'],
+                'companies_id' =>  session()->get('companies_id'),
+                'created_by' => session()->get('username'),
+                'created_at' => $buffer_datetime
+            ];
+
+
+            $update_new = $this->OrderModel->insertNewPaymentLog($data_detail, $data[0]['order_customer_code'], $data[0]['table_code']);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'เพิ่มไม่สำเร็จ'
+                ]);
+            }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'จ่ายสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+
+    }
 }

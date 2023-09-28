@@ -657,7 +657,7 @@ class OrderModel
             WHERE DATE(created_at) = CURDATE() $condition
             ORDER BY created_at DESC
         ";
- 
+
         $builder = $this->db->query($sql);
 
         return $builder->getResult();
@@ -691,13 +691,12 @@ class OrderModel
     {
     }
 
-    public function insertOrderCustomer($data, $running , $datacount = null, $status)
+    public function insertOrderCustomer($data, $running, $datacount = null, $status)
     {
         $builder_table = $this->db->table('order_customer');
         $builder_table_status = $builder_table->insert($data);
 
-        if(($datacount == 0) && ($status == null))
-        {
+        if (($datacount == 0) && ($status == null)) {
             $builder_running = $this->db->table('order_customer_running');
             $builder_running_status = $builder_running->insert($running);
         }
@@ -896,12 +895,12 @@ class OrderModel
             ->getRow();
     }
 
-    
+
 
     public function getOrderByType($type)
     {
 
-        switch($type) {
+        switch ($type) {
             case 'NORMAL':
                 $sql = "
                     SELECT *
@@ -945,5 +944,49 @@ class OrderModel
         $sql = "SELECT * FROM payment_type ORDER BY id DESC";
         $builder = $this->db->query($sql);
         return $builder->getResult();
+    }
+
+    public function insertNewPaymentLog($data_detail, $custome_code, $table_code)
+    {
+
+        $buffer_datetime = date("Y-m-d H:i:s");
+
+        $builder_insert_payment = $this->db->table('payment_log');
+        $builder_insert_payment_status = $builder_insert_payment->insert($data_detail);
+
+        $data_order = [
+            'order_customer_status' => 'FINISH',
+            'updated_at' => $buffer_datetime,
+            'updated_by' => session()->get('username')
+        ];
+
+        $builder_order_update = $this->db->table('order_customer');
+        $array_order_update = array('order_customer_code' => $custome_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $table_code);
+        $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
+
+
+        $data_order_summary = [
+            'order_status' => 'FINISH',
+            'updated_at' => $buffer_datetime,
+            'updated_by' => session()->get('username')
+        ];
+
+        $builder_order_sum_update = $this->db->table('order_summary');
+        $array_order_sum_update = array('order_customer_code' => $custome_code, 'order_status' => 'IN_KITCHEN', 'order_table_code' => $table_code);
+        $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order_summary);
+
+
+        $data_table = [
+            'table_status' => 'FINISH',
+            'updated_at' => $buffer_datetime,
+            'updated_by' => session()->get('username')
+        ];
+
+        $builder_table_update = $this->db->table('table_dynamic');
+        $array_table = array('table_status' => 'USE', 'table_code' => $table_code);
+        $builder_table_update_status = $builder_table_update->where($array_table)->update($data_table);
+
+
+        return ($builder_insert_payment_status && $builder_order_update_status && $builder_order_sum_update_status && $builder_table_update_status) ? true : false;
     }
 }

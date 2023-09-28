@@ -4,8 +4,10 @@ var table_order_table;
 var table_array_code;
 var itemsArrayMoveTableOffline = [];
 var itemsArrayDiscountOffline = [];
-var itemsArrayCancelOrderTableOffline = [];
+var itemsArrayCancelOrderTableOffline = []; 
 var itemsArrayOrderTableListOffline = [];
+var itemsArrayPaymentOffline = [];
+var price_sum_total_payment = 0;
 (function ($) {
   $("#order_select_detail").slideUp();
   $("#addOrderCusBtn").addClass("disable-click");
@@ -794,6 +796,7 @@ function paymentTable() {
           response.data.order_price_sum +
           "</h3>"
       );
+      price_sum_total_payment = parseInt(response.data.order_price_sum);
     },
   });
 
@@ -828,21 +831,79 @@ $("#payment-form").submit(function (e) {
   var str_split = $("#cash_type").val();
   var str_split_result = str_split.split("###");
   var cash_type_id = str_split_result[0];
-  var cash_type = str_split_result[1];
+  var cash_type_val = str_split_result[1];
 
   var cash_type = $("#cash_type").parsley();
   var num_price_payment = $("#num_price_payment").parsley();
 
-  if (cash_type.isValid() && num_price_payment.isValid()) {
-    arr_payment = [
-      {
-        table_code: table_code,
-        order_customer_code: $("#order_customer_code_hide").val(),
-        cash_type: cash_type,
-      },
-    ];
+  var num_price_payment_int = $("#num_price_payment").val();
 
-    alert("ส่วนนี้กำลังดำเนินการ");
+  var receive_total,
+    change_total = 0;
+
+  if (cash_type.isValid() && num_price_payment.isValid()) {
+    if (num_price_payment_int < price_sum_total_payment) {
+      notif({
+        type: "warning",
+        msg: "กรุณาจ่ายเงินให้มากกว่าราคารวม !",
+        position: "right",
+        fade: true,
+        time: 300,
+      });
+    } else {
+      receive_total = num_price_payment_int;
+      change_total = num_price_payment_int - price_sum_total_payment;
+      arr_payment = [
+        {
+          table_code: table_code,
+          order_customer_code: $("#order_customer_code_hide").val(),
+          cash_type: cash_type_val,
+          receive_total: receive_total,
+          change_total: change_total,
+          note: $("#note_payment").val()
+        },
+      ];
+
+      if (isOnline) {
+        itemsArrayPaymentOffline.push(arr_payment);
+        localStorage.setItem(
+          "payment",
+          JSON.stringify(itemsArrayPaymentOffline)
+        );
+
+        arrPaymentTemp = JSON.parse(localStorage.payment);
+
+        $.ajax({
+          url: serverUrl + "order/paymentStore",
+          method: "post",
+          data: {
+            data: arrPaymentTemp,
+          },
+          cache: false,
+          success: function (response) {
+            if ((response.message = "จ่ายสำเร็จ")) {
+              localStorage.removeItem("payment");
+              arrPaymentTemp = [];
+              itemsArrayPaymentOffline = [];
+              notif({
+                type: "success",
+                msg: "จ่ายสำเร็จ!",
+                position: "right",
+                fade: true,
+                time: 300,
+              });
+              closePayment();
+              clear_detail_summary();
+              drowTableLoad(table_array_code);
+              $("#parmentButtonId").hide();
+            } else {
+            }
+          },
+        });
+      } else {
+        //wailt offline
+      }
+    }
   } else {
     cash_type.validate();
     num_price_payment.validate();
