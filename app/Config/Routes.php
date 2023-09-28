@@ -183,7 +183,8 @@ function ($routes) {
     $routes->get('outofstock/(:any)', 'OrderPosController::outofstock/$1');   
     $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
     $routes->post('updateDiscount', 'OrderPosController::updateDiscount');       
-    $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent'); 
+    $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');    
+    $routes->post('paymentStore', 'OrderPosController::paymentStore');  
   
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');
