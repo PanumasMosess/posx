@@ -603,7 +603,7 @@ function listOrder(tableCode) {
             '<div class="box_header m-0"><div class="main-title">' +
             data_order_name +
             '<p style="font-size: 13px;">' +
-            data["order_des"] +
+            data["order_customer_des"] +
             "</p>" +
             "</div>" +
             '<div class="header_more_tool">' +

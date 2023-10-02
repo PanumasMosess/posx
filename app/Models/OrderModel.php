@@ -705,6 +705,21 @@ class OrderModel
         return ($builder_table_status) ? true : false;
     }
 
+    public function insertOrderCustomerCaseComment($data)
+    {
+        $builder_table = $this->db->table('order_customer');
+        $builder_table_status = $builder_table->insert($data);
+
+        return ($builder_table_status) ? true : false;
+    }
+
+    public function insertOrderPrintLog($data){
+        $builder_print = $this->db->table('order_print_log');
+        $builder_print_status = $builder_print->insert($data);
+
+        return ($builder_print_status) ? true : false;
+    }
+
     public function insertOrderCustomerSummary($data, $table, $table_code)
     {
         $builder_summary = $this->db->table('order_summary');
@@ -860,7 +875,7 @@ class OrderModel
     public function updateOrderCustomer($data_order, $order_code,  $order_customer_table_code)
     {
         $builder_order_update = $this->db->table('order_customer');
-        $array_order_update = array('order_code' => $order_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $order_customer_table_code);
+        $array_order_update = array('order_code' => $order_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $order_customer_table_code, 'order_customer_des' => '');
         $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
         return ($builder_order_update_status) ? true : false;
     }
@@ -894,8 +909,6 @@ class OrderModel
             ->get()
             ->getRow();
     }
-
-
 
     public function getOrderByType($type)
     {
