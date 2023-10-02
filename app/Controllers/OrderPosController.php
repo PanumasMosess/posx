@@ -467,7 +467,7 @@ class OrderPosController extends BaseController
         $count_cycle = 0;
         $pcs = 0;
         $table_code = null;
- 
+
 
         $check_arr_count = count($datas);
 
@@ -475,6 +475,7 @@ class OrderPosController extends BaseController
 
             $ststus_check = '';
             $ststus_sum_check = '';
+            $order_new = '';
 
             $ststus_check = $this->OrderModel->getStatusOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
             $ststus_sum_check = $this->OrderModel->getStatusOrderSummary($data[0]['order_customer_table_code']);
@@ -487,15 +488,74 @@ class OrderPosController extends BaseController
 
             if ($ststus_check->result == 'true') {
 
-                $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
+                if ($data[0]['order_des'] != '') 
+                {
+                    $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
+                    $data_customer_order = [
+                        'order_customer_code'  => $order_for_update->order_customer_code,
+                        'order_customer_ordername'  => $data[0]['order_customer_ordername'],
+                        'order_customer_des'   =>  $data[0]['order_des'],
+                        'order_customer_pcs'  => $data[0]['order_customer_pcs'],
+                        'order_code'   => $data[0]['order_code'],
+                        'order_customer_status'   => $data[0]['order_status'],
+                        'order_customer'  => '',
+                        'order_customer_table_code' => $data[0]['order_customer_table_code'],
+                        'discount_type_by_order' => $data[0]['order_discount_type_by_order'],
+                        'discount_by_order' => $data[0]['order_discount_by_order'],
+                        'created_at' => $buffer_datetime,
+                        'created_by'  => session()->get('username'),
+                        'companies_id'  => session()->get('companies_id')
+    
+                    ];
+                    $order_new = $this->OrderModel->insertOrderCustomerCaseComment($data_customer_order);
 
-                $data_order = [
-                    'order_customer_pcs'  => ($data[0]['order_customer_pcs'] + $order_for_update->order_customer_pcs),
-                    'discount_type_by_order' => $data[0]['order_discount_type_by_order'],
-                    'discount_by_order' => $data[0]['order_discount_by_order'],
-                    'updated_at' => $buffer_datetime,
-                    'updated_by'  => session()->get('username')
-                ];
+                    $data_print_log = [
+                        'order_customer_code'  => $order_for_update->order_customer_code,
+                        'order_code'  => $data[0]['order_customer_ordername'],
+                        'order_table_code' => $data[0]['order_customer_table_code'],
+                        'order_customer_ordername' => $data[0]['order_customer_ordername'],
+                        'order_customer_pcs'  => $data[0]['order_customer_pcs'],
+                        'order_print_status'  => 'WAIT_PRINT',
+                        'order_comment' => $data[0]['order_des'],
+                        'created_at'  => $buffer_datetime,
+                        'created_by'  => session()->get('username'),
+                        'companies_id'  => session()->get('companies_id')
+    
+                    ];
+
+                    $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
+                } 
+                else {
+                    $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
+
+                    $data_order = [
+                        'order_customer_pcs'  => ($data[0]['order_customer_pcs'] + $order_for_update->order_customer_pcs),
+                        'discount_type_by_order' => $data[0]['order_discount_type_by_order'],
+                        'discount_by_order' => $data[0]['order_discount_by_order'],
+                        'updated_at' => $buffer_datetime,
+                        'updated_by'  => session()->get('username')
+                    ];
+
+                    $order_new = $this->OrderModel->updateOrderCustomer($data_order, $data[0]['order_code'],  $data[0]['order_customer_table_code']);
+
+                    $data_print_log = [
+                        'order_customer_code'  => $order_for_update->order_customer_code,
+                        'order_code'  => $data[0]['order_customer_ordername'],
+                        'order_table_code' => $data[0]['order_customer_table_code'],
+                        'order_customer_ordername' => $data[0]['order_customer_ordername'],
+                        'order_customer_pcs'  => $data[0]['order_customer_pcs'],
+                        'order_print_status'  => 'WAIT_PRINT',
+                        'order_comment' => $data[0]['order_des'],
+                        'created_at'  => $buffer_datetime,
+                        'created_by'  => session()->get('username'),
+                        'companies_id'  => session()->get('companies_id')
+    
+                    ];
+
+                    $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
+                }
+
+
 
                 $pcs += $data[0]['order_customer_pcs'];
 
@@ -524,11 +584,7 @@ class OrderPosController extends BaseController
                     }
                 }
 
-
-                $update_order_new = $this->OrderModel->updateOrderCustomer($data_order, $data[0]['order_code'],  $data[0]['order_customer_table_code']);
-
-
-                if ($update_order_new) {
+                if ($order_new) {
                     $count_cycle++;
                     if ($check_arr_count == $count_cycle) {
                         if ($ststus_sum_check->result == 'true') {
@@ -571,12 +627,12 @@ class OrderPosController extends BaseController
 
                     if ($ststus_sum_order_code != null) {
                         $order_running_code = $ststus_sum_order_code->order_customer_code;
-                    } else {               
+                    } else {
                         $sum_order_code = $buffer_order_code + 1;
                         $sprintf_order_code = sprintf("%08d", $sum_order_code);
                         $order_running_code = "POXC" . $sprintf_order_code;
                     }
-                }else{
+                } else {
                     $buffer_order_code = 0;
                     $new_running_codes = $this->OrderModel->getCodeCustomerOrder();
 
@@ -586,12 +642,29 @@ class OrderPosController extends BaseController
 
                     if ($ststus_sum_order_code != null) {
                         $order_running_code = $ststus_sum_order_code->order_customer_code;
-                    } else {               
+                    } else {
                         $sum_order_code = $buffer_order_code;
                         $sprintf_order_code = sprintf("%08d", $sum_order_code);
                         $order_running_code = "POXC" . $sprintf_order_code;
                     }
                 }
+
+
+                $data_print_log = [
+                    'order_customer_code'  => $order_running_code,
+                    'order_code'  => $data[0]['order_customer_ordername'],
+                    'order_table_code' => $data[0]['order_customer_table_code'],
+                    'order_customer_ordername' => $data[0]['order_customer_ordername'],
+                    'order_customer_pcs'  => $data[0]['order_customer_pcs'],
+                    'order_print_status'  => 'WAIT_PRINT',
+                    'order_comment' => $data[0]['order_des'],
+                    'created_at'  => $buffer_datetime,
+                    'created_by'  => session()->get('username'),
+                    'companies_id'  => session()->get('companies_id')
+
+                ];
+
+                $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
 
                 //data table table
                 $data_customer_order = [
@@ -948,7 +1021,7 @@ class OrderPosController extends BaseController
         $buffer_datetime = date("Y-m-d H:i:s");
         $datas = $_POST["data"];
         $count_cycle = 0;
- 
+
         $check_arr_count = count($datas);
         foreach ($datas as $data) {
 
@@ -958,7 +1031,7 @@ class OrderPosController extends BaseController
                 'receive_total' =>  $data[0]['receive_total'],
                 'change_total' =>  $data[0]['change_total'],
                 'credit_card' =>  '',
-                'entertain' =>  '',   
+                'entertain' =>  '',
                 'payment_type' =>  $data[0]['cash_type'],
                 'note' => $data[0]['note'],
                 'companies_id' =>  session()->get('companies_id'),
@@ -989,6 +1062,5 @@ class OrderPosController extends BaseController
         } else {
             //  ว่าง
         }
-
     }
 }
