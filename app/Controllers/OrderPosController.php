@@ -540,7 +540,7 @@ class OrderPosController extends BaseController
 
                     $data_print_log = [
                         'order_customer_code'  => $order_for_update->order_customer_code,
-                        'order_code'  => $data[0]['order_customer_ordername'],
+                        'order_code'  => $data[0]['order_code'],
                         'order_table_code' => $data[0]['order_customer_table_code'],
                         'order_customer_ordername' => $data[0]['order_customer_ordername'],
                         'order_customer_pcs'  => $data[0]['order_customer_pcs'],
@@ -652,7 +652,7 @@ class OrderPosController extends BaseController
 
                 $data_print_log = [
                     'order_customer_code'  => $order_running_code,
-                    'order_code'  => $data[0]['order_customer_ordername'],
+                    'order_code'  => $data[0]['order_code'],
                     'order_table_code' => $data[0]['order_customer_table_code'],
                     'order_customer_ordername' => $data[0]['order_customer_ordername'],
                     'order_customer_pcs'  => $data[0]['order_customer_pcs'],
@@ -1058,6 +1058,54 @@ class OrderPosController extends BaseController
                 'status' => 200,
                 'error' => false,
                 'message' => 'จ่ายสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function orderSummaryUpdate()
+    {
+        $data['title'] = "Update Order Detail.";
+        $data['css_critical'] = '';
+        $data['js_critical'] = '
+        <script src="' . base_url('/js/orders/order_summary_update.js?v=' . time()) . '"></script>    
+        ';
+        echo view('/order/order_summary_update.php', $data);
+    }
+
+    public function updatePcsSummary()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+        $pcs = 0;
+
+        $check_arr_count = count($datas);
+
+        foreach ($datas as $data) {
+
+        
+
+
+            // $update_new = $this->OrderModel->updateOrderCencel($data_table_detail, $data_table_detail_summary, $data_table, $data[0]['code_table']);
+
+            // if ($update_new) {
+            //     $count_cycle++;
+            // } else {
+            //     return $this->response->setJSON([
+            //         'status' => 200,
+            //         'error' => true,
+            //         'message' => 'ยกเลิกรายการไม่สำเร็จ'
+            //     ]);
+            // }
+        }
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ยกเลิกรายการสำเร็จ'
             ]);
         } else {
             //  ว่าง

@@ -184,7 +184,9 @@ function ($routes) {
     $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
     $routes->post('updateDiscount', 'OrderPosController::updateDiscount');       
     $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');    
-    $routes->post('paymentStore', 'OrderPosController::paymentStore');  
+    $routes->post('paymentStore', 'OrderPosController::paymentStore');    
+    $routes->get('order_summary_update', 'OrderPosController::orderSummaryUpdate');      
+    $routes->post('updatePcsSummary', 'OrderPosController::updatePcsSummary');   
   
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');

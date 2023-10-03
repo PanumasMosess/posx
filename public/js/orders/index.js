@@ -105,7 +105,7 @@ $(document).ready(function() {
                 type: type
             }
             
-            console.log(dataObj)
+            // console.log(dataObj)
 
             $.ajax({
                 type: "POST",

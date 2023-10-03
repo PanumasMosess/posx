@@ -208,7 +208,7 @@
                                                                                 <table class="table lms_table_active3" id="orderListInTable" cellspacing="0">
                                                                                     <thead>
                                                                                         <tr>
-                                                                                            <th>No.</th>
+                                                                                            <th></th>
                                                                                             <th>รายการสินค้า</th>
                                                                                             <th>จำนวน</th>
                                                                                             <th>ราคา</th>

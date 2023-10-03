@@ -819,7 +819,7 @@ class OrderModel
 
     public function getOrderListByTable($table_code = null)
     {
-        $sql = "SELECT * FROM order_customer as a
+        $sql = "SELECT *, a.id as id_order, b.id as id_table FROM order_customer as a
         left join `order` as b
         on a.order_code = b.order_code
         where order_customer_table_code = '$table_code' and a.order_customer_status = 'IN_KITCHEN'
