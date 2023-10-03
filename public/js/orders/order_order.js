@@ -4,9 +4,10 @@ var table_order_table;
 var table_array_code;
 var itemsArrayMoveTableOffline = [];
 var itemsArrayDiscountOffline = [];
-var itemsArrayCancelOrderTableOffline = []; 
+var itemsArrayCancelOrderTableOffline = [];
 var itemsArrayOrderTableListOffline = [];
 var itemsArrayPaymentOffline = [];
+var array_summary_update = [];
 var price_sum_total_payment = 0;
 (function ($) {
   $("#order_select_detail").slideUp();
@@ -500,65 +501,93 @@ $("#move_table").submit(function (e) {
 });
 
 function voidItem() {
-  Swal.fire({
-    title: "ยกเลิก Order",
-    text: "คุณต้องยกเลิก Order โต๊ะนี้ !",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    cancelButtonText: "ปิด",
-    confirmButtonText: "ตกลง",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      arr_cancel = [
-        {
-          code_table: table_code,
-        },
-      ];
-      itemsArrayCancelOrderTableOffline.push(arr_cancel);
-      localStorage.setItem(
-        "tableCancel",
-        JSON.stringify(itemsArrayCancelOrderTableOffline)
-      );
+  // Swal.fire({
+  //   title: "ยกเลิก Order",
+  //   text: "คุณต้องยกเลิก Order โต๊ะนี้ !",
+  //   icon: "warning",
+  //   showCancelButton: true,
+  //   confirmButtonColor: "#3085d6",
+  //   cancelButtonColor: "#d33",
+  //   cancelButtonText: "ปิด",
+  //   confirmButtonText: "ตกลง",
+  // }).then((result) => {
+  //   if (result.isConfirmed) {
+  //     arr_cancel = [
+  //       {
+  //         code_table: table_code,
+  //       },
+  //     ];
+  //     itemsArrayCancelOrderTableOffline.push(arr_cancel);
+  //     localStorage.setItem(
+  //       "tableCancel",
+  //       JSON.stringify(itemsArrayCancelOrderTableOffline)
+  //     );
 
-      areaCancelTemp = JSON.parse(localStorage.tableCancel);
+  //     areaCancelTemp = JSON.parse(localStorage.tableCancel);
 
-      if (isOnline) {
-        $.ajax({
-          url: serverUrl + "order/updateVoidOrderTable",
-          method: "post",
-          data: {
-            data: areaCancelTemp,
-          },
-          cache: false,
-          success: function (response) {
-            if ((response.message = "ยกเลิกรายการสำเร็จ")) {
-              localStorage.removeItem("tableCancel");
-              areaCancelTemp = [];
-              itemsArrayCancelOrderTableOffline = [];
-              notif({
-                type: "success",
-                msg: "ยกเลิกรายการสำเร็จ!",
-                position: "right",
-                fade: true,
-                time: 300,
-              });
+  //     if (isOnline) {
+  //       $.ajax({
+  //         url: serverUrl + "order/updateVoidOrderTable",
+  //         method: "post",
+  //         data: {
+  //           data: areaCancelTemp,
+  //         },
+  //         cache: false,
+  //         success: function (response) {
+  //           if ((response.message = "ยกเลิกรายการสำเร็จ")) {
+  //             localStorage.removeItem("tableCancel");
+  //             areaCancelTemp = [];
+  //             itemsArrayCancelOrderTableOffline = [];
+  //             notif({
+  //               type: "success",
+  //               msg: "ยกเลิกรายการสำเร็จ!",
+  //               position: "right",
+  //               fade: true,
+  //               time: 300,
+  //             });
 
-              selectArea();
-              detail_summary(table_code);
-              $("#canvaHolder").html("");
-              $("#order_select_detail").slideUp();
-              $("#void_order_btn").addClass("disable-click");
-            } else {
-            }
-          },
-        });
-      } else {
-      }
-    } else {
-    }
-  });
+  //             selectArea();
+  //             detail_summary(table_code);
+  //             $("#canvaHolder").html("");
+  //             $("#order_select_detail").slideUp();
+  //             $("#void_order_btn").addClass("disable-click");
+  //           } else {
+  //           }
+  //         },
+  //       });
+  //     } else {
+  //     }
+  //   } else {
+  //   }
+  // });
+
+  if (array_summary_update.length == 0) {
+    notif({
+      type: "warning",
+      msg: "กรุณาเลือกรายการ!",
+      position: "right",
+      fade: true,
+      time: 300,
+    });
+  } else {
+    localStorage.setItem(
+      "summary_update",
+      JSON.stringify(array_summary_update)
+    );
+
+    const UPDATE_ORDER_LIST = {
+      init() {
+        let url = `${serverUrl}order/order_summary_update/`;
+        window.open(
+          url,
+          "Doc",
+          "menubar=no,toorlbar=no,location=no,scrollbars=yes, status=no,resizable=no,width=700,height=600,top=10,left=100"
+        );
+      },
+    };
+
+    UPDATE_ORDER_LIST.init();
+  }
 }
 
 function listOrder(tableCode) {
@@ -591,7 +620,13 @@ function listOrder(tableCode) {
       {
         data: null,
         render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1;
+          // return meta.row + meta.settings._iDisplayStart + 1;
+          return (
+            '<label class="form-label primary_checkbox d-flex me-12">' +
+            '<input type="checkbox">' +
+            '<span class="checkmark"></span>' +
+            "</label>"
+          );
         },
       },
       {
@@ -661,6 +696,40 @@ function listOrder(tableCode) {
   localStorage.removeItem("tableOrdeList");
   areaorderTemp = [];
   itemsArrayOrderTableListOffline = [];
+
+  $("#orderListInTable tbody")
+    .off("click")
+    .on("click", 'input[type="checkbox"]', function () {
+      var row = $(this).closest("tr");
+      let data = table_order_table.row(row).data();
+      arrar_select_function(data);
+    });
+}
+
+function arrar_select_function(data) {
+  if (array_summary_update.length != 0) {
+    let arr = [];
+    arr = array_summary_update.map((a) => a.id_order);
+
+    if (arr.includes(data.id_order)) {
+      deleteListSelecSummary(data.id_order);
+      //  console.log(array_summary_update);
+    } else {
+      array_summary_update.push(data);
+      // console.log(array_summary_update);
+    }
+  } else {
+    array_summary_update.push(data);
+    // console.log(data);
+  }
+}
+
+function deleteListSelecSummary(data) {
+  for (var i = 0; i < array_summary_update.length; i++) {
+    if (array_summary_update[i].id_order === data) {
+      array_summary_update.splice(i, 1);
+    }
+  }
 }
 
 setInterval(function () {
@@ -860,7 +929,7 @@ $("#payment-form").submit(function (e) {
           cash_type: cash_type_val,
           receive_total: receive_total,
           change_total: change_total,
-          note: $("#note_payment").val()
+          note: $("#note_payment").val(),
         },
       ];
 
