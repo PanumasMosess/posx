@@ -488,8 +488,7 @@ class OrderPosController extends BaseController
 
             if ($ststus_check->result == 'true') {
 
-                if ($data[0]['order_des'] != '') 
-                {
+                if ($data[0]['order_des'] != '') {
                     $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
                     $data_customer_order = [
                         'order_customer_code'  => $order_for_update->order_customer_code,
@@ -505,7 +504,7 @@ class OrderPosController extends BaseController
                         'created_at' => $buffer_datetime,
                         'created_by'  => session()->get('username'),
                         'companies_id'  => session()->get('companies_id')
-    
+
                     ];
                     $order_new = $this->OrderModel->insertOrderCustomerCaseComment($data_customer_order);
 
@@ -520,12 +519,11 @@ class OrderPosController extends BaseController
                         'created_at'  => $buffer_datetime,
                         'created_by'  => session()->get('username'),
                         'companies_id'  => session()->get('companies_id')
-    
+
                     ];
 
                     $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
-                } 
-                else {
+                } else {
                     $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
 
                     $data_order = [
@@ -549,7 +547,7 @@ class OrderPosController extends BaseController
                         'created_at'  => $buffer_datetime,
                         'created_by'  => session()->get('username'),
                         'companies_id'  => session()->get('companies_id')
-    
+
                     ];
 
                     $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
@@ -1085,27 +1083,55 @@ class OrderPosController extends BaseController
 
         foreach ($datas as $data) {
 
-        
+            $id_order =  $data['id_order'];
+            $id_customer_order =  $data['customer_code'];
 
+            $data_detail = [
+                'order_customer_pcs' => $data['pcs'],
+                'companies_id' =>  session()->get('companies_id'),
+                'updated_at' => session()->get('username'),
+                'updated_by' => $buffer_datetime
+            ];
 
-            // $update_new = $this->OrderModel->updateOrderCencel($data_table_detail, $data_table_detail_summary, $data_table, $data[0]['code_table']);
+            $update_new = $this->OrderModel->updateOrderCustomerPCS($data_detail, $id_order);
 
-            // if ($update_new) {
-            //     $count_cycle++;
-            // } else {
-            //     return $this->response->setJSON([
-            //         'status' => 200,
-            //         'error' => true,
-            //         'message' => 'ยกเลิกรายการไม่สำเร็จ'
-            //     ]);
-            // }
+            $data_customers   =  $this->OrderModel->getOrderByOrderCustomerCode($id_customer_order);
+
+            $pcs_new = 0;
+            $price_new = 0;
+
+            foreach ($data_customers as $data_customer) {
+                $pcs_new += $data_customer->order_customer_pcs; 
+                $price_new += ($data_customer->order_price * $data_customer->order_customer_pcs);
+            }
+
+            $data_summary_detail = [
+                'order_price_sum' => $price_new,
+                'order_pcs_sum' => $pcs_new,
+                'companies_id' =>  session()->get('companies_id'),
+                'updated_at' => session()->get('username'),
+                'updated_by' => $buffer_datetime
+            ];
+
+            
+            $update_summary_new = $this->OrderModel->updateOrderCustomerSummaryPCS($data_summary_detail, $id_customer_order);
+
+            if ($update_new) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ยกเลิกรายการไม่สำเร็จ'
+                ]);
+            }
         }
 
         if ($check_arr_count == $count_cycle) {
             return $this->response->setJSON([
                 'status' => 200,
                 'error' => false,
-                'message' => 'ยกเลิกรายการสำเร็จ'
+                'message' => 'แก้ไขสำเร็จ'
             ]);
         } else {
             //  ว่าง

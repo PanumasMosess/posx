@@ -1,5 +1,6 @@
 var isOnline;
 var tableUpdate;
+var array_update;
 (function ($) {
   isOnline = window.navigator.onLine;
   loadTableUpdate();
@@ -58,6 +59,10 @@ function loadTableUpdate() {
             data["id_order"] +
             "###" +
             data["order_customer_code"] +
+            "###" +
+            data["order_customer_pcs"] +
+            "###" +
+            data["order_price"] +
             "' name='pcs_summary_update' placeholder='กรอกจำนวน' required>" +
             "</div>"
           );
@@ -113,16 +118,23 @@ function updatePcsSummary(data) {
   var str_split_result = data.id.split("###");
   var id_order = str_split_result[0];
   var customer_code = str_split_result[1];
+  var old_pcs = str_split_result[2];
+  var old_price = str_split_result[3];
 
   pcsTemp = [
     {
       id_order: id_order,
       pcs: data.value,
+      old_pcs: old_pcs,
       customer_code: customer_code,
+      price: old_price
     },
   ];
 
+  // console.log(pcsTemp);
+
   if (isOnline) {
+    console.log(pcsTemp);
     $.ajax({
       url: serverUrl + "order/updatePcsSummary",
       method: "post",
@@ -131,7 +143,9 @@ function updatePcsSummary(data) {
       },
       cache: false,
       success: function (response) {
-        if ((response.message = "แก้ไขสำเร็จ")) {
+        if (response.message = "แก้ไขสำเร็จ") {
+        
+          pcsTemp[0].old_pcs = data.value;
           localStorage.setItem("isCallNewOrder", "yes");
         } else {
         }
