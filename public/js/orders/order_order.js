@@ -737,6 +737,7 @@ setInterval(function () {
   if (isCallNewOrder == "yes") {
     detail_summary(table_code);
     drowTableLoad(table_array_code);
+    array_summary_update = [];
     localStorage.setItem("isCallNewOrder", "no");
   }
 }, 500);

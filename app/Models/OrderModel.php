@@ -872,6 +872,18 @@ class OrderModel
         return $builder->getRow();
     }
 
+    public function getOrderByOrderCustomerCode($order_customer_code)
+    {
+        $sql = "SELECT * FROM order_customer   as a
+        left join `order` as b
+        on a.order_code = b.order_code  WHERE 
+        a.order_customer_status = 'IN_KITCHEN' and 
+        a.order_customer_code = '$order_customer_code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
     public function updateOrderCustomer($data_order, $order_code,  $order_customer_table_code)
     {
         $builder_order_update = $this->db->table('order_customer');
@@ -880,10 +892,26 @@ class OrderModel
         return ($builder_order_update_status) ? true : false;
     }
 
+    public function updateOrderCustomerPCS($data_order,$id_code)
+    {
+        $builder_order_update = $this->db->table('order_customer');
+        $array_order_update = array('order_customer_status' => 'IN_KITCHEN', 'id' => $id_code);
+        $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
+        return ($builder_order_update_status) ? true : false;
+    }
+
     public function updateOrderCustomerSummary($data_order, $order_customer_table_code)
     {
         $builder_order_sum_update = $this->db->table('order_summary');
         $array_order_sum_update = array('order_status' => 'IN_KITCHEN', 'order_table_code' => $order_customer_table_code);
+        $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
+        return ($builder_order_sum_update_status) ? true : false;
+    }
+
+    public function updateOrderCustomerSummaryPCS($data_order, $order_customer_code)
+    {
+        $builder_order_sum_update = $this->db->table('order_summary');
+        $array_order_sum_update = array('order_status' => 'IN_KITCHEN', 'order_customer_code' => $order_customer_code);
         $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
         return ($builder_order_sum_update_status) ? true : false;
     }
