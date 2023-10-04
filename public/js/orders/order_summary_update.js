@@ -84,11 +84,10 @@ function loadTableUpdate() {
         orderable: false,
         data: null,
         render: function (data, type, row, meta) {
-          let price_sum = data["order_customer_pcs"] * data["order_price"];
           return (
-            "<font>" +
-            price_sum.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
-            "</font>"
+            "<a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' id='" +
+            data["id_order"] +
+            "' onclick='deleteListOrder(this.id)' title='ลบข้อมูล'><i class='ti-trash'></i></a>"
           );
         },
       },
@@ -127,7 +126,7 @@ function updatePcsSummary(data) {
       pcs: data.value,
       old_pcs: old_pcs,
       customer_code: customer_code,
-      price: old_price
+      price: old_price,
     },
   ];
 
@@ -143,8 +142,7 @@ function updatePcsSummary(data) {
       },
       cache: false,
       success: function (response) {
-        if (response.message = "แก้ไขสำเร็จ") {
-        
+        if ((response.message = "แก้ไขสำเร็จ")) {
           pcsTemp[0].old_pcs = data.value;
           localStorage.setItem("isCallNewOrder", "yes");
         } else {
@@ -153,4 +151,8 @@ function updatePcsSummary(data) {
     });
   } else {
   }
+}
+
+function deleteListOrder(id) {
+  alert("กำลังดำเนินการ");
 }
