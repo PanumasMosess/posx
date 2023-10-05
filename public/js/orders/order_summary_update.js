@@ -3,12 +3,12 @@ var tableUpdate;
 var array_update;
 (function ($) {
   isOnline = window.navigator.onLine;
+  array_update = JSON.parse(localStorage.summary_update);
   loadTableUpdate();
 })(jQuery);
 
 function loadTableUpdate() {
   isOnline = window.navigator.onLine;
-  array_update = JSON.parse(localStorage.summary_update);
 
   $("#tableUpdate").DataTable().clear().destroy();
   tableUpdate = $("#tableUpdate").DataTable({
@@ -87,6 +87,8 @@ function loadTableUpdate() {
           return (
             "<a herf='javascript:void(0);' class='action_btn' data-toggle='tooltip' data-placement='top' id='" +
             data["id_order"] +
+            "###" +
+            data["order_customer_code"] +
             "' onclick='deleteListOrder(this.id)' title='ลบข้อมูล'><i class='ti-trash'></i></a>"
           );
         },
@@ -133,7 +135,6 @@ function updatePcsSummary(data) {
   // console.log(pcsTemp);
 
   if (isOnline) {
-    console.log(pcsTemp);
     $.ajax({
       url: serverUrl + "order/updatePcsSummary",
       method: "post",
@@ -143,7 +144,12 @@ function updatePcsSummary(data) {
       cache: false,
       success: function (response) {
         if ((response.message = "แก้ไขสำเร็จ")) {
-          pcsTemp[0].old_pcs = data.value;
+          for (var i = 0; i < array_update.length; i++) {
+            if (array_update[i].id_order == id_order) {
+              array_update[i].order_customer_pcs = data.value;
+            }
+          }
+          loadTableUpdate();
           localStorage.setItem("isCallNewOrder", "yes");
         } else {
         }
@@ -153,6 +159,53 @@ function updatePcsSummary(data) {
   }
 }
 
-function deleteListOrder(id) {
-  alert("กำลังดำเนินการ");
+function deleteListOrder(data) {
+  var str_split_result = data.split("###");
+  var id_order = str_split_result[0];
+  var customer_code = str_split_result[1];
+
+  tempArrDel = [
+    {
+      id_order: id_order,
+      customer_code: customer_code,
+    },
+  ];
+
+  Swal.fire({
+    title: "ยกเลิก Order",
+    text: "คุณต้องการยกเลิก Order!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "ปิด",
+    confirmButtonText: "ตกลง",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      if (isOnline) {
+        $.ajax({
+          url: serverUrl + "order/delete_list_order_customer",
+          method: "post",
+          data: {
+            data: tempArrDel,
+          },
+          cache: false,
+          success: function (response) {
+            if ((response.message = "ลบสำเร็จ")) {
+              for (var i = 0; i < array_update.length; i++) {
+                if (array_update[i].id_order == id_order) {
+                  array_update.splice(i, 1);
+                }
+              }
+              loadTableUpdate();
+              localStorage.setItem("isCallNewOrder", "yes");
+            } else {
+            }
+          },
+        });
+      } else {
+      }
+    } else {
+    }
+  });
 }

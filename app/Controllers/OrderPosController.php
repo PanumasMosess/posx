@@ -1077,7 +1077,6 @@ class OrderPosController extends BaseController
         $buffer_datetime = date("Y-m-d H:i:s");
         $datas = $_POST["data"];
         $count_cycle = 0;
-        $pcs = 0;
 
         $check_arr_count = count($datas);
 
@@ -1101,7 +1100,7 @@ class OrderPosController extends BaseController
             $price_new = 0;
 
             foreach ($data_customers as $data_customer) {
-                $pcs_new += $data_customer->order_customer_pcs; 
+                $pcs_new += $data_customer->order_customer_pcs;
                 $price_new += ($data_customer->order_price * $data_customer->order_customer_pcs);
             }
 
@@ -1113,7 +1112,7 @@ class OrderPosController extends BaseController
                 'updated_by' => $buffer_datetime
             ];
 
-            
+
             $update_summary_new = $this->OrderModel->updateOrderCustomerSummaryPCS($data_summary_detail, $id_customer_order);
 
             if ($update_new) {
@@ -1132,6 +1131,76 @@ class OrderPosController extends BaseController
                 'status' => 200,
                 'error' => false,
                 'message' => 'แก้ไขสำเร็จ'
+            ]);
+        } else {
+            //  ว่าง
+        }
+    }
+
+    public function deleteListOrderCustomer()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $datas = $_POST["data"];
+        $count_cycle = 0;
+
+        $check_arr_count = count($datas);
+        foreach ($datas as $data) {
+
+            $id_order =  $data['id_order'];
+            $id_customer_order =  $data['customer_code'];
+
+            $delete_dertail = [
+                'order_customer_status' => 'CANCEL',
+                'companies_id' =>  session()->get('companies_id'),
+                'updated_at' => session()->get('username'),
+                'updated_by' => $buffer_datetime
+            ];
+
+            $delete_ok = $this->OrderModel->updateOrderCustomerCancel($delete_dertail,$id_order);
+
+
+            $data_customers   =  $this->OrderModel->getOrderByOrderCustomerCode($id_customer_order);
+
+            $pcs_new = 0;
+            $price_new = 0;
+
+            foreach ($data_customers as $data_customer) {
+                $pcs_new += $data_customer->order_customer_pcs;
+                $price_new += ($data_customer->order_price * $data_customer->order_customer_pcs);
+            }
+
+
+            $data_summary_detail = [
+                'order_price_sum' => $price_new,
+                'order_pcs_sum' => $pcs_new,
+                'companies_id' =>  session()->get('companies_id'),
+                'updated_at' => session()->get('username'),
+                'updated_by' => $buffer_datetime
+            ];
+
+
+            $update_summary_new = $this->OrderModel->updateOrderCustomerSummaryPCS($data_summary_detail, $id_customer_order);
+
+
+
+            if ($delete_ok) {
+                $count_cycle++;
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ยกเลิกรายการไม่สำเร็จ'
+                ]);
+            }
+
+        }
+
+
+        if ($check_arr_count == $count_cycle) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => false,
+                'message' => 'ลบสำเร็จ'
             ]);
         } else {
             //  ว่าง
