@@ -81,7 +81,7 @@
                                         <th>รายการสินค้า</th>
                                         <th>จำนวน</th>
                                         <th>ราคา</th>
-                                        <th>Action</th>                                   
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

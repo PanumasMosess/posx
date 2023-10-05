@@ -562,12 +562,64 @@ function voidItem() {
   // });
 
   if (array_summary_update.length == 0) {
-    notif({
-      type: "warning",
-      msg: "กรุณาเลือกรายการ!",
-      position: "right",
-      fade: true,
-      time: 300,
+    Swal.fire({
+      title: "ยกเลิก Order",
+      text: "คุณต้องยกเลิก Order โต๊ะนี้ !",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "ปิด",
+      confirmButtonText: "ตกลง",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        arr_cancel = [
+          {
+            code_table: table_code,
+          },
+        ];
+        itemsArrayCancelOrderTableOffline.push(arr_cancel);
+        localStorage.setItem(
+          "tableCancel",
+          JSON.stringify(itemsArrayCancelOrderTableOffline)
+        );
+
+        areaCancelTemp = JSON.parse(localStorage.tableCancel);
+
+        if (isOnline) {
+          $.ajax({
+            url: serverUrl + "order/updateVoidOrderTable",
+            method: "post",
+            data: {
+              data: areaCancelTemp,
+            },
+            cache: false,
+            success: function (response) {
+              if ((response.message = "ยกเลิกรายการสำเร็จ")) {
+                localStorage.removeItem("tableCancel");
+                areaCancelTemp = [];
+                itemsArrayCancelOrderTableOffline = [];
+                notif({
+                  type: "success",
+                  msg: "ยกเลิกรายการสำเร็จ!",
+                  position: "right",
+                  fade: true,
+                  time: 300,
+                });
+
+                selectArea();
+                detail_summary(table_code);
+                $("#canvaHolder").html("");
+                $("#order_select_detail").slideUp();
+                $("#void_order_btn").addClass("disable-click");
+              } else {
+              }
+            },
+          });
+        } else {
+        }
+      } else {
+      }
     });
   } else {
     localStorage.setItem(
