@@ -52,7 +52,23 @@ function loadTableUpdate() {
             // onkeyup='calpcsAndprice()'  oninput='calpcsAndprice()'
           }
           return (
-            "<div class='input-group'>" +
+            "<div class='input-group'><a href='javascript:void(0);' class='action_btn' id='minus' data-id='" +
+            data["id_order"] +
+            "###" +
+            data["order_customer_code"] +
+            "###" +
+            data["order_customer_pcs"] +
+            "###" +
+            data["order_price"] +
+            "'><i class='ti-minus' id='minus'  data-id='" +
+            data["id_order"] +
+            "###" +
+            data["order_customer_code"] +
+            "###" +
+            data["order_customer_pcs"] +
+            "###" +
+            data["order_price"] +
+            "'></i></a>" +
             "<input type='number' class='form-control form-control-sm' pattern='/^-?d+.?d*$/' value='" +
             values_pcs +
             "' onKeyPress='if(this.value.length==10) return false;' oninput='updatePcsSummary(this);' id='" +
@@ -63,8 +79,24 @@ function loadTableUpdate() {
             data["order_customer_pcs"] +
             "###" +
             data["order_price"] +
-            "' name='pcs_summary_update' placeholder='กรอกจำนวน' required>" +
-            "</div>"
+            "' name='pcs_summary_update' placeholder='กรอกจำนวน'  disable /> " +
+            "<a href='javascript:void(0);' class='action_btn' id='plus'  data-id='" +
+            data["id_order"] +
+            "###" +
+            data["order_customer_code"] +
+            "###" +
+            data["order_customer_pcs"] +
+            "###" +
+            data["order_price"] +
+            "'><i class='ti-plus' id='plus'  data-id='" +
+            data["id_order"] +
+            "###" +
+            data["order_customer_code"] +
+            "###" +
+            data["order_customer_pcs"] +
+            "###" +
+            data["order_price"] +
+            "'></i></a></div>"
           );
         },
       },
@@ -102,6 +134,7 @@ function loadTableUpdate() {
       {
         targets: 2,
         className: "text-center",
+        width: "27%",
       },
       {
         targets: 3,
@@ -111,6 +144,33 @@ function loadTableUpdate() {
     responsive: true,
     searching: false,
     info: true,
+  });
+
+  $("#tableUpdate tbody tr").on("click", "a" ,function (event) {
+    var id;
+    id = event.target.id;
+
+    let product_qty_ = 0;
+
+    product_qty_ = $(tableUpdate.cell(0, 2).node()).find("input").val();
+
+    if (id == "plus") {
+      product_qty_++;
+      $(tableUpdate.cell(0, 2).node()).find("input").val(product_qty_);
+      data = {
+        id : event.target.getAttribute("data-id"),
+        value: product_qty_,
+      }
+      updatePcsSummary(data);
+    } else {
+      product_qty_--;
+      $(tableUpdate.cell(0, 2).node()).find("input").val(product_qty_);
+      data = {
+        id : event.target.getAttribute("data-id"),
+        value: product_qty_,
+      }
+      updatePcsSummary(data);
+    }
   });
 }
 
