@@ -1039,4 +1039,59 @@ class OrderModel
 
         return ($builder_insert_payment_status && $builder_order_update_status && $builder_order_sum_update_status && $builder_table_update_status) ? true : false;
     }
+
+    public function getTableByTableCode($code)
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM table_dynamic WHERE table_code = '$code' AND companies_id = $companies_id";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderPrintLogByOrderCustomerCode($code)
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM order_print_log WHERE order_customer_code = '$code' AND companies_id = $companies_id AND order_print_status = 'WAIT_PRINT'";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function updateOrderPrintLogByOrderCustomerCode($id, $data)
+    {
+
+        $builder = $this->db->table('order_print_log');
+
+        $builder->where('order_customer_code', $id);
+        $builder->where('order_print_status', 'WAIT_PRINT'); // เพิ่มเงื่อนไข WHERE ใหม่
+    
+        // ทำการอัปเดตข้อมูล
+        return $builder->update($data);
+    }
+
+    public function getPaymentLogByOrderCustomerCode($order_customer_code)
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM payment_log WHERE order_customer_code = '$order_customer_code' AND companies_id = $companies_id";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderSummaryFinish($order_customer_code)
+    {
+        $sql = "SELECT * FROM order_summary  WHERE order_customer_code = '$order_customer_code'";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderListByFinish($order_customer_code = null)
+    {
+        $sql = "SELECT *, a.id as id_order, b.id as id_table FROM order_customer as a
+        left join `order` as b
+        on a.order_code = b.order_code
+        where order_customer_code = '$order_customer_code' and a.order_customer_status = 'FINISH'
+        ORDER BY a.order_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
 }
