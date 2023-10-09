@@ -49,11 +49,11 @@ function loadTableOrderCustomer() {
             // onkeyup='calpcsAndprice()'  oninput='calpcsAndprice()'
           }
           return (
-            "<div class='input-group'>" +
+            "<div class='input-group'> <a href='javascript:void(0);' class='action_btn' id='minus'><i class='ti-minus' id='minus'></i></a> " +
             "<input type='number' class='form-control form-control-sm' pattern='/^-?d+.?d*$/' value='" +
             values_pcs +
-            "' onKeyPress='if(this.value.length==10) return false;'    id='pcs_cut' name='pcs_cut' placeholder='กรอกจำนวน' required>" +
-            "</div>"
+            "' onKeyPress='if(this.value.length==10) return false;'  id='pcs_cut' name='pcs_cut' placeholder='กรอกจำนวน' required>" +
+            "<a href='javascript:void(0);' class='action_btn' id='plus'><i class='ti-plus' id='plus'></i> </a></div>"
           );
         },
       },
@@ -118,6 +118,7 @@ function loadTableOrderCustomer() {
       {
         targets: 0,
         className: "text-center",
+        width: "27%",
       },
       {
         targets: 2,
@@ -125,7 +126,7 @@ function loadTableOrderCustomer() {
       },
       {
         targets: 3,
-        className: "text-center",
+        className: "text-right",
       },
     ],
     responsive: true,
@@ -147,6 +148,39 @@ function loadTableOrderCustomer() {
 
     table_order_customer.cell(this, 3).data(subtotal).draw();
 
+    // summaryText();
+    calService();
+    calDiscountAll();
+  });
+
+  $("#orderListCustomerInTable tbody tr").on("click a", function (event) {
+    var id;
+    id = event.target.id;
+
+    let subtotal_ = 0;
+    let product_price_ = 0;
+    let product_qty_ = 0;
+
+    product_price_ = table_order_customer.cell(this, 2).data();
+    product_qty_ = $(table_order_customer.cell(this, 0).node())
+      .find("input")
+      .val();
+
+    if (id == "plus") {
+      product_qty_ ++;
+        $(table_order_customer.cell(this, 0).node())
+          .find("input")
+          .val(product_qty_);
+    } else {
+      product_qty_--;
+        $(table_order_customer.cell(this, 0).node())
+          .find("input")
+          .val(product_qty_);
+    }
+
+    subtotal_ =
+      parseFloat(product_price_.order_price) * parseFloat(product_qty_);
+    table_order_customer.cell(this, 3).data(subtotal_).draw();
     // summaryText();
     calService();
     calDiscountAll();
@@ -914,3 +948,6 @@ function add_discount_order(id) {
   $("#adddiscountByOrder")[0].reset();
   $("#adddiscountByOrder").parsley().reset();
 }
+
+function minus(data) {}
+function plus(data) {}
