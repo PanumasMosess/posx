@@ -541,6 +541,34 @@ function orderConfirm() {
                   fade: true,
                   time: 300,
                 });
+
+                var win = window.open(
+                  `${serverUrl}/pdf_BillOrder/` + response.order_customer_code,
+                  "",
+                  "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+                );
+
+                win.onload = function () {
+                  win.print(); // สั่งพิมพ์ทันที
+                  // console.log("printed");
+                  // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+                  setTimeout(function () {
+                    win.close();
+                  }, 9000)
+
+                  // ส่วนนี้อาจจะไม่จำเป็น
+                  $.ajax({
+                    url: `${serverUrl}/order/update_order_print_log/` + response.order_customer_code,
+                    method: "get",
+                    success: function (res) {
+                      // การสำเร็จ
+                    },
+                    error: function (error) {
+                      // เกิดข้อผิดพลาด
+                    }
+                  });
+                };
+                
                 //clear after add
                 array_customer_order = [];
                 array_select_confirm = [];

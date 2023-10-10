@@ -40,10 +40,10 @@ $routes->get('logout', 'Authentication::logout', ['filter' => 'employeeAuth']);
 
 $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
-$routes->get('pdf_bill', 'PdfController::pdf_Bill', ['filter' => 'employeeAuth']);
-$routes->get('pdf_receipt', 'PdfController::pdf_Receipt', ['filter' => 'employeeAuth']);
-$routes->get('pdf_BillOrder', 'PdfController::pdf_BillOrder', ['filter' => 'employeeAuth']);
-$routes->get('pdf_CancelledBillOrder', 'PdfController::pdf_CancelledBillOrder', ['filter' => 'employeeAuth']);
+$routes->get('pdf_bill/(:any)', 'PdfController::pdf_Bill/$1', ['filter' => 'employeeAuth']);
+$routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' => 'employeeAuth']);
+$routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
+$routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);
 
 $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('index', 'SettingController::index');
@@ -189,6 +189,8 @@ function ($routes) {
     $routes->post('updatePcsSummary', 'OrderPosController::updatePcsSummary');      
     $routes->post('delete_list_order_customer', 'OrderPosController::deleteListOrderCustomer'); 
   
+    $routes->get('update_order_print_log/(:any)', 'OrderPosController::updateOrderPrintLog/$1');
+    
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');
     $routes->get('activity', 'Test::activity');

@@ -521,7 +521,7 @@ class OrderPosController extends BaseController
                         'companies_id'  => session()->get('companies_id')
 
                     ];
-
+                    $order_customer_code_pdf = $order_for_update->order_customer_code;
                     $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
                 } else {
                     $order_for_update =  $this->OrderModel->getOrderRunning($data[0]['order_code'],  $data[0]['order_customer_table_code']);
@@ -549,7 +549,7 @@ class OrderPosController extends BaseController
                         'companies_id'  => session()->get('companies_id')
 
                     ];
-
+                    $order_customer_code_pdf = $order_for_update->order_customer_code;
                     $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
                 }
 
@@ -661,7 +661,7 @@ class OrderPosController extends BaseController
                     'companies_id'  => session()->get('companies_id')
 
                 ];
-
+                $order_customer_code_pdf = $order_running_code;
                 $order_print_log = $this->OrderModel->insertOrderPrintLog($data_print_log);
 
                 //data table table
@@ -784,7 +784,8 @@ class OrderPosController extends BaseController
             return $this->response->setJSON([
                 'status' => 200,
                 'error' => false,
-                'message' => 'เพิ่มรายการสำเร็จ'
+                'message' => 'เพิ่มรายการสำเร็จ',
+                'order_customer_code' => $order_customer_code_pdf
             ]);
         } else {
             //  ว่าง
@@ -1205,5 +1206,31 @@ class OrderPosController extends BaseController
         } else {
             //  ว่าง
         }
+    }
+
+    public function updateOrderPrintLog($id)
+    {
+        $this->OrderModel = new \App\Models\OrderModel();
+
+            // HANDLE REQUEST
+            $update = $this->OrderModel->updateOrderPrintLogByOrderCustomerCode($id, [
+                'order_print_status' => 'SUCCESS_PRINT',
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+                $status = 200;
+                $response['success'] = 1;
+                $response['message'] = 'อัพเดท OrderPrintLog สำเร็จ';
+            } else {
+                $status = 200;
+                $response['success'] = 0;
+                $response['message'] = 'อัพเดท OrderPrintLog ไม่สำเร็จ';
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
     }
 }

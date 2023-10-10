@@ -6,8 +6,13 @@ use TCPDF;
 
 class PdfController extends BaseController
 {
-    public function pdf_Bill()
+    public function pdf_Bill($table_code = null)
     {
+        $this->OrderModel = new \App\Models\OrderModel();
+        $data['table'] = $this->OrderModel->getTableByTableCode($table_code);
+        $data['summary'] = $this->OrderModel->getOrderSummaryRuning($table_code);
+        $data['orderlists'] = $this->OrderModel->getOrderListByTable($table_code);
+        
         // create new PDF document
         $pdf = new TCPDF('P', 'mm', array(72, 300), true, 'UTF-8', false);
 
@@ -67,7 +72,7 @@ class PdfController extends BaseController
         $pdf->AddPage();
 
         //view mengarahไปที่ invoice.php
-        $html = view('pdf/bill.php');
+        $html = view('pdf/bill.php',$data);
 
         // Print text using writeHTMLCell()
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 0, 0, false, '', true);
@@ -79,10 +84,13 @@ class PdfController extends BaseController
         $pdf->Output('Bill.pdf', 'I');
     }
 
-    public function pdf_BillOrder()
+    public function pdf_BillOrder($order_code = null)
     {
+        $this->OrderModel = new \App\Models\OrderModel();
+        $data['oeders'] = $this->OrderModel->getOrderPrintLogByOrderCustomerCode($order_code);
+        $data['table'] = $this->OrderModel->getTableByTableCode($data['oeders'][0]->order_table_code);
         // create new PDF document
-        $pdf = new TCPDF('P', 'mm', array(72, 150), true, 'UTF-8', false);
+        $pdf = new TCPDF('P', 'mm', array(72, 250), true, 'UTF-8', false);
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
@@ -140,7 +148,7 @@ class PdfController extends BaseController
         $pdf->AddPage();
 
         //view mengarahไปที่ invoice.php
-        $html = view('pdf/bill_order.php');
+        $html = view('pdf/bill_order.php',$data);
 
         // Print text using writeHTMLCell()
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 0, 0, false, '', true);
@@ -150,10 +158,16 @@ class PdfController extends BaseController
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
         $pdf->Output('Order.pdf', 'I');
+        // $pdfData = $pdf->Output('Order.pdf', 'S'); // แปลง PDF ให้เป็นข้อมูลในรูปแบบของสตริง
+        // echo base64_encode($pdfData); // ส่ง PDF ในรูปแบบของข้อมูล base64
+        
     }
 
-    public function pdf_CancelledBillOrder()
+    public function pdf_CancelledBillOrder($table_code = null)
     {
+        $this->OrderModel = new \App\Models\OrderModel();
+        $data['table'] = $this->OrderModel->getTableByTableCode($table_code);
+        $data['orderlists'] = $this->OrderModel->getOrderListByTable($table_code);
         // create new PDF document
         $pdf = new TCPDF('P', 'mm', array(72, 150), true, 'UTF-8', false);
 
@@ -231,7 +245,7 @@ class PdfController extends BaseController
 
         // ---------------------------------------------------------
         // view ที่จะแสดงใน PDF
-        $html = view('pdf/bill_cencelled_order.php');
+        $html = view('pdf/bill_cencelled_order.php',$data);
 
         // Print text using writeHTMLCell()
         $pdf->writeHTMLCell(0, 0, '', false, $html, 0, 0, 0, false, '', true); // แสดงที่ตำแหน่ง Y = 100
@@ -242,8 +256,14 @@ class PdfController extends BaseController
         $pdf->Output('CancelledOrder.pdf', 'I');
     }
 
-    public function pdf_Receipt()
+    public function pdf_Receipt($order_customer_code = null)
     {
+        $this->OrderModel = new \App\Models\OrderModel();
+        $data['payment_log'] = $this->OrderModel->getPaymentLogByOrderCustomerCode($order_customer_code);
+        $data['table'] = $this->OrderModel->getTableByTableCode($data['payment_log']->table_code);
+        $data['summary'] = $this->OrderModel->getOrderSummaryFinish($order_customer_code);
+        $data['orderlists'] = $this->OrderModel->getOrderListByFinish($order_customer_code);
+
         // create new PDF document
         $pdf = new TCPDF('P', 'mm', array(72, 300), true, 'UTF-8', false);
 
@@ -303,7 +323,7 @@ class PdfController extends BaseController
         $pdf->AddPage();
 
         //view mengarahไปที่ invoice.php
-        $html = view('pdf/receipt.php');
+        $html = view('pdf/receipt.php',$data);
 
         // Print text using writeHTMLCell()
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 0, 0, false, '', true);
