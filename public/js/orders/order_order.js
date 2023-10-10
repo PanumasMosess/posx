@@ -1,6 +1,7 @@
 var isOnline;
 var table_code;
 var table_order_table;
+var table_name;
 var table_array_code;
 var itemsArrayMoveTableOffline = [];
 var itemsArrayDiscountOffline = [];
@@ -24,13 +25,15 @@ var price_sum_total_payment = 0;
       //   console.log(target.getAttribute("data-area"));
       $("#table_header_name").html(
         "<h3 class='m-0' id='table_header_name'>" +
-        target.getAttribute("data-name") +
-        "</h3>"
+          target.getAttribute("data-name") +
+          "</h3>"
       );
       $("#table_header_name_detail").html(
         "<p>" + target.getAttribute("data-name") + "</p>"
       );
       table_code = target.getAttribute("data-code");
+
+      table_name =  target.getAttribute("data-name");
 
       if (target.getAttribute("data-use") !== "USE") {
         $("#addOrderCusBtn").removeClass("disable-click");
@@ -214,76 +217,76 @@ function drowTableLoad(data) {
           if (dataTable[i].table_status == "USE") {
             $(".canva").append(
               '<div class="resize-drag-b' +
-              (dataTable[i].rounded === "yes" ? " circle" : "") +
-              '" id="' +
-              dataTable[i].div_id +
-              '" data-rounded="' +
-              dataTable[i].rounded +
-              '" data-name="' +
-              dataTable[i].table_name +
-              '" data-size="' +
-              dataTable[i].size_table +
-              '"  data-x="' +
-              dataTable[i].x +
-              '" data-y="' +
-              dataTable[i].y +
-              '" data-area="' +
-              dataTable[i].area_code +
-              '" data-code="' +
-              dataTable[i].table_code +
-              '" data-use="' +
-              dataTable[i].table_status +
-              '" style="transform: translate(' +
-              dataTable[i].x +
-              "px, " +
-              dataTable[i].y +
-              "px); width: " +
-              dataTable[i].width_div +
-              "px; height: " +
-              dataTable[i].hight_div +
-              'px;"  ><p id="Action" style="pointer-events:none;">' +
-              dataTable[i].table_name +
-              " (ไม่ว่าง)</p><span  style='opacity: 0.7;pointer-events:none;'>" +
-              dataTable[i].size_table +
-              " ที่นั่ง" +
-              "</span></div>"
+                (dataTable[i].rounded === "yes" ? " circle" : "") +
+                '" id="' +
+                dataTable[i].div_id +
+                '" data-rounded="' +
+                dataTable[i].rounded +
+                '" data-name="' +
+                dataTable[i].table_name +
+                '" data-size="' +
+                dataTable[i].size_table +
+                '"  data-x="' +
+                dataTable[i].x +
+                '" data-y="' +
+                dataTable[i].y +
+                '" data-area="' +
+                dataTable[i].area_code +
+                '" data-code="' +
+                dataTable[i].table_code +
+                '" data-use="' +
+                dataTable[i].table_status +
+                '" style="transform: translate(' +
+                dataTable[i].x +
+                "px, " +
+                dataTable[i].y +
+                "px); width: " +
+                dataTable[i].width_div +
+                "px; height: " +
+                dataTable[i].hight_div +
+                'px;"  ><p id="Action" style="pointer-events:none;">' +
+                dataTable[i].table_name +
+                " (ไม่ว่าง)</p><span  style='opacity: 0.7;pointer-events:none;'>" +
+                dataTable[i].size_table +
+                " ที่นั่ง" +
+                "</span></div>"
             );
           } else {
             $(".canva").append(
               '<div class="resize-drag' +
-              (dataTable[i].rounded === "yes" ? " circle" : "") +
-              '" id="' +
-              dataTable[i].div_id +
-              '" data-rounded="' +
-              dataTable[i].rounded +
-              '" data-name="' +
-              dataTable[i].table_name +
-              '" data-size="' +
-              dataTable[i].size_table +
-              '"  data-x="' +
-              dataTable[i].x +
-              '" data-y="' +
-              dataTable[i].y +
-              '" data-area="' +
-              dataTable[i].area_code +
-              '" data-code="' +
-              dataTable[i].table_code +
-              '" data-use="' +
-              dataTable[i].table_status +
-              '" style="transform: translate(' +
-              dataTable[i].x +
-              "px, " +
-              dataTable[i].y +
-              "px); width: " +
-              dataTable[i].width_div +
-              "px; height: " +
-              dataTable[i].hight_div +
-              'px;" ><p id="Action" style="pointer-events:none;">' +
-              dataTable[i].table_name +
-              "</p><span  style='opacity: 0.7; pointer-events:none;'>" +
-              dataTable[i].size_table +
-              " ที่นั่ง" +
-              "</span></div>"
+                (dataTable[i].rounded === "yes" ? " circle" : "") +
+                '" id="' +
+                dataTable[i].div_id +
+                '" data-rounded="' +
+                dataTable[i].rounded +
+                '" data-name="' +
+                dataTable[i].table_name +
+                '" data-size="' +
+                dataTable[i].size_table +
+                '"  data-x="' +
+                dataTable[i].x +
+                '" data-y="' +
+                dataTable[i].y +
+                '" data-area="' +
+                dataTable[i].area_code +
+                '" data-code="' +
+                dataTable[i].table_code +
+                '" data-use="' +
+                dataTable[i].table_status +
+                '" style="transform: translate(' +
+                dataTable[i].x +
+                "px, " +
+                dataTable[i].y +
+                "px); width: " +
+                dataTable[i].width_div +
+                "px; height: " +
+                dataTable[i].hight_div +
+                'px;" ><p id="Action" style="pointer-events:none;">' +
+                dataTable[i].table_name +
+                "</p><span  style='opacity: 0.7; pointer-events:none;'>" +
+                dataTable[i].size_table +
+                " ที่นั่ง" +
+                "</span></div>"
             );
           }
         }
@@ -364,6 +367,8 @@ function detail_summary(table_code) {
         parseFloat(response.data.order_service) +
         parseFloat(response.data.order_discount);
 
+      $("#table_header_name_detail").html("<strong>" + table_name + "</stong");
+
       $("#table_pcs").html(
         '<p id="table_pcs">' + response.data.order_pcs_sum + " รายการ</p>"
       );
@@ -372,8 +377,8 @@ function detail_summary(table_code) {
       );
       $("#price_sum_table").html(
         '<strong id="price_sum_table">' +
-        response.data.order_price_sum +
-        " บาท</strong>"
+          response.data.order_price_sum +
+          " บาท</strong>"
       );
 
       $("#service_total_").html(
@@ -390,14 +395,14 @@ function detail_summary(table_code) {
       );
       $("#sub_total_").html(
         '<p id="sub_total_">' +
-        sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
-        "</p>"
+          sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
+          "</p>"
       );
 
       $("#sub_total_").html(
         '<p id="sub_total_">' +
-        sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
-        "</p>"
+          sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
+          "</p>"
       );
 
       $("#order_customer_code_hide").val(response.data.order_customer_code);
@@ -587,20 +592,19 @@ function voidItem() {
         areaCancelTemp = JSON.parse(localStorage.tableCancel);
 
         if (isOnline) {
-          
           var win = window.open(
             `${serverUrl}/pdf_CancelledBillOrder/` + table_code,
             "",
             "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
           );
-  
+
           win.onload = function () {
             win.print(); // สั่งพิมพ์ทันที
             // console.log("printed");
             // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
             setTimeout(function () {
               win.close();
-            }, 9000)
+            }, 9000);
           };
 
           $.ajax({
@@ -893,14 +897,14 @@ function printPreview() {
       "",
       "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
     );
-  
+
     win.onload = function () {
       win.print(); // สั่งพิมพ์ทันที
       // console.log("printed");
       // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
       setTimeout(function () {
         win.close();
-      }, 9000)
+      }, 9000);
     };
   } else {
   }
@@ -916,8 +920,8 @@ function print_specific_content() {
   );
   win.document.write(
     '<html><body onload="window.print(); window.close();">' +
-    content +
-    "</body></html>"
+      content +
+      "</body></html>"
   );
   win.document.close();
 }
@@ -945,8 +949,8 @@ function paymentTable() {
     success: function (response) {
       $("#bill_model_total").html(
         '<h3 class="f_s_25 f_w_700 dark_text mr_30">Total: ' +
-        response.data.order_price_sum +
-        "</h3>"
+          response.data.order_price_sum +
+          "</h3>"
       );
       price_sum_total_payment = parseInt(response.data.order_price_sum);
     },
@@ -1050,7 +1054,8 @@ $("#payment-form").submit(function (e) {
               $("#parmentButtonId").hide();
 
               var win = window.open(
-                `${serverUrl}/pdf_receipt/` + $("#order_customer_code_hide").val(),
+                `${serverUrl}/pdf_receipt/` +
+                  $("#order_customer_code_hide").val(),
                 "",
                 "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
               );
@@ -1061,7 +1066,7 @@ $("#payment-form").submit(function (e) {
                 // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
                 setTimeout(function () {
                   win.close();
-                }, 9000)
+                }, 9000);
               };
             } else {
             }
