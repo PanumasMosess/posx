@@ -703,7 +703,10 @@
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="row">
                     <div class="col-md-10 mt-3">
-                      <h5 style="display: inline" class="panel-title">Employee PIN ใช้สำหรับให้พนักงานคีย์ Order ในหน้าการขาย POS</h5>
+                      <div class="main-title">
+                        <h3 class="m-0">Employee PIN ใช้สำหรับให้พนักงานคีย์ Order ในหน้าการขาย POS</h3>
+                      </div>
+                      <!-- <h5 style="display: inline" class="panel-title">Employee PIN ใช้สำหรับให้พนักงานคีย์ Order ในหน้าการขาย POS</h5> -->
                     </div>
                     <div class="col-md-2" style="text-align: right;">
                       <a href="javascript:void(0);" class="white_btn3 mb-3" onclick="openModalAddEmployeePinPos();"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>
@@ -734,7 +737,10 @@
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="row">
                     <div class="col-md-10 mt-3">
-                      <h5 style="display: inline" class="panel-title">STOCK Employee PIN ใช้สำหรับหน้า Stock</h5>
+                      <div class="main-title">
+                        <h3 class="m-0">STOCK Employee PIN ใช้สำหรับหน้า Stock</h3>
+                      </div>
+                      <!-- <h5 style="display: inline" class="panel-title">STOCK Employee PIN ใช้สำหรับหน้า Stock</h5> -->
                     </div>
                     <div class="col-md-2" style="text-align: right;">
                       <a href="javascript:void(0);" class="white_btn3 mb-3" onclick="openModalAddEmployeePinStock();"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>
@@ -762,7 +768,10 @@
                 <div class="col-lg-12 col-xl-12 col-md-12">
                   <div class="row">
                     <div class="col-md-10 mt-3">
-                      <h5 style="display: inline" class="panel-title">Paired mobiles (เชื่อมต่อการสั่งอาหารผ่านมือถือ Package 1390+)</h5>
+                      <div class="main-title">
+                        <h3 class="m-0">Paired mobiles (เชื่อมต่อการสั่งอาหารผ่านมือถือ Package 1390+)</h3>
+                      </div>
+                      <!-- <h5 style="display: inline" class="panel-title">Paired mobiles (เชื่อมต่อการสั่งอาหารผ่านมือถือ Package 1390+)</h5> -->
                     </div>
                     <div class="col-md-2" style="text-align: right;">
                       <a href="javascript:void(0);" class="white_btn3 mb-3" onclick="openModalAddMobile();"><i class="ti-plus"></i>&nbsp;&nbsp;Add</a>

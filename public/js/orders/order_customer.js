@@ -554,7 +554,7 @@ function orderConfirm() {
                   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
                   setTimeout(function () {
                     win.close();
-                  }, 9000)
+                  }, 4000)
 
                   // ส่วนนี้อาจจะไม่จำเป็น
                   $.ajax({

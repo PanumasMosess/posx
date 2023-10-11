@@ -47,6 +47,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
+    <!-- เรียกใช้ Google Translate Element -->
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
         /** BASE **/
         * {
@@ -73,6 +75,42 @@
             opacity: 0.6;
         }
     </style>
+    <style>
+        .Menu_NOtification_Wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            bottom: -100%;
+            /* ให้เป็น -100% เพื่อซ่อนเนื้อหาเมื่อไม่ active */
+            width: 100%;
+            height: auto;
+            /* ลบค่าความสูง */
+            transition: bottom 0.3s;
+            /* เพิ่ม transition บนคุณสามารถปรับค่าความเร็วการเคลื่อนไหวตามความต้องการ */
+        }
+
+        .header_iner .header_right .header_notification_warp {
+            margin-right: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        // // เรียกใช้ Bootstrap Dropdown
+        // $(document).ready(function() {
+        //     $('.dropdown-toggle').dropdown();
+        // });
+
+        // เรียกใช้ Google Translate Element
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ja,ko,lo,ms,vi,zh-CN,zh-TW,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                multilanguagePage: true
+            }, 'google_translate_element');
+        }
+    </script>
 </head>
 
 <body class="crm_body_bg">
@@ -96,7 +134,7 @@
                     </div>
                 </a>
             </li>
-<!-- 
+            <!-- 
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'stock') {
                                 echo 'active';
                             } ?>">
@@ -211,7 +249,7 @@
                             </div>
                         </div>
                         <div class="header_right d-flex justify-content-between align-items-center">
-                            <div class="header_notification_warp d-flex align-items-center">
+                            <!-- <div class="header_notification_warp d-flex align-items-center">
                                 <li>
                                     <a class="bell_notification_clicker" href="#">
                                         <img src="<?php echo base_url('img/icon/bell.svg'); ?>" alt />
@@ -306,9 +344,19 @@
                                         <img src="<?php echo base_url('img/icon/msg.svg'); ?>" alt /> <span>2</span>
                                     </a>
                                 </li>
+                            </div> -->
+                            <div class="header_notification_warp d-flex align-items-center">
+                                <li>
+                                    <a class="bell_notification_clicker" href="#">
+                                        <img src="<?php echo base_url('img/icon/world.svg'); ?>" alt />
+                                    </a>
+                                    <div class="Menu_NOtification_Wrap">
+                                        <div id="google_translate_element"></div>
+                                    </div>
+                                </li>
                             </div>
                             <div class="profile_info">
-                                <img src="<?php echo base_url('img/client_img.png'); ?>" alt="#" />
+                                <img src="<?php echo base_url('img/man.png'); ?>" alt="#" />
                                 <div class="profile_info_iner">
                                     <div class="profile_author_name">
                                         <p><?php echo session()->get('employee_position_name'); ?></p>
