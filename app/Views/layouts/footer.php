@@ -134,14 +134,26 @@
     // };
 
     $(document).ready(function() {
-
-        $.getJSON(serverUrl + "language.json", function(data) {
-            $(".lang").each(function(index, element) {
-                $(this).text(data.th[$(this).attr("key")]);
+        let lang = localStorage.language
+        console.log(lang);
+        if (lang == 'en') {
+            $.getJSON(serverUrl + "language.json", function(data) {
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.en[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
             });
-        }).fail(function() {
-            console.log("An error has occurred.");
-        });
+        } else {
+            $.getJSON(serverUrl + "language.json", function(data) {
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.th[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
+            });
+        }
+
     });
     // // เรียกใช้ Bootstrap Dropdown
     // $(document).ready(function() {
@@ -160,9 +172,10 @@
 
     $(".translate").click(function() {
         var lang = $(this).attr("id");
-
         if (lang == 'th') {
+            localStorage.setItem('language', 'th');
             $.getJSON(serverUrl + "language.json", function(data) {
+
                 $(".lang").each(function(index, element) {
                     $(this).text(data.th[$(this).attr("key")]);
                 });
@@ -171,6 +184,7 @@
             });
 
         } else if (lang == 'en') {
+            localStorage.setItem('language', 'en');
             $.getJSON(serverUrl + "language.json", function(data) {
                 $(".lang").each(function(index, element) {
                     $(this).text(data.en[$(this).attr("key")]);
