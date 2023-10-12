@@ -116,28 +116,31 @@
 </script>
 
 <script type="text/javascript">
-    var arrLang = {
-        "en": {
-            "SALE": "SALE",
-            "STOCK": 'Stock',
-            "REPORT": 'Report',
-            "MANAGER": 'Manager',
-            "PAYMENT": 'Payment',
-        },
-        "th": {
-            "SALE": "การขาย",
-            "STOCK": 'สต็อก',
-            "REPORT": 'รายงาน',
-            "MANAGER": 'ผู้จัดการ',
-            "PAYMENT": 'รายจ่าย',
-        }
-    };
+    // var arrLang = {
+    //     "en": {
+    //         "SALE": "SALE",
+    //         "STOCK": 'Stock',
+    //         "REPORT": 'Report',
+    //         "MANAGER": 'Manager',
+    //         "PAYMENT": 'Payment',
+    //     },
+    //     "th": {
+    //         "SALE": "การขาย",
+    //         "STOCK": 'สต็อก',
+    //         "REPORT": 'รายงาน',
+    //         "MANAGER": 'ผู้จัดการ',
+    //         "PAYMENT": 'รายจ่าย',
+    //     }
+    // };
 
     $(document).ready(function() {
-        // The default language is English
-        var lang = "th";
-        $(".lang").each(function(index, element) {
-            $(this).text(arrLang[lang][$(this).attr("key")]);
+
+        $.getJSON(serverUrl + "language.json", function(data) {
+            $(".lang").each(function(index, element) {
+                $(this).text(data.th[$(this).attr("key")]);
+            });
+        }).fail(function() {
+            console.log("An error has occurred.");
         });
     });
     // // เรียกใช้ Bootstrap Dropdown
@@ -158,9 +161,24 @@
     $(".translate").click(function() {
         var lang = $(this).attr("id");
 
-        $(".lang").each(function(index, element) {
-            $(this).text(arrLang[lang][$(this).attr("key")]);
-        });
+        if (lang == 'th') {
+            $.getJSON(serverUrl + "language.json", function(data) {
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.th[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
+            });
+
+        } else if (lang == 'en') {
+            $.getJSON(serverUrl + "language.json", function(data) {
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.en[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
+            });
+        }
     });
 </script>
 

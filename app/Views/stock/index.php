@@ -7,13 +7,13 @@
                         <div class="bulder_tab_wrapper">
                             <ul class="nav" id="stockTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="Stock-tab" data-bs-toggle="tab" href="#Stock" role="tab" aria-controls="Stock" aria-selected="true">สต็อกสินค้า</a>
+                                    <a class="nav-link lang active" id="Stock-tab" data-bs-toggle="tab" href="#Stock" role="tab" aria-controls="Stock" aria-selected="true" key='STOCK_TAB'>สต็อกสินค้า</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="formular-tab" data-bs-toggle="tab" href="#formular" role="tab" aria-controls="formular" aria-selected="false">สูตรตัดสต็อก</a>
+                                <li class="nav-item ">
+                                    <a class="nav-link lang" id="formular-tab" data-bs-toggle="tab" href="#formular" role="tab" aria-controls="formular" aria-selected="false" key='STOCK_FOMULAR_TAB'>สูตรตัดสต็อก</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="sumary-tab" data-bs-toggle="tab" href="#sumary" role="tab" aria-controls="sumary" aria-selected="false">สรุป</a>
+                                <li class="nav-item ">
+                                    <a class="nav-link lang" id="sumary-tab" data-bs-toggle="tab" href="#sumary" role="tab" aria-controls="sumary" aria-selected="false" key='STOCK_SUMMARY_TAB'>สรุป</a>
                                 </li>
                             </ul>
                         </div>
@@ -22,7 +22,7 @@
                         <div class="tab-content" id="stockTabContent">
                             <div class="tab-pane fade show active" id="Stock" role="tabpanel" aria-labelledby="Stock-tab">
                                 <div class="col-lg-12 col-xl-12 col-md-12">
-                                    <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;เพิ่มรายการสต็อก</a></div>
+                                    <div class="justify-content-end d-flex mb-2"> <a href="javascript:void(0);" class="white_btn3 mb-2" onclick="openModalProduct();"><i class="ti-plus"></i>&nbsp;&nbsp;<font class="lang" key='BTN_ADD_STOCK'>เพิ่มรายการสต็อก</font></a></div>
                                     <div class="QA_section">
                                         <div class="QA_table mb_30">
                                             <table class="table lms_table_active3" id="stockTable">
@@ -58,7 +58,7 @@
                                                             <div class="box_header m-1">
                                                                 <div class="col-12 row">
                                                                     <div class="col-4">
-                                                                        <h4 class="m-2">สูตรตัดสต็อก</h4>
+                                                                        <h4 class="m-2 lang" key="STOCK_FOMULAR_TAB">สูตรตัดสต็อก</h4>
                                                                     </div>
                                                                     <div class="col-8">
                                                                         <div class="common_select">
@@ -78,7 +78,7 @@
                                                             <div class="white_card_header">
                                                                 <div class="box_header m-0">
                                                                     <div class="main-title">
-                                                                        <h3 class="m-0">เลือกตัดสต็อก</h3>
+                                                                        <h3 class="m-0 lang" key='SELECT_CUT_STOCK'>เลือกตัดสต็อก</h3>
                                                                     </div>
                                                                     <div class="header_more_tool">
                                                                         <!-- <div class="dropdown">
@@ -125,7 +125,7 @@
                                                             <div class="white_card_header">
                                                                 <div class="box_header m-0">
                                                                     <div class="main-title">
-                                                                        <h3 class="m-0">สูตรตัดสต็อกใหม่</h3>
+                                                                        <h3 class="m-0 lang" key='STOCK_NEW_FORMULAR'>สูตรตัดสต็อกใหม่</h3>
                                                                     </div>
                                                                     <div class="header_more_tool">
                                                                         <div class="action_btns d-flex">
@@ -140,7 +140,7 @@
                                                                 <div class="Activity_timeline">
                                                                     <div class="QA_section">
                                                                         <div class="QA_table mb_30">
-                                                                            หากขายสินค้ารายการนี้
+                                                                           <font class="lang"  key='IF_SALE_PRODUCT_FORMULAR'>หากขายสินค้ารายการนี้</font> 
                                                                             <table class="table lms_table_active" id="table_fomular_order">
                                                                                 <thead>
                                                                                     <tr>
@@ -157,7 +157,7 @@
                                                                     </div>
                                                                     <div class="QA_section">
                                                                         <div class="QA_table mb_30">
-                                                                            จะตัดสต็อกดังนี้
+                                                                           <font class="lang" key="STOCK_CUT_CONFIRM_PRODUCT">จะตัดสต็อกดังนี้</font> 
                                                                             <table class="table lms_table_active" id="table_fomular_stock_cut">
                                                                                 <thead>
                                                                                     <tr>
@@ -176,10 +176,10 @@
                                                                     </div>
                                                                     <div class="col-auto justify-content-end" style="display: flex;">
                                                                         <button type="button" onclick="cancleFormular();" class="btn btn-outline-danger rounded-pill m-1">
-                                                                            ยกเลิก
+                                                                        <front class="lang" key='CANCEL'>ยกเลิก</front>
                                                                         </button>
                                                                         <button type="button" id="save_stock_btn" onclick="formularConfirm();" class="btn btn-outline-success rounded-pill m-1">
-                                                                            ยืนยัน
+                                                                        <front class="lang" key='CONFIRM'>ยืนยัน</front>
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -203,7 +203,7 @@
                                                             <div class="white_card_header">
                                                                 <div class="box_header m-0">
                                                                     <div class="main-title">
-                                                                        <h3 class="m-0">สูตรการตัดสต็อก POS ขาย</h3>
+                                                                        <h3 class="m-0"><front class="lang" key="STOCK_SUMMARY_FORMULAR">สูตรการตัดสต็อก POS ขาย</front></h3>
                                                                     </div>
                                                                     <div class="header_more_tool">
                                                                         <!-- <div class="dropdown">
@@ -251,7 +251,7 @@
                                                             <div class="white_card_header">
                                                                 <div class="box_header m-0">
                                                                     <div class="main-title">
-                                                                        <h3 class="m-0">สต็อก Transection</h3>
+                                                                        <h3 class="m-0"><front class="lang" key='STOCK_SUMMARY_TRASECTION'>สต็อก Transection</front></h3>
                                                                     </div>
                                                                     <div class="header_more_tool">
                                                                         <!-- <div class="dropdown">
@@ -328,7 +328,7 @@
                     <div class="white_card_header">
                         <div class=" m-0">
                             <div class="justify-content-center" style="display:flex;">
-                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameForm">เพิ่มสต็อก</h3>
+                                <h3 class="m-0 lang" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameForm" key='STOCK_ADD_TITLE_MODEL'>เพิ่มสต็อก</h3>
                             </div>
                         </div>
                     </div>
@@ -413,20 +413,20 @@
                             </div>
                             <div class="row g-12">
                                 <div class="input-group mb-3">
-                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);"  />
+                                    <input type="file" class="form-control" id="file_product" accept="image/jpeg, image/png" name="file_product" onchange="encodeImgtoBase64(this);" />
                                     <input type="hidden" id="file_product_base64" name="file_product_base64" />
                                     <input type="hidden" id="file_oldname" name="file_oldname" />
                                 </div>
                             </div>
                             <div class="col-auto justify-content-end" style="display: flex;">
                                 <button type="button" onclick="closeModalAddStock();" class="btn btn-outline-danger m-1">
-                                    ยกเลิก
+                                    <span class="lang" key='CANCEL'>ยกเลิก</span>
                                 </button>
                                 <button type="submit" id='save_stock_btn_stock' class="btn btn-outline-success m-1">
-                                    ยืนยัน
+                                    <span class="lang" key='CONFIRM'>ยืนยัน</span>
                                 </button>
                                 <button type="button" id='update_stock_btn' class="btn btn-outline-warning m-1" onclick="submitDataUpdate();">
-                                    ยืนยัน
+                                    <span class="lang" key='CONFIRM'>ยืนยัน</span>
                                 </button>
                             </div>
                         </div>
@@ -449,7 +449,7 @@
                     <div class="white_card_header">
                         <div class="m-0">
                             <div class="justify-content-center" style="display:flex;">
-                                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameForm">เพิ่ม/ปรับสต็อก</h3>
+                                <h3 class="m-0 lang" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;" id="nameForm" key='STOCK_TITLE_ADJUST_STOCK'>เพิ่ม/ปรับสต็อก</h3>
                             </div>
                         </div>
                     </div>
@@ -473,7 +473,7 @@
                                 <div class="col-6">
                                     <div class="input-group mb-2">
                                         <div class="input-group-text">
-                                            <div class="">ปัจจุบัน</div>
+                                            <div class="lang" key='CURRENT-PCS-STOCK'>ปัจจุบัน</div>
                                         </div>
                                         <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="pcs_curent" name="pcs_curent" readonly>
                                     </div>
@@ -481,7 +481,7 @@
                                 <div class="col-6">
                                     <div class="input-group mb-2">
                                         <div class="input-group-text">
-                                            <div class="">จำนวนที่ต้องการ</div>
+                                            <div class="lang" key='ADJUST-PCS-STOCK'>จำนวนที่ต้องการ</div>
                                         </div>
                                         <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="pcs_adjust" name="pcs_adjust" placeholder="pcs" required>
                                         <input type="hidden" id="id_adjust" name="id_adjust" />
@@ -490,10 +490,10 @@
                             </div>
                             <div class="col-auto justify-content-end" style="display: flex;">
                                 <button type="button" onclick="closeModalAdjustStock();" class="btn btn-outline-danger m-1">
-                                    ยกเลิก
+                                    <span class="lang" key='CANCEL'> ยกเลิก </span>
                                 </button>
                                 <button type="submit" id='save_adjust_btn' class="btn btn-outline-success m-1">
-                                    ยืนยัน
+                                <span class="lang" key='CONFIRM'> ยืนยัน </span>
                                 </button>
                             </div>
                         </div>

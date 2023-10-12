@@ -200,7 +200,7 @@
                     </div>
                 </a>
                 <ul>
-                    <li><a href="<?php echo base_url('/manager/index'); ?>">เมนู</a></li>
+                    <li><a href="<?php echo base_url('/manager/index'); ?>" class="lang" key='MENU'>เมนู</a></li>
                 </ul>
                 <ul class="disabled">
                     <li><a href="<?php echo base_url('/manager/edit_bill'); ?>">แก้ไขบิล</a></li>
