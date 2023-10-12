@@ -54,7 +54,6 @@
         * {
             font-family: 'Kanit', sans-serif;
         }
-
     </style>
 
     <?php if (isset($css_critical)) {
@@ -76,7 +75,7 @@
         }
     </style>
     <style>
-        .Menu_NOtification_Wrap {
+        /* .Menu_NOtification_Wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -84,33 +83,18 @@
             position: absolute;
             bottom: -100%;
             /* ให้เป็น -100% เพื่อซ่อนเนื้อหาเมื่อไม่ active */
-            width: 100%;
-            height: auto;
-            /* ลบค่าความสูง */
-            transition: bottom 0.3s;
-            /* เพิ่ม transition บนคุณสามารถปรับค่าความเร็วการเคลื่อนไหวตามความต้องการ */
-        }
+        /* width: 100%; */
+        /* height: auto; */
+        /* ลบค่าความสูง */
+        /* transition: bottom 0.3s; */
+        /* เพิ่ม transition บนคุณสามารถปรับค่าความเร็วการเคลื่อนไหวตามความต้องการ */
+        /* }  */
 
         .header_iner .header_right .header_notification_warp {
-            margin-right: 20px;
+            margin-right: 25px;
         }
     </style>
-    <script type="text/javascript">
-        // // เรียกใช้ Bootstrap Dropdown
-        // $(document).ready(function() {
-        //     $('.dropdown-toggle').dropdown();
-        // });
-
-        // เรียกใช้ Google Translate Element
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'ja,ko,lo,ms,vi,zh-CN,zh-TW,en',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                multilanguagePage: true
-            }, 'google_translate_element');
-        }
-    </script>
+   
 </head>
 
 <body class="crm_body_bg">
@@ -160,7 +144,7 @@
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
                     <div class="nav_title">
-                        <span>การขาย</span>
+                        <span class="lang" key='SALE'>การขาย</span>
                     </div>
                 </a>
                 <ul>
@@ -177,7 +161,7 @@
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>รายจ่าย</span>
+                        <span class="lang" key='PAYMENT'>รายจ่าย</span>
                     </div>
                 </a>
             </li>
@@ -188,7 +172,7 @@
                         <img src="<?php echo base_url('img/menu-icon/13.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>สต็อก</span>
+                        <span class="lang" key='STOCK'>สต็อก</span>
                     </div>
                 </a>
             </li>
@@ -199,7 +183,7 @@
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>รายงาน</span>
+                        <span class="lang" key='REPORT'>รายงาน</span>
                     </div>
                 </a>
             </li>
@@ -212,7 +196,7 @@
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
                     <div class="nav_title">
-                        <span>ผู้จัดการ</span>
+                        <span class="lang" key='MANAGER'>ผู้จัดการ</span>
                     </div>
                 </a>
                 <ul>
@@ -249,9 +233,9 @@
                             </div>
                         </div>
                         <div class="header_right d-flex justify-content-between align-items-center">
-                            <!-- <div class="header_notification_warp d-flex align-items-center">
-                                <li>
-                                    <a class="bell_notification_clicker" href="#">
+                            <div class="header_notification_warp d-flex align-items-center">
+                                <!--   <li>
+                               <a class="bell_notification_clicker" href="#">
                                         <img src="<?php echo base_url('img/icon/bell.svg'); ?>" alt />
                                         <span>2</span>
                                     </a>
@@ -343,18 +327,54 @@
                                     <a class="CHATBOX_open" href="#">
                                         <img src="<?php echo base_url('img/icon/msg.svg'); ?>" alt /> <span>2</span>
                                     </a>
-                                </li>
-                            </div> -->
-                            <div class="header_notification_warp d-flex align-items-center">
+                                </li> -->
+
                                 <li>
                                     <a class="bell_notification_clicker" href="#">
+                                        <img src="<?php echo base_url('img/icon/world.svg'); ?>" alt />
+                                    </a>
+                                    <div class="Menu_NOtification_Wrap" style="width: 190px;">
+                                        <div class="notification_Header">
+                                            <h4>Select Language</h4>
+                                        </div>
+                                        <div class="Notification_body" style="height: 130px;">
+
+                                            <div class="single_notify d-flex align-items-center">
+                                                <div class="notify_thumb translate">
+                                                    <a href="javascript:void(0);" id="th" class="translate"><img src="<?php echo base_url('img/icon2/thai.png'); ?>" alt /></a>
+                                                </div>
+                                                <div class="notify_content translate">
+                                                    <a href="javascript:void(0);" id="th" class="translate">
+                                                        <h5>TH</h5>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                            <div class="single_notify d-flex align-items-center">
+                                                <div class="notify_thumb translate">
+                                                    <a href="javascript:void(0);" id="en" class="translate"><img src="<?php echo base_url('img/icon2/endland.png'); ?>" alt /></a>
+                                                </div>
+                                                <div class="notify_content translate">
+                                                    <a href="javascript:void(0);" id="en" class="translate">
+                                                        <h5>EN</h5>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+                            <!-- <div class="header_notification_warp d-flex align-items-center">
+                                <li>
+                                    <a class="bell_notification_clicker" href="javascript:void(0);" onclick="chanheLanguage();">
                                         <img src="<?php echo base_url('img/icon/world.svg'); ?>" alt />
                                     </a>
                                     <div class="Menu_NOtification_Wrap">
                                         <div id="google_translate_element"></div>
                                     </div>
                                 </li>
-                            </div>
+                            </div> -->
                             <div class="profile_info">
                                 <img src="<?php echo base_url('img/man.png'); ?>" alt="#" />
                                 <div class="profile_info_iner">
