@@ -94,7 +94,7 @@
             margin-right: 25px;
         }
     </style>
-   
+
 </head>
 
 <body class="crm_body_bg">
@@ -203,7 +203,7 @@
                     <li><a href="<?php echo base_url('/manager/index'); ?>" class="lang" key='MENU'>เมนู</a></li>
                 </ul>
                 <ul class="disabled">
-                    <li><a href="<?php echo base_url('/manager/edit_bill'); ?>">แก้ไขบิล</a></li>
+                    <li><a href="<?php echo base_url('/manager/edit_bill'); ?>" class="lang" key='BIIL_UPDATE'>แก้ไขบิล</a></li>
                 </ul>
             </li>
         </ul>
@@ -383,13 +383,25 @@
                                         <h5><?php echo session()->get('username'); ?></h5>
                                     </div>
                                     <div class="profile_info_details">
-                                        <a href="<?php echo base_url('/setting/index'); ?>"><i class="fas fa-cog"></i> ตั้งค่า </a>
-                                        <a href="#" class="disabled"><i class="fas fa-plus-circle"></i> เพิ่มวัน </a>
-                                        <a href="#" class="disabled"><i class="fas fa-laptop"></i> Remote Support </a>
-                                        <a href="#" class="disabled"><i class="fas fa-question-circle"></i> คู่มือ </a>
-                                        <a href="#" class="disabled"><i class="fas fa-envelope"></i> รายงานบัค </a>
+                                        <a href="<?php echo base_url('/setting/index'); ?>"><i class="fas fa-cog"></i>
+                                            <front class='lang' key='SETTING'>ตั้งค่า</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-plus-circle"></i>
+                                            <front class='lang' key='ADD_DATE'>เพิ่มวัน</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-laptop"></i>
+                                            <front class='lang' key='REMOTE_SUPPORT'>Remote Support</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-question-circle"></i>
+                                            <front class='lang' key='MANUAL'>คู่มือ</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-envelope"></i>
+                                            <front class='lang' key='REPORT_BUG'>รายงานบัค</front>
+                                        </a>
                                         <hr>
-                                        <a href="<?php echo base_url('/logout'); ?>"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ </a>
+                                        <a href="<?php echo base_url('/logout'); ?>"><i class="fas fa-sign-out-alt"></i>
+                                            <front class='lang' key='LOGOUT'>ออกจากระบบ</front>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

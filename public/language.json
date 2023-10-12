@@ -21,7 +21,14 @@
         "IF_SALE_PRODUCT_FORMULAR": "Sale Order",
         "STOCK_CUT_CONFIRM_PRODUCT" : "Confrim Cut Stock",
         "STOCK_SUMMARY_FORMULAR": "Stock Summary Formular sale POS",
-        "STOCK_SUMMARY_TRASECTION": "Stock Transection"
+        "STOCK_SUMMARY_TRASECTION": "Stock Transection",
+        "BIIL_UPDATE":"Update Bill",
+        "SETTING":"Setting",
+        "ADD_DATE":"Date Add",
+        "REMOTE_SUPPORT":"Remote Support",
+        "MANUAL": "Manual",
+        "REPORT_BUG": "Bug Report",
+        "LOGOUT":"Logout"
     },
     "th": {
         "MENU": "เมนู",
@@ -45,6 +52,13 @@
         "IF_SALE_PRODUCT_FORMULAR": "หากขายสินค้ารายการนี้",
         "STOCK_CUT_CONFIRM_PRODUCT" : "จะตัดสต็อกดังนี้",
         "STOCK_SUMMARY_FORMULAR": "สูตรการตัดสต็อก POS ขาย",
-        "STOCK_SUMMARY_TRASECTION": "สต็อก Transection"
+        "STOCK_SUMMARY_TRASECTION": "สต็อก Transection",
+        "BIIL_UPDATE":"แก้ไขบิล",
+        "SETTING":"ตั้งค่า",
+        "ADD_DATE":"เพิ่มวัน",
+        "REMOTE_SUPPORT":"Remote Support",
+        "MANUAL": "คู่มือ",
+        "REPORT_BUG": "รายงานบัค",
+        "LOGOUT":"ออกจากระบบ"
     }
 }
