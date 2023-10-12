@@ -87,10 +87,10 @@
 <script>
     (function($) {
         let theme_status = localStorage.getItem('theme');
-      
+
         if (JSON.parse(theme_status) == true) {
             $('#nav_theme').addClass('dark_sidebar');
-        } 
+        }
     })(jQuery);
 
     function themesChangeDark() {
@@ -115,5 +115,55 @@
     document.getElementById('copyrightYear').innerHTML = copyrightFooter
 </script>
 
+<script type="text/javascript">
+    var arrLang = {
+        "en": {
+            "SALE": "SALE",
+            "STOCK": 'Stock',
+            "REPORT": 'Report',
+            "MANAGER": 'Manager',
+            "PAYMENT": 'Payment',
+        },
+        "th": {
+            "SALE": "การขาย",
+            "STOCK": 'สต็อก',
+            "REPORT": 'รายงาน',
+            "MANAGER": 'ผู้จัดการ',
+            "PAYMENT": 'รายจ่าย',
+        }
+    };
+
+    $(document).ready(function() {
+        // The default language is English
+        var lang = "th";
+        $(".lang").each(function(index, element) {
+            $(this).text(arrLang[lang][$(this).attr("key")]);
+        });
+    });
+    // // เรียกใช้ Bootstrap Dropdown
+    // $(document).ready(function() {
+    //     $('.dropdown-toggle').dropdown();
+    // });
+
+    // เรียกใช้ Google Translate Element
+    // function googleTranslateElementInit() {
+    //     new google.translate.TranslateElement({
+    //         pageLanguage: 'en',
+    //         includedLanguages: 'ja,ko,lo,ms,vi,zh-CN,zh-TW,en',
+    //         layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    //         multilanguagePage: true
+    //     }, 'google_translate_element');
+    // }
+
+    $(".translate").click(function() {
+        var lang = $(this).attr("id");
+
+        $(".lang").each(function(index, element) {
+            $(this).text(arrLang[lang][$(this).attr("key")]);
+        });
+    });
+</script>
+
 </body>
+
 </html>
