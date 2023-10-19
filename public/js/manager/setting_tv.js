@@ -362,7 +362,6 @@ function qrDrow(data) {
   var split_host = "";
   if (serverUrl != "http://localhost:8080/") {
     split_host = serverUrl.split("https://app.");
-    console.log(split_host);
   }
 
   var qrcodeConfig = {
@@ -379,8 +378,8 @@ function qrDrow(data) {
             "https://tv." +
             split_host[1] +
             "upload/" +
-            data[i].table_name +
-            "#" +
+            data[i].table_code +
+            "/" +
             data[i].companies_id,
         })
       );
@@ -389,8 +388,8 @@ function qrDrow(data) {
         $.extend(qrcodeConfig, {
           text:
             "https://localhost:8080/upload/" +
-            data[i].table_name +
-            "###" +
+            data[i].table_code +
+            "/" +
             data[i].companies_id,
         })
       );
