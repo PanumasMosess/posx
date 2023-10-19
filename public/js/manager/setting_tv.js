@@ -376,11 +376,11 @@ function qrDrow(data) {
       $("#qrcode" + i + "").qrcode(
         $.extend(qrcodeConfig, {
           text:
-            "https://app." +
-            split_host +
+            "https://tv." +
+            split_hos[1] +
             "upload/" +
             data[i].table_name +
-            "###" +
+            "#" +
             data[i].companies_id,
         })
       );
