@@ -377,7 +377,7 @@ function qrDrow(data) {
         $.extend(qrcodeConfig, {
           text:
             "https://tv." +
-            split_hos[1] +
+            split_host[1] +
             "upload/" +
             data[i].table_name +
             "#" +
