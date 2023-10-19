@@ -359,10 +359,9 @@ function loadQRAllTable() {
 }
 
 function qrDrow(data) {
-    
+  var split_host = "";
   if (serverUrl != "http://localhost:8080/") {
-    let split_host = serverUrl.split("https://app.");
-    console.log(split_host[1]);
+    split_host = serverUrl.split("https://app.");
   }
 
   var qrcodeConfig = {
@@ -370,17 +369,28 @@ function qrDrow(data) {
     // height: 100,
     correctLevel: 0,
   };
+
   for (var i = 0; i < data.length; i++) {
     if (serverUrl != "http://localhost:8080/") {
       $("#qrcode" + i + "").qrcode(
         $.extend(qrcodeConfig, {
-          text: "https://app." + split_host[1] + "upload/",
+          text:
+            "https://app." +
+            split_host +
+            "upload/" +
+            data[i].table_name +
+            "###" +
+            data[i].companies_id,
         })
       );
     } else {
       $("#qrcode" + i + "").qrcode(
         $.extend(qrcodeConfig, {
-          text: "https://localhost:8080/upload/",
+          text:
+            "https://localhost:8080/upload/" +
+            data[i].table_name +
+            "###" +
+            data[i].companies_id,
         })
       );
     }
