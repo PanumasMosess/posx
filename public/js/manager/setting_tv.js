@@ -370,12 +370,12 @@ function qrDrow(data) {
       let split_host =  serverUrl.split("https://app.");
 
       console.log(split_host[i]);
-      
-      $("#qrcode" + i + "").qrcode(
-        $.extend(qrcodeConfig, {
-          text: "https://app."+split_host[1]+"upload/",
-        })
-      );
+
+    //   $("#qrcode" + i + "").qrcode(
+    //     $.extend(qrcodeConfig, {
+    //       text: "https://app."+split_host[1]+"upload/",
+    //     })
+    //   );
 
     } else {
       $("#qrcode" + i + "").qrcode(
