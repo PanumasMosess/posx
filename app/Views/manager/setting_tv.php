@@ -1,24 +1,27 @@
 <style>
   .image-container {
-      position: relative;
+    position: relative;
   }
 
   .delete-button {
-      position: absolute;
-      top: 7px;
-      right: 7px;
-      background: none;
-      border: none;
-      visibility: hidden; /* เริ่มต้นปุ่มลบในสถานะซ่อน */
-      transition: visibility 0.3s, transform 0.3s;
-      transform: scale(1.4); /* ขนาดเริ่มต้นของปุ่ม */
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    background: none;
+    border: none;
+    visibility: hidden;
+    /* เริ่มต้นปุ่มลบในสถานะซ่อน */
+    transition: visibility 0.3s, transform 0.3s;
+    transform: scale(1.4);
+    /* ขนาดเริ่มต้นของปุ่ม */
   }
 
   .image-container:hover .delete-button {
-      visibility: visible; /* เมื่อชี้เข้าสู่ image-container ให้แสดงปุ่มลบ */
-      transform: scale(1.5); /* เพิ่มขนาดของปุ่มเมื่อ hover */
+    visibility: visible;
+    /* เมื่อชี้เข้าสู่ image-container ให้แสดงปุ่มลบ */
+    transform: scale(1.5);
+    /* เพิ่มขนาดของปุ่มเมื่อ hover */
   }
-
 </style>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
@@ -30,6 +33,9 @@
               <ul class="nav" id="stockTab" role="tablist">
                 <li class="nav-item">
                   <a class="nav-link active" id="setting-tv-tab" data-bs-toggle="tab" href="#setting_tv" role="tab" aria-controls="setting_tv" aria-selected="true">Setting TV</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " id="setting-barcode-tab" data-bs-toggle="tab" href="#setting_barcode" role="tab" aria-controls="setting_barcode" aria-selected="true">Barcode</a>
                 </li>
               </ul>
             </div>
@@ -92,6 +98,28 @@
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary" href="#" id="EditTVSetting" style="float: right; margin-top: -18px;">Edit</button>
+                </div>
+              </div>
+              <div class="tab-pane fade show " id="setting_barcode" role="tabpanel" aria-labelledby="setting-barcode-tab">
+                <div class="main_content_iner">
+                  <div class="col-xl-12 col-lg-12 col-md-12">
+                    <div class="white_card card_height_100 mb_20">
+                      <div class="white_card_header">
+                        <div class="box_header m-0">
+                          <div class="main-title">
+                            <h3 class="lang m-0" key='SETTING_BARCODE'>Barcode ทั้งหมด</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div class=" white_card_body">
+                        <!-- temp card -->
+                        <div class="row justify-content-center" id='qr_table'>
+                        
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

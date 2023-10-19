@@ -66,4 +66,14 @@ class SettingTVModel
 
         return $builder->insert($data) ? $this->db->insertID() : false;
     }
+
+    public function getQrData()
+    {
+        $sql = "SELECT * FROM  area_table";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+
 }
