@@ -117,6 +117,14 @@ $routes->group('manager', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('editSupplier/(:num)', 'ManagerController::editSupplier/$1');
     $routes->post('updateSupplier', 'ManagerController::updateSupplier');
     $routes->get('deleteSupplier/(:num)', 'ManagerController::deleteSupplier/$1');
+
+    $routes->get('setting_tv', 'ManagerController::setting_tv');
+    $routes->post('update_piture', 'ManagerController::updatePiture');
+    $routes->get('fetchPicture', 'ManagerController::fetchPicture');
+    $routes->get('delete_picture/(:any)', 'ManagerController::deletePicture/$1');
+
+    $routes->get('TVSetting', 'ManagerController::TVSetting');
+    $routes->post('updateTVSetting', 'ManagerController::updateTVSetting');
 });
 
 // stock management
