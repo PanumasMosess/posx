@@ -35,6 +35,8 @@
 
     <link rel="stylesheet" href="<?php echo base_url('vendors/material_icon/material-icons.css'); ?>" />
 
+    <link rel="stylesheet" href="<?php echo base_url('css/image-uploader.min.css'); ?>">
+
     <link rel="stylesheet" href="<?php echo base_url('css/metisMenu.css'); ?>" />
 
     <link rel="stylesheet" href="<?php echo base_url('css/style1.css'); ?>" />
@@ -204,6 +206,9 @@
                 </ul>
                 <ul class="disabled">
                     <li><a href="<?php echo base_url('/manager/edit_bill'); ?>" class="lang" key='BIIL_UPDATE'>แก้ไขบิล</a></li>
+                </ul>
+                <ul>
+                    <li><a href="<?php echo base_url('/manager/setting_tv'); ?>" class="lang" key='SETTING_TY'>ตั้งค่า TV</a></li>
                 </ul>
             </li>
         </ul>
