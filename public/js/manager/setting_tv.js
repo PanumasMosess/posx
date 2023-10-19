@@ -368,9 +368,12 @@ function qrDrow(data) {
     
     if (serverUrl != "http://localhost:8080/") {
       let split_host =  serverUrl.split("https://app.");
+
+      console.log(split_host[i]);
+      
       $("#qrcode" + i + "").qrcode(
         $.extend(qrcodeConfig, {
-          text: "https://app."+split_host[i][1]+"upload/",
+          text: "https://app."+split_host[1]+"upload/",
         })
       );
 
