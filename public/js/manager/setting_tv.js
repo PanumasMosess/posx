@@ -367,7 +367,7 @@ function qrDrow(data) {
   for (var i = 0; i < data.length; i++) {
     
     if (serverUrl != "http://localhost:8080/") {
-      let split_host =  serverUrl.split("https://tv.");
+      let split_host =  serverUrl.split("https://app.");
         console.log(split_host);
     //   $("#qrcode" + i + "").qrcode(
     //     $.extend(qrcodeConfig, {
