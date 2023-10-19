@@ -69,7 +69,7 @@ class SettingTVModel
 
     public function getQrData()
     {
-        $sql = "SELECT * FROM  area_table";
+        $sql = "SELECT * FROM  table_dynamic";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
