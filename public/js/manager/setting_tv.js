@@ -362,6 +362,7 @@ function qrDrow(data) {
   var split_host = "";
   if (serverUrl != "http://localhost:8080/") {
     split_host = serverUrl.split("https://app.");
+    console.log(split_host);
   }
 
   var qrcodeConfig = {
