@@ -36,6 +36,8 @@ class ManagerController extends BaseController
             }
             return $randomString;
         }
+
+        $this->SettingTVModel = new \App\Models\SettingTVModel();
     }
 
     public function index()
@@ -406,6 +408,7 @@ class ManagerController extends BaseController
         $data['title'] = 'ตั้งค่า TV';
         $data['js_critical'] = '
         <script src="' . base_url('/js/image-uploader.min.js') . '"></script>
+        <script src="' . base_url('/js/jquery.qrcode.min.js') . '"></script>
         <script src="' . base_url('/js/manager/setting_tv.js?v=' . time()) . '"></script>
 
         ';
@@ -490,9 +493,15 @@ class ManagerController extends BaseController
             ]);
         } else {
             return $this->response->setJSON([
-                'status' => 200,
+                'status' => 200,  
                 'error' => false,
-                'message' => '<a href="' . base_url("/assets/img/no_image.png") . '" class="js-img-viewer" data-caption="รูปอื่นๆ" data-id="other"><img src="' . base_url("/assets/img/no_image.png") . '" alt="" /></a>'
+                'message' => '<div class="col-lg-4 col-md-6 mb_30">
+                <div class="single_wow_amin wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.1s; animation-name: fadeInUp;">
+                    <div class="image-container">
+                        <img class="img-thumbnail" src="' . base_url("/img/no-image-available.jpg") . '" data-tilt-perspective="300" data-tilt-speed="400" data-tilt-max="5" alt" onclick="enlargeImage(this)">
+                    </div>
+                </div>
+            </div>'
 
             ]);
         }
@@ -571,5 +580,16 @@ class ManagerController extends BaseController
         } catch (\Exception $e) {
             echo $e->getMessage() . ' ' . $e->getLine();
         }
+    }
+
+    public function loadQR()
+    {
+        $data = $this->SettingTVModel->getQrData();
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $data
+        ]);
     }
 }

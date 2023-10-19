@@ -125,6 +125,8 @@ $routes->group('manager', ['filter' => 'employeeAuth'] ,function ($routes) {
 
     $routes->get('TVSetting', 'ManagerController::TVSetting');
     $routes->post('updateTVSetting', 'ManagerController::updateTVSetting');
+
+    $routes->get('loadQR', 'ManagerController::loadQR');
 });
 
 // stock management
