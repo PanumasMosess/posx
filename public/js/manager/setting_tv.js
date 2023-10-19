@@ -359,24 +359,24 @@ function loadQRAllTable() {
 }
 
 function qrDrow(data) {
+    
+  if (serverUrl != "http://localhost:8080/") {
+    let split_host = serverUrl.split("https://app.");
+    console.log(split_host[1]);
+  }
+
   var qrcodeConfig = {
     // width: 100,
     // height: 100,
     correctLevel: 0,
   };
   for (var i = 0; i < data.length; i++) {
-    
     if (serverUrl != "http://localhost:8080/") {
-      let split_host =  serverUrl.split("https://app.");
-
-      console.log(split_host[i]);
-
-    //   $("#qrcode" + i + "").qrcode(
-    //     $.extend(qrcodeConfig, {
-    //       text: "https://app."+split_host[1]+"upload/",
-    //     })
-    //   );
-
+      $("#qrcode" + i + "").qrcode(
+        $.extend(qrcodeConfig, {
+          text: "https://app." + split_host[1] + "upload/",
+        })
+      );
     } else {
       $("#qrcode" + i + "").qrcode(
         $.extend(qrcodeConfig, {
