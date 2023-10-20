@@ -397,6 +397,9 @@
                                         <a href="#" class="disabled"><i class="fas fa-laptop"></i>
                                             <front class='lang' key='REMOTE_SUPPORT'>Remote Support</front>
                                         </a>
+                                        <a  id="tv_board" target="_blank"><i class="fas fa-laptop"></i>
+                                            <front class='lang' key='TV_POSX'>TV Board</front>
+                                        </a>
                                         <a href="#" class="disabled"><i class="fas fa-question-circle"></i>
                                             <front class='lang' key='MANUAL'>คู่มือ</front>
                                         </a>
