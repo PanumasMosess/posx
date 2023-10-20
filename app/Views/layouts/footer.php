@@ -158,7 +158,7 @@
         var link_tv = "";
         if (serverUrl != "http://localhost:8080/") {
             split_host_TV = serverUrl.split("https://app.");
-            link_tv = "https://tv." + split_host_TV[1] + "?compa='<? echo session()->get('companies_id'); ?>'";
+            link_tv = "https://tv." + split_host_TV[1] + "?compa=" + companies_id;
         } else {
             link_tv = 'http://localhost:8080/';
         }
