@@ -135,7 +135,7 @@
 
     $(document).ready(function() {
         let lang = localStorage.language
-        console.log(lang);
+
         if (lang == 'en') {
             $.getJSON(serverUrl + "language.json", function(data) {
                 $(".lang").each(function(index, element) {
@@ -153,6 +153,15 @@
                 console.log("An error has occurred.");
             });
         }
+
+        var split_host_TV = "";
+        if (serverUrl != "http://localhost:8080/") {
+            split_host_TV = serverUrl.split("https://app.");
+        }
+        var link_tv = "https://tv." +
+            split_host_TV[1] +
+            "/" + '<?PHP echo session()->get('companies_id'); ?>';
+        document.getElementById("tv_board").href = link_tv;
 
     });
     // // เรียกใช้ Bootstrap Dropdown
