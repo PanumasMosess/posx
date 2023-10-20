@@ -69,7 +69,8 @@ class SettingTVModel
 
     public function getQrData()
     {
-        $sql = "SELECT * FROM  table_dynamic";
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM  table_dynamic WHERE (companies_id = $companies_id);";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
