@@ -69,6 +69,7 @@
     </style>
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
+        var companies_id = '<?php echo session()->get('companies_id'); ?>'
     </script>
     <style>
         .disabled {
