@@ -155,14 +155,14 @@
         }
 
         var split_host_TV = "";
+        var link_tv = "";
         if (serverUrl != "http://localhost:8080/") {
             split_host_TV = serverUrl.split("https://app.");
+            link_tv = "https://tv." + split_host_TV[1];
+        } else {
+            link_tv = 'http://localhost:8080/';
         }
-
-        console.log(split_host_TV[1]);
-        var link_tv = "https://tv." +
-            split_host_TV[1] +
-            '<?PHP echo session()->get('companies_id'); ?>';
+        
         document.getElementById("tv_board").href = link_tv;
 
     });
