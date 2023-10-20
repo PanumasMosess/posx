@@ -334,4 +334,11 @@ class PdfController extends BaseController
         // This method has several options, check the source code documentation for more information.
         $pdf->Output('Receipt.pdf', 'I');
     }
+
+    public function pdf_QR()
+    {
+        $data['title'] = 'สั่งพิมพ์';
+
+        echo view('/pdf/qr_code', $data);
+    }
 }
