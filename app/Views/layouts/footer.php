@@ -160,7 +160,7 @@
         }
         var link_tv = "https://tv." +
             split_host_TV[1] +
-            "/" + '<?PHP echo session()->get('companies_id'); ?>';
+          '<?PHP echo session()->get('companies_id'); ?>';
         document.getElementById("tv_board").href = link_tv;
 
     });
