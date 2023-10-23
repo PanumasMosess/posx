@@ -407,8 +407,8 @@ class ManagerController extends BaseController
         $data['content'] = 'manager/setting_tv';
         $data['title'] = 'ตั้งค่า TV';
         $data['js_critical'] = '
-        <script src="' . base_url('/js/image-uploader.min.js') . '"></script>
-        <script src="' . base_url('/js/jquery.qrcode.min.js') . '"></script>
+        <script src="' . base_url('/js/image-uploader.min.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/jquery.qrcode.min.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/manager/setting_tv.js?v=' . time()) . '"></script>
 
         ';
