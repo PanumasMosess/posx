@@ -57,7 +57,7 @@
                         <div class="white_card_body">
                           <form id="updatePicture" name="updatePicture" method="POST" enctype="multipart/form-data" novalidate>
                             <div class="col-sm-12 col-md-12" style="text-align: center;">
-                              <label for="file_picture_update" class="form-label">Background</label>
+                              <label for="file_picture_update" class="form-label">Background (ขนาดแนะนำ 1920 x 1080)</label>
                               <!-- <label for="file_picture_other_update" class="form-label" style="font-weight: bold;">Background</label> -->
                               <!-- <input id="file_picture_other_update" type="file" class="dropify" name="file_picture_other_update[]" accept="image/jpeg, image/png" data-height="200" multiple /> -->
                               <div class="input-images">
@@ -120,6 +120,7 @@
                       </div>
                     </div>
                   </div>
+                  <button type="submit" class="btn btn-primary" href="#" id="Print" style="float: right; margin-top: -13px;">Print</button>
                 </div>
               </div>
             </div>

@@ -272,7 +272,23 @@ function TVSetting() {
     },
   });
 }
+$("body").on("click", "#Print", function () {
+  var win = window.open(
+    `${serverUrl}/pdf_QR_Code`,
+    "",
+    "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+  );
 
+  win.onload = function () {
+    // win.print(); // สั่งพิมพ์ทันที
+    // console.log("printed");
+    // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+    setTimeout(function () {
+      win.print();
+      win.close();
+    }, 2500)
+  }
+});
 // var upics = [];
 
 // //set for dowload picture

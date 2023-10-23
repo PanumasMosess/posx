@@ -45,6 +45,8 @@ $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' =>
 $routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
 $routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);
 
+$routes->get('pdf_QR_Code', 'PdfController::pdf_QR', ['filter' => 'employeeAuth']);
+
 $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('index', 'SettingController::index');
     // $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
