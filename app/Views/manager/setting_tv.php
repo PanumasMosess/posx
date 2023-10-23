@@ -66,7 +66,7 @@
                             <p class="border-bottom-dashed tx-primary"></p>
                             <div align="right">
                               <div class="form-group mb-2 mt-2">
-                                <button type="submit" id="updated_btn_picture" class="btn btn-primary mb-0 me-2" role="button">เพิ่มรูปภาพ</button>
+                                <button type="submit" id="updated_btn_picture" class="btn btn-primary mb-0 me-2" role="button"><i class="ti-cloud-up"></i>  เพิ่มรูปภาพ</button>
                               </div>
                             </div>
                           </form>
@@ -93,11 +93,11 @@
                               <span class="">วินาที</span>
                             </div>
                           </div>
+                          <button type="submit" class="btn btn-primary mt-1" href="#" id="EditTVSetting" style="float: right;"><i class="ti-alarm-clock"></i> ตั้งค่าเวลา</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary" href="#" id="EditTVSetting" style="float: right; margin-top: -18px;">Edit</button>
                 </div>
               </div>
               <div class="tab-pane fade show " id="setting_barcode" role="tabpanel" aria-labelledby="setting-barcode-tab">
@@ -114,13 +114,13 @@
                       <div class=" white_card_body">
                         <!-- temp card -->
                         <div class="row justify-content-center" id='qr_table'>
-                        
-                        </div>
 
+                        </div>
+                       <button type="submit" class="btn btn-outline-primary mb-3" href="#" id="Print" style="float: right;"><i class="ti-printer"></i>  Print Barcode All</button>
                       </div>
+                      
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary" href="#" id="Print" style="float: right; margin-top: -13px;">Print</button>
                 </div>
               </div>
             </div>
