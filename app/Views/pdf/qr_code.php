@@ -57,7 +57,7 @@
                             "<div id='qrcode" +
                             i +
                             "'style='text-align: center;' ></div>" +
-                            "</div>"+res.data[i].table_name+"</div>";
+                            "</div><B style='font-size: 19px;'>"+res.data[i].table_name+"</B></div>";
                     }
                     $("#qr_table").html(html_qr);
                     qrDrow(res.data);
