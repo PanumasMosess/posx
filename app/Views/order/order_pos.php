@@ -94,6 +94,9 @@
                                                             <div class="white_card_body">
                                                                 <div class="canva" id="canvaHolder">
                                                                 </div>
+                                                                <div class="justify-content-end d-flex mb-2 mt-2">
+                                                                    <a href="javascript:void(0);" class="btn btn-outline-secondary mb-2" id='open_btn_area' onclick='openArea();'><i class="ti-panel"></i>&nbsp;&nbsp;แก้ไขพื้นที่</a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
