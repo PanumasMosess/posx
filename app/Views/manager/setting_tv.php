@@ -46,7 +46,7 @@
                 <div class="main_content_iner">
                   <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12">
-                      <div class="white_card card_height_100 mb_20">
+                      <div class="white_card card_height_100 mb_50">
                         <div class="white_card_header">
                           <div class="box_header m-0">
                             <div class="main-title">
@@ -93,7 +93,7 @@
                               <span class="">วินาที</span>
                             </div>
                           </div>
-                          <button type="submit" class="btn btn-primary mt-1" href="#" id="EditTVSetting" style="float: right;"><i class="ti-alarm-clock"></i> ตั้งค่าเวลา</button>
+                          <button type="submit" class="btn btn-primary" href="#" id="EditTVSetting" style="float: right;"><i class="ti-alarm-clock"></i> ตั้งค่าเวลา</button>
                         </div>
                       </div>
                     </div>
@@ -114,11 +114,11 @@
                       <div class=" white_card_body">
                         <!-- temp card -->
                         <div class="row justify-content-center" id='qr_table'>
-
-                        </div>
-                       <button type="submit" class="btn btn-outline-primary mb-3" href="#" id="Print" style="float: right;"><i class="ti-printer"></i>  Print Barcode All</button>
+                        
                       </div>
-                      
+                        <button type="submit" class="btn btn-outline-primary" href="#" id="Print" style="float: right;margin-top: -20px;"><i class="ti-printer"></i>  Print Barcode All</button>
+                      </div>
+
                     </div>
                   </div>
                 </div>

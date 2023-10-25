@@ -81,7 +81,7 @@
 </div>
 <!-- Model Add GroupProduct -->
 <div class="modal fade bd-add-group-product" tabindex="-1" role="dialog" aria-labelledby="AddGroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
         <div class="white_card card_height_100 mb_30">
@@ -126,7 +126,7 @@
 </div>
 <!-- Model Edit GroupProduct -->
 <div class="modal fade bd-edit-group-product" tabindex="-1" role="dialog" aria-labelledby="EditGroupProductModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
         <div class="white_card card_height_100 mb_30">
@@ -172,7 +172,7 @@
 </div>
 <!-- Model Add Supplier -->
 <div class="modal fade bd-add-supplier" tabindex="-1" role="dialog" aria-labelledby="AddSupplierModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
         <div class="white_card card_height_100 mb_30">
@@ -211,7 +211,7 @@
 </div>
 <!-- Model Edit Supplier -->
 <div class="modal fade bd-edit-supplier" tabindex="-1" role="dialog" aria-labelledby="EditSupplierModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content p-4">
       <div class="col-lg-12">
         <div class="white_card card_height_100 mb_30">
