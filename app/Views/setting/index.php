@@ -336,7 +336,7 @@
                               </div>
                               <div class="add-container">
                                 <input class="form-control add-input" type="text" placeholder="Enter email report" aria-label="addemail" id="addemail" aria-describedby="basic-addon1">
-                                <button type="submit" class="btn btn-success f_s_14" id="AddEmail">Add</button>
+                                <button type="submit" class="btn btn-primary f_s_14" id="AddEmail">Add</button>
                               </div>
                             </div>
                           </div>
