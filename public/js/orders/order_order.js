@@ -12,6 +12,7 @@ var array_summary_update = [];
 var price_sum_total_payment = 0;
 (function ($) {
   $("#order_select_detail").slideUp();
+  $("#open_btn_area").hide();
   $("#addOrderCusBtn").addClass("disable-click");
   $("#move_order_btn").addClass("disable-click");
   $("#void_order_btn").addClass("disable-click");
@@ -33,7 +34,7 @@ var price_sum_total_payment = 0;
       );
       table_code = target.getAttribute("data-code");
 
-      table_name =  target.getAttribute("data-name");
+      table_name = target.getAttribute("data-name");
 
       if (target.getAttribute("data-use") !== "USE") {
         $("#addOrderCusBtn").removeClass("disable-click");
@@ -190,12 +191,14 @@ function drowTableLoad(data) {
     $("#table_header_name").html("");
     $("#table_header_name_detail").html("");
     $("#order_select_detail").slideDown();
+    $("#open_btn_area").show();
   } else {
     $("#canvaHolder").html("");
     $("#table_header_name").html("");
     $("#table_header_name_detail").html("");
     $("#order_select_detail").slideUp();
     $("#addOrderCusBtn").addClass("disable-click");
+    $("#open_btn_area").hide();
   }
   // interact.removeDocument(document);
   var str_split = data;
@@ -1081,3 +1084,20 @@ $("#payment-form").submit(function (e) {
     num_price_payment.validate();
   }
 });
+
+function openArea() {
+ 
+  const AREA = {
+    init() {
+      let url = `${serverUrl}order/pageArea/` + table_array_code;
+      window.open(
+        url,
+        "Doc",
+        "menubar=no,toorlbar=no,location=no,scrollbars=yes, status=no,resizable=no,width=850,height=700,top=10,left=10"
+      );
+    },
+  };
+  AREA.init();
+
+  drowTableLoad("");
+}
