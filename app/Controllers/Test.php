@@ -381,6 +381,17 @@ class Test extends BaseController
 
             if ($orderCustomersSummaryToday) {
                 foreach($orderCustomersSummaryToday as $data) {
+
+                    $buttonAction = '
+                        <button class="btn btn-info btn-sm btnLookupOrderDetail" data-bs-toggle="modal" data-bs-target="#orderDetailModal" data-order-code="' . $data->order_customer_code  . '"> <i class="far fa-edit"></i> View</button>
+                    ';
+
+                    if ($orderStatus != 'CANCEL') {
+                          $buttonAction .= '
+                            <button class="btn btn-danger btn-sm btnLookupOrderVoide" data-status="ยกเลิก" data-order-customer-code="' . $data->order_customer_code  . '"> <i class="fas fa-trash"></i> Voide Bills</button>
+                        ';
+                    }
+
                     $html .= '
                         <tr role="row" data-order-code="' . $data->order_customer_code  . '">
                             <!-- <th scope="row" tabindex="0" class="sorting_1">
@@ -395,10 +406,7 @@ class Test extends BaseController
                             <td>' . $data->order_table_code . '</td>
                             <td></td>
                             <td>' . $data->created_by . '</td>
-                            <td>
-                                <button class="btn btn-info btn-sm btnLookupOrderDetail" data-bs-toggle="modal" data-bs-target="#orderDetailModal" data-order-code="' . $data->order_customer_code  . '"> <i class="far fa-edit"></i> View</button>
-                                <button class="btn btn-danger btn-sm btnLookupOrderVoide" data-status="ยกเลิก" data-order-customer-code="' . $data->order_customer_code  . '"> <i class="fas fa-trash"></i> Voide Bills</button>
-                            </td>
+                            <td>' . $buttonAction . '</td>
                         </tr>
                     ';
                 }
