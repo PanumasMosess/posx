@@ -96,7 +96,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="QA_table ">
+                            <div class="QA_table">
                                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer text-center">
                                     NO DATA
                                 </div>

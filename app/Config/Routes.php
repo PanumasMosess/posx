@@ -184,6 +184,9 @@ function ($routes) {
     $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1');
     $routes->get('view/(:any)', 'Test::view/$1');
     $routes->post('update-status', 'Test::updateStatus');
+    $routes->post('orderDashboard/detail', 'Test::orderDashboardDetail');
+    $routes->post('orderDashboard/bestSellers', 'Test::orderDashboardBestSellers');
+    $routes->post('orderDashboard/voidItems', 'Test::orderDashboardVoidItems');
 });
 /*
  * --------------------------------------------------------------------

@@ -391,20 +391,58 @@ $(document).ready(function() {
             $dashboardSummary3
                 .on('click', 'button', function() {
 
-                    let $me = $(this)
+                    let $me = $(this),
+                        $title = $me.data('title')
 
-                    switch($me.data('title')) {
+                    // switch($title) {
 
-                        case 'Type':
-                            console.log('Type')
-                            // TODO:: HANDLE SOMETHING
-                            break
+                    //     case 'Type':
+                    //         console.log('Type')
+                    //         break
 
-                        case 'Group':
-                            console.log('Group')
-                            // TODO:: HANDLE SOMETHING
-                            break
-                    }
+                    //     case 'Group':
+                    //         console.log('Group')
+                    //         break
+                    // }
+
+                    $dashboardSummary3.find('.QA_table').html('LOADING . . .')
+
+                    dataObj = { title: $title }
+        
+                    $.ajax({
+                        type: "POST",
+                        url: `${serverUrl}/order/orderDashboard/detail`,
+                        data: JSON.stringify(dataObj),
+                        contentType: "application/json; charset=utf-8"
+                    }).done(function (res) {
+                        if (res.success) {
+                            $dashboardSummary3.find('.QA_table').html(res.data.html)
+                        } else {
+
+                            swal({
+                                title: res.messages,
+                                text: 'Redirecting...',
+                                icon: 'warning',
+                                timer: 2000,
+                                buttons: false
+                            })
+
+                            reload()
+                        }
+                    }).fail(function (err) {
+                        const message = err.responseJSON?.messages || 'ไม่สามารถอัพเดทได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ';
+                        swal({
+                            title: message,
+                            text: 'Redirecting...',
+                            icon: 'warning',
+                            timer: 2000,
+                            buttons: false
+                        })
+
+                        // $dataTableInCompleted.ajax.reload()
+                        // $dataTableCompleted.ajax.reload()
+
+                    })
                 })
 
             $dashboardSummary4
@@ -412,23 +450,59 @@ $(document).ready(function() {
 
                     let $me = $(this)
 
-                    switch($me.data('title')) {
+                    // switch($me.data('title')) {
 
-                        case 'Sales':
-                            console.log('Sales')
-                            // TODO:: HANDLE SOMETHING
-                            break
+                    //     case 'Sales':
+                    //         console.log('Sales')
+                    //         break
 
-                        case 'Qty':
-                            console.log('Qty')
-                            // TODO:: HANDLE SOMETHING
-                            break
+                    //     case 'Qty':
+                    //         console.log('Qty')
+                    //         break
 
-                        case 'Group':
-                            console.log('Group')
-                            // TODO:: HANDLE SOMETHING
-                            break
-                    }
+                    //     case 'Group':
+                    //         console.log('Group')
+                    //         break
+                    // }
+
+                    $dashboardSummary4.find('.QA_table').html('LOADING . . .')
+
+                    dataObj = { title: $title }
+        
+                    $.ajax({
+                        type: "POST",
+                        url: `${serverUrl}/order/orderDashboard/bestSellers`,
+                        data: JSON.stringify(dataObj),
+                        contentType: "application/json; charset=utf-8"
+                    }).done(function (res) {
+                        if (res.success) {
+                            $dashboardSummary4.find('.QA_table').html(res.data.html)
+                        } else {
+
+                            swal({
+                                title: res.messages,
+                                text: 'Redirecting...',
+                                icon: 'warning',
+                                timer: 2000,
+                                buttons: false
+                            })
+
+                            reload()
+                        }
+                    }).fail(function (err) {
+                        const message = err.responseJSON?.messages || 'ไม่สามารถอัพเดทได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ';
+                        swal({
+                            title: message,
+                            text: 'Redirecting...',
+                            icon: 'warning',
+                            timer: 2000,
+                            buttons: false
+                        })
+
+                        // $dataTableInCompleted.ajax.reload()
+                        // $dataTableCompleted.ajax.reload()
+
+                    })
                 })
 
             $dashboardSummary5
@@ -436,13 +510,49 @@ $(document).ready(function() {
 
                     let $me = $(this)
 
-                    switch($me.data('title')) {
+                    // switch($me.data('title')) {
 
-                        case 'Reload':
-                            console.log('Reload')
-                            // TODO:: HANDLE SOMETHING
-                            break
-                    }
+                    //     case 'Reload':
+                    //         console.log('Reload')
+                    //         break
+                    // }
+
+                    
+                    $dashboardSummary5.find('.QA_table').html('LOADING . . .')
+        
+                    $.ajax({
+                        type: "POST",
+                        url: `${serverUrl}/order/orderDashboard/voidItems`,
+                        contentType: "application/json; charset=utf-8"
+                    }).done(function (res) {
+                        if (res.success) {
+                            $dashboardSummary5.find('.QA_table').html(res.data.html)
+                        } else {
+
+                            swal({
+                                title: res.messages,
+                                text: 'Redirecting...',
+                                icon: 'warning',
+                                timer: 2000,
+                                buttons: false
+                            })
+
+                            reload()
+                        }
+                    }).fail(function (err) {
+                        const message = err.responseJSON?.messages || 'ไม่สามารถอัพเดทได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ';
+                        swal({
+                            title: message,
+                            text: 'Redirecting...',
+                            icon: 'warning',
+                            timer: 2000,
+                            buttons: false
+                        })
+
+                        // $dataTableInCompleted.ajax.reload()
+                        // $dataTableCompleted.ajax.reload()
+
+                    })
                 })
         },
 
