@@ -104,8 +104,6 @@ $(document).ready(function() {
             let dataObj = {
                 type: type
             }
-            
-            console.log(dataObj)
 
             $.ajax({
                 type: "POST",
@@ -662,6 +660,61 @@ $(document).ready(function() {
             })
         },
 
+        getDetail() {
+            
+            $dashboardSummary3btn = $dashboardSummary3.find('button')
+            $dashboardSummary3btnActive = $dashboardSummary3.find('button.active')
+            $dashboardSummary3btn.removeClass('active')
+            $dashboardSummary3btnActive.addClass('active')
+
+            $dashboardSummary4btn = $dashboardSummary4.find('button')
+            $dashboardSummary4btnActive = $dashboardSummary4.find('button.active')
+            $dashboardSummary4btn.removeClass('active')
+            $dashboardSummary4btnActive.addClass('active')
+
+            let dataObj = {
+                dashboardSummary3btnActive: $dashboardSummary3btnActive.data('title'),
+                dashboardSummary4btnActive: $dashboardSummary4btnActive.data('title')
+            }
+
+            $.ajax({
+                type: "POST",
+                url: `${serverUrl}/order/orderDashboard/testDetail`,
+                data: JSON.stringify(dataObj),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (res) {
+
+                if (res.success) {
+
+                    let data = res.data
+
+                    $dashboardSummary3.find('.QA_table').html(res.data.htmlDashboardSummary3)
+                    $dashboardSummary4.find('.QA_table').html(res.data.htmlDashboardSummary4)
+                    $dashboardSummary5.find('.QA_table').html(res.data.htmlDashboardSummary5)        
+                } 
+                
+                else {
+
+                    swal({
+                        title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                        text: 'Redirecting...',
+                        icon: 'warning',
+                        timer: 2000,
+                        buttons: false
+                    })
+                }
+            }).fail(function () {
+
+                swal({
+                    title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
+                    text: 'Redirecting...',
+                    icon: 'warning',
+                    timer: 2000,
+                    buttons: false
+                })
+            })
+        },
+
         fetData() {
 
             TAB_DASHBOARD.getSummary()
@@ -678,7 +731,7 @@ $(document).ready(function() {
             }
 
             else {
-
+                TAB_DASHBOARD.getDetail()
             }
         },
 

@@ -177,16 +177,33 @@ function ($routes) {
     $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
     $routes->post('updateDiscount', 'OrderPosController::updateDiscount');     
 
-    $routes->post('sumOrderItems', 'Test::sumOrderItems');
-    $routes->post('getLiveData', 'Test::getLiveData');
-    $routes->get('activity', 'Test::activity');
-    $routes->post('getDataDashboard', 'Test::getDataDashboard');
-    $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1');
-    $routes->get('view/(:any)', 'Test::view/$1');
-    $routes->post('update-status', 'Test::updateStatus');
+    /*
+    * --------------------------------------------------------------------
+    * TAB DASHBAORD
+    * --------------------------------------------------------------------
+    */
+
+    $routes->post('sumOrderItems', 'Test::sumOrderItems'); // Summary Tab แดชบอร์ด: Sum
+    $routes->post('getLiveData', 'Test::getLiveData'); // Summary Tab แดชบอร์ด: Live Data
+    
+    $routes->post('getDataDashboard', 'Test::getDataDashboard'); // Summary Tab แดชบอร์ด: Receipt
+    $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1'); // Summary Tab แดชบอร์ด: Receipt Detail
+    $routes->get('view/(:any)', 'Test::view/$1'); // Summary Tab แดชบอร์ด: Receipt นับ
+    $routes->post('update-status', 'Test::updateStatus'); // Summary Tab แดชบอร์ด: อัพเดทสถานะ Receipt
+
     $routes->post('orderDashboard/detail', 'Test::orderDashboardDetail');
+    $routes->post('orderDashboard/testDetail', 'Test::orderDashboardTestDetail');
     $routes->post('orderDashboard/bestSellers', 'Test::orderDashboardBestSellers');
     $routes->post('orderDashboard/voidItems', 'Test::orderDashboardVoidItems');
+
+    /*
+    * --------------------------------------------------------------------
+    * TAB ACTIVITY
+    * --------------------------------------------------------------------
+    */
+
+    $routes->get('activity', 'Test::activity'); // Log Tab Activity
+    
 });
 /*
  * --------------------------------------------------------------------
