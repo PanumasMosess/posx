@@ -4,7 +4,9 @@
 <body>
     <table>
         <tr>
-            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;"></th>
+            <th width="100%" style="text-align:center;">
+                <img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;">
+            </th>
         </tr>
         <tr>
             <th style="font-size: 3px;"></th>
@@ -40,8 +42,8 @@
         <tr>
             <th style="font-size: 4px;"></th>
         </tr>
-        <?php foreach ($orderlists as $orderlist) { 
-            $price = $orderlist->order_customer_pcs * $orderlist->order_price;?>
+        <?php foreach ($orderlists as $orderlist) {
+            $price = $orderlist->order_customer_pcs * $orderlist->order_price; ?>
             <tr>
                 <th width="10%" style="text-align: center;"><?php echo $orderlist->order_customer_pcs ?></th>
                 <th width="60%"><?php echo $orderlist->order_customer_ordername ?></th>
@@ -99,7 +101,9 @@
             <th style="font-size: 15px;"></th>
         </tr>
         <tr>
-            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/no-image-available.jpg" style="height:120px;width:120px;"></th>
+            <th width="100%" style="text-align:center;">
+                <!-- <img src="https://app.posx.co/img/no-image-available.jpg" style="height:120px;width:120px;"> -->
+            </th>
         </tr>
     </table>
 </body>

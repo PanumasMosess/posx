@@ -696,5 +696,5 @@ $(document).ready(function() {
         }
     }
 
-    ORDER_POS.init()
+    // ORDER_POS.init()
 })

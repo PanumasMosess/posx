@@ -42,8 +42,12 @@ $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
 $routes->get('pdf_bill/(:any)', 'PdfController::pdf_Bill/$1', ['filter' => 'employeeAuth']);
 $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' => 'employeeAuth']);
+// $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1');
 $routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
 $routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);
+
+
+$routes->get('order_menu/', 'OrderPosController::menulink');
 
 $routes->get('pdf_QR_Code', 'PdfController::pdf_QR', ['filter' => 'employeeAuth']);
 
@@ -92,6 +96,8 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('deletePaymentType/(:num)', 'SettingController::deletePaymentType/$1');
     $routes->post('updateCreditCard', 'SettingController::updateCreditCard');
     $routes->post('updateEntertain', 'SettingController::updateEntertain');
+    $routes->get('printersetting', 'SettingController::getprinter');  
+    $routes->post('printer', 'SettingController::printersetting');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
@@ -210,6 +216,7 @@ function ($routes) {
     $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1');
     $routes->get('view/(:any)', 'Test::view/$1');
     $routes->post('update-status', 'Test::updateStatus');
+
 });
 /*
  * --------------------------------------------------------------------

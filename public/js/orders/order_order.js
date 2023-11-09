@@ -595,50 +595,53 @@ function voidItem() {
         areaCancelTemp = JSON.parse(localStorage.tableCancel);
 
         if (isOnline) {
-          var win = window.open(
-            `${serverUrl}/pdf_CancelledBillOrder/` + table_code,
-            "",
-            "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
-          );
-
-          win.onload = function () {
-            win.print(); // สั่งพิมพ์ทันที
-            // console.log("printed");
-            // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
-            setTimeout(function () {
-              win.close();
-            }, 4000);
-          };
-
           $.ajax({
-            url: serverUrl + "order/updateVoidOrderTable",
-            method: "post",
-            data: {
-              data: areaCancelTemp,
-            },
-            cache: false,
-            success: function (response) {
-              if ((response.message = "ยกเลิกรายการสำเร็จ")) {
-                localStorage.removeItem("tableCancel");
-                areaCancelTemp = [];
-                itemsArrayCancelOrderTableOffline = [];
-                notif({
-                  type: "success",
-                  msg: "ยกเลิกรายการสำเร็จ!",
-                  position: "right",
-                  fade: true,
-                  time: 300,
-                });
+            url: `${serverUrl}/pdf_CancelledBillOrder/` + table_code,
+            method: "get",
+            success: function (res) {
+              $.ajax({
+                url: serverUrl + "order/updateVoidOrderTable",
+                method: "post",
+                data: {
+                  data: areaCancelTemp,
+                },
+                cache: false,
+                success: function (response) {
+                  if ((response.message = "ยกเลิกรายการสำเร็จ")) {
+                    localStorage.removeItem("tableCancel");
+                    areaCancelTemp = [];
+                    itemsArrayCancelOrderTableOffline = [];
+                    notif({
+                      type: "success",
+                      msg: "ยกเลิกรายการสำเร็จ!",
+                      position: "right",
+                      fade: true,
+                      time: 300,
+                    });
 
-                selectArea();
-                detail_summary(table_code);
-                $("#canvaHolder").html("");
-                $("#order_select_detail").slideUp();
-                $("#void_order_btn").addClass("disable-click");
-              } else {
-              }
+                    selectArea();
+                    detail_summary(table_code);
+                    $("#canvaHolder").html("");
+                    $("#order_select_detail").slideUp();
+                    $("#void_order_btn").addClass("disable-click");
+                  } else {
+                  }
+                },
+              });
+            },
+            error: function (error) {
+              // เกิดข้อผิดพลาด
             },
           });
+
+          // win.onload = function () {
+          //   win.print(); // สั่งพิมพ์ทันที
+          //   // console.log("printed");
+          //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+          //   setTimeout(function () {
+          //     win.close();
+          //   }, 4000);
+          // };
         } else {
         }
       } else {
@@ -894,39 +897,31 @@ function printPreview() {
   // ];
 
   if (isOnline) {
-    // print_specific_content();
-    var win = window.open(
-      `${serverUrl}/pdf_bill/` + table_code,
-      "",
-      "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
-    );
+    // var win = window.open(
+    //   `${serverUrl}/pdf_bill/` + table_code,
+    //   "",
+    //   "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+    // );
 
-    win.onload = function () {
-      win.print(); // สั่งพิมพ์ทันที
-      // console.log("printed");
-      // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
-      setTimeout(function () {
-        win.close();
-      }, 4000);
-    };
+    $.ajax({
+      url: `${serverUrl}/pdf_bill/` + table_code,
+      method: "get",
+      success: function (res) {},
+      error: function (error) {
+        // เกิดข้อผิดพลาด
+      },
+    });
+
+    // win.onload = function () {
+    //   win.print(); // สั่งพิมพ์ทันที
+    //   // console.log("printed");
+    //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+    //   setTimeout(function () {
+    //     win.close();
+    //   }, 4000);
+    // };
   } else {
   }
-}
-
-function print_specific_content() {
-  var content = "Printed using Ahmed El-Essawy Code";
-
-  var win = window.open(
-    "",
-    "",
-    "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status =0"
-  );
-  win.document.write(
-    '<html><body onload="window.print(); window.close();">' +
-      content +
-      "</body></html>"
-  );
-  win.document.close();
 }
 
 function openSplitOrder(id) {
@@ -1040,37 +1035,48 @@ $("#payment-form").submit(function (e) {
           },
           cache: false,
           success: function (response) {
-            if ((response.message = "จ่ายสำเร็จ")) {
-              localStorage.removeItem("payment");
-              arrPaymentTemp = [];
-              itemsArrayPaymentOffline = [];
-              notif({
-                type: "success",
-                msg: "จ่ายสำเร็จ!",
-                position: "right",
-                fade: true,
-                time: 300,
-              });
-              closePayment();
-              clear_detail_summary();
-              drowTableLoad(table_array_code);
-              $("#parmentButtonId").hide();
-
-              var win = window.open(
-                `${serverUrl}/pdf_receipt/` +
+            if (response.message == "จ่ายสำเร็จ") {
+              $.ajax({
+                url:
+                  `${serverUrl}/pdf_receipt/` +
                   $("#order_customer_code_hide").val(),
-                "",
-                "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
-              );
+                method: "get",
+                success: function (res) {
+                  localStorage.removeItem("payment");
+                  arrPaymentTemp = [];
+                  itemsArrayPaymentOffline = [];
+                  notif({
+                    type: "success",
+                    msg: "จ่ายสำเร็จ!",
+                    position: "right",
+                    fade: true,
+                    time: 300,
+                  });
+                  closePayment();
+                  clear_detail_summary();
+                  drowTableLoad(table_array_code);
+                  $("#parmentButtonId").hide();
+                },
+                error: function (error) {
+                  // เกิดข้อผิดพลาด
+                },
+              });
 
-              win.onload = function () {
-                win.print(); // สั่งพิมพ์ทันที
-                // console.log("printed");
-                // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
-                setTimeout(function () {
-                  win.close();
-                }, 4000);
-              };
+              // var win = window.open(
+              //   `${serverUrl}/pdf_receipt/` +
+              //     $("#order_customer_code_hide").val(),
+              //   "",
+              //   "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+              // );
+
+              // win.onload = function () {
+              //   win.print(); // สั่งพิมพ์ทันที
+              //   // console.log("printed");
+              //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+              //   setTimeout(function () {
+              //     win.close();
+              //   }, 4000);
+              // };
             } else {
             }
           },
@@ -1086,7 +1092,6 @@ $("#payment-form").submit(function (e) {
 });
 
 function openArea() {
- 
   const AREA = {
     init() {
       let url = `${serverUrl}order/pageArea/` + table_array_code;

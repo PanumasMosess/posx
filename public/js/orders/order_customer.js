@@ -167,15 +167,15 @@ function loadTableOrderCustomer() {
       .val();
 
     if (id == "plus") {
-      product_qty_ ++;
-        $(table_order_customer.cell(this, 0).node())
-          .find("input")
-          .val(product_qty_);
+      product_qty_++;
+      $(table_order_customer.cell(this, 0).node())
+        .find("input")
+        .val(product_qty_);
     } else {
       product_qty_--;
-        $(table_order_customer.cell(this, 0).node())
-          .find("input")
-          .val(product_qty_);
+      $(table_order_customer.cell(this, 0).node())
+        .find("input")
+        .val(product_qty_);
     }
 
     subtotal_ =
@@ -542,38 +542,65 @@ function orderConfirm() {
                   time: 300,
                 });
 
-                var win = window.open(
-                  `${serverUrl}/pdf_BillOrder/` + response.order_customer_code,
-                  "",
-                  "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
-                );
+                $.ajax({
+                  url:
+                    `${serverUrl}/pdf_BillOrder/` +
+                    response.order_customer_code,
+                  method: "get",
+                  success: function (res) {
+                    // การสำเร็จ
+                    //clear after add
+                    array_customer_order = [];
+                    array_select_confirm = [];
+                    cancleAllTable();
+                    localStorage.setItem("isCallNewOrder", "yes");
 
-                win.onload = function () {
-                  win.print(); // สั่งพิมพ์ทันที
-                  // console.log("printed");
-                  // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
-                  setTimeout(function () {
-                    win.close();
-                  }, 4000)
+                    $.ajax({
+                      url:
+                        `${serverUrl}/order/update_order_print_log/` +
+                        response.order_customer_code,
+                      method: "get",
+                      success: function (res) {
+                        // การสำเร็จ
+                      },
+                      error: function (error) {
+                        // เกิดข้อผิดพลาด
+                      },
+                    });
+                  },
+                  error: function (error) {
+                    // เกิดข้อผิดพลาด
+                  },
+                });
 
-                  // ส่วนนี้อาจจะไม่จำเป็น
-                  $.ajax({
-                    url: `${serverUrl}/order/update_order_print_log/` + response.order_customer_code,
-                    method: "get",
-                    success: function (res) {
-                      // การสำเร็จ
-                    },
-                    error: function (error) {
-                      // เกิดข้อผิดพลาด
-                    }
-                  });
-                };
-                
-                //clear after add
-                array_customer_order = [];
-                array_select_confirm = [];
-                cancleAllTable();
-                localStorage.setItem("isCallNewOrder", "yes");
+                // var win = window.open(
+                //   `${serverUrl}/pdf_BillOrder/` + response.order_customer_code,
+                //   "",
+                //   "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+                // );
+
+                // win.onload = function () {
+                //   win.print(); // สั่งพิมพ์ทันที
+                //   // console.log("printed");
+                //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+                //   setTimeout(function () {
+                //     win.close();
+                //   }, 4000);
+
+                //   // ส่วนนี้อาจจะไม่จำเป็น
+                //   $.ajax({
+                //     url:
+                //       `${serverUrl}/order/update_order_print_log/` +
+                //       response.order_customer_code,
+                //     method: "get",
+                //     success: function (res) {
+                //       // การสำเร็จ
+                //     },
+                //     error: function (error) {
+                //       // เกิดข้อผิดพลาด
+                //     },
+                //   });
+                // };
               } else {
                 notif({
                   type: "danger",

@@ -1,9 +1,12 @@
 <!doctype html>
 <html lang="en" data-layout="horizontal" data-hor-style="hor-hover" data-logo="centerlogo">
+
 <body>
     <table>
         <tr>
-            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;"></th>
+            <th width="100%" style="text-align:center;">
+                <img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;">
+            </th>
         </tr>
         <tr>
             <th width="99%" style="text-align: center;">Receipt</th>
@@ -47,8 +50,8 @@
         <tr>
             <th style="font-size: 4px;"></th>
         </tr>
-        <?php foreach ($orderlists as $orderlist) { 
-            $price = $orderlist->order_customer_pcs * $orderlist->order_price;?>
+        <?php foreach ($orderlists as $orderlist) {
+            $price = $orderlist->order_customer_pcs * $orderlist->order_price; ?>
             <tr>
                 <th width="10%" style="text-align: center;"><?php echo $orderlist->order_customer_pcs ?></th>
                 <th width="60%"><?php echo $orderlist->order_customer_ordername ?></th>
@@ -77,7 +80,7 @@
             <th style="font-size: 3px;"></th>
         </tr>
         <tr>
-            <th width="99%" ><?php echo $summary->order_pcs_sum ?> Items</th>
+            <th width="99%"><?php echo $summary->order_pcs_sum ?> Items</th>
         </tr>
         <?php $grand_total = $payment_log->receive_total - $payment_log->change_total; ?>
         <tr>
@@ -95,11 +98,11 @@
         </tr>
         <tr>
             <th width="70%">Received (Cash)</th>
-            <th width="29%" style="text-align: right;"><?php echo number_format($payment_log->receive_total,2) ?></th>
+            <th width="29%" style="text-align: right;"><?php echo number_format($payment_log->receive_total, 2) ?></th>
         </tr>
         <tr>
             <th width="70%">Change</th>
-            <th width="29%" style="text-align: right;"><?php echo number_format($payment_log->change_total,2) ?></th>
+            <th width="29%" style="text-align: right;"><?php echo number_format($payment_log->change_total, 2) ?></th>
         </tr>
         <tr>
             <th width="99%" style="font-size: 3px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
@@ -120,8 +123,11 @@
             <th style="font-size: 15px;"></th>
         </tr>
         <tr>
-            <th width="100%" style="text-align:center;"><img src="https://app.posx.co/img/no-image-available.jpg" style="height:120px;width:120px;"></th>
+            <th width="100%" style="text-align:center;">
+                <!-- <img src="https://app.posx.co/img/no-image-available.jpg" style="height:120px;width:120px;"> -->
+            </th>
         </tr>
     </table>
 </body>
+
 </html>
