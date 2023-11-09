@@ -1157,7 +1157,7 @@ class OrderPosController extends BaseController
                 'updated_by' => $buffer_datetime
             ];
 
-            $delete_ok = $this->OrderModel->updateOrderCustomerCancel($delete_dertail,$id_order);
+            $delete_ok = $this->OrderModel->updateOrderCustomerCancel($delete_dertail, $id_order);
 
 
             $data_customers   =  $this->OrderModel->getOrderByOrderCustomerCode($id_customer_order);
@@ -1193,7 +1193,6 @@ class OrderPosController extends BaseController
                     'message' => 'ยกเลิกรายการไม่สำเร็จ'
                 ]);
             }
-
         }
 
 
@@ -1212,25 +1211,36 @@ class OrderPosController extends BaseController
     {
         $this->OrderModel = new \App\Models\OrderModel();
 
-            // HANDLE REQUEST
-            $update = $this->OrderModel->updateOrderPrintLogByOrderCustomerCode($id, [
-                'order_print_status' => 'SUCCESS_PRINT',
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
+        // HANDLE REQUEST
+        $update = $this->OrderModel->updateOrderPrintLogByOrderCustomerCode($id, [
+            'order_print_status' => 'SUCCESS_PRINT',
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
 
-            if ($update) {
-                $status = 200;
-                $response['success'] = 1;
-                $response['message'] = 'อัพเดท OrderPrintLog สำเร็จ';
-            } else {
-                $status = 200;
-                $response['success'] = 0;
-                $response['message'] = 'อัพเดท OrderPrintLog ไม่สำเร็จ';
-            }
+        if ($update) {
+            $status = 200;
+            $response['success'] = 1;
+            $response['message'] = 'อัพเดท OrderPrintLog สำเร็จ';
+        } else {
+            $status = 200;
+            $response['success'] = 0;
+            $response['message'] = 'อัพเดท OrderPrintLog ไม่สำเร็จ';
+        }
 
-            return $this->response
-                ->setStatusCode($status)
-                ->setContentType('application/json')
-                ->setJSON($response);
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
+    }
+
+
+    public function menulink()
+    {
+        $data['title'] = "Menu";
+        $data['css_critical'] = '';
+        $data['js_critical'] = '
+        <script src="' . base_url('/js/orders/order_summary_update.js?v=' . time()) . '"></script>    
+        ';
+        echo view('/order/order_link_menu.php', $data);
     }
 }

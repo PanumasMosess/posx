@@ -12,6 +12,7 @@ class SettingController extends BaseController
 
     public function __construct()
     {
+        $this->information = new \App\Models\InformationModel();
     }
 
     public function index()
@@ -27,12 +28,14 @@ class SettingController extends BaseController
         $data['content'] = 'setting/index';
         $data['title'] = 'ตั้งค่า';
         $data['js_critical'] = '
+        <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
         <script src="' . base_url('/js/setting/information.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/user_accounts.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/employee_pin_pos.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/employee_pin_stock.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/mobile.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/payment_type.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/printer.js?v=' . time()) . '"></script>
         ';
         // <script src="' . base_url('/js/setting/position.js?v=' . time()) . '"></script>
         // <script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>
@@ -1527,6 +1530,79 @@ class SettingController extends BaseController
                 ->setJSON($response);
         } catch (\Exception $e) {
             echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    public function getprinter()
+    {
+        $print_list = $this->information->get_printer();
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $print_list
+        ]);
+    }
+
+    public function printersetting()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $id = $this->request->getPost('id');
+        $printer_order = $this->request->getPost('printer_order');
+        $printer_summary_order = $this->request->getPost('printer_summary_order');
+        $printer_bill = $this->request->getPost('printer_bill');
+
+        if ($id != '') {
+            //update
+            $data = [
+                'printer_order' =>  $printer_order,
+                'printer_order_summary' =>  $printer_summary_order,
+                'printer_bill' =>   $printer_bill,
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime,
+            ];
+
+            $update = $this->information->updatePrinter($data, $id);
+
+            if ($update) {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => false,
+                    'message' => 'รายการสำเร็จ'
+                ]);
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+
+        } else {
+            //insert
+            $data = [
+                'printer_order' =>  $printer_order,
+                'printer_order_summary' =>  $printer_summary_order,
+                'printer_bill' =>   $printer_bill,
+                'created_by' => session()->get('username'),
+                'created_at' => $buffer_datetime,
+                'companies_id' => session()->get('companies_id')
+            ];
+
+            $new = $this->information->insertPrinter($data);
+
+            if ($new) {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => false,
+                    'message' => 'รายการสำเร็จ'
+                ]);
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
         }
     }
 }
