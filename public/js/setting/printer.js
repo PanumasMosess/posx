@@ -9,8 +9,8 @@ function loadPrinterLocation() {
     success: function (response) {
       if (response.data != null) {
         $("#printer_order").val(response.data.printer_order);
-        $("#printer_bill").val(response.data.printer_order_summary);
-        $("#printer_order_sum").val(response.data.printer_bill);
+        $("#printer_bill").val(response.data.printer_bill); 
+        $("#printer_order_sum").val(response.data.printer_order_summary);
         $("#id_printer").val(response.data.id);
       }
     },
