@@ -125,6 +125,20 @@ function findPrinters(printer, name_pdf) {
     console.error(e);
   });
 }
+
+function deletefilePDF(name) {
+  $.ajax({
+    url: `${serverUrl}/unlink_pdf/` + name,
+    method: "get",
+    success: function (res) {
+      findPrinters("POS-80", "bill_1.pdf");
+      deletefilePDF("bill_1.pdf");
+    },
+    error: function (error) {
+      // เกิดข้อผิดพลาด
+    },
+  });
+}
 function selectArea() {
   $.ajax({
     url: serverUrl + "/order/areaData",
@@ -927,6 +941,7 @@ function printPreview() {
       method: "get",
       success: function (res) {
         findPrinters("POS-80", "bill_1.pdf");
+        deletefilePDF("bill_1.pdf");
       },
       error: function (error) {
         // เกิดข้อผิดพลาด
