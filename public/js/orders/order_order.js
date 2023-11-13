@@ -134,7 +134,6 @@ function deletefilePDF(name) {
     url: `${serverUrl}unlink_pdf/` + name,
     method: "get",
     success: function (res) {
-      deletefilePDF("bill_1.pdf");
     },
     error: function (error) {
       // เกิดข้อผิดพลาด
