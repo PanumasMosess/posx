@@ -35,7 +35,7 @@ var vat_total = 0;
 })(jQuery);
 
 function findPrinters(printer, name_pdf) {
-
+  qz.websocket.connect();
   var config = qz.configs.create(printer);
   var path = serverUrl + "uploads/temp_pdf/" + name_pdf;
   var data = [
