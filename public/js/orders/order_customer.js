@@ -33,6 +33,53 @@ var vat_total = 0;
   getOrderCard();
 })(jQuery);
 
+function findPrinters(printer, name_pdf) {
+  qz.websocket.connect().then(function () {
+    console.log("Connected!");
+  });
+
+  var config = qz.configs.create(printer);
+  var path = serverUrl + "uploads/temp_pdf/" + name_pdf;
+  var data = [
+    {
+      type: "pixel",
+      format: "pdf",
+      flavor: "file",
+      data: path,
+    },
+  ];
+  qz.print(config, data)
+    .then(function (data) {
+      $.ajax({
+        url:
+          `${serverUrl}/order/update_order_print_log/` +
+          response.order_customer_code,
+        method: "get",
+        success: function (res) {
+          // การสำเร็จ
+        },
+        error: function (error) {
+          // เกิดข้อผิดพลาด
+        },
+      });
+      deletefilePDF(name_pdf);
+    })
+    .catch(function (e) {
+      console.error(e);
+    });
+}
+
+function deletefilePDF(name) {
+  $.ajax({
+    url: `${serverUrl}unlink_pdf/` + name,
+    method: "get",
+    success: function (res) {},
+    error: function (error) {
+      // เกิดข้อผิดพลาด
+    },
+  });
+}
+
 function loadTableOrderCustomer() {
   $("#orderListCustomerInTable").DataTable().clear().destroy();
   table_order_customer = $("#orderListCustomerInTable").DataTable({
@@ -995,50 +1042,3 @@ function add_discount_order(id) {
 
 function minus(data) {}
 function plus(data) {}
-
-function findPrinters(printer, name_pdf) {
-  qz.websocket.connect().then(function () {
-    console.log("Connected!");
-  });
-
-  var config = qz.configs.create(printer);
-  var path = serverUrl + "uploads/temp_pdf/" + name_pdf;
-  var data = [
-    {
-      type: "pixel",
-      format: "pdf",
-      flavor: "file",
-      data: path,
-    },
-  ];
-  qz.print(config, data)
-    .then(function (data) {
-      $.ajax({
-        url:
-          `${serverUrl}/order/update_order_print_log/` +
-          response.order_customer_code,
-        method: "get",
-        success: function (res) {
-          // การสำเร็จ
-        },
-        error: function (error) {
-          // เกิดข้อผิดพลาด
-        },
-      });
-      deletefilePDF(name_pdf);
-    })
-    .catch(function (e) {
-      console.error(e);
-    });
-}
-
-function deletefilePDF(name) {
-  $.ajax({
-    url: `${serverUrl}unlink_pdf/` + name,
-    method: "get",
-    success: function (res) {},
-    error: function (error) {
-      // เกิดข้อผิดพลาด
-    },
-  });
-}
