@@ -118,13 +118,9 @@ function findPrinters(printer, name_pdf) {
       data: path,
     },
   ];
-  qz.print(config, data)
-    .then(function (data) {
-      deletefilePDF(name_pdf);
-    })
-    .catch(function (e) {
-      console.error(e);
-    });
+  qz.print(config, data).catch(function (e) {
+    console.error(e);
+  });
 }
 
 function deletefilePDF(name) {

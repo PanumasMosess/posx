@@ -46,27 +46,22 @@ function findPrinters(printer, name_pdf) {
       data: path,
     },
   ];
-  qz.print(config, data)
-    .then(function (data) {
-      // deletefilePDF(name_pdf);  
-    })
-    .catch(function (e) {
-      console.error(e);
-    });
+  qz.print(config, data).catch(function (e) {
+    console.error(e);
+  });
 
-    $.ajax({
-      url:
-        `${serverUrl}/order/update_order_print_log/` +
-        response.order_customer_code,
-      method: "get",
-      success: function (res) {
-        // การสำเร็จ
-        
-      },
-      error: function (error) {
-        // เกิดข้อผิดพลาด
-      },
-    });
+  $.ajax({
+    url:
+      `${serverUrl}/order/update_order_print_log/` +
+      response.order_customer_code,
+    method: "get",
+    success: function (res) {
+      // การสำเร็จ
+    },
+    error: function (error) {
+      // เกิดข้อผิดพลาด
+    },
+  });
 }
 
 function deletefilePDF(name) {
@@ -601,7 +596,6 @@ function orderConfirm() {
                     array_select_confirm = [];
                     cancleAllTable();
                     localStorage.setItem("isCallNewOrder", "yes");
-
                   },
                   error: function (error) {
                     // เกิดข้อผิดพลาด
