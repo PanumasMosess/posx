@@ -122,7 +122,7 @@ class PdfController extends BaseController
         // echo base64_encode($pdfData); // ส่ง PDF ในรูปแบบของข้อมูล base64
 
         $priter_name = $this->information->get_printer()->printer_order_summary;
-        read_pdf($name, $priter_name);
+        // read_pdf($name, $priter_name);
     }
 
     public function pdf_BillOrder($order_code = null)
@@ -213,7 +213,7 @@ class PdfController extends BaseController
         // echo base64_encode($pdfData); // ส่ง PDF ในรูปแบบของข้อมูล base64
 
         $priter_name = $this->information->get_printer()->printer_order;
-        read_pdf($name, $priter_name);
+        // read_pdf($name, $priter_name);
     }
 
     public function pdf_CancelledBillOrder($table_code = null)
@@ -314,7 +314,7 @@ class PdfController extends BaseController
         // echo base64_encode($pdfData); // ส่ง PDF ในรูปแบบของข้อมูล base64
 
         $priter_name = $this->information->get_printer()->printer_order;
-        read_pdf($name, $priter_name);
+        // read_pdf($name, $priter_name);
     }
 
     public function pdf_Receipt($order_customer_code = null)
@@ -409,7 +409,7 @@ class PdfController extends BaseController
         // echo base64_encode($pdfData); // ส่ง PDF ในรูปแบบของข้อมูล base64
 
         $priter_name = $this->information->get_printer()->printer_bill;
-        read_pdf($name, $priter_name);
+        // read_pdf($name, $priter_name);
     }
 
     public function pdf_QR()
