@@ -114,17 +114,17 @@ function findPrinters(printer, name_pdf) {
   var config = qz.configs.create(printer);
   var path = serverUrl + "uploads/temp_pdf/" + name_pdf;
   console.log(path);
-  // var data = [
-  //   {
-  //     type: "pixel",
-  //     format: "pdf",
-  //     flavor: "file",
-  //     data: path,
-  //   },
-  // ];
-  // qz.print(config, data).catch(function (e) {
-  //   console.error(e);
-  // });
+  var data = [
+    {
+      type: "pixel",
+      format: "pdf",
+      flavor: "file",
+      data: path,
+    },
+  ];
+  qz.print(config, data).catch(function (e) {
+    console.error(e);
+  });
 
   deletefilePDF("bill_1.pdf");
 }
