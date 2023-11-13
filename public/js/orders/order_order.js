@@ -113,7 +113,6 @@ var price_sum_total_payment = 0;
 function findPrinters(printer, name_pdf) {
   var config = qz.configs.create(printer);
   var path = serverUrl + "uploads/temp_pdf/" + name_pdf;
-  console.log(path);
   var data = [
     {
       type: "pixel",
@@ -122,19 +121,20 @@ function findPrinters(printer, name_pdf) {
       data: path,
     },
   ];
-  qz.print(config, data).catch(function (e) {
-    console.error(e);
-  });
-
-  deletefilePDF("bill_1.pdf");
+  qz.print(config, data)
+    .then(function (data) {
+      deletefilePDF(name_pdf);
+    })
+    .catch(function (e) {
+      console.error(e);
+    });
 }
 
 function deletefilePDF(name) {
   $.ajax({
     url: `${serverUrl}unlink_pdf/` + name,
     method: "get",
-    success: function (res) {
-    },
+    success: function (res) {},
     error: function (error) {
       // เกิดข้อผิดพลาด
     },
