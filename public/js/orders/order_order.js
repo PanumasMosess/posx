@@ -108,7 +108,8 @@ var price_sum_total_payment = 0;
 
 function findPrinters(printer, name_pdf) {
   qz.websocket.connect();
-  var config = qz.configs.create(printer);
+
+  var config = qz.configs.create("POS-80");
   var path = serverUrl + "uploads/temp_pdf/" + name_pdf;
   var data = [
     {
