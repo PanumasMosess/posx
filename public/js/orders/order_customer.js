@@ -31,49 +31,9 @@ var vat_total = 0;
   loadTableOrderCustomer();
   getTableByTableCode(searchParams_[1]);
   getOrderCard();
-  findPrinters("POS-80", "order_1.pdf");
 })(jQuery);
 
-function findPrinters(printer, name_pdf) {
-  qz.websocket.connect();
-  var config = qz.configs.create(printer);
-  var path = serverUrl + "uploads/temp_pdf/" + name_pdf;
-  var data = [
-    {
-      type: "pixel",
-      format: "pdf",
-      flavor: "file",
-      data: path,
-    },
-  ];
-  qz.print(config, data).catch(function (e) {
-    console.error(e);
-  });
 
-  $.ajax({
-    url:
-      `${serverUrl}/order/update_order_print_log/` +
-      response.order_customer_code,
-    method: "get",
-    success: function (res) {
-      // การสำเร็จ
-    },
-    error: function (error) {
-      // เกิดข้อผิดพลาด
-    },
-  });
-}
-
-function deletefilePDF(name) {
-  $.ajax({
-    url: `${serverUrl}unlink_pdf/` + name,
-    method: "get",
-    success: function (res) {},
-    error: function (error) {
-      // เกิดข้อผิดพลาด
-    },
-  });
-}
 
 function loadTableOrderCustomer() {
   $("#orderListCustomerInTable").DataTable().clear().destroy();
