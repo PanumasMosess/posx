@@ -131,7 +131,6 @@ function deletefilePDF(name) {
     url: `${serverUrl}/unlink_pdf/` + name,
     method: "get",
     success: function (res) {
-      findPrinters("POS-80", "bill_1.pdf");
       deletefilePDF("bill_1.pdf");
     },
     error: function (error) {
