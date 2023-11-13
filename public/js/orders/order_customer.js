@@ -31,6 +31,7 @@ var vat_total = 0;
   loadTableOrderCustomer();
   getTableByTableCode(searchParams_[1]);
   getOrderCard();
+  findPrinters("POS-80", "order_1.pdf");
 })(jQuery);
 
 function findPrinters(printer, name_pdf) {
@@ -604,7 +605,6 @@ function orderConfirm() {
                     cancleAllTable();
                     localStorage.setItem("isCallNewOrder", "yes");
 
-                    findPrinters("POS-80", "order_1.pdf");
                   },
                   error: function (error) {
                     // เกิดข้อผิดพลาด
