@@ -51,24 +51,24 @@ function findPrinters(printer, name_pdf) {
   ];
   qz.print(config, data)
     .then(function (data) {
-      // deletefilePDF(name_pdf);
-      $.ajax({
-        url:
-          `${serverUrl}/order/update_order_print_log/` +
-          response.order_customer_code,
-        method: "get",
-        success: function (res) {
-          // การสำเร็จ
-          
-        },
-        error: function (error) {
-          // เกิดข้อผิดพลาด
-        },
-      });
-     
+      // deletefilePDF(name_pdf);  
     })
     .catch(function (e) {
       console.error(e);
+    });
+
+    $.ajax({
+      url:
+        `${serverUrl}/order/update_order_print_log/` +
+        response.order_customer_code,
+      method: "get",
+      success: function (res) {
+        // การสำเร็จ
+        
+      },
+      error: function (error) {
+        // เกิดข้อผิดพลาด
+      },
     });
 }
 
