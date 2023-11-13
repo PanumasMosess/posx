@@ -42,7 +42,7 @@ $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
 $routes->get('pdf_bill/(:any)', 'PdfController::pdf_Bill/$1', ['filter' => 'employeeAuth']);
 $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' => 'employeeAuth']);
-// $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1');
+$routes->get('unlink_pdf/(:any)', 'PdfController::unlink_pdf/$1');
 $routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
 $routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);
 

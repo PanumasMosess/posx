@@ -14,22 +14,22 @@ class PdfController extends BaseController
     {
 
         $this->information = new \App\Models\InformationModel();
+    }
 
-        function read_pdf($name, $priter_name)
-        {
-            // $connector = new WindowsPrintConnector($priter_name);
-            // $printer = new Printer($connector);
+    public function unlink_pdf($name)
+    {
+        // $connector = new WindowsPrintConnector($priter_name);
+        // $printer = new Printer($connector);
 
-            // $pdf =  'uploads/temp_pdf/' . $name;
-            // $pages = ImagickEscposImage::loadPdf($pdf);
-            // foreach ($pages as $page) {
-            //     $printer->bitImage($page);
-            // }
-            // $printer->cut();
-            // $printer->close();
+        // $pdf =  'uploads/temp_pdf/' . $name;
+        // $pages = ImagickEscposImage::loadPdf($pdf);
+        // foreach ($pages as $page) {
+        //     $printer->bitImage($page);
+        // }
+        // $printer->cut();
+        // $printer->close();
 
-            // unlink('uploads/temp_pdf/' . $name);
-        }
+        unlink('uploads/temp_pdf/' . $name);
     }
 
 
