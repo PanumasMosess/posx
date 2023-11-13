@@ -431,7 +431,6 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
             <script src="' . base_url('/js/interact.min.js') . '"></script>       
-            <script src="' . base_url('/js/qz-tray.js') . '"></script>  
             <script src="' . base_url('/js/orders/order_customer.js?v=' . time()) . '"></script> 
         ';
         echo view('/order/order_list_customer', $data);
