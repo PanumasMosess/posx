@@ -104,8 +104,29 @@ var price_sum_total_payment = 0;
       inertia: true,
     })
     .draggable(false);
+
+  qz.websocket.connect().then(function () {
+    console.log("Connected!");
+    findPrinters();
+  });
 })(jQuery);
 
+function findPrinters() {
+  var printer_name = "POS-80";
+  var config = qz.configs.create(printer_name);
+  var path = serverUrl + "/uploads/temp_pdf/bill_1.pdf"
+  var data = [
+    {
+      type: 'pixel',
+      format: "pdf",
+      flavor: "file",
+      data: path,
+    },
+  ];
+  qz.print(config, data).catch(function (e) {
+    console.error(e);
+  });
+}
 function selectArea() {
   $.ajax({
     url: serverUrl + "/order/areaData",
