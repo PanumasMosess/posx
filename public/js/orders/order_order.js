@@ -107,17 +107,15 @@ var price_sum_total_payment = 0;
 
   qz.websocket.connect().then(function () {
     console.log("Connected!");
-    findPrinters();
   });
 })(jQuery);
 
-function findPrinters() {
-  var printer_name = "POS-80";
-  var config = qz.configs.create(printer_name);
-  var path = serverUrl + "/uploads/temp_pdf/bill_1.pdf"
+function findPrinters(printer, name_pdf) {
+  var config = qz.configs.create(printer);
+  var path = serverUrl + "/uploads/temp_pdf/" + name_pdf;
   var data = [
     {
-      type: 'pixel',
+      type: "pixel",
       format: "pdf",
       flavor: "file",
       data: path,
@@ -927,7 +925,9 @@ function printPreview() {
     $.ajax({
       url: `${serverUrl}/pdf_bill/` + table_code,
       method: "get",
-      success: function (res) {},
+      success: function (res) {
+        findPrinters("POS-80", "bill_1.pdf");
+      },
       error: function (error) {
         // เกิดข้อผิดพลาด
       },
