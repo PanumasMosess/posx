@@ -33,8 +33,6 @@ var vat_total = 0;
   getOrderCard();
 })(jQuery);
 
-
-
 function loadTableOrderCustomer() {
   $("#orderListCustomerInTable").DataTable().clear().destroy();
   table_order_customer = $("#orderListCustomerInTable").DataTable({
@@ -577,19 +575,18 @@ function orderConfirm() {
                 //   }, 4000);
 
                 //   // ส่วนนี้อาจจะไม่จำเป็น
-                //   $.ajax({
-                //     url:
-                //       `${serverUrl}/order/update_order_print_log/` +
-                //       response.order_customer_code,
-                //     method: "get",
-                //     success: function (res) {
-                //       // การสำเร็จ
-                //     },
-                //     error: function (error) {
-                //       // เกิดข้อผิดพลาด
-                //     },
-                //   });
-                // };
+                $.ajax({
+                  url:
+                    `${serverUrl}/order/update_order_print_log/` +
+                    response.order_customer_code,
+                  method: "get",
+                  success: function (res) {
+                    // การสำเร็จ
+                  },
+                  error: function (error) {
+                    // เกิดข้อผิดพลาด
+                  },
+                });
               } else {
                 notif({
                   type: "danger",

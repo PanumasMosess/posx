@@ -106,6 +106,29 @@ var price_sum_total_payment = 0;
     .draggable(false);
 })(jQuery);
 
+function printPDF() {
+  qz.websocket
+    .connect()
+    .then(function () {
+      return qz.printers.find("POS-80");
+    })
+    .then((found) => {
+      var config = qz.configs.create("POS-80");
+      var data = [
+        {
+          type: "pixel",
+          format: "pdf",
+          flavor: "file",
+          data: serverUrl + "uploads/temp_pdf/bill_1.pdf",
+        },
+      ];
+      return qz.print(config, data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
+
 function selectArea() {
   $.ajax({
     url: serverUrl + "/order/areaData",
@@ -906,7 +929,9 @@ function printPreview() {
     $.ajax({
       url: `${serverUrl}/pdf_bill/` + table_code,
       method: "get",
-      success: function (res) {},
+      success: function (res) {
+        printPDF();
+      },
       error: function (error) {
         // เกิดข้อผิดพลาด
       },
