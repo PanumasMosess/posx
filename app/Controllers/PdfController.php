@@ -115,7 +115,7 @@ class PdfController extends BaseController
         $this->response->setContentType('application/pdf');
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
-        $name =  'bill_' . session()->get('companies_id') . '.pdf';
+        $name =  'bill_' . session()->get('companies_id') . "_" . rand() . '.pdf';
         $path = FCPATH . 'uploads/temp_pdf/' . $name;
         $pdf->Output($path, 'F');
         // $pdfData = $pdf->Output('Order.pdf', 'S'); // แปลง PDF ให้เป็นข้อมูลในรูปแบบของสตริง
@@ -123,6 +123,13 @@ class PdfController extends BaseController
 
         $priter_name = $this->information->get_printer()->printer_order_summary;
         // read_pdf($name, $priter_name);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'message_name' => $name,
+            'message_printer' => $priter_name,
+        ]);
     }
 
     public function pdf_BillOrder($order_code = null)
@@ -206,7 +213,7 @@ class PdfController extends BaseController
         $this->response->setContentType('application/pdf');
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
-        $name =  'order_' . session()->get('companies_id') . '.pdf';
+        $name =  'order_' . session()->get('companies_id') . "_" . rand() . '.pdf';
         $path = FCPATH . 'uploads/temp_pdf/' . $name;
         $pdf->Output($path, 'F');
         // $pdfData = $pdf->Output('Order.pdf', 'S'); // แปลง PDF ให้เป็นข้อมูลในรูปแบบของสตริง
@@ -214,6 +221,12 @@ class PdfController extends BaseController
 
         $priter_name = $this->information->get_printer()->printer_order;
         // read_pdf($name, $priter_name);
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'message_name' => $name,
+            'message_printer' => $priter_name,
+        ]);
     }
 
     public function pdf_CancelledBillOrder($table_code = null)
