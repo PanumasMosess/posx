@@ -33,6 +33,49 @@ var vat_total = 0;
   getOrderCard();
 })(jQuery);
 
+function deleteFilePdf(file_name) {
+  $.ajax({
+    url: `${serverUrl}/unlink_pdf/` + file_name,
+    method: "get",
+    success: function (res) {
+      // การสำเร็จ
+    },
+    error: function (error) {
+      // เกิดข้อผิดพลาด
+    },
+  });
+}
+
+function printPDF(file_name, printer) {
+  qz.websocket
+    .connect()
+    .then(function () {
+      return qz.printers.find(printer);
+    })
+    .then((found) => {
+      var config = qz.configs.create(printer);
+      var path = serverUrl + "uploads/temp_pdf/" + file_name;
+      var data = [
+        {
+          type: "pixel",
+          format: "pdf",
+          flavor: "file",
+          data: path,
+        },
+      ];
+      return qz.print(config, data);
+    })
+    .then((event) => {
+      return qz.websocket.disconnect();
+    })
+    .then((event) => {
+      return deleteFilePdf(file_name);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
+
 function loadTableOrderCustomer() {
   $("#orderListCustomerInTable").DataTable().clear().destroy();
   table_order_customer = $("#orderListCustomerInTable").DataTable({
@@ -554,6 +597,8 @@ function orderConfirm() {
                     array_select_confirm = [];
                     cancleAllTable();
                     localStorage.setItem("isCallNewOrder", "yes");
+
+                    printPDF(res.message_name, res.message_printer);
                   },
                   error: function (error) {
                     // เกิดข้อผิดพลาด
