@@ -1097,6 +1097,7 @@ $("#payment-form").submit(function (e) {
                     fade: true,
                     time: 300,
                   });
+                  printPDF(res.message_name, res.message_printer);
                   closePayment();
                   clear_detail_summary();
                   drowTableLoad(table_array_code);
