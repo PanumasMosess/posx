@@ -106,7 +106,7 @@ var price_sum_total_payment = 0;
     .draggable(false);
 })(jQuery);
 
-function printPDF() {
+function printPDF(file_name) {
   qz.websocket
     .connect()
     .then(function () {
@@ -114,7 +114,7 @@ function printPDF() {
     })
     .then((found) => {
       var config = qz.configs.create("POS-80");
-      var path = "uploads/temp_pdf/bill_1.pdf"
+      var path = serverUrl + "uploads/temp_pdf/" + file_name;
       var data = [
         {
           type: "pixel",
@@ -934,7 +934,7 @@ function printPreview() {
       url: `${serverUrl}/pdf_bill/` + table_code,
       method: "get",
       success: function (res) {
-        printPDF();
+        printPDF(res.message_name);
       },
       error: function (error) {
         // เกิดข้อผิดพลาด
