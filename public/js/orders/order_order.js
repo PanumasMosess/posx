@@ -119,14 +119,14 @@ function deleteFilePdf(file_name) {
   });
 }
 
-function printPDF(file_name) {
+function printPDF(file_name, printer) {
   qz.websocket
     .connect()
     .then(function () {
-      return qz.printers.find("POS-80");
+      return qz.printers.find(printer);
     })
     .then((found) => {
-      var config = qz.configs.create("POS-80");
+      var config = qz.configs.create(printer);
       var path = serverUrl + "uploads/temp_pdf/" + file_name;
       var data = [
         {
@@ -950,7 +950,7 @@ function printPreview() {
       url: `${serverUrl}/pdf_bill/` + table_code,
       method: "get",
       success: function (res) {
-        printPDF(res.message_name);
+        printPDF(res.message_name, res.message_printer);
       },
       error: function (error) {
         // เกิดข้อผิดพลาด
