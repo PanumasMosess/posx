@@ -642,6 +642,7 @@ function voidItem() {
             url: `${serverUrl}/pdf_CancelledBillOrder/` + table_code,
             method: "get",
             success: function (res) {
+              printPDF(res.message_name, res.message_printer);
               $.ajax({
                 url: serverUrl + "order/updateVoidOrderTable",
                 method: "post",
