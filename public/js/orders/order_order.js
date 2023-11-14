@@ -107,6 +107,9 @@ var price_sum_total_payment = 0;
 })(jQuery);
 
 function printPDF() {
+  if (qz.websocket.isActive()) {
+    qz.websocket.disconnect();
+  }
   qz.websocket
     .connect()
     .then(function () {
