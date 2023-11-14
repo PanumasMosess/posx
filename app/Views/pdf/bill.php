@@ -5,8 +5,8 @@
     <table>
         <tr>
             <th width="100%" style="text-align:center;">
-                <!-- <img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;"> -->
-                 <img src="https://app.posx.co/img/no-image-available.jpg" style="height:60px;width:180px;">
+                <img src="https://app.posx.co/img/POSX_2.png" style="height:60px;width:180px;">
+                 <!-- <img src="https://app.posx.co/img/no-image-available.jpg" style="height:60px;width:180px;"> -->
             </th>
         </tr>
         <tr>
