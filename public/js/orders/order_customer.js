@@ -599,6 +599,20 @@ function orderConfirm() {
                     localStorage.setItem("isCallNewOrder", "yes");
 
                     printPDF(res.message_name, res.message_printer);
+
+                    $.ajax({
+                      url:
+                        `${serverUrl}/order/update_order_print_log/` +
+                        response.order_customer_code,
+                      method: "get",
+                      success: function (res) {
+                        // การสำเร็จ
+                      },
+                      error: function (error) {
+                        // เกิดข้อผิดพลาด
+                      },
+                    });
+                    
                   },
                   error: function (error) {
                     // เกิดข้อผิดพลาด
@@ -620,18 +634,6 @@ function orderConfirm() {
                 //   }, 4000);
 
                 //   // ส่วนนี้อาจจะไม่จำเป็น
-                $.ajax({
-                  url:
-                    `${serverUrl}/order/update_order_print_log/` +
-                    response.order_customer_code,
-                  method: "get",
-                  success: function (res) {
-                    // การสำเร็จ
-                  },
-                  error: function (error) {
-                    // เกิดข้อผิดพลาด
-                  },
-                });
               } else {
                 notif({
                   type: "danger",
