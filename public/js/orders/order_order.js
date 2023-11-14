@@ -114,12 +114,13 @@ function printPDF() {
     })
     .then((found) => {
       var config = qz.configs.create("POS-80");
+      var path = "uploads/temp_pdf/bill_1.pdf"
       var data = [
         {
           type: "pixel",
           format: "pdf",
           flavor: "file",
-          data: serverUrl + "uploads/temp_pdf/bill_1.pdf",
+          data: path,
         },
       ];
       return qz.print(config, data);
