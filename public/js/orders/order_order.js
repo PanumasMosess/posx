@@ -106,6 +106,19 @@ var price_sum_total_payment = 0;
     .draggable(false);
 })(jQuery);
 
+function deleteFilePdf(file_name) {
+  $.ajax({
+    url: `${serverUrl}/unlink_pdf/` + file_name,
+    method: "get",
+    success: function (res) {
+      // การสำเร็จ
+    },
+    error: function (error) {
+      // เกิดข้อผิดพลาด
+    },
+  });
+}
+
 function printPDF(file_name) {
   qz.websocket
     .connect()
@@ -127,6 +140,9 @@ function printPDF(file_name) {
     })
     .then((event) => {
       return qz.websocket.disconnect();
+    })
+    .then((event) => {
+      return deleteFilePdf(file_name);
     })
     .catch((e) => {
       console.log(e);
