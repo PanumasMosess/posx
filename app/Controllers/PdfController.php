@@ -137,7 +137,7 @@ class PdfController extends BaseController
 
         $this->OrderModel = new \App\Models\OrderModel();
         $data['oeders'] = $this->OrderModel->getOrderPrintLogByOrderCustomerCode($order_code);
-        $data['table'] = $this->OrderModel->getTableByTableCode($data['oeders']->order_table_code);
+        $data['table'] = $this->OrderModel->getTableByTableCode($data['oeders'][0]->order_table_code);
         $number_column = 72;
         $countData = count($data['oeders']);
 
