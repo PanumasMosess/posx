@@ -104,7 +104,7 @@ var price_sum_total_payment = 0;
       inertia: true,
     })
     .draggable(false);
-  qz.websocket.connect();
+  // qz.websocket.connect();
 })(jQuery);
 
 function deleteFilePdf(file_name) {
