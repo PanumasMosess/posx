@@ -30,7 +30,6 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>   
             <script src="' . base_url('/js/interact.min.js') . '"></script>   
-            <script src="' . base_url('/js/qz-tray.js') . '"></script> 
             <script src="' . base_url('/js/orders/order_table.js?v=' . time()) . '"></script>      
             <script src="' . base_url('/js/orders/order_order.js?v=' . time()) . '"></script>
             <script src="' . base_url('/js/orders/order_pos.js?v=' . time()) . '"></script>
@@ -431,7 +430,9 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
             <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>    
             <script src="' . base_url('/js/interact.min.js') . '"></script>   
-            <script src="' . base_url('/js/qz-tray.js') . '"></script>     
+            <script src="' . base_url('/js/qz-tray.js') . '"></script>    
+            <script src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
+            <script src="' . base_url('/js/sign-message.js') . '"></script>   
             <script src="' . base_url('/js/orders/order_customer.js?v=' . time()) . '"></script> 
         ';
         echo view('/order/order_list_customer', $data);
