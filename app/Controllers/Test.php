@@ -28,6 +28,204 @@ class Test extends BaseController
         $this->ActivityLogModel = new \App\Models\ActivityLogModel();
         $this->TableModel = new \App\Models\TableModel();
         $this->OrderModel = new \App\Models\OrderModel();
+        $this->TestModel = new \App\Models\TestModel();
+    }
+
+    public function orderDashboardTestDetail()
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data']['htmlDashboardSummary3'] = $this->htmlDashboardSummary('3', $requestPayload);
+            $response['data']['htmlDashboardSummary4'] = $this->htmlDashboardSummary('4', $requestPayload);
+            $response['data']['htmlDashboardSummary5'] = $this->htmlDashboardSummary('5', $requestPayload);
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
+    }
+
+    private function htmlDashboardSummary($number, $payload) 
+    {
+        $html = '';
+
+        switch ($number) {
+
+            case '3':
+
+                $dashboardSummary3btnActive = $payload->dashboardSummary3btnActive;
+
+                $title = $dashboardSummary3btnActive;
+
+                $detail = $this->TestModel->getOrderDashboardDetail($title);
+
+                $html = '
+                    <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                        <ul id="" class="text-start mt-2">
+                ';
+
+                foreach ($detail as $data) {
+                    $html .= '
+                        <li class=""><a href="#"><span> <span>' . $data->order_name  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
+                    ';
+                }
+
+                $html .= '
+                        </ul> 
+                    </div>
+                ';
+
+                break;
+
+            case '4':
+
+                $html = 'NO DATA';
+
+                break;
+
+            case '5':
+
+                $html = 'NO DATA';
+
+                break;
+        }
+
+        return $html;
+    }
+
+    public function orderDashboardDetail()
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+            $title = $requestPayload->title;
+
+            $detail = $this->TestModel->getOrderDashboardDetail($title);
+
+            $html = '
+                <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                    <ul id="" class="text-start mt-2">
+            ';
+
+            foreach ($detail as $data) {
+                $html .= '
+                    <li class=""><a href="#"><span> <span>' . $data->order_name  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
+                ';
+            }
+
+            $html .= '
+                    </ul> 
+                </div>
+            ';
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data']['html'] = $html;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
+    }
+
+    public function orderDashboardBestSellers()
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+
+            $requestPayload = $this->request->getJSON();
+            $title = $requestPayload->title;
+
+            // $data = $this->TestModel->getDashboardSummary3Detail($title);
+
+            $html = '
+                <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                    <ul id="" class="text-start mt-2">
+                        <li class=""><a href="#"><span> <span>Drink (95%)</span> <span class="round_badge">2,500.00</span> </span> </a></li>
+                        <li><a href="#"> <span> <span>FOOD (5%)</span> <span class="round_badge">500.00</span> </span> </a></li>
+                        <li><a href="#"> <span> <span>OTHERS (0%)</span> <span class="round_badge">0.00</span> </span> </a></li>
+                    </ul> 
+                </div>
+            ';
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data']['html'] = $html;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
+    }
+
+    public function orderDashboardVoidItems()
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+
+            $requestPayload = $this->request->getJSON();
+            $title = $requestPayload->title;
+
+            // $data = $this->TestModel->getDashboardSummary3Detail($title);
+
+            $html = '
+                <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                    <ul id="" class="text-start mt-2">
+                        <li class=""><a href="#"><span> <span>Drink (95%)</span> <span class="round_badge">2,500.00</span> </span> </a></li>
+                        <li><a href="#"> <span> <span>FOOD (5%)</span> <span class="round_badge">500.00</span> </span> </a></li>
+                        <li><a href="#"> <span> <span>OTHERS (0%)</span> <span class="round_badge">0.00</span> </span> </a></li>
+                    </ul> 
+                </div>
+            ';
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data']['html'] = $html;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
     }
 
     public function updateStatus()

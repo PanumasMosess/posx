@@ -91,12 +91,12 @@
                                 <h4>Detail</h4>
                                 <div class="box_right d-flex lms_block">
                                     <div class="" id="">
-                                        <button class="btn btn-primary btn-sm" data-title="Type">Type</button>
+                                        <button class="btn btn-primary btn-sm active" data-title="Type">Type</button>
                                         <button class="btn btn-primary btn-sm" data-title="Group">Group</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="QA_table ">
+                            <div class="QA_table">
                                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer text-center">
                                     NO DATA
                                 </div>
@@ -109,7 +109,7 @@
                                 <h4>Best Sellers</h4>
                                 <div class="box_right d-flex lms_block">
                                     <div class="" id="">
-                                        <button class="btn btn-primary btn-sm" data-title="Sales">Sales</button>
+                                        <button class="btn btn-primary btn-sm active" data-title="Sales">Sales</button>
                                         <button class="btn btn-primary btn-sm" data-title="Qty">Qty</button>
                                         <button class="btn btn-primary btn-sm" data-title="Group">Group</button>
                                     </div>
@@ -128,7 +128,7 @@
                                 <h4 style="color: #fff;">Void Items</h4>
                                 <div class="box_right d-flex lms_block">
                                     <div class="" id="">
-                                        <button class="btn btn-primary btn-sm" data-title="Reload">Reload</button>
+                                        <!-- <button class="btn btn-primary btn-sm" data-title="Reload">Reload</button> -->
                                     </div>
                                 </div>
                             </div>

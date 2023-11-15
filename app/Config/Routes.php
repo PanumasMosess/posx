@@ -200,15 +200,8 @@ function ($routes) {
     $routes->post('updateVoidOrderTable', 'OrderPosController::updateVoidOrderTable');  
     $routes->get('outofstock/(:any)', 'OrderPosController::outofstock/$1');   
     $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
-    $routes->post('updateDiscount', 'OrderPosController::updateDiscount');       
-    $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');    
-    $routes->post('paymentStore', 'OrderPosController::paymentStore');    
-    $routes->get('order_summary_update', 'OrderPosController::orderSummaryUpdate');      
-    $routes->post('updatePcsSummary', 'OrderPosController::updatePcsSummary');      
-    $routes->post('delete_list_order_customer', 'OrderPosController::deleteListOrderCustomer'); 
-  
-    $routes->get('update_order_print_log/(:any)', 'OrderPosController::updateOrderPrintLog/$1');
-    
+    $routes->post('updateDiscount', 'OrderPosController::updateDiscount');     
+
     $routes->post('sumOrderItems', 'Test::sumOrderItems');
     $routes->post('getLiveData', 'Test::getLiveData');
     $routes->get('activity', 'Test::activity');
@@ -216,7 +209,6 @@ function ($routes) {
     $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1');
     $routes->get('view/(:any)', 'Test::view/$1');
     $routes->post('update-status', 'Test::updateStatus');
-
 });
 /*
  * --------------------------------------------------------------------
