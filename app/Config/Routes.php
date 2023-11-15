@@ -40,6 +40,17 @@ $routes->get('logout', 'Authentication::logout', ['filter' => 'employeeAuth']);
 
 $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 
+$routes->get('pdf_bill/(:any)', 'PdfController::pdf_Bill/$1', ['filter' => 'employeeAuth']);
+$routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' => 'employeeAuth']);
+$routes->get('unlink_pdf/(:any)', 'PdfController::unlink_pdf/$1');
+$routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
+$routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);
+
+
+$routes->get('order_menu/', 'OrderPosController::menulink');
+
+$routes->get('pdf_QR_Code', 'PdfController::pdf_QR', ['filter' => 'employeeAuth']);
+
 $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('index', 'SettingController::index');
     // $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
@@ -81,8 +92,12 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
 
     $routes->post('ajax-datatablePaymentType', 'SettingController::ajaxDataTablesPaymentType');
     $routes->post('addPaymentType', 'SettingController::addPaymentType');
-    $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
+    // $routes->post('updatePaymentType', 'SettingController::updatePaymentType');
     $routes->get('deletePaymentType/(:num)', 'SettingController::deletePaymentType/$1');
+    $routes->post('updateCreditCard', 'SettingController::updateCreditCard');
+    $routes->post('updateEntertain', 'SettingController::updateEntertain');
+    $routes->get('printersetting', 'SettingController::getprinter');  
+    $routes->post('printer', 'SettingController::printersetting');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
@@ -110,6 +125,16 @@ $routes->group('manager', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('editSupplier/(:num)', 'ManagerController::editSupplier/$1');
     $routes->post('updateSupplier', 'ManagerController::updateSupplier');
     $routes->get('deleteSupplier/(:num)', 'ManagerController::deleteSupplier/$1');
+
+    $routes->get('setting_tv', 'ManagerController::setting_tv');
+    $routes->post('update_piture', 'ManagerController::updatePiture');
+    $routes->get('fetchPicture', 'ManagerController::fetchPicture');
+    $routes->get('delete_picture/(:any)', 'ManagerController::deletePicture/$1');
+
+    $routes->get('TVSetting', 'ManagerController::TVSetting');
+    $routes->post('updateTVSetting', 'ManagerController::updateTVSetting');
+
+    $routes->get('loadQR', 'ManagerController::loadQR');
 });
 
 // stock management
@@ -177,33 +202,13 @@ function ($routes) {
     $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
     $routes->post('updateDiscount', 'OrderPosController::updateDiscount');     
 
-    /*
-    * --------------------------------------------------------------------
-    * TAB DASHBAORD
-    * --------------------------------------------------------------------
-    */
-
-    $routes->post('sumOrderItems', 'Test::sumOrderItems'); // Summary Tab แดชบอร์ด: Sum
-    $routes->post('getLiveData', 'Test::getLiveData'); // Summary Tab แดชบอร์ด: Live Data
-    
-    $routes->post('getDataDashboard', 'Test::getDataDashboard'); // Summary Tab แดชบอร์ด: Receipt
-    $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1'); // Summary Tab แดชบอร์ด: Receipt Detail
-    $routes->get('view/(:any)', 'Test::view/$1'); // Summary Tab แดชบอร์ด: Receipt นับ
-    $routes->post('update-status', 'Test::updateStatus'); // Summary Tab แดชบอร์ด: อัพเดทสถานะ Receipt
-
-    $routes->post('orderDashboard/detail', 'Test::orderDashboardDetail');
-    $routes->post('orderDashboard/testDetail', 'Test::orderDashboardTestDetail');
-    $routes->post('orderDashboard/bestSellers', 'Test::orderDashboardBestSellers');
-    $routes->post('orderDashboard/voidItems', 'Test::orderDashboardVoidItems');
-
-    /*
-    * --------------------------------------------------------------------
-    * TAB ACTIVITY
-    * --------------------------------------------------------------------
-    */
-
-    $routes->get('activity', 'Test::activity'); // Log Tab Activity
-    
+    $routes->post('sumOrderItems', 'Test::sumOrderItems');
+    $routes->post('getLiveData', 'Test::getLiveData');
+    $routes->get('activity', 'Test::activity');
+    $routes->post('getDataDashboard', 'Test::getDataDashboard');
+    $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1');
+    $routes->get('view/(:any)', 'Test::view/$1');
+    $routes->post('update-status', 'Test::updateStatus');
 });
 /*
  * --------------------------------------------------------------------

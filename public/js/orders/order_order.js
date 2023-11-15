@@ -1,17 +1,24 @@
 var isOnline;
 var table_code;
 var table_order_table;
+var table_name;
+var table_array_code;
 var itemsArrayMoveTableOffline = [];
 var itemsArrayDiscountOffline = [];
 var itemsArrayCancelOrderTableOffline = [];
 var itemsArrayOrderTableListOffline = [];
+var itemsArrayPaymentOffline = [];
+var array_summary_update = [];
+var price_sum_total_payment = 0;
 (function ($) {
   $("#order_select_detail").slideUp();
+  $("#open_btn_area").hide();
   $("#addOrderCusBtn").addClass("disable-click");
   $("#move_order_btn").addClass("disable-click");
   $("#void_order_btn").addClass("disable-click");
   $("#discount_order_btn").addClass("disable-click");
   $("#split_order_btn").addClass("disable-click");
+  $("#parmentButtonId").hide();
   selectArea();
   interact(".resize-drag,.resize-drag-b")
     .on("tap", function (event) {
@@ -27,11 +34,14 @@ var itemsArrayOrderTableListOffline = [];
       );
       table_code = target.getAttribute("data-code");
 
+      table_name = target.getAttribute("data-name");
+
       if (target.getAttribute("data-use") !== "USE") {
         $("#addOrderCusBtn").removeClass("disable-click");
         $("#move_order_btn").addClass("disable-click");
         $("#void_order_btn").addClass("disable-click");
         $("#discount_order_btn").addClass("disable-click");
+        $("#parmentButtonId").hide();
 
         clear_detail_summary();
       } else {
@@ -41,6 +51,7 @@ var itemsArrayOrderTableListOffline = [];
         $("#discount_order_btn").removeClass("disable-click");
         $("#split_order_btn").addClass("disable-click");
         detail_summary(target.getAttribute("data-code"));
+        $("#parmentButtonId").show();
       }
 
       event.preventDefault();
@@ -93,7 +104,51 @@ var itemsArrayOrderTableListOffline = [];
       inertia: true,
     })
     .draggable(false);
+  // qz.websocket.connect();
 })(jQuery);
+
+function deleteFilePdf(file_name) {
+  $.ajax({
+    url: `${serverUrl}/unlink_pdf/` + file_name,
+    method: "get",
+    success: function (res) {
+      // การสำเร็จ
+    },
+    error: function (error) {
+      // เกิดข้อผิดพลาด
+    },
+  });
+}
+
+function printPDF(file_name, printer) {
+  qz.websocket
+    .connect()
+    .then(function () {
+      return qz.printers.find(printer);
+    })
+    .then((found) => {
+      var config = qz.configs.create(printer);
+      var path = serverUrl + "uploads/temp_pdf/" + file_name;
+      var data = [
+        {
+          type: "pixel",
+          format: "pdf",
+          flavor: "file",
+          data: path,
+        },
+      ];
+      return qz.print(config, data);
+    })
+    .then((event) => {
+      return qz.websocket.disconnect();
+    })
+    .then((event) => {
+      return deleteFilePdf(file_name);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 
 function selectArea() {
   $.ajax({
@@ -180,17 +235,21 @@ function drowTableLoad(data) {
     $("#table_header_name").html("");
     $("#table_header_name_detail").html("");
     $("#order_select_detail").slideDown();
+    $("#open_btn_area").show();
   } else {
     $("#canvaHolder").html("");
     $("#table_header_name").html("");
     $("#table_header_name_detail").html("");
     $("#order_select_detail").slideUp();
     $("#addOrderCusBtn").addClass("disable-click");
+    $("#open_btn_area").hide();
   }
   // interact.removeDocument(document);
   var str_split = data;
   var str_split_result = str_split.split("###");
   var area_code = str_split_result[0];
+
+  table_array_code = area_code;
   isOnline = window.navigator.onLine;
 
   if (isOnline) {
@@ -355,6 +414,8 @@ function detail_summary(table_code) {
         parseFloat(response.data.order_service) +
         parseFloat(response.data.order_discount);
 
+      $("#table_header_name_detail").html("<strong>" + table_name + "</stong");
+
       $("#table_pcs").html(
         '<p id="table_pcs">' + response.data.order_pcs_sum + " รายการ</p>"
       );
@@ -384,6 +445,14 @@ function detail_summary(table_code) {
           sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
           "</p>"
       );
+
+      $("#sub_total_").html(
+        '<p id="sub_total_">' +
+          sub_total.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
+          "</p>"
+      );
+
+      $("#order_customer_code_hide").val(response.data.order_customer_code);
 
       listOrder(table_code);
     },
@@ -484,64 +553,164 @@ $("#move_table").submit(function (e) {
 });
 
 function voidItem() {
-  Swal.fire({
-    title: "ยกเลิก Order",
-    text: "คุณต้องยกเลิก Order โต๊ะนี้ !",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    cancelButtonText: "ปิด",
-    confirmButtonText: "ตกลง",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      arr_cancel = [
-        {
-          code_table: table_code,
-        },
-      ];
-      itemsArrayCancelOrderTableOffline.push(arr_cancel);
-      localStorage.setItem(
-        "tableCancel",
-        JSON.stringify(itemsArrayCancelOrderTableOffline)
-      );
+  // Swal.fire({
+  //   title: "ยกเลิก Order",
+  //   text: "คุณต้องยกเลิก Order โต๊ะนี้ !",
+  //   icon: "warning",
+  //   showCancelButton: true,
+  //   confirmButtonColor: "#3085d6",
+  //   cancelButtonColor: "#d33",
+  //   cancelButtonText: "ปิด",
+  //   confirmButtonText: "ตกลง",
+  // }).then((result) => {
+  //   if (result.isConfirmed) {
+  //     arr_cancel = [
+  //       {
+  //         code_table: table_code,
+  //       },
+  //     ];
+  //     itemsArrayCancelOrderTableOffline.push(arr_cancel);
+  //     localStorage.setItem(
+  //       "tableCancel",
+  //       JSON.stringify(itemsArrayCancelOrderTableOffline)
+  //     );
 
-      areaCancelTemp = JSON.parse(localStorage.tableCancel);
+  //     areaCancelTemp = JSON.parse(localStorage.tableCancel);
 
-      if (isOnline) {
-        $.ajax({
-          url: serverUrl + "order/updateVoidOrderTable",
-          method: "post",
-          data: {
-            data: areaCancelTemp,
+  //     if (isOnline) {
+  //       $.ajax({
+  //         url: serverUrl + "order/updateVoidOrderTable",
+  //         method: "post",
+  //         data: {
+  //           data: areaCancelTemp,
+  //         },
+  //         cache: false,
+  //         success: function (response) {
+  //           if ((response.message = "ยกเลิกรายการสำเร็จ")) {
+  //             localStorage.removeItem("tableCancel");
+  //             areaCancelTemp = [];
+  //             itemsArrayCancelOrderTableOffline = [];
+  //             notif({
+  //               type: "success",
+  //               msg: "ยกเลิกรายการสำเร็จ!",
+  //               position: "right",
+  //               fade: true,
+  //               time: 300,
+  //             });
+
+  //             selectArea();
+  //             detail_summary(table_code);
+  //             $("#canvaHolder").html("");
+  //             $("#order_select_detail").slideUp();
+  //             $("#void_order_btn").addClass("disable-click");
+  //           } else {
+  //           }
+  //         },
+  //       });
+  //     } else {
+  //     }
+  //   } else {
+  //   }
+  // });
+
+  if (array_summary_update.length == 0) {
+    Swal.fire({
+      title: "ยกเลิก Order",
+      text: "คุณต้องยกเลิก Order โต๊ะนี้ !",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "ปิด",
+      confirmButtonText: "ตกลง",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        arr_cancel = [
+          {
+            code_table: table_code,
           },
-          cache: false,
-          success: function (response) {
-            if ((response.message = "ยกเลิกรายการสำเร็จ")) {
-              localStorage.removeItem("tableCancel");
-              areaCancelTemp = [];
-              itemsArrayCancelOrderTableOffline = [];
-              notif({
-                type: "success",
-                msg: "ยกเลิกรายการสำเร็จ!",
-                position: "right",
-                fade: true,
-                time: 300,
+        ];
+        itemsArrayCancelOrderTableOffline.push(arr_cancel);
+        localStorage.setItem(
+          "tableCancel",
+          JSON.stringify(itemsArrayCancelOrderTableOffline)
+        );
+
+        areaCancelTemp = JSON.parse(localStorage.tableCancel);
+
+        if (isOnline) {
+          $.ajax({
+            url: `${serverUrl}/pdf_CancelledBillOrder/` + table_code,
+            method: "get",
+            success: function (res) {
+              printPDF(res.message_name, res.message_printer);
+              $.ajax({
+                url: serverUrl + "order/updateVoidOrderTable",
+                method: "post",
+                data: {
+                  data: areaCancelTemp,
+                },
+                cache: false,
+                success: function (response) {
+                  if ((response.message = "ยกเลิกรายการสำเร็จ")) {
+                    localStorage.removeItem("tableCancel");
+                    areaCancelTemp = [];
+                    itemsArrayCancelOrderTableOffline = [];
+                    notif({
+                      type: "success",
+                      msg: "ยกเลิกรายการสำเร็จ!",
+                      position: "right",
+                      fade: true,
+                      time: 300,
+                    });
+
+                    selectArea();
+                    detail_summary(table_code);
+                    $("#canvaHolder").html("");
+                    $("#order_select_detail").slideUp();
+                    $("#void_order_btn").addClass("disable-click");
+                  } else {
+                  }
+                },
               });
+            },
+            error: function (error) {
+              // เกิดข้อผิดพลาด
+            },
+          });
 
-              selectArea();
-              $("#canvaHolder").html("");
-              $("#order_select_detail").slideUp();
-              $("#void_order_btn").addClass("disable-click");
-            } else {
-            }
-          },
-        });
+          // win.onload = function () {
+          //   win.print(); // สั่งพิมพ์ทันที
+          //   // console.log("printed");
+          //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+          //   setTimeout(function () {
+          //     win.close();
+          //   }, 4000);
+          // };
+        } else {
+        }
       } else {
       }
-    } else {
-    }
-  });
+    });
+  } else {
+    localStorage.setItem(
+      "summary_update",
+      JSON.stringify(array_summary_update)
+    );
+
+    const UPDATE_ORDER_LIST = {
+      init() {
+        let url = `${serverUrl}order/order_summary_update/`;
+        window.open(
+          url,
+          "Doc",
+          "menubar=no,toorlbar=no,location=no,scrollbars=yes, status=no,resizable=no,width=700,height=600,top=10,left=100"
+        );
+      },
+    };
+
+    UPDATE_ORDER_LIST.init();
+  }
 }
 
 function listOrder(tableCode) {
@@ -566,21 +735,50 @@ function listOrder(tableCode) {
       url: serverUrl + "order/loadTableOrderList",
       type: "POST",
       data: {
-        data: areaorderTemp
-      }
+        data: areaorderTemp,
+      },
     },
     // data: array_select_confirm,
     columns: [
       {
         data: null,
         render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1;
+          // return meta.row + meta.settings._iDisplayStart + 1;
+          return (
+            '<label class="form-label primary_checkbox d-flex me-12">' +
+            '<input type="checkbox">' +
+            '<span class="checkmark"></span>' +
+            "</label>"
+          );
         },
       },
       {
         data: null,
         render: function (data, type, row, meta) {
-          return "<font>" + data["order_customer_ordername"] + "</font>";
+          // "<font>" + data["order_customer_ordername"] + "</font>";
+          let data_order_name = data["order_customer_ordername"];
+          dataRe =
+            '<div class="box_header m-0"><div class="main-title">' +
+            data_order_name +
+            '<p style="font-size: 13px;">' +
+            data["order_customer_des"] +
+            "</p>" +
+            "</div>" +
+            '<div class="header_more_tool">' +
+            '<div class="dropdown">' +
+            '<span class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">' +
+            '<i class="ti-more-alt"></i>' +
+            "</span>" +
+            '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="">' +
+            '<a class="dropdown-item" href="javascript:void(0);" onclick="openSplitOrder(' +
+            data["id"] +
+            ');">' +
+            '<i class="ti-split-v"></i> Split Order</a>' +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+          return dataRe;
         },
       },
       {
@@ -591,7 +789,11 @@ function listOrder(tableCode) {
         data: null,
         render: function (data, type, row, meta) {
           let price_sum = data["order_customer_pcs"] * data["order_price"];
-          return "<font>" + price_sum.toLocaleString(undefined, { minimumFractionDigits: 2 }) + "</font>";
+          return (
+            "<font>" +
+            price_sum.toLocaleString(undefined, { minimumFractionDigits: 2 }) +
+            "</font>"
+          );
         },
       },
     ],
@@ -617,18 +819,51 @@ function listOrder(tableCode) {
   localStorage.removeItem("tableOrdeList");
   areaorderTemp = [];
   itemsArrayOrderTableListOffline = [];
+
+  $("#orderListInTable tbody")
+    .off("click")
+    .on("click", 'input[type="checkbox"]', function () {
+      var row = $(this).closest("tr");
+      let data = table_order_table.row(row).data();
+      arrar_select_function(data);
+    });
 }
 
+function arrar_select_function(data) {
+  if (array_summary_update.length != 0) {
+    let arr = [];
+    arr = array_summary_update.map((a) => a.id_order);
 
-setInterval(function(){
-  var isCallNewOrder = localStorage.getItem('isCallNewOrder');
-  if(isCallNewOrder == 'yes'){
+    if (arr.includes(data.id_order)) {
+      deleteListSelecSummary(data.id_order);
+      //  console.log(array_summary_update);
+    } else {
+      array_summary_update.push(data);
+      // console.log(array_summary_update);
+    }
+  } else {
+    array_summary_update.push(data);
+    // console.log(data);
+  }
+}
+
+function deleteListSelecSummary(data) {
+  for (var i = 0; i < array_summary_update.length; i++) {
+    if (array_summary_update[i].id_order === data) {
+      array_summary_update.splice(i, 1);
+    }
+  }
+}
+
+setInterval(function () {
+  var isCallNewOrder = localStorage.getItem("isCallNewOrder");
+  if (isCallNewOrder == "yes") {
     detail_summary(table_code);
-    drowTableLoad(table_code);
-    localStorage.setItem('isCallNewOrder', 'no');
+    drowTableLoad(table_array_code);
+    array_summary_update = [];
+    localStorage.setItem("isCallNewOrder", "no");
   }
 }, 500);
-
 
 function openModaldiscountAllType_() {
   $(".bd-add-discountAll").modal("show");
@@ -641,21 +876,19 @@ function closeModaladddiscountAll_() {
   // $("#discount_order_btn").addClass("disable-click");
 }
 
-
 $("#adddiscountAll_").submit(function (e) {
   e.preventDefault();
   // console.log(table_code);
   public_array_discount = [];
-  var type_discount = $("#adddiscountAll_type").parsley()
+  var type_discount = $("#adddiscountAll_type").parsley();
   var num_discount = $("#num_adddiscountAll").parsley();
 
   if (type_discount.isValid() && num_discount.isValid()) {
-
     arr_discount = [
       {
         table_discount: table_code,
         type_discount: $("#adddiscountAll_type").val(),
-        num_discount: $("#num_adddiscountAll").val()
+        num_discount: $("#num_adddiscountAll").val(),
       },
     ];
 
@@ -701,26 +934,223 @@ $("#adddiscountAll_").submit(function (e) {
   }
 });
 
- function printPreview(){
+function printPreview() {
+  // let arr_table_bill = [
+  //   {
+  //     table_discount: table_code,
+  //   },
+  // ];
 
-  let arr_table_bill = [
-    {
-      table_discount: table_code
-    },
-  ];
+  if (isOnline) {
+    // var win = window.open(
+    //   `${serverUrl}/pdf_bill/` + table_code,
+    //   "",
+    //   "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+    // );
 
-  if(isOnline){
-    print_specific_content();
-  }else{
+    $.ajax({
+      url: `${serverUrl}/pdf_bill/` + table_code,
+      method: "get",
+      success: function (res) {
+        printPDF(res.message_name, res.message_printer);
+      },
+      error: function (error) {
+        // เกิดข้อผิดพลาด
+      },
+    });
 
+    // win.onload = function () {
+    //   win.print(); // สั่งพิมพ์ทันที
+    //   // console.log("printed");
+    //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+    //   setTimeout(function () {
+    //     win.close();
+    //   }, 4000);
+    // };
+  } else {
   }
- 
- }
+}
 
- function print_specific_content() {
-  var content = "Printed using Ahmed El-Essawy Code";
+function openSplitOrder(id) {
+  $(".bd-split-pcs").modal("show");
+}
 
-  var win = window.open('', '', 'left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status =0');
-  win.document.write("<html><body onload=\"window.print(); window.close();\">" + content + "</body></html>");
-  win.document.close();
+function closeModalsplit() {
+  $(".bd-split-pcs").modal("hide");
+  $("#split-pcs")[0].reset();
+  $("#split-pcs").parsley().reset();
+}
+
+$("#split-pcs").submit(function (e) {
+  e.preventDefault();
+});
+
+function paymentTable() {
+  $(".bd-payment").modal("show");
+
+  $.ajax({
+    url: serverUrl + "/order/getSummaryData/" + table_code,
+    method: "get",
+    success: function (response) {
+      $("#bill_model_total").html(
+        '<h3 class="f_s_25 f_w_700 dark_text mr_30">Total: ' +
+          response.data.order_price_sum +
+          "</h3>"
+      );
+      price_sum_total_payment = parseInt(response.data.order_price_sum);
+    },
+  });
+
+  $.ajax({
+    url: serverUrl + "/order/getTypePlayMent",
+    method: "get",
+    success: function (response) {
+      var cash_type = $("#cash_type");
+      cash_type.html('<option value="">เลือกประเภทการชำระ</option>');
+      $.each(response.data, function (index, item) {
+        cash_type.append(
+          $('<option style="color: #000;"></option>')
+            .val(item.id + "###" + item.type)
+            .html(item.type)
+        );
+      });
+    },
+  });
+}
+
+function closePayment() {
+  $(".bd-payment").modal("hide");
+  $("#payment-form")[0].reset();
+  $("#payment-form").parsley().reset();
+}
+
+$("#payment-form").submit(function (e) {
+  e.preventDefault();
+
+  public_array_payment = [];
+
+  var str_split = $("#cash_type").val();
+  var str_split_result = str_split.split("###");
+  var cash_type_id = str_split_result[0];
+  var cash_type_val = str_split_result[1];
+
+  var cash_type = $("#cash_type").parsley();
+  var num_price_payment = $("#num_price_payment").parsley();
+
+  var num_price_payment_int = $("#num_price_payment").val();
+
+  var receive_total,
+    change_total = 0;
+
+  if (cash_type.isValid() && num_price_payment.isValid()) {
+    if (num_price_payment_int < price_sum_total_payment) {
+      notif({
+        type: "warning",
+        msg: "กรุณาจ่ายเงินให้มากกว่าราคารวม !",
+        position: "right",
+        fade: true,
+        time: 300,
+      });
+    } else {
+      receive_total = num_price_payment_int;
+      change_total = num_price_payment_int - price_sum_total_payment;
+      arr_payment = [
+        {
+          table_code: table_code,
+          order_customer_code: $("#order_customer_code_hide").val(),
+          cash_type: cash_type_val,
+          receive_total: receive_total,
+          change_total: change_total,
+          note: $("#note_payment").val(),
+        },
+      ];
+
+      if (isOnline) {
+        itemsArrayPaymentOffline.push(arr_payment);
+        localStorage.setItem(
+          "payment",
+          JSON.stringify(itemsArrayPaymentOffline)
+        );
+
+        arrPaymentTemp = JSON.parse(localStorage.payment);
+
+        $.ajax({
+          url: serverUrl + "order/paymentStore",
+          method: "post",
+          data: {
+            data: arrPaymentTemp,
+          },
+          cache: false,
+          success: function (response) {
+            if (response.message == "จ่ายสำเร็จ") {
+              $.ajax({
+                url:
+                  `${serverUrl}/pdf_receipt/` +
+                  $("#order_customer_code_hide").val(),
+                method: "get",
+                success: function (res) {
+                  localStorage.removeItem("payment");
+                  arrPaymentTemp = [];
+                  itemsArrayPaymentOffline = [];
+                  notif({
+                    type: "success",
+                    msg: "จ่ายสำเร็จ!",
+                    position: "right",
+                    fade: true,
+                    time: 300,
+                  });
+                  printPDF(res.message_name, res.message_printer);
+                  closePayment();
+                  clear_detail_summary();
+                  drowTableLoad(table_array_code);
+                  $("#parmentButtonId").hide();
+                },
+                error: function (error) {
+                  // เกิดข้อผิดพลาด
+                },
+              });
+
+              // var win = window.open(
+              //   `${serverUrl}/pdf_receipt/` +
+              //     $("#order_customer_code_hide").val(),
+              //   "",
+              //   "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+              // );
+
+              // win.onload = function () {
+              //   win.print(); // สั่งพิมพ์ทันที
+              //   // console.log("printed");
+              //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+              //   setTimeout(function () {
+              //     win.close();
+              //   }, 4000);
+              // };
+            } else {
+            }
+          },
+        });
+      } else {
+        //wailt offline
+      }
+    }
+  } else {
+    cash_type.validate();
+    num_price_payment.validate();
+  }
+});
+
+function openArea() {
+  const AREA = {
+    init() {
+      let url = `${serverUrl}order/pageArea/` + table_array_code;
+      window.open(
+        url,
+        "Doc",
+        "menubar=no,toorlbar=no,location=no,scrollbars=yes, status=no,resizable=no,width=850,height=700,top=10,left=10"
+      );
+    },
+  };
+  AREA.init();
+
+  drowTableLoad("");
 }

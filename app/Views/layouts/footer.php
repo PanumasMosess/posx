@@ -87,10 +87,10 @@
 <script>
     (function($) {
         let theme_status = localStorage.getItem('theme');
-      
+
         if (JSON.parse(theme_status) == true) {
             $('#nav_theme').addClass('dark_sidebar');
-        } 
+        }
     })(jQuery);
 
     function themesChangeDark() {
@@ -115,5 +115,98 @@
     document.getElementById('copyrightYear').innerHTML = copyrightFooter
 </script>
 
+<script type="text/javascript">
+    // var arrLang = {
+    //     "en": {
+    //         "SALE": "SALE",
+    //         "STOCK": 'Stock',
+    //         "REPORT": 'Report',
+    //         "MANAGER": 'Manager',
+    //         "PAYMENT": 'Payment',
+    //     },
+    //     "th": {
+    //         "SALE": "การขาย",
+    //         "STOCK": 'สต็อก',
+    //         "REPORT": 'รายงาน',
+    //         "MANAGER": 'ผู้จัดการ',
+    //         "PAYMENT": 'รายจ่าย',
+    //     }
+    // };
+
+    $(document).ready(function() {
+        let lang = localStorage.language
+
+        if (lang == 'en') {
+            $.getJSON(serverUrl + "language.json", function(data) {
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.en[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
+            });
+        } else {
+            $.getJSON(serverUrl + "language.json", function(data) {
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.th[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
+            });
+        }
+
+        var split_host_TV = "";
+        var link_tv = "";
+        if (serverUrl != "http://localhost:8080/") {
+            split_host_TV = serverUrl.split("https://app.");
+            link_tv = "https://tv." + split_host_TV[1] + "?compa=" + companies_id;
+        } else {
+            link_tv = 'http://localhost:8080/';
+        }
+
+        document.getElementById("tv_board").href = link_tv;
+
+    });
+    // // เรียกใช้ Bootstrap Dropdown
+    // $(document).ready(function() {
+    //     $('.dropdown-toggle').dropdown();
+    // });
+
+    // เรียกใช้ Google Translate Element
+    // function googleTranslateElementInit() {
+    //     new google.translate.TranslateElement({
+    //         pageLanguage: 'en',
+    //         includedLanguages: 'ja,ko,lo,ms,vi,zh-CN,zh-TW,en',
+    //         layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    //         multilanguagePage: true
+    //     }, 'google_translate_element');
+    // }
+
+    $(".translate").click(function() {
+        var lang = $(this).attr("id");
+        if (lang == 'th') {
+            localStorage.setItem('language', 'th');
+            $.getJSON(serverUrl + "language.json", function(data) {
+
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.th[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
+            });
+
+        } else if (lang == 'en') {
+            localStorage.setItem('language', 'en');
+            $.getJSON(serverUrl + "language.json", function(data) {
+                $(".lang").each(function(index, element) {
+                    $(this).text(data.en[$(this).attr("key")]);
+                });
+            }).fail(function() {
+                console.log("An error has occurred.");
+            });
+        }
+    });
+</script>
+
 </body>
+
 </html>

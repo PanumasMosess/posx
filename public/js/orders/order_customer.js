@@ -33,6 +33,49 @@ var vat_total = 0;
   getOrderCard();
 })(jQuery);
 
+function deleteFilePdf(file_name) {
+  $.ajax({
+    url: `${serverUrl}/unlink_pdf/` + file_name,
+    method: "get",
+    success: function (res) {
+      // การสำเร็จ
+    },
+    error: function (error) {
+      // เกิดข้อผิดพลาด
+    },
+  });
+}
+
+function printPDF(file_name, printer) {
+  qz.websocket
+    .connect()
+    .then(function () {
+      return qz.printers.find(printer);
+    })
+    .then((found) => {
+      var config = qz.configs.create(printer);
+      var path = serverUrl + "uploads/temp_pdf/" + file_name;
+      var data = [
+        {
+          type: "pixel",
+          format: "pdf",
+          flavor: "file",
+          data: path,
+        },
+      ];
+      return qz.print(config, data);
+    })
+    .then((event) => {
+      return qz.websocket.disconnect();
+    })
+    .then((event) => {
+      return deleteFilePdf(file_name);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
+
 function loadTableOrderCustomer() {
   $("#orderListCustomerInTable").DataTable().clear().destroy();
   table_order_customer = $("#orderListCustomerInTable").DataTable({
@@ -49,11 +92,11 @@ function loadTableOrderCustomer() {
             // onkeyup='calpcsAndprice()'  oninput='calpcsAndprice()'
           }
           return (
-            "<div class='input-group'>" +
+            "<div class='input-group'> <a href='javascript:void(0);' class='action_btn' id='minus'><i class='ti-minus' id='minus'></i></a> " +
             "<input type='number' class='form-control form-control-sm' pattern='/^-?d+.?d*$/' value='" +
             values_pcs +
-            "' onKeyPress='if(this.value.length==10) return false;'    id='pcs_cut' name='pcs_cut' placeholder='กรอกจำนวน' required>" +
-            "</div>"
+            "' onKeyPress='if(this.value.length==10) return false;'  id='pcs_cut' name='pcs_cut' placeholder='กรอกจำนวน' required>" +
+            "<a href='javascript:void(0);' class='action_btn' id='plus'><i class='ti-plus' id='plus'></i> </a></div>"
           );
         },
       },
@@ -64,7 +107,9 @@ function loadTableOrderCustomer() {
           dataRe =
             '<div class="box_header m-0"><div class="main-title">' +
             data_order_name +
-            '<p style="font-size: 13px;">'+ data['order_des']+ '</p>'+
+            '<p style="font-size: 13px;">' +
+            data["order_des"] +
+            "</p>" +
             "</div>" +
             '<div class="header_more_tool">' +
             '<div class="dropdown">' +
@@ -76,6 +121,10 @@ function loadTableOrderCustomer() {
             data["id"] +
             ');">' +
             '<i class="ti-comment-alt"></i> Comment</a>' +
+            '<a class="dropdown-item" href="javascript:void(0);" onclick="openModalDiscountByOrder(' +
+            data["id"] +
+            ');">' +
+            '<i class="fas fa-hryvnia"></i> Discount</a>' +
             "</div>" +
             "</div>" +
             "</div>" +
@@ -112,6 +161,7 @@ function loadTableOrderCustomer() {
       {
         targets: 0,
         className: "text-center",
+        width: "27%",
       },
       {
         targets: 2,
@@ -119,7 +169,7 @@ function loadTableOrderCustomer() {
       },
       {
         targets: 3,
-        className: "text-center",
+        className: "text-right",
       },
     ],
     responsive: true,
@@ -141,6 +191,39 @@ function loadTableOrderCustomer() {
 
     table_order_customer.cell(this, 3).data(subtotal).draw();
 
+    // summaryText();
+    calService();
+    calDiscountAll();
+  });
+
+  $("#orderListCustomerInTable tbody tr").on("click a", function (event) {
+    var id;
+    id = event.target.id;
+
+    let subtotal_ = 0;
+    let product_price_ = 0;
+    let product_qty_ = 0;
+
+    product_price_ = table_order_customer.cell(this, 2).data();
+    product_qty_ = $(table_order_customer.cell(this, 0).node())
+      .find("input")
+      .val();
+
+    if (id == "plus") {
+      product_qty_++;
+      $(table_order_customer.cell(this, 0).node())
+        .find("input")
+        .val(product_qty_);
+    } else {
+      product_qty_--;
+      $(table_order_customer.cell(this, 0).node())
+        .find("input")
+        .val(product_qty_);
+    }
+
+    subtotal_ =
+      parseFloat(product_price_.order_price) * parseFloat(product_qty_);
+    table_order_customer.cell(this, 3).data(subtotal_).draw();
     // summaryText();
     calService();
     calDiscountAll();
@@ -320,6 +403,8 @@ function getOrderCard() {
         let data = table_select_list.row(this).data();
         data.total_price = "";
         data.order_des = "";
+        data.order_discount_type_by_order = "";
+        data.order_discount_by_order = 0;
         data.order_pcs = 1;
         arrar_select_function(data);
       });
@@ -469,10 +554,14 @@ function orderConfirm() {
               order_discount_type: discount_type,
               order_card_charge: card_charge_total,
               order_card_charge_type: "-",
-              order_vat_type: vat_total,
-              order_vat: vat_type,
+              order_vat_type: vat_type,
+              order_vat: vat_total,
               order_status: status,
               order_des: array_select_confirm[i].order_des,
+              order_discount_type_by_order:
+                array_select_confirm[i].order_discount_type_by_order,
+              order_discount_by_order:
+                array_select_confirm[i].order_discount_by_order,
             },
           ]),
             array_customer_order.push(arr_object_customer_order_temp);
@@ -495,11 +584,56 @@ function orderConfirm() {
                   fade: true,
                   time: 300,
                 });
-                //clear after add
-                array_customer_order = [];
-                array_select_confirm = [];
-                cancleAllTable();
-                localStorage.setItem('isCallNewOrder', 'yes');
+
+                $.ajax({
+                  url:
+                    `${serverUrl}/pdf_BillOrder/` +
+                    response.order_customer_code,
+                  method: "get",
+                  success: function (res) {
+                    // การสำเร็จ
+                    //clear after add
+                    array_customer_order = [];
+                    array_select_confirm = [];
+                    cancleAllTable();
+                    localStorage.setItem("isCallNewOrder", "yes");
+
+                    printPDF(res.message_name, res.message_printer);
+
+                    $.ajax({
+                      url:
+                        `${serverUrl}/order/update_order_print_log/` +
+                        response.order_customer_code,
+                      method: "get",
+                      success: function (res) {
+                        // การสำเร็จ
+                      },
+                      error: function (error) {
+                        // เกิดข้อผิดพลาด
+                      },
+                    });
+                    
+                  },
+                  error: function (error) {
+                    // เกิดข้อผิดพลาด
+                  },
+                });
+
+                // var win = window.open(
+                //   `${serverUrl}/pdf_BillOrder/` + response.order_customer_code,
+                //   "",
+                //   "left=0,top=0,width=800,height=800,toolbar=0,scrollbars=0,status=0"
+                // );
+
+                // win.onload = function () {
+                //   win.print(); // สั่งพิมพ์ทันที
+                //   // console.log("printed");
+                //   // รอให้การพิมพ์เสร็จสิ้นแล้วค่อยปิดหน้า PDF
+                //   setTimeout(function () {
+                //     win.close();
+                //   }, 4000);
+
+                //   // ส่วนนี้อาจจะไม่จำเป็น
               } else {
                 notif({
                   type: "danger",
@@ -827,8 +961,8 @@ $("#addcomment").submit(function (e) {
 
 function addComment(id) {
   for (var i = 0; i < array_select_confirm.length; i++) {
-    if(array_select_confirm[i].id == id){
-      array_select_confirm[i].order_des = $('#text_comment').val();
+    if (array_select_confirm[i].id == id) {
+      array_select_confirm[i].order_des = $("#text_comment").val();
     }
   }
   loadTableOrderCustomer();
@@ -842,7 +976,66 @@ function checkOutOfStock(code) {
     url: serverUrl + "/order/outofstock/" + code,
     method: "get",
     success: function (response) {
-     console.log(response.data[0].length);  
-    }
+      console.log(response.data[0].length);
+    },
   });
 }
+
+function openModalDiscountByOrder(id) {
+  $(".bd-add-discountByOrder").modal("show");
+  $("#text_discount_order_hiden").val(id);
+}
+
+function closeModaladddiscountByOrder() {
+  $(".bd-add-discountByOrder").modal("hide");
+  $("#adddiscountByOrder")[0].reset();
+  $("#adddiscountByOrder").parsley().reset();
+}
+
+$("#adddiscountByOrder").submit(function (e) {
+  e.preventDefault();
+  var adddiscountbyorder_type = $("#adddiscountbyorder_type").parsley();
+  var num_adddiscountbyorder = $("#num_adddiscountbyorder").parsley();
+  if (adddiscountbyorder_type.isValid() && num_adddiscountbyorder.isValid()) {
+    isOnline = window.navigator.onLine;
+    if (isOnline) {
+      let data_id = $("#text_discount_order_hiden").val();
+      add_discount_order(data_id);
+    } else {
+      $(".bd-add-discountByOrder").modal("hide");
+      $("#adddiscountByOrder")[0].reset();
+      $("#adddiscountByOrder").parsley().reset();
+    }
+  } else {
+    adddiscountbyorder_type.validate();
+    num_adddiscountbyorder.validate();
+  }
+});
+
+function add_discount_order(id) {
+  for (var i = 0; i < array_select_confirm.length; i++) {
+    if (array_select_confirm[i].id == id) {
+      array_select_confirm[i].order_discount_type_by_order = $(
+        "#adddiscountbyorder_type"
+      ).val();
+      if ($("#adddiscountbyorder_type").val() == "percen") {
+        let discount_number_per =
+          array_select_confirm[i].order_price *
+          ($("#num_adddiscountbyorder").val() / 100);
+
+        array_select_confirm[i].order_discount_by_order = discount_number_per;
+      } else {
+        array_select_confirm[i].order_discount_by_order = $(
+          "#num_adddiscountbyorder"
+        ).val();
+      }
+    }
+  }
+  loadTableOrderCustomer();
+  $(".bd-add-discountByOrder").modal("hide");
+  $("#adddiscountByOrder")[0].reset();
+  $("#adddiscountByOrder").parsley().reset();
+}
+
+function minus(data) {}
+function plus(data) {}

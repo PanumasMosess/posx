@@ -657,7 +657,7 @@ class OrderModel
             WHERE DATE(created_at) = CURDATE() $condition
             ORDER BY created_at DESC
         ";
- 
+
         $builder = $this->db->query($sql);
 
         return $builder->getResult();
@@ -691,19 +691,33 @@ class OrderModel
     {
     }
 
-    public function insertOrderCustomer($data, $running , $datacount = null)
+    public function insertOrderCustomer($data, $running, $datacount = null, $status)
     {
         $builder_table = $this->db->table('order_customer');
         $builder_table_status = $builder_table->insert($data);
 
-        if($datacount == 0)
-        {
+        if (($datacount == 0) && ($status == null)) {
             $builder_running = $this->db->table('order_customer_running');
             $builder_running_status = $builder_running->insert($running);
         }
 
 
         return ($builder_table_status) ? true : false;
+    }
+
+    public function insertOrderCustomerCaseComment($data)
+    {
+        $builder_table = $this->db->table('order_customer');
+        $builder_table_status = $builder_table->insert($data);
+
+        return ($builder_table_status) ? true : false;
+    }
+
+    public function insertOrderPrintLog($data){
+        $builder_print = $this->db->table('order_print_log');
+        $builder_print_status = $builder_print->insert($data);
+
+        return ($builder_print_status) ? true : false;
     }
 
     public function insertOrderCustomerSummary($data, $table, $table_code)
@@ -805,7 +819,7 @@ class OrderModel
 
     public function getOrderListByTable($table_code = null)
     {
-        $sql = "SELECT * FROM order_customer as a
+        $sql = "SELECT *, a.id as id_order, b.id as id_table FROM order_customer as a
         left join `order` as b
         on a.order_code = b.order_code
         where order_customer_table_code = '$table_code' and a.order_customer_status = 'IN_KITCHEN'
@@ -858,10 +872,38 @@ class OrderModel
         return $builder->getRow();
     }
 
+    public function getOrderByOrderCustomerCode($order_customer_code)
+    {
+        $sql = "SELECT * FROM order_customer   as a
+        left join `order` as b
+        on a.order_code = b.order_code  WHERE 
+        a.order_customer_status = 'IN_KITCHEN' and 
+        a.order_customer_code = '$order_customer_code'";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
     public function updateOrderCustomer($data_order, $order_code,  $order_customer_table_code)
     {
         $builder_order_update = $this->db->table('order_customer');
-        $array_order_update = array('order_code' => $order_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $order_customer_table_code);
+        $array_order_update = array('order_code' => $order_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $order_customer_table_code, 'order_customer_des' => '');
+        $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
+        return ($builder_order_update_status) ? true : false;
+    }
+
+    public function updateOrderCustomerPCS($data_order,$id_code)
+    {
+        $builder_order_update = $this->db->table('order_customer');
+        $array_order_update = array('order_customer_status' => 'IN_KITCHEN', 'id' => $id_code);
+        $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
+        return ($builder_order_update_status) ? true : false;
+    }
+
+    public function updateOrderCustomerCancel($data_order,$id_code)
+    {
+        $builder_order_update = $this->db->table('order_customer');
+        $array_order_update = array('order_customer_status' => 'IN_KITCHEN', 'id' => $id_code);
         $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
         return ($builder_order_update_status) ? true : false;
     }
@@ -870,6 +912,15 @@ class OrderModel
     {
         $builder_order_sum_update = $this->db->table('order_summary');
         $array_order_sum_update = array('order_status' => 'IN_KITCHEN', 'order_table_code' => $order_customer_table_code);
+        $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
+        return ($builder_order_sum_update_status) ? true : false;
+    }
+    
+
+    public function updateOrderCustomerSummaryPCS($data_order, $order_customer_code)
+    {
+        $builder_order_sum_update = $this->db->table('order_summary');
+        $array_order_sum_update = array('order_status' => 'IN_KITCHEN', 'order_customer_code' => $order_customer_code);
         $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
         return ($builder_order_sum_update_status) ? true : false;
     }
@@ -896,12 +947,10 @@ class OrderModel
             ->getRow();
     }
 
-    
-
     public function getOrderByType($type)
     {
 
-        switch($type) {
+        switch ($type) {
             case 'NORMAL':
                 $sql = "
                     SELECT *
@@ -938,5 +987,111 @@ class OrderModel
         $builder = $this->db->table('order_summary');
 
         return $builder->where('order_customer_code', $orderCustomerCode)->update($data);
+    }
+
+    public function getTypePlayMentModel()
+    {
+        $sql = "SELECT * FROM payment_type ORDER BY id DESC";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function insertNewPaymentLog($data_detail, $custome_code, $table_code)
+    {
+
+        $buffer_datetime = date("Y-m-d H:i:s");
+
+        $builder_insert_payment = $this->db->table('payment_log');
+        $builder_insert_payment_status = $builder_insert_payment->insert($data_detail);
+
+        $data_order = [
+            'order_customer_status' => 'FINISH',
+            'updated_at' => $buffer_datetime,
+            'updated_by' => session()->get('username')
+        ];
+
+        $builder_order_update = $this->db->table('order_customer');
+        $array_order_update = array('order_customer_code' => $custome_code, 'order_customer_status' => 'IN_KITCHEN', 'order_customer_table_code' => $table_code);
+        $builder_order_update_status = $builder_order_update->where($array_order_update)->update($data_order);
+
+
+        $data_order_summary = [
+            'order_status' => 'FINISH',
+            'updated_at' => $buffer_datetime,
+            'updated_by' => session()->get('username')
+        ];
+
+        $builder_order_sum_update = $this->db->table('order_summary');
+        $array_order_sum_update = array('order_customer_code' => $custome_code, 'order_status' => 'IN_KITCHEN', 'order_table_code' => $table_code);
+        $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order_summary);
+
+
+        $data_table = [
+            'table_status' => 'FINISH',
+            'updated_at' => $buffer_datetime,
+            'updated_by' => session()->get('username')
+        ];
+
+        $builder_table_update = $this->db->table('table_dynamic');
+        $array_table = array('table_status' => 'USE', 'table_code' => $table_code);
+        $builder_table_update_status = $builder_table_update->where($array_table)->update($data_table);
+
+
+        return ($builder_insert_payment_status && $builder_order_update_status && $builder_order_sum_update_status && $builder_table_update_status) ? true : false;
+    }
+
+    public function getTableByTableCode($code)
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM table_dynamic WHERE table_code = '$code' AND companies_id = $companies_id";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderPrintLogByOrderCustomerCode($code)
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM order_print_log WHERE order_customer_code = '$code' AND companies_id = $companies_id AND order_print_status = 'WAIT_PRINT'";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
+    public function updateOrderPrintLogByOrderCustomerCode($id, $data)
+    {
+
+        $builder = $this->db->table('order_print_log');
+
+        $builder->where('order_customer_code', $id);
+        $builder->where('order_print_status', 'WAIT_PRINT'); // เพิ่มเงื่อนไข WHERE ใหม่
+    
+        // ทำการอัปเดตข้อมูล
+        return $builder->update($data);
+    }
+
+    public function getPaymentLogByOrderCustomerCode($order_customer_code)
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM payment_log WHERE order_customer_code = '$order_customer_code' AND companies_id = $companies_id";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderSummaryFinish($order_customer_code)
+    {
+        $sql = "SELECT * FROM order_summary  WHERE order_customer_code = '$order_customer_code'";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getOrderListByFinish($order_customer_code = null)
+    {
+        $sql = "SELECT *, a.id as id_order, b.id as id_table FROM order_customer as a
+        left join `order` as b
+        on a.order_code = b.order_code
+        where order_customer_code = '$order_customer_code' and a.order_customer_status = 'FINISH'
+        ORDER BY a.order_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
     }
 }

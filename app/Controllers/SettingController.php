@@ -12,6 +12,7 @@ class SettingController extends BaseController
 
     public function __construct()
     {
+        $this->information = new \App\Models\InformationModel();
     }
 
     public function index()
@@ -27,12 +28,14 @@ class SettingController extends BaseController
         $data['content'] = 'setting/index';
         $data['title'] = 'ตั้งค่า';
         $data['js_critical'] = '
+        <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script> 
         <script src="' . base_url('/js/setting/information.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/user_accounts.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/employee_pin_pos.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/employee_pin_stock.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/mobile.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/setting/payment_type.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/setting/printer.js?v=' . time()) . '"></script>
         ';
         // <script src="' . base_url('/js/setting/position.js?v=' . time()) . '"></script>
         // <script src="' . base_url('/js/setting/branch.js?v=' . time()) . '"></script>
@@ -1378,37 +1381,94 @@ class SettingController extends BaseController
         }
     }
 
-    //updatePaymentType
-    public function updatePaymentType()
+    // //updatePaymentType
+    // public function updatePaymentType()
+    // {
+    //     $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
+
+    //     try {
+    //         // SET CONFIG
+    //         $status = 500;
+    //         $response['success'] = 0;
+    //         $response['message'] = '';
+
+    //         $param['PaymentTypeID'] = $_REQUEST['PaymentTypeID'];
+    //         $param['Credit_Card'] = $_REQUEST['Credit_Card'];
+    //         $param['Entertain'] = $_REQUEST['Entertain'];
+
+    //         if ($param['Credit_Card'] != 'false') {
+    //             $Credit_Card = 1;
+    //         } else {
+    //             $Credit_Card = 0;
+    //         }
+
+    //         if ($param['Entertain'] != 'false') {
+    //             $Entertain = 1;
+    //         } else {
+    //             $Entertain = 0;
+    //         }
+
+    //         // HANDLE REQUEST
+    //         $update = $this->PaymentTypeModel->updatePaymentTypeByID($param['PaymentTypeID'], [
+    //             'credit_card' => $Credit_Card,
+    //             'entertain' => $Entertain,
+    //             'updated_by' => session()->get('username'),
+    //             'updated_at' => date('Y-m-d H:i:s')
+    //         ]);
+
+    //         if ($update) {
+
+    //             logger_store([
+    //                 'employee_id' => session()->get('employeeID'),
+    //                 'username' => session()->get('username'),
+    //                 'event' => 'อัพเดท',
+    //                 'detail' => '[อัพเดท] PaymentType',
+    //                 'ip' => $this->request->getIPAddress()
+    //             ]);
+
+    //             $status = 200;
+    //             $response['success'] = 1;
+    //             $response['message'] = 'แก้ไข PaymentType สำเร็จ';
+    //         } else {
+    //             $status = 200;
+    //             $response['success'] = 0;
+    //             $response['message'] = 'แก้ไข PaymentType ไม่สำเร็จ';
+    //         }
+
+    //         return $this->response
+    //             ->setStatusCode($status)
+    //             ->setContentType('application/json')
+    //             ->setJSON($response);
+    //     } catch (\Exception $e) {
+    //         echo $e->getMessage() . ' ' . $e->getLine();
+    //     }
+    // }
+
+    // deletePaymentType
+    public function deletePaymentType($id = null)
     {
         $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
+        $this->PaymentTypeModel->deletePaymentTypeByID($id);
 
+        logger_store([
+            'employee_id' => session()->get('employeeID'),
+            'username' => session()->get('username'),
+            'event' => 'ลบ',
+            'detail' => '[ลบ] PaymentType',
+            'ip' => $this->request->getIPAddress()
+        ]);
+    }
+
+    public function updateCreditCard()
+    {
         try {
-            // SET CONFIG
+
+            $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
             $status = 500;
             $response['success'] = 0;
-            $response['message'] = '';
 
-            $param['PaymentTypeID'] = $_REQUEST['PaymentTypeID'];
-            $param['Credit_Card'] = $_REQUEST['Credit_Card'];
-            $param['Entertain'] = $_REQUEST['Entertain'];
-
-            if ($param['Credit_Card'] != 'false') {
-                $Credit_Card = 1;
-            } else {
-                $Credit_Card = 0;
-            }
-
-            if ($param['Entertain'] != 'false') {
-                $Entertain = 1;
-            } else {
-                $Entertain = 0;
-            }
-
-            // HANDLE REQUEST
-            $update = $this->PaymentTypeModel->updatePaymentTypeByID($param['PaymentTypeID'], [
-                'credit_card' => $Credit_Card,
-                'entertain' => $Entertain,
+            $update = $this->PaymentTypeModel->updatePaymentTypeByID($this->request->getVar('id'), [
+                'credit_card' => $this->request->getVar('status'),
                 'updated_by' => session()->get('username'),
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
@@ -1425,11 +1485,6 @@ class SettingController extends BaseController
 
                 $status = 200;
                 $response['success'] = 1;
-                $response['message'] = 'แก้ไข PaymentType สำเร็จ';
-            } else {
-                $status = 200;
-                $response['success'] = 0;
-                $response['message'] = 'แก้ไข PaymentType ไม่สำเร็จ';
             }
 
             return $this->response
@@ -1441,18 +1496,113 @@ class SettingController extends BaseController
         }
     }
 
-    // deletePaymentType
-    public function deletePaymentType($id = null)
+    public function updateEntertain()
     {
-        $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
-        $this->PaymentTypeModel->deletePaymentTypeByID($id);
+        try {
 
-        logger_store([
-            'employee_id' => session()->get('employeeID'),
-            'username' => session()->get('username'),
-            'event' => 'ลบ',
-            'detail' => '[ลบ] PaymentType',
-            'ip' => $this->request->getIPAddress()
+            $this->PaymentTypeModel = new \App\Models\PaymentTypeModel();
+            $status = 500;
+            $response['success'] = 0;
+
+            $update = $this->PaymentTypeModel->updatePaymentTypeByID($this->request->getVar('id'), [
+                'entertain' => $this->request->getVar('status'),
+                'updated_by' => session()->get('username'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($update) {
+
+                logger_store([
+                    'employee_id' => session()->get('employeeID'),
+                    'username' => session()->get('username'),
+                    'event' => 'อัพเดท',
+                    'detail' => '[อัพเดท] PaymentType',
+                    'ip' => $this->request->getIPAddress()
+                ]);
+
+                $status = 200;
+                $response['success'] = 1;
+            }
+
+            return $this->response
+                ->setStatusCode($status)
+                ->setContentType('application/json')
+                ->setJSON($response);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . ' ' . $e->getLine();
+        }
+    }
+
+    public function getprinter()
+    {
+        $print_list = $this->information->get_printer();
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $print_list
         ]);
+    }
+
+    public function printersetting()
+    {
+        $buffer_datetime = date("Y-m-d H:i:s");
+        $id = $this->request->getPost('id');
+        $printer_order = $this->request->getPost('printer_order');
+        $printer_summary_order = $this->request->getPost('printer_summary_order');
+        $printer_bill = $this->request->getPost('printer_bill');
+
+        if ($id != '') {
+            //update
+            $data = [
+                'printer_order' =>  $printer_order,
+                'printer_order_summary' =>  $printer_summary_order,
+                'printer_bill' =>   $printer_bill,
+                'updated_by' => session()->get('username'),
+                'updated_at' => $buffer_datetime,
+            ];
+
+            $update = $this->information->updatePrinter($data, $id);
+
+            if ($update) {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => false,
+                    'message' => 'รายการสำเร็จ'
+                ]);
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+
+        } else {
+            //insert
+            $data = [
+                'printer_order' =>  $printer_order,
+                'printer_order_summary' =>  $printer_summary_order,
+                'printer_bill' =>   $printer_bill,
+                'created_by' => session()->get('username'),
+                'created_at' => $buffer_datetime,
+                'companies_id' => session()->get('companies_id')
+            ];
+
+            $new = $this->information->insertPrinter($data);
+
+            if ($new) {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => false,
+                    'message' => 'รายการสำเร็จ'
+                ]);
+            } else {
+                return $this->response->setJSON([
+                    'status' => 200,
+                    'error' => true,
+                    'message' => 'ลบไม่สำเร็จ'
+                ]);
+            }
+        }
     }
 }

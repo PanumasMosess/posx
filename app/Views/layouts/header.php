@@ -35,6 +35,8 @@
 
     <link rel="stylesheet" href="<?php echo base_url('vendors/material_icon/material-icons.css'); ?>" />
 
+    <link rel="stylesheet" href="<?php echo base_url('css/image-uploader.min.css'); ?>">
+
     <link rel="stylesheet" href="<?php echo base_url('css/metisMenu.css'); ?>" />
 
     <link rel="stylesheet" href="<?php echo base_url('css/style1.css'); ?>" />
@@ -44,15 +46,20 @@
     <!-- Plugins css -->
     <link href="<?php echo base_url('/css/plugins.css'); ?>" rel="stylesheet">
 
+    <script src="<?php echo base_url('/js/qz-tray.js'); ?>"></script>
+    <script src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
+    <script src="<?php echo base_url('/js/sign-message.js'); ?>"></script>
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
+    <!-- เรียกใช้ Google Translate Element -->
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
         /** BASE **/
         * {
             font-family: 'Kanit', sans-serif;
         }
-
     </style>
 
     <?php if (isset($css_critical)) {
@@ -66,6 +73,7 @@
     </style>
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
+        var companies_id = '<?php echo session()->get('companies_id'); ?>'
     </script>
     <style>
         .disabled {
@@ -73,6 +81,27 @@
             opacity: 0.6;
         }
     </style>
+    <style>
+        /* .Menu_NOtification_Wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            bottom: -100%;
+            /* ให้เป็น -100% เพื่อซ่อนเนื้อหาเมื่อไม่ active */
+        /* width: 100%; */
+        /* height: auto; */
+        /* ลบค่าความสูง */
+        /* transition: bottom 0.3s; */
+        /* เพิ่ม transition บนคุณสามารถปรับค่าความเร็วการเคลื่อนไหวตามความต้องการ */
+        /* }  */
+
+        .header_iner .header_right .header_notification_warp {
+            margin-right: 25px;
+        }
+    </style>
+
 </head>
 
 <body class="crm_body_bg">
@@ -96,7 +125,7 @@
                     </div>
                 </a>
             </li>
-<!-- 
+            <!-- 
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'stock') {
                                 echo 'active';
                             } ?>">
@@ -122,7 +151,7 @@
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
                     <div class="nav_title">
-                        <span>การขาย</span>
+                        <span class="lang" key='SALE'>การขาย</span>
                     </div>
                 </a>
                 <ul>
@@ -139,7 +168,7 @@
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>รายจ่าย</span>
+                        <span class="lang" key='PAYMENT'>รายจ่าย</span>
                     </div>
                 </a>
             </li>
@@ -150,7 +179,7 @@
                         <img src="<?php echo base_url('img/menu-icon/13.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>สต็อก</span>
+                        <span class="lang" key='STOCK'>สต็อก</span>
                     </div>
                 </a>
             </li>
@@ -161,7 +190,7 @@
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>รายงาน</span>
+                        <span class="lang" key='REPORT'>รายงาน</span>
                     </div>
                 </a>
             </li>
@@ -174,14 +203,17 @@
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
                     <div class="nav_title">
-                        <span>ผู้จัดการ</span>
+                        <span class="lang" key='MANAGER'>ผู้จัดการ</span>
                     </div>
                 </a>
                 <ul>
-                    <li><a href="<?php echo base_url('/manager/index'); ?>">เมนู</a></li>
+                    <li><a href="<?php echo base_url('/manager/index'); ?>" class="lang" key='MENU'>เมนู</a></li>
                 </ul>
                 <ul class="disabled">
-                    <li><a href="<?php echo base_url('/manager/edit_bill'); ?>">แก้ไขบิล</a></li>
+                    <li><a href="<?php echo base_url('/manager/edit_bill'); ?>" class="lang" key='BIIL_UPDATE'>แก้ไขบิล</a></li>
+                </ul>
+                <ul>
+                    <li><a href="<?php echo base_url('/manager/setting_tv'); ?>" class="lang" key='SETTING_TY'>ตั้งค่า TV</a></li>
                 </ul>
             </li>
         </ul>
@@ -212,8 +244,8 @@
                         </div>
                         <div class="header_right d-flex justify-content-between align-items-center">
                             <div class="header_notification_warp d-flex align-items-center">
-                                <li>
-                                    <a class="bell_notification_clicker" href="#">
+                                <!--   <li>
+                               <a class="bell_notification_clicker" href="#">
                                         <img src="<?php echo base_url('img/icon/bell.svg'); ?>" alt />
                                         <span>2</span>
                                     </a>
@@ -305,23 +337,84 @@
                                     <a class="CHATBOX_open" href="#">
                                         <img src="<?php echo base_url('img/icon/msg.svg'); ?>" alt /> <span>2</span>
                                     </a>
+                                </li> -->
+
+                                <li>
+                                    <a class="bell_notification_clicker" href="#">
+                                        <img src="<?php echo base_url('img/icon/world.svg'); ?>" alt />
+                                    </a>
+                                    <div class="Menu_NOtification_Wrap" style="width: 190px;">
+                                        <div class="notification_Header">
+                                            <h4>Select Language</h4>
+                                        </div>
+                                        <div class="Notification_body" style="height: 130px;">
+
+                                            <div class="single_notify d-flex align-items-center">
+                                                <div class="notify_thumb translate">
+                                                    <a href="javascript:void(0);" id="th" class="translate"><img src="<?php echo base_url('img/icon2/thai.png'); ?>" alt /></a>
+                                                </div>
+                                                <div class="notify_content translate">
+                                                    <a href="javascript:void(0);" id="th" class="translate">
+                                                        <h5>TH</h5>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                            <div class="single_notify d-flex align-items-center">
+                                                <div class="notify_thumb translate">
+                                                    <a href="javascript:void(0);" id="en" class="translate"><img src="<?php echo base_url('img/icon2/endland.png'); ?>" alt /></a>
+                                                </div>
+                                                <div class="notify_content translate">
+                                                    <a href="javascript:void(0);" id="en" class="translate">
+                                                        <h5>EN</h5>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </li>
                             </div>
+                            <!-- <div class="header_notification_warp d-flex align-items-center">
+                                <li>
+                                    <a class="bell_notification_clicker" href="javascript:void(0);" onclick="chanheLanguage();">
+                                        <img src="<?php echo base_url('img/icon/world.svg'); ?>" alt />
+                                    </a>
+                                    <div class="Menu_NOtification_Wrap">
+                                        <div id="google_translate_element"></div>
+                                    </div>
+                                </li>
+                            </div> -->
                             <div class="profile_info">
-                                <img src="<?php echo base_url('img/client_img.png'); ?>" alt="#" />
+                                <img src="<?php echo base_url('img/man.png'); ?>" alt="#" />
                                 <div class="profile_info_iner">
                                     <div class="profile_author_name">
                                         <p><?php echo session()->get('employee_position_name'); ?></p>
                                         <h5><?php echo session()->get('username'); ?></h5>
                                     </div>
                                     <div class="profile_info_details">
-                                        <a href="<?php echo base_url('/setting/index'); ?>"><i class="fas fa-cog"></i> ตั้งค่า </a>
-                                        <a href="#" class="disabled"><i class="fas fa-plus-circle"></i> เพิ่มวัน </a>
-                                        <a href="#" class="disabled"><i class="fas fa-laptop"></i> Remote Support </a>
-                                        <a href="#" class="disabled"><i class="fas fa-question-circle"></i> คู่มือ </a>
-                                        <a href="#" class="disabled"><i class="fas fa-envelope"></i> รายงานบัค </a>
+                                        <a href="<?php echo base_url('/setting/index'); ?>"><i class="fas fa-cog"></i>
+                                            <front class='lang' key='SETTING'>ตั้งค่า</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-plus-circle"></i>
+                                            <front class='lang' key='ADD_DATE'>เพิ่มวัน</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-laptop"></i>
+                                            <front class='lang' key='REMOTE_SUPPORT'>Remote Support</front>
+                                        </a>
+                                        <a id="tv_board" target="_blank"><i class="fas fa-laptop"></i>
+                                            <front class='lang' key='TV_POSX'>TV Board</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-question-circle"></i>
+                                            <front class='lang' key='MANUAL'>คู่มือ</front>
+                                        </a>
+                                        <a href="#" class="disabled"><i class="fas fa-envelope"></i>
+                                            <front class='lang' key='REPORT_BUG'>รายงานบัค</front>
+                                        </a>
                                         <hr>
-                                        <a href="<?php echo base_url('/logout'); ?>"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ </a>
+                                        <a href="<?php echo base_url('/logout'); ?>"><i class="fas fa-sign-out-alt"></i>
+                                            <front class='lang' key='LOGOUT'>ออกจากระบบ</front>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

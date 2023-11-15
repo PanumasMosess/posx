@@ -52,4 +52,25 @@ class InformationModel
 
         return $builder;
     }
+
+    public function get_printer()
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM printer_setting WHERE (companies_id = $companies_id);";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function insertPrinter($data)
+    {
+        $builder = $this->db->table('printer_setting');
+        return $builder->insert($data) ? true : false;
+    }
+
+    public function updatePrinter($data, $id)
+    {
+        $builder = $this->db->table('printer_setting');
+
+        return $builder->where('id', $id)->update($data);
+    }
 }

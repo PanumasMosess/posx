@@ -104,6 +104,8 @@ $(document).ready(function() {
             let dataObj = {
                 type: type
             }
+            
+            console.log(dataObj)
 
             $.ajax({
                 type: "POST",
@@ -859,5 +861,5 @@ $(document).ready(function() {
         }
     }
 
-    ORDER_POS.init()
+    // ORDER_POS.init()
 })

@@ -7,7 +7,9 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "aws/aws-sdk-php": "^3.276",
-        "codeigniter4/framework": "^4.0"
+        "codeigniter4/framework": "4.3.6",
+        "mike42/escpos-php": "^4.0",
+        "tecnickcom/tcpdf": "^6.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
