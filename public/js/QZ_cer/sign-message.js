@@ -54,4 +54,3 @@ qz.security.setSignaturePromise(function (toSign) {
     }
   };
 });
-

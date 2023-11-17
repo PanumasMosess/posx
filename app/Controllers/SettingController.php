@@ -1576,7 +1576,6 @@ class SettingController extends BaseController
                     'message' => 'ลบไม่สำเร็จ'
                 ]);
             }
-
         } else {
             //insert
             $data = [
@@ -1602,6 +1601,29 @@ class SettingController extends BaseController
                     'error' => true,
                     'message' => 'ลบไม่สำเร็จ'
                 ]);
+            }
+        }
+    }
+
+    public function file_setting()
+    {
+        $datas = $_POST["data"];
+        foreach ($datas as $data) {
+
+            $file = $data['src_file_setting'];
+
+            $new_file = explode(";", $file);
+            $new_file_move = explode(",", $file);
+            $type = $new_file[0];
+            $type_real = explode("/", $type);
+
+            // var_dump($type);
+            // exit;
+
+            if ($type_real[1] == 'plain') {
+                file_put_contents('js/QZ_cer/digital-certificate' . '.txt', base64_decode($new_file_move[1]));
+            } else if($type_real[1] == 'javascript') {
+                file_put_contents('js/QZ_cer/sign-message' . '.js', base64_decode($new_file_move[1]));
             }
         }
     }
