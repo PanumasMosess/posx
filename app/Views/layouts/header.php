@@ -75,7 +75,7 @@
         var serverUrl = '<?php echo base_url(); ?>'
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
     </script>
-    <script src="<?php echo base_url('/js/sign-message.js?v=' . time()); ?>"></script>
+    <script src="<?php echo base_url('/js/QZ_cer/sign-message.js?v=' . time()); ?>"></script>
     <style>
         .disabled {
             pointer-events: none;
