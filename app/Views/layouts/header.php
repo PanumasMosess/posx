@@ -48,7 +48,7 @@
 
     <script src="<?php echo base_url('/js/qz-tray.js'); ?>"></script>
     <script src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
-    <script src="<?php echo base_url('/js/sign-message.js?v=' . time()); ?>"></script>
+    
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
@@ -75,6 +75,7 @@
         var serverUrl = '<?php echo base_url(); ?>'
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
     </script>
+    <script src="<?php echo base_url('/js/sign-message.js?v=' . time()); ?>"></script>
     <style>
         .disabled {
             pointer-events: none;
