@@ -1,5 +1,5 @@
 function reload() {
-    location.reload()
+    // location.reload()
 }
 
 $(document).ready(function() {
@@ -861,5 +861,5 @@ $(document).ready(function() {
         }
     }
 
-    // ORDER_POS.init()
+    ORDER_POS.init()
 })

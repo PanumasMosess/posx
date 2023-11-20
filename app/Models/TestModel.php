@@ -93,7 +93,12 @@ class TestModel
 
     public function getOrderDashboardVoidItems()
     {
-        $sql = "";
+        $sql = "
+            SELECT *
+            FROM `order_customer` 
+            WHERE order_customer_status = 'CANCEL' AND DATE(created_at) = CURDATE() 
+            ORDER BY created_at DESC
+        ";
 
         $builder = $this->db->query($sql);
 

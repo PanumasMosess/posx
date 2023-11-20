@@ -98,7 +98,23 @@ class Test extends BaseController
 
             case '5':
 
-                $html = 'NO DATA';
+                $voidItems = $this->TestModel->getOrderDashboardVoidItems();
+
+                $html = '
+                    <div class="email-sidebar" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                        <ul id="" class="text-start mt-2 text-white">
+                ';
+
+                foreach ($voidItems as $data) {
+                    $html .= '
+                        <li><a href="#" class="text-white"><span> <span>' . date('H:i', strtotime($data->updated_at)) . ' ' . $data->order_customer_ordername . '</span> </span>' .   $data->order_customer_table_code . ' </a></li>
+                    ';
+                }
+
+                $html .= '
+                        </ul> 
+                    </div>
+                ';
 
                 break;
         }
