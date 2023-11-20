@@ -62,61 +62,102 @@ class Test extends BaseController
     {
         $html = '';
 
-        switch ($number) {
+        if ($number  == '3') {
 
-            case '3':
+            $dashboardSummary3btnActive = $payload->dashboardSummary3btnActive;
 
-                $dashboardSummary3btnActive = $payload->dashboardSummary3btnActive;
+            $title = $dashboardSummary3btnActive;
 
-                $title = $dashboardSummary3btnActive;
+            $detail = $this->TestModel->getOrderDashboardDetail($title);
 
-                $detail = $this->TestModel->getOrderDashboardDetail($title);
+            $html = '
+                <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                    <ul id="" class="text-start mt-2">
+            ';
 
-                $html = '
-                    <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
-                        <ul id="" class="text-start mt-2">
-                ';
-
-                foreach ($detail as $data) {
-                    $html .= '
-                        <li class=""><a href="#"><span> <span>' . $data->order_name  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
-                    ';
-                }
-
+            foreach ($detail as $data) {
                 $html .= '
-                        </ul> 
-                    </div>
+                    <li class=""><a href="#"><span> <span>' . $data->order_name  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
                 ';
+            }
 
-                break;
+            $html .= '
+                    </ul> 
+                </div>
+            ';
 
-            case '4':
+        }
 
-                $html = 'NO DATA';
+        else if ($number == '4') {
+            $dashboardSummary4btnActive = $payload->dashboardSummary4btnActive;
 
-                break;
+            $title = $dashboardSummary4btnActive;
 
-            case '5':
+            $detail = $this->TestModel->getOrderDashboardBestSellers($title);
 
-                $voidItems = $this->TestModel->getOrderDashboardVoidItems();
-
-                $html = '
-                    <div class="email-sidebar" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
-                        <ul id="" class="text-start mt-2 text-white">
-                ';
-
-                foreach ($voidItems as $data) {
-                    $html .= '
-                        <li><a href="#" class="text-white"><span> <span>' . date('H:i', strtotime($data->updated_at)) . ' ' . $data->order_customer_ordername . '</span> </span>' .   $data->order_customer_table_code . ' </a></li>
+            switch($title) {
+                case 'Sales':
+                    $html = '
+                        <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                            <ul id="" class="text-start mt-2">
                     ';
-                }
 
+                    $counter = 1;
+                    foreach ($detail as $data) {
+                        $html .= '
+                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
+                        ';
+                    }
+
+                    $html .= '
+                            </ul> 
+                        </div>
+                    ';
+                    break;
+    
+                case 'Qty':
+                    $html = '
+                        <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                            <ul id="" class="text-start mt-2">
+                    ';
+
+                    $counter = 1;
+                    foreach ($detail as $data) {
+                        $html .= '
+                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->psc, 0) . '</span> </span> </a></li>
+                        ';
+                    }
+
+                    $html .= '
+                            </ul> 
+                        </div>
+                    ';
+                    break;
+    
+                case 'Group':
+                    
+                    break;
+            }
+        }
+
+        else if ($number == '5') {
+            $voidItems = $this->TestModel->getOrderDashboardVoidItems();
+
+            $html = '
+                <div class="email-sidebar" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                    <ul id="" class="text-start mt-2 text-white">
+            ';
+
+            foreach ($voidItems as $data) {
                 $html .= '
-                        </ul> 
-                    </div>
+                    <li><a href="#" class="text-white"><span> <span>' . date('H:i', strtotime($data->updated_at)) . ' ' . $data->order_customer_ordername . '</span> </span>' .   $data->order_customer_table_code . ' </a></li>
                 ';
+            }
 
-                break;
+            $html .= '
+                    </ul> 
+                </div>
+            ';
         }
 
         return $html;
@@ -179,17 +220,51 @@ class Test extends BaseController
             $requestPayload = $this->request->getJSON();
             $title = $requestPayload->title;
 
-            // $data = $this->TestModel->getDashboardSummary3Detail($title);
+            $detail = $this->TestModel->getOrderDashboardBestSellers($title);
 
-            $html = '
-                <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
-                    <ul id="" class="text-start mt-2">
-                        <li class=""><a href="#"><span> <span>Drink (95%)</span> <span class="round_badge">2,500.00</span> </span> </a></li>
-                        <li><a href="#"> <span> <span>FOOD (5%)</span> <span class="round_badge">500.00</span> </span> </a></li>
-                        <li><a href="#"> <span> <span>OTHERS (0%)</span> <span class="round_badge">0.00</span> </span> </a></li>
-                    </ul> 
-                </div>
-            ';
+            switch($title) {
+                case 'Sales':
+                    $html = '
+                        <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                            <ul id="" class="text-start mt-2">
+                    ';
+
+                    $counter = 1;
+                    foreach ($detail as $data) {
+                        $html .= '
+                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
+                        ';
+                    }
+
+                    $html .= '
+                            </ul> 
+                        </div>
+                    ';
+                    break;
+    
+                case 'Qty':
+                    $html = '
+                        <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                            <ul id="" class="text-start mt-2">
+                    ';
+
+                    $counter = 1;
+                    foreach ($detail as $data) {
+                        $html .= '
+                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->psc, 0) . '</span> </span> </a></li>
+                        ';
+                    }
+
+                    $html .= '
+                            </ul> 
+                        </div>
+                    ';
+                    break;
+    
+                case 'Group':
+                    
+                    break;
+            }
 
             $status = 200;
             $response['success'] = 1;
@@ -258,6 +333,8 @@ class Test extends BaseController
             $orderCustomerCode = $order->orderCustomerCode;
             $status = $order->status;
             $description = $order->description;
+
+            if ($status == 'ยกเลิก') $status = 'CANCEL';
 
             // อัพเดทสถานะที่ตาราง order_summary
             $updateOrderSummary = $this->OrderModel->updateOrderSummaryByOrderCustomerCode($orderCustomerCode, [
