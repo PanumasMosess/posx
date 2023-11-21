@@ -76,12 +76,40 @@ class TestModel
 
         switch($title) {
             case 'Sales':
+                $sql = "
+                    SELECT 
+                        order_customer_ordername,
+                        SUM(order_customer_price * order_customer_pcs) AS price
+                    FROM `order_customer`
+                    WHERE DATE(created_at) = CURDATE() 
+                    GROUP BY order_customer_ordername
+                    ORDER BY price DESC;
+                ";
                 break;
 
             case 'Qty':
+                $sql = "
+                    SELECT 
+                        order_customer_ordername,
+                        SUM(order_customer_pcs) AS psc
+                    FROM `order_customer`
+                    WHERE DATE(created_at) = CURDATE() 
+                    GROUP BY order_customer_ordername
+                    ORDER BY psc DESC;
+                ";
                 break;
 
             case 'Group':
+                $sql = "
+                    SELECT 
+                        order_customer_ordername,
+                        COUNT(id) AS counter,
+                        order_customer_price AS price
+                    FROM `order_customer`
+                    WHERE DATE(created_at) = CURDATE() 
+                    GROUP BY order_customer_ordername
+                    ORDER BY counter DESC;
+                ";
                 break;
         }
 
@@ -93,7 +121,12 @@ class TestModel
 
     public function getOrderDashboardVoidItems()
     {
-        $sql = "";
+        $sql = "
+            SELECT *
+            FROM `order_customer` 
+            WHERE order_customer_status = 'CANCEL' AND DATE(created_at) = CURDATE() 
+            ORDER BY created_at DESC
+        ";
 
         $builder = $this->db->query($sql);
 

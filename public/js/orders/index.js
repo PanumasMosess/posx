@@ -1,5 +1,5 @@
 function reload() {
-    location.reload()
+    // location.reload()
 }
 
 $(document).ready(function() {
@@ -104,8 +104,6 @@ $(document).ready(function() {
             let dataObj = {
                 type: type
             }
-            
-            console.log(dataObj)
 
             $.ajax({
                 type: "POST",
@@ -347,6 +345,7 @@ $(document).ready(function() {
                                     contentType: "application/json; charset=utf-8"
                                 }).done(function (res) {
                                     if (res.success) {
+
                                         swal({
                                             title: 'อัพเดทสำเร็จ',
                                             icon: 'success',
@@ -354,6 +353,8 @@ $(document).ready(function() {
                                             timer: 2000
                                         })
             
+                                        TAB_DASHBOARD.fetData()
+
                                     } else {
                                         swal({
                                             title: res.messages,
@@ -394,16 +395,9 @@ $(document).ready(function() {
                     let $me = $(this),
                         $title = $me.data('title')
 
-                    // switch($title) {
-
-                    //     case 'Type':
-                    //         console.log('Type')
-                    //         break
-
-                    //     case 'Group':
-                    //         console.log('Group')
-                    //         break
-                    // }
+                    let $btn = $('#dashboard-summary-3').find('button')
+                    $btn.removeClass('active')
+                    $me.addClass('active')
 
                     $dashboardSummary3.find('.QA_table').html('LOADING . . .')
 
@@ -448,22 +442,12 @@ $(document).ready(function() {
             $dashboardSummary4
                 .on('click', 'button', function() {
 
-                    let $me = $(this)
+                    let $me = $(this),
+                        $title = $me.data('title')
 
-                    // switch($me.data('title')) {
-
-                    //     case 'Sales':
-                    //         console.log('Sales')
-                    //         break
-
-                    //     case 'Qty':
-                    //         console.log('Qty')
-                    //         break
-
-                    //     case 'Group':
-                    //         console.log('Group')
-                    //         break
-                    // }
+                    let $btn = $('#dashboard-summary-4').find('button')
+                    $btn.removeClass('active')
+                    $me.addClass('active')
 
                     $dashboardSummary4.find('.QA_table').html('LOADING . . .')
 
@@ -498,62 +482,51 @@ $(document).ready(function() {
                             timer: 2000,
                             buttons: false
                         })
-
-                        // $dataTableInCompleted.ajax.reload()
-                        // $dataTableCompleted.ajax.reload()
-
                     })
                 })
 
-            $dashboardSummary5
-                .on('click', 'button', function() {
+            // $dashboardSummary5
+            //     .on('click', 'button', function() {
 
-                    let $me = $(this)
+            //         let $me = $(this)
 
-                    // switch($me.data('title')) {
-
-                    //     case 'Reload':
-                    //         console.log('Reload')
-                    //         break
-                    // }
-
-                    
-                    $dashboardSummary5.find('.QA_table').html('LOADING . . .')
+   
+            //         $dashboardSummary5.find('.QA_table').html('LOADING . . .')
         
-                    $.ajax({
-                        type: "POST",
-                        url: `${serverUrl}/order/orderDashboard/voidItems`,
-                        contentType: "application/json; charset=utf-8"
-                    }).done(function (res) {
-                        if (res.success) {
-                            $dashboardSummary5.find('.QA_table').html(res.data.html)
-                        } else {
+            //         $.ajax({
+            //             type: "POST",
+            //             url: `${serverUrl}/order/orderDashboard/voidItems`,
+            //             contentType: "application/json; charset=utf-8"
+            //         }).done(function (res) {
+            //             if (res.success) {
+            //                 $dashboardSummary5.find('.QA_table').html(res.data.html)
+            //             } else {
 
-                            swal({
-                                title: res.messages,
-                                text: 'Redirecting...',
-                                icon: 'warning',
-                                timer: 2000,
-                                buttons: false
-                            })
+            //                 swal({
+            //                     title: res.messages,
+            //                     text: 'Redirecting...',
+            //                     icon: 'warning',
+            //                     timer: 2000,
+            //                     buttons: false
+            //                 })
 
-                            reload()
-                        }
-                    }).fail(function (err) {
-                        const message = err.responseJSON?.messages || 'ไม่สามารถอัพเดทได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ';
-                        swal({
-                            title: message,
-                            text: 'Redirecting...',
-                            icon: 'warning',
-                            timer: 2000,
-                            buttons: false
-                        })
+            //                 reload()
+            //             }
+            //         }).fail(function (err) {
+            //             const message = err.responseJSON?.messages || 'ไม่สามารถอัพเดทได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ';
+            //             swal({
+            //                 title: message,
+            //                 text: 'Redirecting...',
+            //                 icon: 'warning',
+            //                 timer: 2000,
+            //                 buttons: false
+            //             })
 
-                        // $dataTableInCompleted.ajax.reload()
-                        // $dataTableCompleted.ajax.reload()
+            //             // $dataTableInCompleted.ajax.reload()
+            //             // $dataTableCompleted.ajax.reload()
 
-                    })
-                })
+            //         })
+            //     })
         },
 
         getSummary() {
@@ -861,5 +834,5 @@ $(document).ready(function() {
         }
     }
 
-    // ORDER_POS.init()
+    ORDER_POS.init()
 })
