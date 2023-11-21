@@ -212,6 +212,7 @@ $routes->group(
         $routes->post('updatePcsSummary', 'OrderPosController::updatePcsSummary');
         $routes->post('delete_list_order_customer', 'OrderPosController::deleteListOrderCustomer');
         $routes->get('update_order_print_log/(:any)', 'OrderPosController::updateOrderPrintLog/$1');
+        $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');
 
         /*
     * --------------------------------------------------------------------
