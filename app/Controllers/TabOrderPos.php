@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use GuzzleHttp\Client;
 
-class Test extends BaseController
+class TabOrderPos extends BaseController
 {
 
     public function __construct()
@@ -77,7 +77,7 @@ class Test extends BaseController
 
             foreach ($detail as $data) {
                 $html .= '
-                    <li class=""><a href="#"><span> <span>' . $data->order_name  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
+                    <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $data->title  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
                 ';
             }
 
@@ -89,14 +89,16 @@ class Test extends BaseController
         }
 
         else if ($number == '4') {
+
             $dashboardSummary4btnActive = $payload->dashboardSummary4btnActive;
 
             $title = $dashboardSummary4btnActive;
 
-            $detail = $this->TestModel->getOrderDashboardBestSellers($title);
-
             switch($title) {
                 case 'Sales':
+
+                    $detail = $this->TestModel->getOrderDashboardBestSellers($title);
+
                     $html = '
                         <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
                             <ul id="" class="text-start mt-2">
@@ -105,7 +107,7 @@ class Test extends BaseController
                     $counter = 1;
                     foreach ($detail as $data) {
                         $html .= '
-                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
+                            <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
                         ';
                     }
 
@@ -116,6 +118,9 @@ class Test extends BaseController
                     break;
     
                 case 'Qty':
+
+                    $detail = $this->TestModel->getOrderDashboardBestSellers($title);
+
                     $html = '
                         <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
                             <ul id="" class="text-start mt-2">
@@ -124,7 +129,7 @@ class Test extends BaseController
                     $counter = 1;
                     foreach ($detail as $data) {
                         $html .= '
-                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->psc, 0) . '</span> </span> </a></li>
+                            <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->psc, 0) . '</span> </span> </a></li>
                         ';
                     }
 
@@ -135,6 +140,42 @@ class Test extends BaseController
                     break;
     
                 case 'Group':
+                    
+                    $topGroups = $this->TestModel->getOrderDashboardBestSellersTopGroup();
+
+                    // กรองข้อมูล
+                    $bundle = [];
+                    foreach ($topGroups as $data) {
+                       
+                        if (array_key_exists($data->group_name, $bundle)) {
+                            $bundle[$data->group_name][] = $data;
+                        }
+
+                        else {
+                            $bundle[$data->group_name] = [];
+                            $bundle[$data->group_name][] = $data;
+                        }
+                     
+                    }
+
+                    // Render
+                    $html = '
+                        <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                            <ul id="" class="text-start mt-2">
+                    ';
+                    foreach ($bundle as $key => $datas) {
+                        $html .= '<h5 style="border-bottom: 1px solid #999; font-family: Kanit;">' . $key . '</h5>';
+                        foreach ($datas as $data) {
+                            $html .= '
+                                <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $data->pcs  . '</span> <span style="display: flex; width: 80%;">| ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
+                            ';
+                        }
+                    }
+
+                    $html .= '
+                            </ul> 
+                        </div>
+                    ';
                     
                     break;
             }
@@ -150,7 +191,7 @@ class Test extends BaseController
 
             foreach ($voidItems as $data) {
                 $html .= '
-                    <li><a href="#" class="text-white"><span> <span>' . date('H:i', strtotime($data->updated_at)) . ' ' . $data->order_customer_ordername . '</span> </span>' .   $data->order_customer_table_code . ' </a></li>
+                    <li><a href="#" class="text-white" style="font-weight: 100;"><span> <span>' . date('H:i', strtotime($data->updated_at)) . ' ' . $data->order_customer_ordername . '</span> </span>' .   $data->order_customer_table_code . ' </a></li>
                 ';
             }
 
@@ -184,7 +225,7 @@ class Test extends BaseController
 
             foreach ($detail as $data) {
                 $html .= '
-                    <li class=""><a href="#"><span> <span>' . $data->order_name  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
+                    <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $data->title  . ' (' . number_format($data->percentage, 2) . '%)' . '</span> <span class="round_badge">' .  number_format($data->SUM_PRICE, 0) . '</span> </span> </a></li>
                 ';
             }
 
@@ -220,10 +261,11 @@ class Test extends BaseController
             $requestPayload = $this->request->getJSON();
             $title = $requestPayload->title;
 
-            $detail = $this->TestModel->getOrderDashboardBestSellers($title);
-
             switch($title) {
                 case 'Sales':
+
+                    $detail = $this->TestModel->getOrderDashboardBestSellers($title);
+
                     $html = '
                         <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
                             <ul id="" class="text-start mt-2">
@@ -232,7 +274,7 @@ class Test extends BaseController
                     $counter = 1;
                     foreach ($detail as $data) {
                         $html .= '
-                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
+                            <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
                         ';
                     }
 
@@ -243,6 +285,9 @@ class Test extends BaseController
                     break;
     
                 case 'Qty':
+
+                    $detail = $this->TestModel->getOrderDashboardBestSellers($title);
+                    
                     $html = '
                         <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
                             <ul id="" class="text-start mt-2">
@@ -251,7 +296,7 @@ class Test extends BaseController
                     $counter = 1;
                     foreach ($detail as $data) {
                         $html .= '
-                            <li class=""><a href="#"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->psc, 0) . '</span> </span> </a></li>
+                            <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $counter++  . ' ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->psc, 0) . '</span> </span> </a></li>
                         ';
                     }
 
@@ -263,6 +308,42 @@ class Test extends BaseController
     
                 case 'Group':
                     
+                    $topGroups = $this->TestModel->getOrderDashboardBestSellersTopGroup();
+
+                    // กรองข้อมูล
+                    $bundle = [];
+                    foreach ($topGroups as $data) {
+                       
+                        if (array_key_exists($data->group_name, $bundle)) {
+                            $bundle[$data->group_name][] = $data;
+                        }
+
+                        else {
+                            $bundle[$data->group_name] = [];
+                            $bundle[$data->group_name][] = $data;
+                        }
+                     
+                    }
+
+                    // Render
+                    $html = '
+                        <div class="email-sidebar white_box" style="padding-left: 0px; padding-right: 0px; padding-top: 0px;">
+                            <ul id="" class="text-start mt-2">
+                    ';
+                    foreach ($bundle as $key => $datas) {
+                        $html .= '<h5 style="border-bottom: 1px solid #999; font-family: Kanit;">' . $key . '</h5>';
+                        foreach ($datas as $data) {
+                            $html .= '
+                                <li class=""><a href="#" style="font-weight: 100;"><span> <span>' . $data->pcs  . '</span> <span style="display: flex; width: 80%;">| ' . $data->order_customer_ordername . '</span> <span class="round_badge">' .  number_format($data->price, 0) . '</span> </span> </a></li>
+                            ';
+                        }
+                    }
+
+                    $html .= '
+                            </ul> 
+                        </div>
+                    ';
+
                     break;
             }
 
