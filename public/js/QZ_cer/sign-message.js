@@ -1,5 +1,5 @@
 qz.security.setCertificatePromise(function (resolve, reject) {
-  fetch(serverUrl + "js/digital-certificate.txt", {
+  fetch(serverUrl + "js/QZ_cer/digital-certificate.txt", {
     cache: "no-store",
     headers: { "Content-Type": "text/plain" },
   }).then(function (data) {
@@ -54,4 +54,3 @@ qz.security.setSignaturePromise(function (toSign) {
     }
   };
 });
-//

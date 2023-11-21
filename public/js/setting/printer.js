@@ -2,6 +2,15 @@
   loadPrinterLocation();
 })(jQuery);
 
+function encodeImgtoBase64(element) {
+  var img = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function () {
+    $("#file_setting_base64").val(reader.result);
+  };
+  reader.readAsDataURL(img);
+}
+
 function loadPrinterLocation() {
   $.ajax({
     url: serverUrl + "setting/printersetting",
@@ -9,7 +18,7 @@ function loadPrinterLocation() {
     success: function (response) {
       if (response.data != null) {
         $("#printer_order").val(response.data.printer_order);
-        $("#printer_bill").val(response.data.printer_bill); 
+        $("#printer_bill").val(response.data.printer_bill);
         $("#printer_order_sum").val(response.data.printer_order_summary);
         $("#id_printer").val(response.data.id);
       }
@@ -119,3 +128,41 @@ function printer_order_sum() {
     },
   });
 }
+
+$("#addFileSetting").submit(function (e) {
+  e.preventDefault();
+  var file_setting = $("#file_setting").parsley();
+
+  if (file_setting.isValid()) {
+
+    arr_file = [
+      {
+        src_file_setting: $("#file_setting_base64").val(),
+      },
+    ];
+
+    $.ajax({
+      url: serverUrl + "setting/file_setting",
+      method: "post",
+      data: {
+        data: arr_file,
+      },
+      cache: false,
+      success: function (response) {
+        if ((response.message = "เพิ่มรายการสำเร็จ")) {
+          notif({
+            type: "success",
+            msg: "เพิ่มรายการสำเร็จ!",
+            position: "right",
+            fade: true,
+            time: 300,
+          });
+          
+        } else {
+        }
+      },
+    });
+  } else {
+    file_setting.validate();
+  }
+});
