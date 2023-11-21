@@ -21,7 +21,7 @@ class TestModel
             case 'Type':
                 $sql = '
                     SELECT 
-                    tbl1.order_name,
+                    tbl1.order_name AS title,
                     COUNT(1) AS total, 
                     COUNT(1) / t.cnt * 100 AS percentage,
                     SUM(price_total)AS SUM_PRICE
@@ -44,7 +44,7 @@ class TestModel
             case 'Group':
                 $sql = '
                     SELECT 
-                    tbl1.order_name,
+                    tbl1.product_group_name AS title,
                     COUNT(1) AS total, 
                     COUNT(1) / t.cnt * 100 AS percentage,
                     SUM(price_total)AS SUM_PRICE
@@ -60,7 +60,7 @@ class TestModel
                         WHERE DATE(order_customer.created_at) = CURDATE()
                     ) tbl1 
                     CROSS JOIN (SELECT COUNT(1) AS cnt FROM order_customer) t
-                    GROUP BY tbl1.order_name, t.cnt;
+                    GROUP BY tbl1.product_group_name, t.cnt;
                 ';
                 break;
         }
@@ -100,16 +100,7 @@ class TestModel
                 break;
 
             case 'Group':
-                $sql = "
-                    SELECT 
-                        order_customer_ordername,
-                        COUNT(id) AS counter,
-                        order_customer_price AS price
-                    FROM `order_customer`
-                    WHERE DATE(created_at) = CURDATE() 
-                    GROUP BY order_customer_ordername
-                    ORDER BY counter DESC;
-                ";
+                $sql = "";
                 break;
         }
 
@@ -117,7 +108,6 @@ class TestModel
 
         return $builder->getResult();
     }
-
 
     public function getOrderDashboardVoidItems()
     {
@@ -133,4 +123,62 @@ class TestModel
         return $builder->getResult();
     }
 
+    public function _getOrderDashboardBestSellersTopGroup()
+    {
+        $sql = "
+            SELECT 
+                group_product.name,
+                COUNT(order_customer.order_customer_pcs) AS counter
+            FROM order_customer
+            JOIN `order` od ON order_customer.order_code = od.order_code
+            JOIN group_product ON od.group_id = group_product.id
+            WHERE DATE(order_customer.created_at) = CURDATE()
+            GROUP BY group_product.name
+            ORDER BY counter DESC
+        ";
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+    public function getOrderDashboardBestSellersGroup($groupID)
+    {
+        $sql = "
+            SELECT 
+                group_product.name,
+                COUNT(order_customer.order_customer_pcs) AS counter
+            FROM order_customer
+            JOIN `order` od ON order_customer.order_code = od.order_code
+            JOIN group_product ON od.group_id = group_product.id
+            WHERE DATE(order_customer.created_at) = CURDATE()
+            GROUP BY group_product.name
+            ORDER BY counter DESC
+        ";
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
+
+    public function getOrderDashboardBestSellersTopGroup()
+    {
+        $sql = "
+            SELECT 
+                group_product.name AS group_name,
+                order_customer.order_customer_ordername,
+                SUM(order_customer.order_customer_pcs) AS pcs,
+                SUM(order_customer.order_customer_pcs * order_customer.order_customer_price) AS price
+            FROM order_customer
+            JOIN `order` od ON order_customer.order_code = od.order_code
+            JOIN group_product ON od.group_id = group_product.id
+            WHERE DATE(order_customer.created_at) = CURDATE()
+            GROUP BY order_customer.order_customer_ordername
+            ORDER BY order_customer.order_customer_pcs DESC;
+        ";
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
 }
