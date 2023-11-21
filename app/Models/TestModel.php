@@ -123,44 +123,6 @@ class TestModel
         return $builder->getResult();
     }
 
-    public function _getOrderDashboardBestSellersTopGroup()
-    {
-        $sql = "
-            SELECT 
-                group_product.name,
-                COUNT(order_customer.order_customer_pcs) AS counter
-            FROM order_customer
-            JOIN `order` od ON order_customer.order_code = od.order_code
-            JOIN group_product ON od.group_id = group_product.id
-            WHERE DATE(order_customer.created_at) = CURDATE()
-            GROUP BY group_product.name
-            ORDER BY counter DESC
-        ";
-
-        $builder = $this->db->query($sql);
-
-        return $builder->getResult();
-    }
-
-    public function getOrderDashboardBestSellersGroup($groupID)
-    {
-        $sql = "
-            SELECT 
-                group_product.name,
-                COUNT(order_customer.order_customer_pcs) AS counter
-            FROM order_customer
-            JOIN `order` od ON order_customer.order_code = od.order_code
-            JOIN group_product ON od.group_id = group_product.id
-            WHERE DATE(order_customer.created_at) = CURDATE()
-            GROUP BY group_product.name
-            ORDER BY counter DESC
-        ";
-
-        $builder = $this->db->query($sql);
-
-        return $builder->getResult();
-    }
-
     public function getOrderDashboardBestSellersTopGroup()
     {
         $sql = "

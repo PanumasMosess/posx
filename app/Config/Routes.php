@@ -208,18 +208,18 @@ function ($routes) {
     * --------------------------------------------------------------------
     */
 
-    $routes->post('sumOrderItems', 'Test::sumOrderItems'); // Summary Tab แดชบอร์ด: Sum
-    $routes->post('getLiveData', 'Test::getLiveData'); // Summary Tab แดชบอร์ด: Live Data
+    $routes->post('sumOrderItems', 'TabOrderPos::sumOrderItems'); // Summary Tab แดชบอร์ด: Sum
+    $routes->post('getLiveData', 'TabOrderPos::getLiveData'); // Summary Tab แดชบอร์ด: Live Data
     
-    $routes->post('getDataDashboard', 'Test::getDataDashboard'); // Summary Tab แดชบอร์ด: Receipt
-    $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1'); // Summary Tab แดชบอร์ด: Receipt Detail
-    $routes->get('view/(:any)', 'Test::view/$1'); // Summary Tab แดชบอร์ด: Receipt นับ
-    $routes->post('update-status', 'Test::updateStatus'); // Summary Tab แดชบอร์ด: อัพเดทสถานะ Receipt
+    $routes->post('getDataDashboard', 'TabOrderPos::getDataDashboard'); // Summary Tab แดชบอร์ด: Receipt
+    $routes->get('orderDetail/(:any)', 'TabOrderPos::getOrderDetail/$1'); // Summary Tab แดชบอร์ด: Receipt Detail
+    $routes->get('view/(:any)', 'TabOrderPos::view/$1'); // Summary Tab แดชบอร์ด: Receipt นับ
+    $routes->post('update-status', 'TabOrderPos::updateStatus'); // Summary Tab แดชบอร์ด: อัพเดทสถานะ Receipt
 
-    $routes->post('orderDashboard/detail', 'Test::orderDashboardDetail');
-    $routes->post('orderDashboard/testDetail', 'Test::orderDashboardTestDetail');
-    $routes->post('orderDashboard/bestSellers', 'Test::orderDashboardBestSellers');
-    $routes->post('orderDashboard/voidItems', 'Test::orderDashboardVoidItems');
+    $routes->post('orderDashboard/detail', 'TabOrderPos::orderDashboardDetail');
+    $routes->post('orderDashboard/testDetail', 'TabOrderPos::orderDashboardTestDetail');
+    $routes->post('orderDashboard/bestSellers', 'TabOrderPos::orderDashboardBestSellers');
+    $routes->post('orderDashboard/voidItems', 'TabOrderPos::orderDashboardVoidItems');
 
     /*
     * --------------------------------------------------------------------
@@ -227,7 +227,7 @@ function ($routes) {
     * --------------------------------------------------------------------
     */
 
-    $routes->get('activity', 'Test::activity'); // Log Tab Activity
+    $routes->get('activity', 'TabOrderPos::activity'); // Log Tab Activity
 });
 /*
  * --------------------------------------------------------------------

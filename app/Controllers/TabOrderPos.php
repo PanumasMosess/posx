@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use GuzzleHttp\Client;
 
-class Test extends BaseController
+class TabOrderPos extends BaseController
 {
 
     public function __construct()
