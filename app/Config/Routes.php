@@ -51,7 +51,7 @@ $routes->get('order_menu/', 'OrderPosController::menulink');
 
 $routes->get('pdf_QR_Code', 'PdfController::pdf_QR', ['filter' => 'employeeAuth']);
 
-$routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
+$routes->group('setting', ['filter' => 'employeeAuth'],  function ($routes) {
     $routes->get('index', 'SettingController::index');
     // $routes->post('ajax-datatablePosition', 'SettingController::ajaxDataTablesPosition');
     // $routes->post('addPosition', 'SettingController::addPosition');
@@ -96,11 +96,12 @@ $routes->group('setting', ['filter' => 'employeeAuth'] ,  function ($routes) {
     $routes->get('deletePaymentType/(:num)', 'SettingController::deletePaymentType/$1');
     $routes->post('updateCreditCard', 'SettingController::updateCreditCard');
     $routes->post('updateEntertain', 'SettingController::updateEntertain');
-    $routes->get('printersetting', 'SettingController::getprinter');  
+    $routes->get('printersetting', 'SettingController::getprinter');
     $routes->post('printer', 'SettingController::printersetting');
+    $routes->post('file_setting', 'SettingController::file_setting');
 });
 
-$routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
+$routes->group('employee', ['filter' => 'employeeAuth'], function ($routes) {
     $routes->get('index', 'EmployeeController::index');
     $routes->post('addEmployee', 'EmployeeController::addEmployee');
     $routes->get('editPassword/(:num)', 'EmployeeController::editPassword/$1');
@@ -110,7 +111,7 @@ $routes->group('employee', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('deleteEmployee/(:num)', 'EmployeeController::deleteEmployee/$1');
 });
 
-$routes->group('manager', ['filter' => 'employeeAuth'] ,function ($routes) {
+$routes->group('manager', ['filter' => 'employeeAuth'], function ($routes) {
     $routes->get('index', 'ManagerController::index');
 
     $routes->post('ajax-datatableGroupProduct', 'ManagerController::ajaxDataTablesGroupProduct');
@@ -138,7 +139,9 @@ $routes->group('manager', ['filter' => 'employeeAuth'] ,function ($routes) {
 });
 
 // stock management
-$routes->group('stock', ['filter' => 'employeeAuth'] ,
+$routes->group(
+    'stock',
+    ['filter' => 'employeeAuth'],
     function ($routes) {
         $routes->get('index', 'StockController::index');
         $routes->post('insertProduct', 'StockController::insertproduct');
@@ -162,51 +165,61 @@ $routes->group('stock', ['filter' => 'employeeAuth'] ,
         $routes->post('dataSummaryTransection', 'StockController::getSummaryTransection');
         $routes->post('deleteFormularbyOrder', 'StockController::deleteFormularbyOrder');
         $routes->post('deleteFormularbyId', 'StockController::deleteFormularbyId');
-    });
+    }
+);
 
 // orders management
-$routes->group('order', ['filter' => 'employeeAuth'] ,
-function ($routes) {
-    $routes->get('order_manage', 'OrderController::index');   
-    $routes->post('dataOrder', 'OrderController::fetchDataOrder');    
-    $routes->get('getTempOfflineOrder', 'OrderController::fetchTempOfflineOrder');  
-    $routes->post('insertOrder', 'OrderController::insertproduct'); 
-    $routes->post('updateOrder', 'OrderController::updateOrder'); 
-    $routes->post('deleteOrder', 'OrderController::deleteOrder'); 
-    $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');    
+$routes->group(
+    'order',
+    ['filter' => 'employeeAuth'],
+    function ($routes) {
+        $routes->get('order_manage', 'OrderController::index');
+        $routes->post('dataOrder', 'OrderController::fetchDataOrder');
+        $routes->get('getTempOfflineOrder', 'OrderController::fetchTempOfflineOrder');
+        $routes->post('insertOrder', 'OrderController::insertproduct');
+        $routes->post('updateOrder', 'OrderController::updateOrder');
+        $routes->post('deleteOrder', 'OrderController::deleteOrder');
+        $routes->get('getTempUpdate/(:any)', 'OrderController::fetchUpdateOrder/$1');
 
-    //Routes POS
-    $routes->get('order_pos', 'OrderPosController::index');      
-    $routes->get('getTempUpdateArea/(:any)', 'OrderPosController::fetchUpdateArea/$1'); 
-    $routes->post('dataArea', 'OrderPosController::dataAreaTable');      
-    $routes->post('insertArea', 'OrderPosController::insertArea');    
-    $routes->post('updateArea', 'OrderPosController::updateAear');
-    $routes->post('deleteArea', 'OrderPosController::deleteArea');
-    $routes->get('pageArea/(:any)', 'OrderPosController::getPageAddTableInArea/$1');   
-    $routes->post('floorplansave', 'OrderPosController::insertTable');    
-    $routes->get('getTableInArea/(:any)', 'OrderPosController::getTableInArea/$1'); 
-    $routes->get('getTempUpdateTable/(:any)', 'OrderPosController::getTempUpdateTable/$1');       
-    $routes->post('deleteTable', 'OrderPosController::deleteTable');  
-    $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable');   
-    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');  
-    $routes->get('order_list_customer/(:any)', 'OrderPosController::getPageOrderCustomer/$1');   
-    $routes->get('getTableDetalByCode/(:any)', 'OrderPosController::getTableDetailByCode/$1'); 
-    $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
-    $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData'); 
-    $routes->post('addOrderCustomer', 'OrderPosController::insertOrderCustomer');    
-    $routes->get('getSummaryData/(:any)', 'OrderPosController::getSummaryData/$1');   
-    $routes->get('getTableByArea/(:any)', 'OrderPosController::getTableInArea/$1');      
-    $routes->post('updateMoveTable', 'OrderPosController::updateMoveTable'); 
-    $routes->post('updateVoidOrderTable', 'OrderPosController::updateVoidOrderTable');  
-    $routes->get('outofstock/(:any)', 'OrderPosController::outofstock/$1');   
-    $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');     
-    $routes->post('updateDiscount', 'OrderPosController::updateDiscount');     
+        //Routes POS
+        $routes->get('order_pos', 'OrderPosController::index');
+        $routes->get('getTempUpdateArea/(:any)', 'OrderPosController::fetchUpdateArea/$1');
+        $routes->post('dataArea', 'OrderPosController::dataAreaTable');
+        $routes->post('insertArea', 'OrderPosController::insertArea');
+        $routes->post('updateArea', 'OrderPosController::updateAear');
+        $routes->post('deleteArea', 'OrderPosController::deleteArea');
+        $routes->get('pageArea/(:any)', 'OrderPosController::getPageAddTableInArea/$1');
+        $routes->post('floorplansave', 'OrderPosController::insertTable');
+        $routes->get('getTableInArea/(:any)', 'OrderPosController::getTableInArea/$1');
+        $routes->get('getTempUpdateTable/(:any)', 'OrderPosController::getTempUpdateTable/$1');
+        $routes->post('deleteTable', 'OrderPosController::deleteTable');
+        $routes->post('updateDetailTable', 'OrderPosController::updateDetailTable');
+        $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');
+        $routes->get('order_list_customer/(:any)', 'OrderPosController::getPageOrderCustomer/$1');
+        $routes->get('getTableDetalByCode/(:any)', 'OrderPosController::getTableDetailByCode/$1');
+        $routes->post('getDetailCard', 'OrderPosController::getDataOrderCard');
+        $routes->get('areaData', 'OrderPosController::loadtoSelectAreaData');
+        $routes->post('addOrderCustomer', 'OrderPosController::insertOrderCustomer');
+        $routes->get('getSummaryData/(:any)', 'OrderPosController::getSummaryData/$1');
+        $routes->get('getTableByArea/(:any)', 'OrderPosController::getTableInArea/$1');
+        $routes->post('updateMoveTable', 'OrderPosController::updateMoveTable');
+        $routes->post('updateVoidOrderTable', 'OrderPosController::updateVoidOrderTable');
+        $routes->get('outofstock/(:any)', 'OrderPosController::outofstock/$1');
+        $routes->post('loadTableOrderList', 'OrderPosController::loadTableOrderList');
+        $routes->post('updateDiscount', 'OrderPosController::updateDiscount');
+        $routes->post('paymentStore', 'OrderPosController::paymentStore');
+        $routes->get('order_summary_update', 'OrderPosController::orderSummaryUpdate');
+        $routes->post('updatePcsSummary', 'OrderPosController::updatePcsSummary');
+        $routes->post('delete_list_order_customer', 'OrderPosController::deleteListOrderCustomer');
+        $routes->get('update_order_print_log/(:any)', 'OrderPosController::updateOrderPrintLog/$1');
+        $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');
 
-    /*
+        /*
     * --------------------------------------------------------------------
     * TAB DASHBAORD
     * --------------------------------------------------------------------
     */
+
 
     $routes->post('sumOrderItems', 'TabOrderPos::sumOrderItems'); // Summary Tab แดชบอร์ด: Sum
     $routes->post('getLiveData', 'TabOrderPos::getLiveData'); // Summary Tab แดชบอร์ด: Live Data
@@ -221,14 +234,33 @@ function ($routes) {
     $routes->post('orderDashboard/bestSellers', 'TabOrderPos::orderDashboardBestSellers');
     $routes->post('orderDashboard/voidItems', 'TabOrderPos::orderDashboardVoidItems');
 
-    /*
+//         $routes->post('sumOrderItems', 'Test::sumOrderItems'); // Summary Tab แดชบอร์ด: Sum
+//         $routes->post('getLiveData', 'Test::getLiveData'); // Summary Tab แดชบอร์ด: Live Data
+
+//         $routes->post('getDataDashboard', 'Test::getDataDashboard'); // Summary Tab แดชบอร์ด: Receipt
+//         $routes->get('orderDetail/(:any)', 'Test::getOrderDetail/$1'); // Summary Tab แดชบอร์ด: Receipt Detail
+//         $routes->get('view/(:any)', 'Test::view/$1'); // Summary Tab แดชบอร์ด: Receipt นับ
+//         $routes->post('update-status', 'Test::updateStatus'); // Summary Tab แดชบอร์ด: อัพเดทสถานะ Receipt
+
+//         $routes->post('orderDashboard/detail', 'Test::orderDashboardDetail');
+//         $routes->post('orderDashboard/testDetail', 'Test::orderDashboardTestDetail');
+//         $routes->post('orderDashboard/bestSellers', 'Test::orderDashboardBestSellers');
+//         $routes->post('orderDashboard/voidItems', 'Test::orderDashboardVoidItems');
+
+
+        /*
     * --------------------------------------------------------------------
     * TAB ACTIVITY
     * --------------------------------------------------------------------
     */
 
-    $routes->get('activity', 'TabOrderPos::activity'); // Log Tab Activity
+
+  $routes->get('activity', 'TabOrderPos::activity'); // Log Tab Activity
 });
+//         $routes->get('activity', 'Test::activity'); // Log Tab Activity
+//     }
+// );
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -872,13 +872,20 @@
                     <div class="col-xl-6 col-lg-12 col-md-12">
                       <div class="white_card card_height_100 mb_20">
                         <div class="white_card_header">
-                          <!-- <div class="box_header m-0">
-                            <div class="main-title">
-                              <h3 class="m-0">Setting Parameters/Tax</h3>
-                            </div>
-                          </div> -->
+                          <div class="main-title">
+                            <h3 class="m-0">File Print Seting</h3>
+                          </div>
                         </div>
                         <div class="white_card_body">
+                          <form id="addFileSetting" name="addFileSetting" action="#" method="POST" enctype="multipart/form-data" novalidate>
+                            <div class="input-group mb-3 b">
+                              <input type="file" class="form-control" id="file_setting" accept=".txt, .js" name="file_setting" onchange="encodeImgtoBase64(this);" required>
+                              <label class="input-group-text" for="file_order">File ตั้งค่า</label>
+                              <input type="hidden" id="file_setting_base64" name="file_setting_base64">
+                              <input type="hidden" id="file_old_setting" name="file_old_setting">
+                            </div>
+                            <button type="submit" class="btn btn-primary f_s_14" style="float:right;"><i class="ti-plus"></i> Add</button>
+                          </form>
                         </div>
                       </div>
                     </div>
