@@ -291,7 +291,7 @@ function getOrderCard() {
             // let out_of_stock = checkOutOfStock(data["order_code"]);
             data =
               "<div class='card-body'><img src='" +
-              serverUrl +
+              CDN_IMG +
               "/uploads/temps_order/" +
               data["src_order_picture"] +
               "' width='100px' height='100px' style='border-radius: .40rem; box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;' class='zoom'></div>";
