@@ -499,6 +499,7 @@ class OrderModel
         $builder->join('group_product', 'order.group_id = group_product.id', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         // $builder->groupBy("stock_formula.order_code");
+        $builder->where('order_status !=', 'CANCEL_ORDER');
 
         $i = 0;
         $i2 = 0;
