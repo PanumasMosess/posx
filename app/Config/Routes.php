@@ -100,6 +100,19 @@ $routes->group('setting', ['filter' => 'employeeAuth'],  function ($routes) {
     $routes->post('printer', 'SettingController::printersetting');
     $routes->post('file_setting', 'SettingController::file_setting');
 });
+ 
+$routes->group('expense', ['filter' => 'employeeAuth'] ,function ($routes) {
+    $routes->get('index', 'ExpenseController::index');
+    $routes->post('addExpense', 'ExpenseController::addExpense');
+    $routes->get('editExpense/(:num)', 'ExpenseController::editExpense/$1');
+    $routes->post('updateExpense', 'ExpenseController::updateExpense');
+    $routes->get('deleteExpense/(:num)', 'ExpenseController::deleteExpense/$1');
+
+    $routes->post('addSubExpense', 'ExpenseController::addSubExpense');
+    $routes->get('editSubExpense/(:num)', 'ExpenseController::editSubExpense/$1');
+    $routes->post('updateSubExpense', 'ExpenseController::updateSubExpense');
+    $routes->get('deleteSubExpense/(:num)', 'ExpenseController::deleteSubExpense/$1');
+});
 
 $routes->group('employee', ['filter' => 'employeeAuth'], function ($routes) {
     $routes->get('index', 'EmployeeController::index');
