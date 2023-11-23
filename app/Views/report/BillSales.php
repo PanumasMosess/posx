@@ -38,7 +38,8 @@
                                 <div class="row mb-3">
                                     <div class=" col-md-4">
                                         <select id="query-type" class="form-control">
-                                            <option selected="" value="0">ยอดขาย</option>
+
+                                            <!-- <option value="0">ยอดขาย</option>
                                             <option value="1">บิลขาย</option>
                                             <option value="2">สินค้า</option>
                                             <option value="11">ยอดสั่ง ตามช่วงเวลา</option>
@@ -47,7 +48,18 @@
                                             <option value="10">ยกเลิกสินค้า</option>
                                             <option value="12">Activity (ประวัติการใช้งาน POS) </option>
                                             <option value="13">รายงานแก้ราคาสินค้า </option>
-                                            <option value="14">OpenMenu </option>
+                                            <option value="14">OpenMenu </option> -->
+
+                                            <option value="Sales">ยอดขาย</option>
+                                            <option value="BillSales" selected>บิลขาย</option>
+                                            <option value="Product">สินค้า</option>
+                                            <option value="OrderTotal">ยอดสั่ง ตามช่วงเวลา</option>
+                                            <option value="Expenses">รายจ่าย</option>
+                                            <option value="Stock">สต็อก</option>
+                                            <option value="Cancel">ยกเลิกสินค้า</option>
+                                            <option value="Activity">Activity (ประวัติการใช้งาน POS) </option>
+                                            <option value="ProductPriceCorrectionReport">รายงานแก้ราคาสินค้า </option>
+                                            <option value="OpenMenu">OpenMenu </option>
                                         </select>
                                     </div>
                                 </div>
@@ -56,34 +68,7 @@
                     </div>
                 </div>
             </div>
-
-            <div id="report-by-hour-container" style="display: inline-block;">
-
-                <template type="text/x-template" id="picker">
-                    <div class="datepicker">
-                        <span class="datepicker__icon">
-                            <i class="fa fa-calendar fa-fw"></i>
-                        </span>
-
-                        <input v-bind:id="keydate" class="datepicker__input" type="text" v-model="date">
-                    </div>
-
-
-
-                </template>
-
-
-                <div id="app-add-by-hour">
-                    <div class="col-md-12" style="margin-top: -20px;">
-                        <h4><span>เริ่มวันที่ </span>
-                            <div class="datepicker"><span class="datepicker__icon"><i class="fa fa-calendar fa-fw"></i></span> <input id="dateFrom" type="text" class="datepicker__input"></div> <span> ถึง </span>
-                            <div class="datepicker"><span class="datepicker__icon"><i class="fa fa-calendar fa-fw"></i></span> <input id="dateTo" type="text" class="datepicker__input"></div> <button class="btn btn-primary" style="padding: 5px 22px; position: relative; top: -1px; left: -9px;"> Submit </button> <span>1 days</span>
-                        </h4>
-                        <div id="example"></div> <span style="color: gray; margin-top: 15px;">ตัวเลขในวงเล็บคือ จำนวนบิล( Qty )</span>
-                    </div>
-                </div>
-
-            </div>
+            
         </div>
 
     </div>

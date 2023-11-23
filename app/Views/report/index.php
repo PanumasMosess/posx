@@ -36,9 +36,11 @@
                         <div class="card-body">
                             <form>
                                 <div class="row mb-3">
-                                    <div class=" col-md-4">
+                                    <div class=" col-md-12">
                                         <select id="query-type" class="form-control">
-                                            <option selected="" value="0">ยอดขาย</option>
+                                            <option selected="" value="">--- เลือก ---</option>
+
+                                            <!-- <option value="0">ยอดขาย</option>
                                             <option value="1">บิลขาย</option>
                                             <option value="2">สินค้า</option>
                                             <option value="11">ยอดสั่ง ตามช่วงเวลา</option>
@@ -47,7 +49,18 @@
                                             <option value="10">ยกเลิกสินค้า</option>
                                             <option value="12">Activity (ประวัติการใช้งาน POS) </option>
                                             <option value="13">รายงานแก้ราคาสินค้า </option>
-                                            <option value="14">OpenMenu </option>
+                                            <option value="14">OpenMenu </option> -->
+
+                                            <option value="Sales">ยอดขาย</option>
+                                            <option value="BillSales">บิลขาย</option>
+                                            <option value="Product">สินค้า</option>
+                                            <option value="OrderTotal">ยอดสั่ง ตามช่วงเวลา</option>
+                                            <option value="Expenses">รายจ่าย</option>
+                                            <option value="Stock">สต็อก</option>
+                                            <option value="Cancel">ยกเลิกสินค้า</option>
+                                            <option value="Activity">Activity (ประวัติการใช้งาน POS) </option>
+                                            <option value="ProductPriceCorrectionReport">รายงานแก้ราคาสินค้า </option>
+                                            <option value="OpenMenu">OpenMenu </option>
                                         </select>
                                     </div>
                                 </div>
@@ -57,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-4">
+            <!-- <div class="col-xl-4">
                 <div class="white_card card_height_100 mb_30">
                     <div class="white_card_header">
                         <div class="row align-items-center">
@@ -1271,7 +1284,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>
