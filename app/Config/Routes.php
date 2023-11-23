@@ -214,7 +214,7 @@ $routes->group(
         $routes->get('update_order_print_log/(:any)', 'OrderPosController::updateOrderPrintLog/$1');
         $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');
 
-        /*
+    /*
     * --------------------------------------------------------------------
     * TAB DASHBAORD
     * --------------------------------------------------------------------
@@ -260,6 +260,10 @@ $routes->group(
 //         $routes->get('activity', 'Test::activity'); // Log Tab Activity
 //     }
 // );
+
+$routes->group('report', ['filter' => 'employeeAuth'], function ($routes) {
+    $routes->get('', 'ReportController::index');
+});
 
 /*
  * --------------------------------------------------------------------
