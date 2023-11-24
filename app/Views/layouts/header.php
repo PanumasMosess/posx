@@ -163,8 +163,8 @@
                 </ul>
             </li>
 
-            <li class="disabled">
-                <a href="navs.html" aria-expanded="false">
+            <li class="">
+                <a href="<?php echo base_url('/expense/index'); ?>" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
