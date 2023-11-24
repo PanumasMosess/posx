@@ -185,8 +185,8 @@
                 </a>
             </li>
 
-            <li class="disabled">
-                <a href="navs.html" aria-expanded="false">
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'report') { echo 'active'; } ?>">
+                <a href="<?php echo base_url('/report'); ?>" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
