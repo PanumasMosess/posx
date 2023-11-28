@@ -44,7 +44,11 @@ $routes->get('pdf_bill/(:any)', 'PdfController::pdf_Bill/$1', ['filter' => 'empl
 $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' => 'employeeAuth']);
 $routes->get('unlink_pdf/(:any)', 'PdfController::unlink_pdf/$1');
 $routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
-$routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);
+$routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);  
+$routes->get('get_print_mobile', 'PdfController::load_mobile_print', ['filter' => 'employeeAuth']);  
+
+
+
 
 
 $routes->get('order_menu/', 'OrderPosController::menulink');

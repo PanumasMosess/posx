@@ -447,4 +447,22 @@ class PdfController extends BaseController
 
         echo view('/pdf/qr_code', $data);
     }
+
+    public function load_mobile_print()
+    {
+        $this->OrderModel = new \App\Models\OrderModel();
+
+        $table_name = $this->OrderModel->getStatusPrintMoblie();
+        $data = "";
+        if($table_name)
+        {
+            $data = $this->OrderModel->getPrintBuyTableCode($table_name->order_customer_table_code);
+        }
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $data,
+        ]);
+    }
 }
