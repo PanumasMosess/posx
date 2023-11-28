@@ -1,5 +1,5 @@
 qz.security.setCertificatePromise(function (resolve, reject) {
-  fetch(serverUrl + "js/QZ_cer/digital-certificate.txt", {
+  fetch(serverUrl + "js/QZ_cer/digital-certificate" + companies_id + ".txt", {
     cache: "no-store",
     headers: { "Content-Type": "text/plain" },
   }).then(function (data) {
