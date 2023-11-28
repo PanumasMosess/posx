@@ -1095,4 +1095,30 @@ class OrderModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
+
+    public function getStatusPrintMoblie()
+    {
+        $companies_id = session()->get('companies_id');
+
+        $sql = "SELECT * FROM posx_mobile_status_print
+        WHERE status = 'WAIT_PRINT' and companies_id = '$companies_id'
+        ORDER BY id ASC LIMIT 1
+        ";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getPrintBuyTableCode($table_code = null)
+    {
+        $companies_id = session()->get('companies_id');
+
+        $sql = "SELECT * FROM order_print_log
+        WHERE order_table_code = '$table_code' and companies_id = '$companies_id' and order_print_status = 'WAIT_PRINT'
+        ORDER BY id ASC LIMIT 1
+        ";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
 }
