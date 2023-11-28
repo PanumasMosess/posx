@@ -48,7 +48,7 @@
 
     <script src="<?php echo base_url('/js/qz-tray.js'); ?>"></script>
     <script src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
-    
+
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
@@ -75,7 +75,7 @@
         var serverUrl = '<?php echo base_url(); ?>'
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
     </script>
-    <script src="<?php echo base_url('/js/QZ_cer/sign-message.js?v=' . time()); ?>"></script>
+    <script src="<?php echo base_url('/js/QZ_cer/sign-message' . session()->get('companies_id') . '.js?v=' . time()); ?>"></script>
     <style>
         .disabled {
             pointer-events: none;
@@ -185,7 +185,9 @@
                 </a>
             </li>
 
-            <li class="mm-<?php if (service('uri')->getSegment(1) == 'report') { echo 'active'; } ?>">
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'report') {
+                                echo 'active';
+                            } ?>">
                 <a href="<?php echo base_url('/report'); ?>" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
