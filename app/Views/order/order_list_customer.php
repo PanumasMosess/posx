@@ -50,6 +50,7 @@
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
         var CDN_IMG = '<?php echo getenv('CDN_IMG'); ?>'
+        var companies_id = '<?php echo session()->get('companies_id'); ?>'
     </script>
 </head>
 
