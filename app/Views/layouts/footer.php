@@ -273,10 +273,22 @@
 
                             $.ajax({
                                 url: `${serverUrl}/order/update_order_print_log/` +
-                                res.data.order_customer_code,
+                                    res.data.order_customer_code,
                                 method: "get",
-                                success: function(res) {
+                                success: function(res_print) {
                                     // การสำเร็จ
+                                    $.ajax({
+                                        url: `${serverUrl}/order/update_order_print_mobile/` +
+                                            res.data.order_table_code,
+                                        method: "get",
+                                        success: function(res_print_mobile) {
+                                            // การสำเร็จ
+
+                                        },
+                                        error: function(error) {
+                                            // เกิดข้อผิดพลาด
+                                        },
+                                    });
                                 },
                                 error: function(error) {
                                     // เกิดข้อผิดพลาด

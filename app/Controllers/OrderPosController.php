@@ -1246,4 +1246,27 @@ class OrderPosController extends BaseController
         ';
         echo view('/order/order_link_menu.php', $data);
     }
+
+    public function update_order_print_mobile($table_code)
+    {
+        $data = [
+            'status' => 'SUCCESS_PRINT',
+        ];
+        
+        $update_summary_new = $this->OrderModel->updateWaitPrintMobile($data, $table_code);
+
+        if ($update_summary_new) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'สำเร็จ'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'ยกเลิกรายการไม่สำเร็จ'
+            ]);
+        }
+    }
 }
