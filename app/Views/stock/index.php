@@ -33,7 +33,7 @@
                                                         <th>หมวดหมู่สินค้า</th>
                                                         <th>จำนวน (Balance)</th>
                                                         <th>Minimum</th>
-                                                        <th>ราคา / หน่วย</th>
+                                                        <th>ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>) / หน่วย</th>
                                                         <th>Last Update</th>
                                                         <th>Transaction</th>
                                                         <th>Action</th>
@@ -379,7 +379,7 @@
                                 <div class="col-6">
                                     <div class="input-group mb-3">
                                         <div class="input-group-text">
-                                            <div class="">ราคา</div>
+                                            <div class="">ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>)</div>
                                         </div>
                                         <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
                                     </div>

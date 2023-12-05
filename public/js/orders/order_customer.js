@@ -769,7 +769,7 @@ function calService() {
       number_ = $("#num_service").val();
       service_total = parseFloat(number_);
       $("#service_price").html(
-        '<span id="service_price"> ' + number_ + " บาท</span>"
+        '<span id="service_price"> ' + number_ + " " + window.symbolValueMoney +  "</span>"
       );
       summaryText();
     }
@@ -828,7 +828,7 @@ function calDiscountAll() {
       number_ = $("#num_adddiscountAll").val();
       discount_total = parseFloat(number_);
       $("#discount_price").html(
-        '<span id="discount_price"> ' + number_ + " บาท</span>"
+        '<span id="discount_price"> ' + number_ + " " + window.symbolValueMoney +  "</span>"
       );
       summaryText();
     }
@@ -926,7 +926,7 @@ function calvat() {
       let number_ = 0;
       number_ = $("#num_vat").val();
       vat_total = parseFloat(number_);
-      $("#vat_price").html('<span id="vat_price"> ' + number_ + " บาท</span>");
+      $("#vat_price").html('<span id="vat_price"> ' + number_ + " " + window.symbolValueMoney +  "</span>");
       summaryText();
     }
   } else {

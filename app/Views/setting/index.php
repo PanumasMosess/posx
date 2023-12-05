@@ -350,6 +350,17 @@
                             </div>
                             <input class="form-control" placeholder="shopname" aria-label="shopname" id="shopname" aria-describedby="basic-addon1">
                           </div>
+                          <div class="input-group mb-3">
+                            <div class="input-group-text">
+                              <div class="">หน่วยค่าเงินระบบ</div>
+                            </div>
+                            <select class="form-select" name="valueMoney" id="valueMoney">
+                              <option value="">--- เลือก ---</option>
+                              <option value="บาท">บาท (฿)</option>
+                              <option value="ดอลล่า">ดอลล่า ($)</option>
+                              <option value="กีบ">กีบ</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>

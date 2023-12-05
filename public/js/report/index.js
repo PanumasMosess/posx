@@ -3,8 +3,8 @@ function reload() {
 }
 
 $(document).ready(function() {
+
     let $selectQueryType = $('#query-type')
-    
     
     $selectQueryType.on('change', function() {
 

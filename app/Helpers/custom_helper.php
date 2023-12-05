@@ -426,3 +426,18 @@ if (!function_exists('numToThaiBath')) {
 // 	// print_r($data['DocumentSetUp']); exit();
 // 	return $data['DocumentSetUp'] = $DocumentSetUpModel->getDocumentSetUpAll();
 // }
+
+function getValueMoney()
+{
+	$db = \Config\Database::connect();
+
+    $companies_id = session()->get('companies_id');
+
+    $sql = "
+        SELECT * FROM information WHERE (companies_id = $companies_id);
+    ";
+
+    $builder = $db->query($sql);
+
+    return $builder->getRow();
+}

@@ -425,7 +425,7 @@ function detail_summary(table_code) {
       $("#price_sum_table").html(
         '<strong id="price_sum_table">' +
           response.data.order_price_sum +
-          " บาท</strong>"
+          " " + window.symbolValueMoney + "</strong>"
       );
 
       $("#service_total_").html(
@@ -463,7 +463,7 @@ function clear_detail_summary() {
   $("#table_pcs").html('<p id="table_pcs">' + "XXX" + " รายการ</p>");
   $("#time_table").html('<p id="time_table">' + "XXX" + "</p>");
   $("#price_sum_table").html(
-    '<strong id="price_sum_table">' + "0.00" + " บาท</strong>"
+    '<strong id="price_sum_table">' + "0.00" + " " + window.symbolValueMoney + "</strong>"
   );
 
   $("#service_total_").html('<p id="service_total_">' + "0.00" + "</p>");

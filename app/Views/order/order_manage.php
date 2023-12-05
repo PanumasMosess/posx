@@ -31,7 +31,7 @@
                                                         <th>No.</th>
                                                         <th>สินค้า</th>
                                                         <th>หมวดหมู่สินค้า</th>
-                                                        <th>ราคา / หน่วย</th>
+                                                        <th>ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>)/ หน่วย</th>
                                                         <th>Last Update</th>
                                                         <th>Action</th>
                                                     </tr>

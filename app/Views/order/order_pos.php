@@ -149,7 +149,7 @@
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="payment-title">รวม</td>
-                                                                                                        <td class="text-dark"><strong id="price_sum_table">0.00 บาท</strong></td>
+                                                                                                        <td class="text-dark"><strong id="price_sum_table">0.00 <?php echo getValueMoney()->symbolValueMoney; ?></strong></td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>
@@ -214,7 +214,7 @@
                                                                                             <th></th>
                                                                                             <th>รายการสินค้า</th>
                                                                                             <th>จำนวน</th>
-                                                                                            <th>ราคา</th>
+                                                                                            <th>ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>)</th>
                                                                                         </tr>
                                                                                     </thead>
                                                                                     <tbody>

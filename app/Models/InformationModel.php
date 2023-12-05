@@ -23,6 +23,14 @@ class InformationModel
         return $builder->getRow();
     }
 
+    public function getInformationByCompanyID($companyID)
+    {
+        $companies_id = $companyID;
+        $sql = "SELECT * FROM information WHERE (companies_id = $companies_id);";
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
     public function getInformationByID($id)
     {
         $builder = $this->db->table('information');

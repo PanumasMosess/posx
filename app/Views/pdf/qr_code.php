@@ -17,6 +17,8 @@
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
+        var valueMoney = '<?php echo getValueMoney()->valueMoney; ?>'
+        var symbolValueMoney = '<?php echo getValueMoney()->symbolValueMoney; ?>'
     </script>
 </head>
 

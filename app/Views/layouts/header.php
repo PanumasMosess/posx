@@ -74,6 +74,8 @@
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
+        var valueMoney = '<?php echo getValueMoney()->valueMoney; ?>'
+        var symbolValueMoney = '<?php echo getValueMoney()->symbolValueMoney; ?>'
     </script>
     <script src="<?php echo base_url('/js/QZ_cer/sign-message.js?v=' . time()); ?>"></script>
     <style>
