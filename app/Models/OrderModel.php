@@ -1137,4 +1137,15 @@ class OrderModel
         // ทำการอัปเดตข้อมูล
         return $builder->update($data);
     }
+
+    public function getDataPrintterName()
+    {
+        $companies_id = session()->get('companies_id');
+
+        $sql = "SELECT printer_name FROM group_product where companies_id = '$companies_id'  group by printer_name";
+
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
 }
