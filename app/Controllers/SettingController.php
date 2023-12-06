@@ -496,6 +496,17 @@ class SettingController extends BaseController
         $param['taxMode'] = $_REQUEST['taxMode'];
         $param['taxRate'] = $_REQUEST['taxRate'];
 
+        $param['valueMoney'] = $_REQUEST['valueMoney'];
+
+        $valueMoney = $_REQUEST['valueMoney'];
+        $symbolValueMoney = '';
+
+        switch($valueMoney) {
+            case 'บาท': $symbolValueMoney = '฿'; break;
+            case 'ดอลล่า': $symbolValueMoney = '$'; break;
+            case 'กีบ': $symbolValueMoney = 'กีบ'; break;
+        }
+
         try {
             // SET CONFIG
             $status = 500;
@@ -514,11 +525,14 @@ class SettingController extends BaseController
                     'taxmode' => $param['taxMode'],
                     'taxrate' => $param['taxRate'],
                     'updated_by' => session()->get('username'),
-                    'updated_at' => date('Y-m-d H:i:s')
+                    'updated_at' => date('Y-m-d H:i:s'),
+                    'valueMoney' => $valueMoney,
+                    'symbolValueMoney' => $symbolValueMoney
                 ]);
             } else {
                 $update = $this->InformationModel->insertInformation([
                     'shopname' => $param['shopname'],
+                    'valueMoney' => $param['valueMoney'],
                     'service_charge' => $param['service_charge'],
                     'discount' => $param['discount'],
                     'discount_mode' => $param['discount_mode'],
@@ -526,7 +540,9 @@ class SettingController extends BaseController
                     'taxid' => $param['taxId'],
                     'taxmode' => $param['taxMode'],
                     'taxrate' => $param['taxRate'],
-                    'companies_id' => session()->get('companies_id')
+                    'companies_id' => session()->get('companies_id'),
+                    'valueMoney' => $valueMoney,
+                    'symbolValueMoney' => $symbolValueMoney
                 ]);
             }
             if ($update) {

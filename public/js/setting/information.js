@@ -23,6 +23,7 @@ function closeModalEditPassword() {
 //When click add Email
 $('body').on('click', '#EditInformation', function () {
     var shopname = document.querySelector("#shopname");
+    var valueMoney = document.querySelector("#valueMoney");
     var service_charge = document.querySelector("#service_charge");
     var discount = document.querySelector("#discount");
     var discount_mode = document.querySelector("#discount_mode");
@@ -31,6 +32,7 @@ $('body').on('click', '#EditInformation', function () {
     var taxMode = document.querySelector("#taxMode");
     var taxRate = document.querySelector("#taxRate");
     var shopname = shopname.value;
+    var valueMoney = valueMoney.value;
     var service_charge = service_charge.value;
     var discount = discount.value;
     var discount_mode = discount_mode.value;
@@ -41,7 +43,17 @@ $('body').on('click', '#EditInformation', function () {
     $.ajax({
         type: "POST",
         url: "/setting/updateInformation", // Replace with the actual URL
-        data: { shopname: shopname , service_charge: service_charge , discount: discount , discount_mode: discount_mode , taxStatus: taxStatus , taxId: taxId , taxMode: taxMode , taxRate: taxRate},
+        data: { 
+            shopname: shopname,
+            valueMoney: valueMoney,
+            service_charge: service_charge, 
+            discount: discount, 
+            discount_mode: discount_mode, 
+            taxStatus: taxStatus, 
+            taxId: taxId, 
+            taxMode: taxMode, 
+            taxRate: taxRate
+        },
     }).done(function (res) {
         //กรณี: บันทึกสำเร็จ
         if (res.success = 1) {
@@ -294,6 +306,7 @@ function information() {
         dataType: 'json',
         success: function (res) {
             $("#shopname").val(res.data.shopname);
+            $("#valueMoney").val(res.data.valueMoney);
             $("#service_charge").val(res.data.service_charge);
             $("#discount").val(res.data.discount);
             $("#discount_mode").val(res.data.discount_mode);

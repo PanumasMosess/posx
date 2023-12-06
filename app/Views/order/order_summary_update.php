@@ -55,6 +55,9 @@
     </style>
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
+        var companies_id = '<?php echo session()->get('companies_id'); ?>'
+        var valueMoney = '<?php echo getValueMoney()->valueMoney; ?>'
+        var symbolValueMoney = '<?php echo getValueMoney()->symbolValueMoney; ?>'
     </script>
 </head>
 
@@ -80,7 +83,7 @@
                                         <th>No.</th>
                                         <th>รายการสินค้า</th>
                                         <th>จำนวน</th>
-                                        <th>ราคา</th>
+                                        <th>ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>)</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

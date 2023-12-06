@@ -49,8 +49,10 @@
     } ?>
     <script>
         var serverUrl = '<?php echo base_url(); ?>'
-        var CDN_IMG = '<?php echo getenv('CDN_IMG'); ?>'
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
+        var valueMoney = '<?php echo getValueMoney()->valueMoney; ?>'
+        var symbolValueMoney = '<?php echo getValueMoney()->symbolValueMoney; ?>'
+        var CDN_IMG = '<?php echo getenv('CDN_IMG'); ?>'
     </script>
 </head>
 
@@ -82,8 +84,8 @@
                                                     <tr>
                                                         <th>จำนวน</th>
                                                         <th>รายการสินค้า</th>
-                                                        <th>ราคา/หน่วย</th>
-                                                        <th>ราคารวม</th>
+                                                        <th>ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>) /หน่วย</th>
+                                                        <th>ราคารวม (<?php echo getValueMoney()->symbolValueMoney; ?>)</th>
                                                         <th>#</th>
                                                     </tr>
                                                 </thead>
@@ -162,7 +164,7 @@
                                                                 <th></th>
                                                                 <th>รายการสินค้า</th>
                                                                 <th>หมวดหมู่</th>
-                                                                <th>ราคา</th>
+                                                                <th>ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>)</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
