@@ -52,6 +52,7 @@
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
         var valueMoney = '<?php echo getValueMoney()->valueMoney; ?>'
         var symbolValueMoney = '<?php echo getValueMoney()->symbolValueMoney; ?>'
+        var CDN_IMG = '<?php echo getenv('CDN_IMG'); ?>'
     </script>
 </head>
 
