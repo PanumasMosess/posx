@@ -126,6 +126,7 @@ $('body').on('click', '.btnEditGroupProduct', function () {
             $('#editGroupProduct #GroupProductId').val(res.data.id);
             $('#editGroupProduct #category_name').val(res.data.name);
             $('#editGroupProduct #productunit').val(res.data.unit);
+            $('#editGroupProduct #printer_name').val(res.data.printer_name);
             // console.log(res.data.GroupProduct_name)
         },
         error: function (data) { }
@@ -305,6 +306,10 @@ function loadTableGroupProduct() {
             {
                 'className': 'text-center',
                 "targets": [5],
+            },
+            {
+                'className': 'text-center',
+                "targets": [6],
             }
         ],
         "processing": true,
@@ -326,6 +331,9 @@ function loadTableGroupProduct() {
         },
         {
             data: "unit"
+        },
+        {
+            data: "printer_name"
         },
         {
             data: "date_created"
