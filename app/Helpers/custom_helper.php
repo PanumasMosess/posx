@@ -439,5 +439,12 @@ function getValueMoney()
 
     $builder = $db->query($sql);
 
-    return $builder->getRow();
+    $data = $builder->getRow();
+    if (!$data) {
+        $data = new stdClass;
+        $data->symbolValueMoney = '';
+        $data->valueMoney = '';
+    }
+
+    return $data;
 }
