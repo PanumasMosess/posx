@@ -432,7 +432,7 @@ class OrderPosController extends BaseController
             <script src="' . base_url('/js/interact.min.js') . '"></script>   
             <script src="' . base_url('/js/qz-tray.js') . '"></script>    
             <script src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
-            <script src="' . base_url('/js/QZ_cer/sign-message.js?v=' . time()) . '"></script>   
+            <script src="' . base_url('/js/QZ_cer/sign-message' . session()->get('companies_id') . '.js?v=' . time()) . '"></script>   
             <script src="' . base_url('/js/orders/order_customer.js?v=' . time()) . '"></script> 
         ';
         echo view('/order/order_list_customer', $data);
@@ -1245,5 +1245,28 @@ class OrderPosController extends BaseController
         <script src="' . base_url('/js/orders/order_summary_update.js?v=' . time()) . '"></script>    
         ';
         echo view('/order/order_link_menu.php', $data);
+    }
+
+    public function update_order_print_mobile($table_code)
+    {
+        $data = [
+            'status' => 'SUCCESS_PRINT',
+        ];
+        
+        $update_summary_new = $this->OrderModel->updateWaitPrintMobile($data, $table_code);
+
+        if ($update_summary_new) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'สำเร็จ'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'ยกเลิกรายการไม่สำเร็จ'
+            ]);
+        }
     }
 }

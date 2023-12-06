@@ -83,6 +83,9 @@
 <script src="<?php echo base_url('js/custom.js'); ?>"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
+<script src="<?php echo base_url('/js/qz-tray.js'); ?>"></script>
+<script src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
+<script src="<?php echo base_url('/js/QZ_cer/sign-message' . session()->get('companies_id') . '.js?v=' . time()); ?>"></script>
 
 <script>
     (function($) {
@@ -205,6 +208,130 @@
             });
         }
     });
+
+    setInterval(load_mobile_print, 2000);
+
+    function deleteFilePdf(file_name) {
+        $.ajax({
+            url: `${serverUrl}/unlink_pdf/` + file_name,
+            method: "get",
+            success: function(res) {
+                // การสำเร็จ
+            },
+            error: function(error) {
+                // เกิดข้อผิดพลาด
+            },
+        });
+    }
+
+    function printPDF(file_name, printer) {
+        qz.websocket
+            .connect()
+            .then(function() {
+                return qz.printers.find(printer);
+            })
+            .then((found) => {
+                var config = qz.configs.create(printer);
+                var path = serverUrl + "uploads/temp_pdf/" + file_name;
+                var data = [{
+                    type: "pixel",
+                    format: "pdf",
+                    flavor: "file",
+                    data: path,
+                }, ];
+                return qz.print(config, data);
+            })
+            .then((event) => {
+                return qz.websocket.disconnect();
+            })
+            .then((event) => {
+                return deleteFilePdf(file_name);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    function load_mobile_print() {
+
+        $.ajax({
+            url: `${serverUrl}/get_print_mobile/`,
+            method: "get",
+            success: function(res) {
+                if (res.data) {
+                    console.log(res.data.order_customer_code);
+                    $.ajax({
+                        url: `${serverUrl}/pdf_BillOrder/` +
+                            res.data.order_customer_code,
+                        method: "get",
+                        success: function(res_) {
+                            // การสำเร็จ
+                            //clear after add
+                            localStorage.setItem("isCallNewOrder", "yes");
+
+                            printPDF(res_.message_name, res_.message_printer);
+
+                            $.ajax({
+                                url: `${serverUrl}/order/update_order_print_log/` +
+                                    res.data.order_customer_code,
+                                method: "get",
+                                success: function(res_print) {
+                                    // การสำเร็จ
+                                    $.ajax({
+                                        url: `${serverUrl}/order/update_order_print_mobile/` +
+                                            res.data.order_table_code,
+                                        method: "get",
+                                        success: function(res_print_mobile) {
+                                            // การสำเร็จ
+
+                                        },
+                                        error: function(error) {
+                                            // เกิดข้อผิดพลาด
+                                        },
+                                    });
+                                },
+                                error: function(error) {
+                                    // เกิดข้อผิดพลาด
+                                },
+                            });
+
+                        },
+                        error: function(error) {
+                            // เกิดข้อผิดพลาด
+                        },
+                    });
+                }
+            },
+            error: function(error) {
+                // เกิดข้อผิดพลาด
+            },
+        });
+
+
+        // $.ajax({
+        //     url: `${serverUrl}/pdf_bill/` + table_code,
+        //     method: "get",
+        //     success: function(res) {
+        //         printPDF(res.message_name, res.message_printer);
+        //     },
+        //     error: function(error) {
+        //         // เกิดข้อผิดพลาด
+        //     },
+        // });
+
+
+        // $.ajax({
+        //     url: `${serverUrl}/order/update_order_print_log/` +
+        //         response.order_customer_code,
+        //     method: "get",
+        //     success: function(res) {
+        //         // การสำเร็จ
+        //     },
+        //     error: function(error) {
+        //         // เกิดข้อผิดพลาด
+        //     },
+        // });
+    }
 </script>
 
 </body>

@@ -1637,9 +1637,9 @@ class SettingController extends BaseController
             // exit;
 
             if ($type_real[1] == 'plain') {
-                file_put_contents('js/QZ_cer/digital-certificate' . '.txt', base64_decode($new_file_move[1]));
-            } else if($type_real[1] == 'javascript') {
-                file_put_contents('js/QZ_cer/sign-message' . '.js', base64_decode($new_file_move[1]));
+                file_put_contents('js/QZ_cer/digital-certificate' . session()->get('companies_id') . '.txt', base64_decode($new_file_move[1]));
+            } else if ($type_real[1] == 'javascript') {
+                file_put_contents('js/QZ_cer/sign-message' . session()->get('companies_id') . '.js', base64_decode($new_file_move[1]));
             }
         }
     }

@@ -16,6 +16,13 @@ class OrderController extends BaseController
         $this->OrderModel = new \App\Models\OrderModel();
         // Model Stock
         $this->StockModel = new \App\Models\StockModel();
+
+        $this->s3_bucket = getenv('S3_BUCKET');
+        $this->s3_secret_key = getenv('SECRET_KEY');
+        $this->s3_key = getenv('KEY');
+        $this->s3_endpoint = getenv('ENDPOINT');
+        $this->s3_region = getenv('REGION');
+        $this->s3_cdn_img = getenv('CDN_IMG');
     }
 
     public function index()
@@ -64,6 +71,31 @@ class OrderController extends BaseController
             // exit;
 
             file_put_contents('uploads/temps_order/' . $order_running_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+
+            $file_Path_re = 'uploads/temps_order/' . $order_running_code . '.' . $type_real[1];
+            $file_name = $order_running_code . '.' . $type_real[1];
+
+            $s3Client = new S3Client([
+                'version' => 'latest',
+                'region'  => $this->s3_region,
+                'endpoint' => $this->s3_endpoint,
+                'use_path_style_endpoint' => false,
+                'credentials' => [
+                    'key'    => $this->s3_key,
+                    'secret' => $this->s3_secret_key
+                ]
+            ]);
+
+            $result_re = $s3Client->putObject([
+                'Bucket' => $this->s3_bucket,
+                'Key'    => 'uploads/temps_order/' . $file_name,
+                'Body'   => fopen($file_Path_re, 'r'),
+                'ACL'    => 'public-read', // make file 'public'
+            ]);
+
+            if ($result_re['ObjectURL'] != "") {
+                unlink('uploads/temps_order/' . $file_name);
+            }
 
             //data order table
             $data_order = [
@@ -189,8 +221,34 @@ class OrderController extends BaseController
                     'updated_at' => $buffer_datetime
                 ];
 
-                unlink('uploads/temps_order/'. $data[0]['old_src_order_picture']);
+                // unlink('uploads/temps_order/'. $data[0]['old_src_order_picture']);
                 file_put_contents('uploads/temps_order/' . $order_running_code->order_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+
+                $file_Path_re = 'uploads/temps_order/' . $order_running_code->order_code  . '.' . $type_real[1];
+                $file_name = $order_running_code->order_code  . '.' . $type_real[1];
+    
+                $s3Client = new S3Client([
+                    'version' => 'latest',
+                    'region'  => $this->s3_region,
+                    'endpoint' => $this->s3_endpoint,
+                    'use_path_style_endpoint' => false,
+                    'credentials' => [
+                        'key'    => $this->s3_key,
+                        'secret' => $this->s3_secret_key
+                    ]
+                ]);
+    
+                $result_re = $s3Client->putObject([
+                    'Bucket' => $this->s3_bucket,
+                    'Key'    => 'uploads/temps_order/' . $file_name,
+                    'Body'   => fopen($file_Path_re, 'r'),
+                    'ACL'    => 'public-read', // make file 'public'
+                ]);
+    
+                if ($result_re['ObjectURL'] != "") {
+                    unlink('uploads/temps_order/' . $file_name);
+                }
+
             } else {
 
                 $data_order = [
@@ -248,10 +306,28 @@ class OrderController extends BaseController
                 'deleted_at' => $buffer_datetime
             ];
 
-            unlink('uploads/temps_order/'. $order_data->src_order_picture);
+
+            $s3Client = new S3Client([
+                'version' => 'latest',
+                'region'  => $this->s3_region,
+                'endpoint' => $this->s3_endpoint,
+                'use_path_style_endpoint' => false,
+                'credentials' => [
+                    'key'    => $this->s3_key,
+                    'secret' => $this->s3_secret_key
+                ]
+            ]);
+
+            $result_img_old = $s3Client->deleteObject([
+                'Bucket' => $this->s3_bucket,
+                'Key'    => 'uploads/temps_order/' . $order_data->src_order_picture,
+            ]);
+
+
+            // unlink('uploads/temps_order/'. $order_data->src_order_picture);
             $update_new = $this->OrderModel->deleteOrder($data_order, $data[0]['id']);
 
-            if ($update_new) {
+            if ($update_new && $result_img_old) {
                 $count_cycle++;
             } else {
                 return $this->response->setJSON([

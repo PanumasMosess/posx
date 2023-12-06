@@ -44,7 +44,11 @@ $routes->get('pdf_bill/(:any)', 'PdfController::pdf_Bill/$1', ['filter' => 'empl
 $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' => 'employeeAuth']);
 $routes->get('unlink_pdf/(:any)', 'PdfController::unlink_pdf/$1');
 $routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
-$routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);
+$routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);  
+$routes->get('get_print_mobile', 'PdfController::load_mobile_print', ['filter' => 'employeeAuth']);  
+
+
+
 
 
 $routes->get('order_menu/', 'OrderPosController::menulink');
@@ -99,6 +103,19 @@ $routes->group('setting', ['filter' => 'employeeAuth'],  function ($routes) {
     $routes->get('printersetting', 'SettingController::getprinter');
     $routes->post('printer', 'SettingController::printersetting');
     $routes->post('file_setting', 'SettingController::file_setting');
+});
+ 
+$routes->group('expense', ['filter' => 'employeeAuth'] ,function ($routes) {
+    $routes->get('index', 'ExpenseController::index');
+    $routes->post('addExpense', 'ExpenseController::addExpense');
+    $routes->get('editExpense/(:num)', 'ExpenseController::editExpense/$1');
+    $routes->post('updateExpense', 'ExpenseController::updateExpense');
+    $routes->get('deleteExpense/(:num)', 'ExpenseController::deleteExpense/$1');
+
+    $routes->post('addSubExpense', 'ExpenseController::addSubExpense');
+    $routes->get('editSubExpense/(:num)', 'ExpenseController::editSubExpense/$1');
+    $routes->post('updateSubExpense', 'ExpenseController::updateSubExpense');
+    $routes->get('deleteSubExpense/(:num)', 'ExpenseController::deleteSubExpense/$1');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'], function ($routes) {
@@ -212,7 +229,8 @@ $routes->group(
         $routes->post('updatePcsSummary', 'OrderPosController::updatePcsSummary');
         $routes->post('delete_list_order_customer', 'OrderPosController::deleteListOrderCustomer');
         $routes->get('update_order_print_log/(:any)', 'OrderPosController::updateOrderPrintLog/$1');
-        $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');
+        $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');  
+        $routes->get('update_order_print_mobile/(:any)', 'OrderPosController::update_order_print_mobile/$1');
 
     /*
     * --------------------------------------------------------------------

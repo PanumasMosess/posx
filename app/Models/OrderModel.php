@@ -499,6 +499,7 @@ class OrderModel
         $builder->join('group_product', 'order.group_id = group_product.id', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         // $builder->groupBy("stock_formula.order_code");
+        $builder->where('order_status !=', 'CANCEL_ORDER');
 
         $i = 0;
         $i2 = 0;
@@ -713,7 +714,8 @@ class OrderModel
         return ($builder_table_status) ? true : false;
     }
 
-    public function insertOrderPrintLog($data){
+    public function insertOrderPrintLog($data)
+    {
         $builder_print = $this->db->table('order_print_log');
         $builder_print_status = $builder_print->insert($data);
 
@@ -892,7 +894,7 @@ class OrderModel
         return ($builder_order_update_status) ? true : false;
     }
 
-    public function updateOrderCustomerPCS($data_order,$id_code)
+    public function updateOrderCustomerPCS($data_order, $id_code)
     {
         $builder_order_update = $this->db->table('order_customer');
         $array_order_update = array('order_customer_status' => 'IN_KITCHEN', 'id' => $id_code);
@@ -900,7 +902,7 @@ class OrderModel
         return ($builder_order_update_status) ? true : false;
     }
 
-    public function updateOrderCustomerCancel($data_order,$id_code)
+    public function updateOrderCustomerCancel($data_order, $id_code)
     {
         $builder_order_update = $this->db->table('order_customer');
         $array_order_update = array('order_customer_status' => 'IN_KITCHEN', 'id' => $id_code);
@@ -915,7 +917,7 @@ class OrderModel
         $builder_order_sum_update_status = $builder_order_sum_update->where($array_order_sum_update)->update($data_order);
         return ($builder_order_sum_update_status) ? true : false;
     }
-    
+
 
     public function updateOrderCustomerSummaryPCS($data_order, $order_customer_code)
     {
@@ -1063,7 +1065,7 @@ class OrderModel
 
         $builder->where('order_customer_code', $id);
         $builder->where('order_print_status', 'WAIT_PRINT'); // เพิ่มเงื่อนไข WHERE ใหม่
-    
+
         // ทำการอัปเดตข้อมูล
         return $builder->update($data);
     }
@@ -1093,5 +1095,46 @@ class OrderModel
         ";
         $builder = $this->db->query($sql);
         return $builder->getResult();
+    }
+
+    public function getStatusPrintMoblie()
+    {
+        $companies_id = session()->get('companies_id');
+
+        $sql = "SELECT * FROM posx_mobile_status_print
+        WHERE status = 'WAIT_PRINT' and companies_id = '$companies_id'
+        ORDER BY id ASC LIMIT 1
+        ";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function getPrintBuyTableCode($table_code = null)
+    {
+        $companies_id = session()->get('companies_id');
+
+        $sql = "SELECT * FROM order_print_log
+        WHERE order_table_code = '$table_code' and companies_id = '$companies_id' and order_print_status = 'WAIT_PRINT'
+        ORDER BY id ASC LIMIT 1
+        ";
+
+        $builder = $this->db->query($sql);
+        return $builder->getRow();
+    }
+
+    public function updateWaitPrintMobile($data, $table_code)
+    {
+
+        $companies_id = session()->get('companies_id');
+
+        $builder = $this->db->table('posx_mobile_status_print');
+
+        $builder->where('order_customer_table_code', $table_code);
+        $builder->where('status', 'WAIT_PRINT'); // เพิ่มเงื่อนไข WHERE ใหม่
+        $builder->where('companies_id', $companies_id);
+
+        // ทำการอัปเดตข้อมูล
+        return $builder->update($data);
     }
 }
