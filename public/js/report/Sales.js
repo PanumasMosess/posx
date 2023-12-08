@@ -9,11 +9,15 @@ function cb(start, end) {
 }
 
 $(document).ready(function () {
+
+  const options1 = { style: 'currency', currency: 'window.valueMoney' }
+  const numberFormat1 = new Intl.NumberFormat(options1)
+
   var N = N || {};
 
   N.report = {
     //share
-    amount: "Baht ",
+    amount: window.valueMoney,
     time: "Time",
     date: "Date",
     grandTotal: "Grand Total",
@@ -144,89 +148,76 @@ $(document).ready(function () {
 
               let $selectedDate = SALES.dataRequest.data[i];
 
-              /**
-               * 
-               *                 <ul class="list-unstyled" v-if="list.length >0">
-
-                    <li class="section">
-                        <span v-if="!viewAll">${$selectedDate.Date}</span>
-                        <span v-if="viewAll">{{displayRange}}</span>
-                    </li>
-               */
-
-              let $html = `
-                <ul class="list-unstyled" v-if="list.length >0">
-                    <li class="section">
-                        <span v-if="!viewAll">${$selectedDate.Date}</span>
-                    </li>
-                    <li>
-                        <span class="sale-info">
-                            <span>GrandTotal</span>
-                        </span>
-                        <span class="sale-num" style="font-weight: bold">
-                            <currency>${$selectedDate.GrandTotal}</currency>
-                        </span>
-                    </li>
-                    <li class="section">
-                        <span>Summary</span>
-                    </li>
-                    <li>
-                        <span class="sale-info">
-                            <span>Bills</span>
-                        </span>
-                        <span class="sale-num">${$selectedDate.Bills}</span>
-                    </li>
-                    <li>
-                        <span class="sale-info">
-                            <span>Bill (avg.)</span>
-                        </span>
-                        <span class="sale-num">
-                            <currency>${
+              let $html = `    
+                <h4 id="cTitle">Report : ${$selectedDate.Date}</h4>
+                <table class="table table-clear QA_table" id="cTableTitle">
+                    <tbody>
+                        <tr>
+                            <td class="left" style="width: 80%;">
+                                <strong>GRANDTOTAL</strong>
+                            </td>
+                            <td class="right" style="width: 20%;">${$selectedDate.GrandTotal}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4 id="cSummary">Summary</h4>
+                <table class="table table-clear QA_table" id="cTableSummary">
+                    <tbody>
+                        <tr>
+                            <td class="left" style="width: 80%;">
+                                <strong>BILLS</strong>
+                            </td>
+                            <td class="right" style="width: 20%;">${$selectedDate.Bills}</td>
+                        </tr>
+                        <tr>
+                            <td class="left" style="width: 80%;">
+                                <strong>BILL (AVG.)</strong>
+                            </td>
+                            <td class="right" style="width: 20%;">${
                               $selectedDate.GrandTotal / $selectedDate.Bills
-                            }</currency>
-                        </span>
-                    </li>
+                            }</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                    <li class="section">
-                        <span>Payment Type</span>
-                    </li>
-              `;
+                <h4 id="cPayment">Payment Type</h4>
+                <table class="table table-clear QA_table" id="cTablePayment">
+                    <tbody>`
 
-              $html += `<li> `;
-              $.each($selectedDate.PaymentList, function (key, $payment) {
-                html += `
-                    <span class="sale-info">
-                        <span>${$payment.name}</span>
-                    </span>
-                    <span class="sale-num">
-                        <currency>${$payment.amount}</currency>
-                    </span>
-                `;
-              });
-              $html += `</li>`;
+                    $.each($selectedDate.PaymentList, function (key, $payment) {
+                      html += `
+                          <tr>
+                            <td class="left" style="width: 80%;">
+                                <strong>${$payment.name}</strong>
+                            </td>
+                            <td class="right" style="width: 20%;">${$payment.amount}</td>
+                        </tr>
+                      `;
+                    });
 
-              $html += `
-                    <li class="section">
-                        <span>Detail</span>
-                    </li>
-                    <li v-if="selectedDate.SubTotal">
-                        <span class="sale-info">
-                            <span>Total</span>
-                        </span>
-                        <span class="sale-num">
-                            <currency>${$selectedDate.SubTotal}</currency>
-                        </span>
-                    </li>
-                    <li v-if="selectedDate.ItemDiscount">
-                        <span class="sale-info">
-                            <span>Item Discount</span>
-                        </span>
-                        <span class="sale-num">
-                            <currency>${-$selectedDate.ItemDiscount}</currency>
-                        </span>
-                    </li>
-                </ul>
-              `;
+                $html += `
+                    </tbody>
+                </table>`
+
+                $html += `<h4 id="cDetail">Detail</h4>
+                <table class="table table-clear QA_table" id="cTableDetail">
+                    <tbody>
+                        <tr>
+                            <td class="left" style="width: 80%;">
+                                <strong>TOTAL</strong>
+                            </td>
+                            <td class="right">${$selectedDate.SubTotal}</td>
+                        </tr>
+                        <tr>
+                            <td class="left" style="width: 80%;">
+                                <strong>DISCOUNT</strong>
+                            </td>
+                            <td class="right" style="width: 20%;">${-$selectedDate.Discount}</td>
+                        </tr>
+                    </tbody>
+                </table>
+              `
               $(".sale-summary").html($html);
             },
             timezone: "local",
@@ -245,7 +236,7 @@ $(document).ready(function () {
           (SALES.calendar.created = !0));
     },
     showGraph() {
-      var u, f;
+      var xHighcharts, f;
       if (SALES.all != undefined) {
         var n = [],
           t = [],
@@ -258,15 +249,15 @@ $(document).ready(function () {
           i.push(r.Date);
         });
 
-        u = $("#container").highcharts({
+        xHighcharts = $("#container").highcharts({
           title: {
             text:
               "Income " +
-              accounting.formatMoney(SALES.all.GrandTotal) +
+              numberFormat1.format(SALES.all.GrandTotal) +
               "  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Expense " +
-              accounting.formatMoney(SALES.all.Expense) +
+              numberFormat1.format(SALES.all.Expense) +
               "  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Net " +
-              accounting.formatMoney(SALES.all.GrandTotal - SALES.all.Expense),
+              numberFormat1.format(SALES.all.GrandTotal - SALES.all.Expense),
             useHTML: !0,
           },
           colors: ["#852b99", "#f45b4f"],
@@ -356,8 +347,7 @@ $(document).ready(function () {
             },
           ],
         });
-        SALES.all.Expense == 0 &&
-          (f = $("#container").highcharts().series[1].hide());
+        SALES.all.Expense == 0 && (f = $("#container").highcharts().series[1].hide())
       }
     },
     handleSearch() {
@@ -452,7 +442,28 @@ $(document).ready(function () {
                         `;
               });
 
+              $('#thGrandTotalWithBills').html(numberFormat1.format(parseInt(SALES.all.GrandTotal / SALES.all.Bills)))
+              $('#thBills').html(numberFormat1.format(SALES.all.Bills))
+              $('#thGrandTotal').html(numberFormat1.format(SALES.all.GrandTotal))
+              $('#thSubTotal').html(numberFormat1.format(SALES.all.SubTotal))
+              $('#thDiscount').html(numberFormat1.format(SALES.all.Discount))
+              thHTML = '<div>'
+              $.each(SALES.all.PaymentList, function (key, $payment) {
+                thHTML += `
+                    <div>
+                        <span>${$payment.name}</span>
+                        <span> : </span>
+                        <currency>${numberFormat1.format($payment.amount)}</currency>
+                        <span style="margin-left: 10px">(${numberFormat1.format($payment.bills)})</span>
+                    </div>
+                `;
+              })
+              thHTML = '</div>'
+              $('#thPaymentList').html(thHTML)
+              
               $table.find("tbody").html(html);
+
+              SALES.displayMode($('.btn-group').find('.active').data('title'))
             } else {
               // swal({
               //     title: 'ระบบขัดข้อง กรุณาลองใหม่อีกครั้ง หรือติดต่อผู้ให้บริการ',
@@ -476,36 +487,46 @@ $(document).ready(function () {
           });
       });
     },
-    init() {
-      SALES.handleSearch();
+    displayMode(title) {
+      switch (title) {
+        case "Graph":
+          $(".graph").show()
+          $(".xcalendar").hide()
+          $(".xtable").hide()
+          break;
+        case "Calendar":
+          $(".graph").hide()
+          $(".xcalendar").show()
+          $(".xtable").hide()
+          break;
+        case "Table":
+          $(".graph").hide()
+          $(".xcalendar").hide()
+          $(".xtable").show()
+          break
+      }
     },
-  };
+    init() {
 
-  SALES.init();
+      SALES.handleSearch()
+      
+      $('#btnSearch').click()
 
-  let $btn = $(".btn-group").find("button");
+      let $btn = $(".btn-group").find("li")
 
-  $btn.on("click", function () {
+      $btn.on("click", function () {
+    
+        $btn.find('a').removeClass('active')
+    
+        let $me = $(this),
+            $title = $me.data("title")
+    
+        $me.find('a').addClass('active')
 
-    let $me = $(this),
-        $title = $me.data("title")
+        SALES.displayMode($title)
+      })
+    },
+  }
 
-    switch ($title) {
-      case "Graph":
-        $(".graph").show()
-        $(".xcalendar").hide()
-        $(".xtable").hide()
-        break;
-      case "Calendar":
-        $(".graph").hide()
-        $(".xcalendar").show()
-        $(".xtable").hide()
-        break;
-      case "Table":
-        $(".graph").hide()
-        $(".xcalendar").hide()
-        $(".xtable").show()
-        break;
-    }
-  });
+  SALES.init()
 });
