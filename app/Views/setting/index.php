@@ -906,8 +906,12 @@
             </div>
           </div>
         </div>
-        <!-- Model Add Branch -->
-        <!-- <div class="modal fade bd-add-branch" tabindex="-1" role="dialog" aria-labelledby="AddBranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Model Add Branch -->
+<!-- <div class="modal fade bd-add-branch" tabindex="-1" role="dialog" aria-labelledby="AddBranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -946,8 +950,8 @@
   </div>
 </div> -->
 
-        <!-- Model Edit Branch -->
-        <!-- <div class="modal fade bd-edit-branch" tabindex="-1" role="dialog" aria-labelledby="EditBranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<!-- Model Edit Branch -->
+<!-- <div class="modal fade bd-edit-branch" tabindex="-1" role="dialog" aria-labelledby="EditBranchModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -986,8 +990,8 @@
     </div>
   </div>
 </div> -->
-        <!-- Model Add Position -->
-        <!-- <div class="modal fade bd-add-position" tabindex="-1" role="dialog" aria-labelledby="AddPositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<!-- Model Add Position -->
+<!-- <div class="modal fade bd-add-position" tabindex="-1" role="dialog" aria-labelledby="AddPositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1026,8 +1030,8 @@
   </div>
 </div> -->
 
-        <!-- Model Edit Position -->
-        <!-- <div class="modal fade bd-edit-position" tabindex="-1" role="dialog" aria-labelledby="EditPositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<!-- Model Edit Position -->
+<!-- <div class="modal fade bd-edit-position" tabindex="-1" role="dialog" aria-labelledby="EditPositionModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-4">
       <div class="col-lg-12">
@@ -1067,247 +1071,247 @@
   </div>
 </div> -->
 
-        <!-- Model Edit Companies Password -->
-        <div class="modal fade" id="EditPasswordCompanies" tabindex="-1" role="dialog" aria-labelledby="EditPasswordModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-          <div class="modal-dialog">
-            <div class="modal-content p-4">
-              <div class="col-lg-12">
-                <div class="white_card card_height_100">
-                  <button type="button" class="close" aria-label="Close" onclick="closeModalEditPassword();">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <div class="white_card_header">
-                    <div class=" m-0">
-                      <div class="justify-content-center" style="display:flex;">
-                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">แก้ไขรหัสผ่าน</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <form id="editPasswordCompanies" name="editPasswordCompanies" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                    <div class="white_card_body">
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">รหัสผ่านใหม่</span>
-                        </div>
-                        <input type="password" class="form-control" id="new_password" name="new_password" placeholder="รหัสผ่านใหม่">
-                        <div class="input-group-text">
-                          <span toggle="#new_password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                        </div>
-                      </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">ยืนยันรหัสผ่านใหม่</span>
-                        </div>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="ยืนยันรหัสผ่านใหม่">
-                        <div class="input-group-text">
-                          <span toggle="#confirm_password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                        </div>
-                      </div>
-                      <div class="col-auto justify-content-end" style="display: flex;">
-                        <button type="button" class="btn btn-outline-danger m-1" onclick="closeModalEditPassword();">
-                          ยกเลิก
-                        </button>
-                        <button type="submit" class="btn btn-outline-success m-1 btnEditPasswordCompanies">
-                          ยืนยัน
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+<!-- Model Edit Companies Password -->
+<div class="modal fade" id="EditPasswordCompanies" tabindex="-1" role="dialog" aria-labelledby="EditPasswordModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100">
+          <button type="button" class="close" aria-label="Close" onclick="closeModalEditPassword();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">แก้ไขรหัสผ่าน</h3>
               </div>
             </div>
           </div>
+          <form id="editPasswordCompanies" name="editPasswordCompanies" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body">
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">รหัสผ่านใหม่</span>
+                </div>
+                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="รหัสผ่านใหม่">
+                <div class="input-group-text">
+                  <span toggle="#new_password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">ยืนยันรหัสผ่านใหม่</span>
+                </div>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="ยืนยันรหัสผ่านใหม่">
+                <div class="input-group-text">
+                  <span toggle="#confirm_password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" class="btn btn-outline-danger m-1" onclick="closeModalEditPassword();">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnEditPasswordCompanies">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <!-- Model Employee PIN POS -->
-        <div class="modal fade add-employee-pin-pos" tabindex="-1" role="dialog" aria-labelledby="AddEmployeePinPosModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-          <div class="modal-dialog">
-            <div class="modal-content p-4">
-              <div class="col-lg-12">
-                <div class="white_card card_height_100">
-                  <button type="button" class="close" aria-label="Close" onclick="closeModalAddEmployeePinPos();">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <div class="white_card_header">
-                    <div class=" m-0">
-                      <div class="justify-content-center" style="display:flex;">
-                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Employee PIN POS</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <form id="addEmployeePinPos" name="addEmployeePinPos" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                    <div class="white_card_body">
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">Name</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Name" aria-label="username_employee_pos" id="username_employee_pos" name="username_employee_pos" required />
-                      </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">New PIN</span>
-                        </div>
-                        <input type="password" class="form-control" id="new_password_employee_pos" name="new_password_employee_pos" placeholder="New Password">
-                        <div class="input-group-text">
-                          <span toggle="#new_password_employee_pos" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
-                        </div>
-                      </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">Confirm PIN</span>
-                        </div>
-                        <input type="password" class="form-control" id="confirm_password_employee_pos" name="confirm_password_employee_pos" placeholder="Confirm Password">
-                        <div class="input-group-text">
-                          <span toggle="#confirm_password_employee_pos" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
-                        </div>
-                      </div>
-                      <div class="col-auto justify-content-end" style="display: flex;">
-                        <button type="button" class="btn btn-outline-danger m-1" onclick="closeModalAddEmployeePinPos();">
-                          ยกเลิก
-                        </button>
-                        <button type="submit" class="btn btn-outline-success m-1 btnAddEmployeePinPos">
-                          ยืนยัน
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+<!-- Model Employee PIN POS -->
+<div class="modal fade add-employee-pin-pos" tabindex="-1" role="dialog" aria-labelledby="AddEmployeePinPosModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100">
+          <button type="button" class="close" aria-label="Close" onclick="closeModalAddEmployeePinPos();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Employee PIN POS</h3>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Model Employee PIN STOCK -->
-        <div class="modal fade add-employee-pin-stock" tabindex="-1" role="dialog" aria-labelledby="AddEmployeePinStockModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-          <div class="modal-dialog">
-            <div class="modal-content p-4">
-              <div class="col-lg-12">
-                <div class="white_card card_height_100">
-                  <button type="button" class="close" aria-label="Close" onclick="closeModalAddEmployeePinStock();">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <div class="white_card_header">
-                    <div class=" m-0">
-                      <div class="justify-content-center" style="display:flex;">
-                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Employee PIN STOCK</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <form id="addEmployeePinStock" name="addEmployeePinStock" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                    <div class="white_card_body">
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">Name</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Name" aria-label="username_employee_stock" id="username_employee_stock" name="username_employee_stock" required />
-                      </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">New PIN</span>
-                        </div>
-                        <input type="password" class="form-control" id="new_password_employee_stock" name="new_password_employee_stock" placeholder="New Password">
-                        <div class="input-group-text">
-                          <span toggle="#new_password_employee_stock" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
-                        </div>
-                      </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-text col-md-5">
-                          <span class id="basic-addon1">Confirm PIN</span>
-                        </div>
-                        <input type="password" class="form-control" id="confirm_password_employee_stock" name="confirm_password_employee_stock" placeholder="Confirm Password">
-                        <div class="input-group-text">
-                          <span toggle="#confirm_password_employee_stock" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
-                        </div>
-                      </div>
-                      <div class="col-auto justify-content-end" style="display: flex;">
-                        <button type="button" class="btn btn-outline-danger m-1" onclick="closeModalAddEmployeePinStock();">
-                          ยกเลิก
-                        </button>
-                        <button type="submit" class="btn btn-outline-success m-1 btnAddEmployeePinStock">
-                          ยืนยัน
-                        </button>
-                      </div>
-                    </div>
-                  </form>
+          <form id="addEmployeePinPos" name="addEmployeePinPos" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body">
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Name</span>
                 </div>
+                <input type="text" class="form-control" placeholder="Name" aria-label="username_employee_pos" id="username_employee_pos" name="username_employee_pos" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">New PIN</span>
+                </div>
+                <input type="password" class="form-control" id="new_password_employee_pos" name="new_password_employee_pos" placeholder="New Password">
+                <div class="input-group-text">
+                  <span toggle="#new_password_employee_pos" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Confirm PIN</span>
+                </div>
+                <input type="password" class="form-control" id="confirm_password_employee_pos" name="confirm_password_employee_pos" placeholder="Confirm Password">
+                <div class="input-group-text">
+                  <span toggle="#confirm_password_employee_pos" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" class="btn btn-outline-danger m-1" onclick="closeModalAddEmployeePinPos();">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnAddEmployeePinPos">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Model Employee PIN STOCK -->
+<div class="modal fade add-employee-pin-stock" tabindex="-1" role="dialog" aria-labelledby="AddEmployeePinStockModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100">
+          <button type="button" class="close" aria-label="Close" onclick="closeModalAddEmployeePinStock();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Employee PIN STOCK</h3>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Model AddMobileModal -->
-        <div class="modal fade add-mobile" tabindex="-1" role="dialog" aria-labelledby="AddMobileModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-          <div class="modal-dialog">
-            <div class="modal-content p-4">
-              <div class="col-lg-12">
-                <div class="white_card card_height_100 mb_30">
-                  <button type="button" class="close" aria-label="Close" onclick="closeModalAddMobile();">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <div class="white_card_header">
-                    <div class=" m-0">
-                      <div class="justify-content-center" style="display:flex;">
-                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Mobile</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <form id="addMobile" name="addMobile" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                    <div class="white_card_body" style="margin-bottom: -35px;">
-                      <div class="input-group mb-3">
-                        <div class="input-group-text">
-                          <span class id="basic-addon1">Device Id</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Device Id" aria-label="device_id" id="device_id" name="device_id" required />
-                      </div>
-                      <div class="col-auto justify-content-end" style="display: flex;">
-                        <button type="button" onclick="closeModalAddMobile();" class="btn btn-outline-danger m-1">
-                          ยกเลิก
-                        </button>
-                        <button type="submit" class="btn btn-outline-success m-1 btnAddMobile">
-                          ยืนยัน
-                        </button>
-                      </div>
-                    </div>
-                  </form>
+          <form id="addEmployeePinStock" name="addEmployeePinStock" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body">
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Name</span>
                 </div>
+                <input type="text" class="form-control" placeholder="Name" aria-label="username_employee_stock" id="username_employee_stock" name="username_employee_stock" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">New PIN</span>
+                </div>
+                <input type="password" class="form-control" id="new_password_employee_stock" name="new_password_employee_stock" placeholder="New Password">
+                <div class="input-group-text">
+                  <span toggle="#new_password_employee_stock" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text col-md-5">
+                  <span class id="basic-addon1">Confirm PIN</span>
+                </div>
+                <input type="password" class="form-control" id="confirm_password_employee_stock" name="confirm_password_employee_stock" placeholder="Confirm Password">
+                <div class="input-group-text">
+                  <span toggle="#confirm_password_employee_stock" class="fa fa-fw fa-eye field-icon toggle-password tx-primary"></span>
+                </div>
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" class="btn btn-outline-danger m-1" onclick="closeModalAddEmployeePinStock();">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnAddEmployeePinStock">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Model AddMobileModal -->
+<div class="modal fade add-mobile" tabindex="-1" role="dialog" aria-labelledby="AddMobileModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100 mb_30">
+          <button type="button" class="close" aria-label="Close" onclick="closeModalAddMobile();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Mobile</h3>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Model AddPaymentTypeModal -->
-        <div class="modal fade add-payment-type" tabindex="-1" role="dialog" aria-labelledby="AddPaymentTypeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-          <div class="modal-dialog">
-            <div class="modal-content p-4">
-              <div class="col-lg-12">
-                <div class="white_card card_height_100 mb_30">
-                  <button type="button" class="close" aria-label="Close" onclick="closeModalAddPaymentType();">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <div class="white_card_header">
-                    <div class=" m-0">
-                      <div class="justify-content-center" style="display:flex;">
-                        <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Payment Type</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <form id="addPaymentType" name="addPaymentType" action="#" method="POST" enctype="multipart/form-data" novalidate>
-                    <div class="white_card_body" style="margin-bottom: -35px;">
-                      <div class="input-group mb-3">
-                        <div class="input-group-text">
-                          <span class id="basic-addon1">Type</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Type" aria-label="type" id="type" name="type" required />
-                      </div>
-                      <div class="col-auto justify-content-end" style="display: flex;">
-                        <button type="button" onclick="closeModalAddPaymentType();" class="btn btn-outline-danger m-1">
-                          ยกเลิก
-                        </button>
-                        <button type="submit" class="btn btn-outline-success m-1 btnAddPaymentType">
-                          ยืนยัน
-                        </button>
-                      </div>
-                    </div>
-                  </form>
+          <form id="addMobile" name="addMobile" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body" style="margin-bottom: -35px;">
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">Device Id</span>
                 </div>
+                <input type="text" class="form-control" placeholder="Device Id" aria-label="device_id" id="device_id" name="device_id" required />
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" onclick="closeModalAddMobile();" class="btn btn-outline-danger m-1">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnAddMobile">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Model AddPaymentTypeModal -->
+<div class="modal fade add-payment-type" tabindex="-1" role="dialog" aria-labelledby="AddPaymentTypeModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <div class="col-lg-12">
+        <div class="white_card card_height_100 mb_30">
+          <button type="button" class="close" aria-label="Close" onclick="closeModalAddPaymentType();">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="white_card_header">
+            <div class=" m-0">
+              <div class="justify-content-center" style="display:flex;">
+                <h3 class="m-0" style="font-family: mulish,sans-serif; font-weight: 700; font-size: 19px; color: #474d58;">เพิ่ม Payment Type</h3>
               </div>
             </div>
           </div>
+          <form id="addPaymentType" name="addPaymentType" action="#" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="white_card_body" style="margin-bottom: -35px;">
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">Type</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Type" aria-label="type" id="type" name="type" required />
+              </div>
+              <div class="col-auto justify-content-end" style="display: flex;">
+                <button type="button" onclick="closeModalAddPaymentType();" class="btn btn-outline-danger m-1">
+                  ยกเลิก
+                </button>
+                <button type="submit" class="btn btn-outline-success m-1 btnAddPaymentType">
+                  ยืนยัน
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
