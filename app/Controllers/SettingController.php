@@ -502,9 +502,9 @@ class SettingController extends BaseController
         $symbolValueMoney = '';
 
         switch($valueMoney) {
-            case 'บาท': $symbolValueMoney = '฿'; break;
-            case 'ดอลล่า': $symbolValueMoney = '$'; break;
-            case 'กีบ': $symbolValueMoney = 'กีบ'; break;
+            case 'THB': $symbolValueMoney = '฿'; break;
+            case 'USD': $symbolValueMoney = '$'; break;
+            case 'LAK': $symbolValueMoney = 'กีบ'; break;
         }
 
         try {

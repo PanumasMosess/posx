@@ -356,9 +356,9 @@
                             </div>
                             <select class="form-select" name="valueMoney" id="valueMoney">
                               <option value="">--- เลือก ---</option>
-                              <option value="บาท">บาท (฿)</option>
-                              <option value="ดอลล่า">ดอลล่า ($)</option>
-                              <option value="กีบ">กีบ</option>
+                              <option value="THB">บาท (฿)</option>
+                              <option value="USD">ดอลล่า ($)</option>
+                              <option value="LAK">กีบ</option>
                             </select>
                           </div>
                         </div>
