@@ -278,9 +278,6 @@
                                         data: array_print_log,
                                     },
                                     success: function(res) {
-                                        // การสำเร็จ
-                                        //clear after add
-                                        cancleAllTable();
                                         localStorage.setItem("isCallNewOrder", "yes");
 
                                         printPDF(res.message_name, res.message_printer);
