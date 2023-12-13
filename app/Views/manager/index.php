@@ -36,6 +36,7 @@
                             <th style="width: 50px;" scope="col">#</th>
                             <th style="width: 200px;" scope="col">หมวดสินค้า</th>
                             <th style="width: 200px;" scope="col">หน่วยสินค้า</th>
+                            <th style="width: 100px;" scope="col">Printer Name</th>
                             <th style="width: 150px;" scope="col">สร้างขึ้นเมื่อ</th>
                             <th style="width: 150px;" scope="col">แก้ไขล่าสุด</th>
                             <th style="width: 100px;" scope="col">จัดการ</th>
@@ -109,6 +110,12 @@
                 </div>
                 <input type="text" class="form-control" placeholder="หน่วยสินค้า" aria-label="product unit" id="productunit" name="productunit" required />
               </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">Printer Name</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Printer Name" aria-label="printer_name" id="printer_name" name="printer_name" required />
+              </div>
               <div class="col-auto justify-content-end" style="display: flex;">
                 <button type="button" onclick="closeModalAddGroupProduct();" class="btn btn-outline-danger m-1">
                   ยกเลิก
@@ -154,6 +161,12 @@
                   <span class id="basic-addon1">หน่วยสินค้า</span>
                 </div>
                 <input type="text" class="form-control" placeholder="หน่วยสินค้า" aria-label="product unit" id="productunit" name="productunit" required />
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-text">
+                  <span class id="basic-addon1">Printer Name</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Printer Name" aria-label="printer_name" id="printer_name" name="printer_name" required />
               </div>
               <div class="col-auto justify-content-end" style="display: flex;">
                 <button type="button" class="btn btn-outline-danger m-1" aria-label="Close" data-bs-dismiss="modal">

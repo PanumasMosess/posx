@@ -38,20 +38,8 @@
                                 <div class="row mb-3">
                                     <div class="col-md-3">
                                         <select id="query-type" class="form-control">
-
-                                            <!-- <option value="0">ยอดขาย</option>
-                                            <option value="1">บิลขาย</option>
-                                            <option value="2">สินค้า</option>
-                                            <option value="11">ยอดสั่ง ตามช่วงเวลา</option>
-                                            <option value="6">รายจ่าย</option>
-                                            <option value="8">สต็อก</option>
-                                            <option value="10">ยกเลิกสินค้า</option>
-                                            <option value="12">Activity (ประวัติการใช้งาน POS) </option>
-                                            <option value="13">รายงานแก้ราคาสินค้า </option>
-                                            <option value="14">OpenMenu </option> -->
-
                                             <option value="Sales" selected>ยอดขาย</option>
-                                            <option value="BillSales" disabled>บิลขาย</option>
+                                            <option value="BillSales">บิลขาย</option>
                                             <option value="Product" disabled>สินค้า</option>
                                             <option value="OrderTotal" disabled>ยอดสั่ง ตามช่วงเวลา</option>
                                             <option value="Expenses" disabled>รายจ่าย</option>
@@ -101,118 +89,41 @@
                 <div class="col-md-12" style="margin-bottom: 25px;">
                     <div style="margin-left: 20px;"><label class="  control-label " style="margin-right: 15px; font-size: 16px;">View Mode</label>
                         <div class="btn-group">
-                            <button type="button" data-title="Graph" class="btn btn-default"><i class="fa fa-bar-chart-o"></i> Graph</button>
-                            <button type="button" data-title="Calendar" class="btn btn-default"><i class="fa fa-calendar"></i> Calendar</button>
-                            <button type="button" data-title="Table" class="btn btn-default"><i class="fa fa-list-ol"></i> Table</button>
+                            <ul class="nav nav-pills custom_bootstrap_nav">
+                                <li class="nav-item" data-title="Graph">
+                                    <a class="nav-link" href="#" data-title="Graph"><i class="fa fa-bar-chart-o"></i> Graph</a>
+                                </li>
+                                <li class="nav-item" data-title="Calendar">
+                                    <a class="nav-link" href="#" data-title="Calendar"><i class="fa fa-calendar"></i> Calendar</a>
+                                </li>
+                                <li class="nav-item" data-title="Table">
+                                    <a class="nav-link active" href="#" data-title="Table"><i class="fa fa-list-ol"></i> Table</a>
+                                </li>
+                            </ul>
                         </div>
-                        <button type="button" class="btn btn-link"><i class="fa fa-save"></i> Export To Excel </button>
                         <h4 data-bind="html: $data.displayText, style: { visibility: ($data.viewMode() == 'calendar' || $data.viewMode() == 'table') ? '' : 'hidden' } " style="display: inline; margin-bottom: 25px; margin-left: 25px;"></h4>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div id="container" class="graph" data-bind="visible: viewMode() == 'graph' " style="width: 100%; height: 400px; display: block;" data-highcharts-chart="0"></div>
+                    <div id="container" class="graph" data-bind="visible: viewMode() == 'graph' " style="width: 100%; height: 400px; display: none;" data-highcharts-chart="0"></div>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="row xcalendar" style="display: none;">
+                <div class="col-md-12 xcalendar" style="display: none;">
+                    <div class="row">
                         <div class="col-md-9    col-lg-offset-1 col-lg-7">
                             <div id="container2" data-bind="visible: viewMode() == 'calendar' " style="display: block;" class="fc fc-ltr"></div>
                         </div>
                         <div class="col-md-3">
                             <div class="sale-summary" data-bind="visible: viewMode() == 'calendar' ">
-                                <button type="button" v-if="!viewAll" v-on:click="back" class="btn blue btn-block"><i class="fa fa-arrow-circle-o-left"></i> Show All </button>
-
-                                <ul class="list-unstyled" v-if="list.length >0">
-
-                                    <li class="section">
-                                        <span v-if="!viewAll">{{selectedDate.Date}}</span>
-                                        <span v-if="viewAll">{{displayRange}}</span>
-                                    </li>
-                                    <li>
-                                        <span class="sale-info">
-                                            <span>GrandTotal</span>
-                                        </span>
-                                        <span class="sale-num" style="font-weight: bold">
-                                            <currency :amount="selectedDate.GrandTotal"></currency>
-                                        </span>
-                                    </li>
-                                    <li class="section">
-                                        <span>Summary</span>
-                                    </li>
-                                    <li>
-                                        <span class="sale-info">
-                                            <span>Bills</span>
-                                        </span>
-                                        <span class="sale-num"> {{selectedDate.Bills}}</span>
-                                    </li>
-                                    <li>
-                                        <span class="sale-info">
-                                            <span>Bill (avg.)</span>
-                                        </span>
-                                        <span class="sale-num">
-                                            <currency :amount="selectedDate.GrandTotal/ selectedDate.Bills"></currency>
-                                        </span>
-                                    </li>
-
-                                    <li class="section">
-                                        <span>Payment Type</span>
-                                    </li>
-
-
-                                    <li v-for="($payment,  $key)  in selectedDate.PaymentList">
-                                        <span class="sale-info">
-                                            <span v-if="$payment.amount_free" style="margin-left: 10px"> Ent.</span>
-
-                                            <span>{{$payment.name}}</span>
-                                        </span>
-                                        <span class="sale-num">
-
-                                            <currency v-if="$payment.amount" :amount="$payment.amount"></currency>
-                                            <currency v-if="$payment.amount_free" style="text-decoration: line-through" :amount="$payment.amount_free"></currency>
-
-                                        </span>
-
-                                    </li>
-
-                                    <li class="section">
-                                        <span>Detail</span>
-                                    </li>
-
-                                    <li v-if="selectedDate.SubTotal">
-                                        <span class="sale-info">
-                                            <span>Total</span>
-                                        </span>
-                                        <span class="sale-num">
-                                            <currency :amount="selectedDate.SubTotal"></currency>
-                                        </span>
-                                    </li>
-
-                                    <li v-if="selectedDate.ItemDiscount">
-                                        <span class="sale-info">
-                                            <span>Item Discount</span>
-                                        </span>
-                                        <span class="sale-num">
-                                            <currency :amount="-selectedDate.ItemDiscount"></currency>
-                                        </span>
-                                    </li>
-
-                                    <li v-if="selectedDate.Discount">
-                                        <span class="sale-info">
-                                            <span>Discount</span>
-                                        </span>
-                                        <span class="sale-num">
-                                            <currency :amount="-selectedDate.Discount"></currency>
-                                        </span>
-                                    </li>
-                                </ul>
+                                <!-- <button type="button" v-if="!viewAll" v-on:click="back" class="btn blue btn-block"><i class="fa fa-arrow-circle-o-left"></i> Show All </button> -->
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-            
+
             <div id="vue-income-view2-summary" class="row" style="display:none;"></div>
         </div>
 
@@ -229,36 +140,28 @@
                                         Date
                                     </th>
                                     <th>
-                                        <div>(<currency :amount="parseInt(all.GrandTotal / all.Bills)"> </currency>)</div>
-                                        <div><span>{{all.Bills}}</span></div>
+                                        <div>(<currency id="thGrandTotalWithBills"> </currency>)</div>
+                                        <div><span id="thBills"></span></div>
                                         Bills (Avg.)
                                     </th>
                                     <th style="color: blue; font-weight: bold">
                                         <div>
-                                            <currency :amount="all.GrandTotal"> </currency>
+                                            <currency id="thGrandTotal"> </currency>
                                         </div>
                                         GrandTotal
                                     </th>
-                                    <th>
-                                        <div v-for="($payment,  $key)  in all.PaymentList">
-                                            <span v-if="$payment.amount_free" style="margin-left: 10px">Ent.</span>
-                                            <span>{{$payment.name}}</span>
-                                            <span> : </span>
-                                            <currency v-if="$payment.amount" :amount="$payment.amount"></currency>
-                                            <currency v-if="$payment.amount_free" style="text-decoration: line-through" :amount="$payment.amount_free"></currency>
-                                            <span style="margin-left: 10px">({{$payment.bills}})</span>
-                                        </div>
+                                    <th id="thPaymentList">
                                         Payment Type
                                     </th>
                                     <th>
                                         <div>
-                                            <currency :amount="all.SubTotal"> </currency>
+                                            <currency id="thSubTotal"> </currency>
                                         </div>
                                         Total
                                     </th>
-                                    <th v-if="all['Discount']">
+                                    <th>
                                         <div>
-                                            <currency :amount="-all.Discount"> </currency>
+                                            <currency id="thDiscount"> </currency>
                                         </div>
                                         Discount
                                     </th>
