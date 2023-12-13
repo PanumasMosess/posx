@@ -132,11 +132,19 @@ class PdfController extends BaseController
         ]);
     }
 
-    public function pdf_BillOrder($order_code = null)
+    public function pdf_BillOrder()
     {
+        $datas = $_POST["data"];
+        $customer_code = '';
+        $printer_name = '';
+
+        foreach ($datas as $data) {
+            $customer_code = $data['customer_code'];
+            $printer_name = $data['printer_name'];
+        }
 
         $this->OrderModel = new \App\Models\OrderModel();
-        $data['oeders'] = $this->OrderModel->getOrderPrintLogByOrderCustomerCode($order_code);
+        $data['oeders'] = $this->OrderModel->getOrderPrintLogByOrderCustomerCode($customer_code, $printer_name);
         $data['table'] = $this->OrderModel->getTableByTableCode($data['oeders'][0]->order_table_code);
         $number_column = 72;
         $countData = count($data['oeders']);
@@ -219,13 +227,13 @@ class PdfController extends BaseController
         // $pdfData = $pdf->Output('Order.pdf', 'S'); // แปลง PDF ให้เป็นข้อมูลในรูปแบบของสตริง
         // echo base64_encode($pdfData); // ส่ง PDF ในรูปแบบของข้อมูล base64
 
-        $priter_name = $this->information->get_printer()->printer_order;
+        // $priter_name = $this->information->get_printer()->printer_order;
         // read_pdf($name, $priter_name);
         return $this->response->setJSON([
             'status' => 200,
             'error' => false,
             'message_name' => $name,
-            'message_printer' => $priter_name,
+            'message_printer' => $printer_name,
         ]);
     }
 
@@ -437,8 +445,6 @@ class PdfController extends BaseController
             'message_name' => $name,
             'message_printer' => $priter_name,
         ]);
-
-
     }
 
     public function pdf_QR()
@@ -454,8 +460,7 @@ class PdfController extends BaseController
 
         $table_name = $this->OrderModel->getStatusPrintMoblie();
         $data = "";
-        if($table_name)
-        {
+        if ($table_name) {
             $data = $this->OrderModel->getPrintBuyTableCode($table_name->order_customer_table_code);
         }
 

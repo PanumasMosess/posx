@@ -491,6 +491,7 @@ class OrderModel
         order.group_id , 
         order.companies_id ,
         group_product.name,
+        group_product.printer_name,
         order.order_promotion,
         order.order_pcs
        ");
@@ -605,7 +606,8 @@ class OrderModel
         a.companies_id ,
         a.order_promotion,
         a.order_pcs,
-        c.`name`
+        c.`name`,
+        c.printer_name
         from `order` a 
         left join group_product c on  
         a.group_id = c.id
@@ -1050,21 +1052,22 @@ class OrderModel
         return $builder->getRow();
     }
 
-    public function getOrderPrintLogByOrderCustomerCode($code)
+    public function getOrderPrintLogByOrderCustomerCode($code, $printer_name)
     {
         $companies_id = session()->get('companies_id');
-        $sql = "SELECT * FROM order_print_log WHERE order_customer_code = '$code' AND companies_id = $companies_id AND order_print_status = 'WAIT_PRINT'";
+        $sql = "SELECT * FROM order_print_log WHERE order_customer_code = '$code' AND companies_id = $companies_id AND order_print_status = 'WAIT_PRINT' AND printer_name = '$printer_name'";
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
 
-    public function updateOrderPrintLogByOrderCustomerCode($id, $data)
+    public function updateOrderPrintLogByOrderCustomerCode($id, $data, $printer)
     {
 
         $builder = $this->db->table('order_print_log');
 
         $builder->where('order_customer_code', $id);
         $builder->where('order_print_status', 'WAIT_PRINT'); // เพิ่มเงื่อนไข WHERE ใหม่
+        $builder->where('printer_name', $printer);
 
         // ทำการอัปเดตข้อมูล
         return $builder->update($data);
@@ -1138,11 +1141,13 @@ class OrderModel
         return $builder->update($data);
     }
 
-    public function getDataPrintterName()
+    public function getDataPrintterName($order_code)
     {
         $companies_id = session()->get('companies_id');
 
-        $sql = "SELECT printer_name FROM group_product where companies_id = '$companies_id'  group by printer_name";
+        $sql = "SELECT printer_name FROM order_print_log where companies_id = '$companies_id' 
+        and order_customer_code = '$order_code' and order_print_status = 'WAIT_PRINT' 
+        group by printer_name";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();

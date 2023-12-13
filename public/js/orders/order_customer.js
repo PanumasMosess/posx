@@ -313,6 +313,10 @@ function getOrderCard() {
         {
           data: "order_price",
         },
+        {
+          data: "printer_name",
+          visible: false,
+        },
       ],
       columnDefs: [
         {
@@ -562,6 +566,7 @@ function orderConfirm() {
                 array_select_confirm[i].order_discount_type_by_order,
               order_discount_by_order:
                 array_select_confirm[i].order_discount_by_order,
+              order_printer_name: array_select_confirm[i].printer_name,
             },
           ]),
             array_customer_order.push(arr_object_customer_order_temp);
@@ -587,32 +592,51 @@ function orderConfirm() {
 
                 $.ajax({
                   url:
-                    `${serverUrl}/pdf_BillOrder/` +
+                    `${serverUrl}/order/check_printer_order/` +
                     response.order_customer_code,
                   method: "get",
-                  success: function (res) {
-                    // การสำเร็จ
-                    //clear after add
-                    array_customer_order = [];
-                    array_select_confirm = [];
-                    cancleAllTable();
-                    localStorage.setItem("isCallNewOrder", "yes");
+                  success: function (res_print_log) {
+                    for (var i = 0; i < res_print_log.data.length; i++) {
+                      array_print_log = [
+                        {
+                          customer_code: response.order_customer_code,
+                          printer_name: res_print_log.data[i].printer_name,
+                        },
+                      ];
 
-                    printPDF(res.message_name, res.message_printer);
+                      $.ajax({
+                        url: `${serverUrl}/pdf_BillOrder`,
+                        method: "post",
+                        data: {
+                          data: array_print_log,
+                        },
+                        success: function (res) {
+                          // การสำเร็จ
+                          //clear after add
+                          array_customer_order = [];
+                          array_select_confirm = [];
+                          cancleAllTable();
+                          localStorage.setItem("isCallNewOrder", "yes");
 
-                    $.ajax({
-                      url:
-                        `${serverUrl}/order/update_order_print_log/` +
-                        response.order_customer_code,
-                      method: "get",
-                      success: function (res) {
-                        // การสำเร็จ
-                      },
-                      error: function (error) {
-                        // เกิดข้อผิดพลาด
-                      },
-                    });
-                    
+                          printPDF(res.message_name, res.message_printer);
+
+                          $.ajax({
+                            url: `${serverUrl}/order/update_order_print_log`,
+                            method: "post",
+                            data: { data: array_print_log },
+                            success: function (res) {
+                              // การสำเร็จ
+                            },
+                            error: function (error) {
+                              // เกิดข้อผิดพลาด
+                            },
+                          });
+                        },
+                        error: function (error) {
+                          // เกิดข้อผิดพลาด
+                        },
+                      });
+                    }
                   },
                   error: function (error) {
                     // เกิดข้อผิดพลาด
@@ -769,7 +793,11 @@ function calService() {
       number_ = $("#num_service").val();
       service_total = parseFloat(number_);
       $("#service_price").html(
-        '<span id="service_price"> ' + number_ + " " + window.symbolValueMoney +  "</span>"
+        '<span id="service_price"> ' +
+          number_ +
+          " " +
+          window.symbolValueMoney +
+          "</span>"
       );
       summaryText();
     }
@@ -828,7 +856,11 @@ function calDiscountAll() {
       number_ = $("#num_adddiscountAll").val();
       discount_total = parseFloat(number_);
       $("#discount_price").html(
-        '<span id="discount_price"> ' + number_ + " " + window.symbolValueMoney +  "</span>"
+        '<span id="discount_price"> ' +
+          number_ +
+          " " +
+          window.symbolValueMoney +
+          "</span>"
       );
       summaryText();
     }
@@ -926,7 +958,13 @@ function calvat() {
       let number_ = 0;
       number_ = $("#num_vat").val();
       vat_total = parseFloat(number_);
-      $("#vat_price").html('<span id="vat_price"> ' + number_ + " " + window.symbolValueMoney +  "</span>");
+      $("#vat_price").html(
+        '<span id="vat_price"> ' +
+          number_ +
+          " " +
+          window.symbolValueMoney +
+          "</span>"
+      );
       summaryText();
     }
   } else {
