@@ -280,8 +280,6 @@
                                     success: function(res) {
                                         // การสำเร็จ
                                         //clear after add
-                                        array_customer_order = [];
-                                        array_select_confirm = [];
                                         cancleAllTable();
                                         localStorage.setItem("isCallNewOrder", "yes");
 
