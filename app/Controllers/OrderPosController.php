@@ -547,6 +547,7 @@ class OrderPosController extends BaseController
                         'order_customer_pcs'  => $data[0]['order_customer_pcs'],
                         'order_print_status'  => 'WAIT_PRINT',
                         'order_comment' => $data[0]['order_des'],
+                        'printer_name' => $data[0]['order_printer_name'],
                         'created_at'  => $buffer_datetime,
                         'created_by'  => session()->get('username'),
                         'companies_id'  => session()->get('companies_id')
@@ -659,6 +660,7 @@ class OrderPosController extends BaseController
                     'order_customer_pcs'  => $data[0]['order_customer_pcs'],
                     'order_print_status'  => 'WAIT_PRINT',
                     'order_comment' => $data[0]['order_des'],
+                    'printer_name' => $data[0]['order_printer_name'],
                     'created_at'  => $buffer_datetime,
                     'created_by'  => session()->get('username'),
                     'companies_id'  => session()->get('companies_id')
@@ -1210,15 +1212,21 @@ class OrderPosController extends BaseController
         }
     }
 
-    public function updateOrderPrintLog($id)
+    public function updateOrderPrintLog()
     {
         $this->OrderModel = new \App\Models\OrderModel();
+        
+        $datas = $_POST["data"];
+        foreach ($datas as $data) {
+            $customer_code = $data['customer_code'];
+            $printer_name = $data['printer_name'];
+        }
 
         // HANDLE REQUEST
-        $update = $this->OrderModel->updateOrderPrintLogByOrderCustomerCode($id, [
+        $update = $this->OrderModel->updateOrderPrintLogByOrderCustomerCode($customer_code, [
             'order_print_status' => 'SUCCESS_PRINT',
             'updated_at' => date('Y-m-d H:i:s')
-        ]);
+        ], $printer_name);
 
         if ($update) {
             $status = 200;
@@ -1268,5 +1276,16 @@ class OrderPosController extends BaseController
                 'message' => 'ยกเลิกรายการไม่สำเร็จ'
             ]);
         }
+    }
+
+    public function fetchLogPrinter($customer_code = null)
+    {
+        $printer_data = $this->OrderModel->getDataPrintterName($customer_code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $printer_data
+        ]);
     }
 }

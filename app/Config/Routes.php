@@ -43,7 +43,7 @@ $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'employeeAuth']);
 $routes->get('pdf_bill/(:any)', 'PdfController::pdf_Bill/$1', ['filter' => 'employeeAuth']);
 $routes->get('pdf_receipt/(:any)', 'PdfController::pdf_Receipt/$1', ['filter' => 'employeeAuth']);
 $routes->get('unlink_pdf/(:any)', 'PdfController::unlink_pdf/$1');
-$routes->get('pdf_BillOrder/(:any)', 'PdfController::pdf_BillOrder/$1', ['filter' => 'employeeAuth']);
+$routes->post('pdf_BillOrder', 'PdfController::pdf_BillOrder', ['filter' => 'employeeAuth']);
 $routes->get('pdf_CancelledBillOrder/(:any)', 'PdfController::pdf_CancelledBillOrder/$1', ['filter' => 'employeeAuth']);  
 $routes->get('get_print_mobile', 'PdfController::load_mobile_print', ['filter' => 'employeeAuth']);  
 
@@ -228,9 +228,10 @@ $routes->group(
         $routes->get('order_summary_update', 'OrderPosController::orderSummaryUpdate');
         $routes->post('updatePcsSummary', 'OrderPosController::updatePcsSummary');
         $routes->post('delete_list_order_customer', 'OrderPosController::deleteListOrderCustomer');
-        $routes->get('update_order_print_log/(:any)', 'OrderPosController::updateOrderPrintLog/$1');
+        $routes->post('update_order_print_log', 'OrderPosController::updateOrderPrintLog');
         $routes->get('getTypePlayMent', 'OrderPosController::getTypePlayMent');  
-        $routes->get('update_order_print_mobile/(:any)', 'OrderPosController::update_order_print_mobile/$1');
+        $routes->get('update_order_print_mobile/(:any)', 'OrderPosController::update_order_print_mobile/$1');  
+        $routes->get('check_printer_order/(:any)', 'OrderPosController::fetchLogPrinter/$1');
 
     /*
     * --------------------------------------------------------------------
