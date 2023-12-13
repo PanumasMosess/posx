@@ -519,6 +519,7 @@ class OrderPosController extends BaseController
                         'order_customer_pcs'  => $data[0]['order_customer_pcs'],
                         'order_print_status'  => 'WAIT_PRINT',
                         'order_comment' => $data[0]['order_des'],
+                        'printer_name' => $data[0]['order_printer_name'],
                         'created_at'  => $buffer_datetime,
                         'created_by'  => session()->get('username'),
                         'companies_id'  => session()->get('companies_id')
