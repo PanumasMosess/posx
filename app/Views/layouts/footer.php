@@ -259,42 +259,48 @@
             method: "get",
             success: function(res) {
                 if (res.data) {
-                    console.log(res.data.order_customer_code);
+                    // console.log(res.data.order_customer_code);
                     $.ajax({
-                        url: `${serverUrl}/pdf_BillOrder/` +
+                        url: `${serverUrl}/order/check_printer_order/` +
                             res.data.order_customer_code,
                         method: "get",
-                        success: function(res_) {
-                            // การสำเร็จ
-                            //clear after add
-                            localStorage.setItem("isCallNewOrder", "yes");
+                        success: function(res_print_log) {
+                            for (var i = 0; i < res_print_log.data.length; i++) {
+                                array_print_log = [{
+                                    customer_code: res.data.order_customer_code,
+                                    printer_name: res_print_log.data[i].printer_name,
+                                }, ];
 
-                            printPDF(res_.message_name, res_.message_printer);
+                                $.ajax({
+                                    url: `${serverUrl}/pdf_BillOrder`,
+                                    method: "post",
+                                    data: {
+                                        data: array_print_log,
+                                    },
+                                    success: function(res) {
+                                        localStorage.setItem("isCallNewOrder", "yes");
 
-                            $.ajax({
-                                url: `${serverUrl}/order/update_order_print_log/` +
-                                    res.data.order_customer_code,
-                                method: "get",
-                                success: function(res_print) {
-                                    // การสำเร็จ
-                                    $.ajax({
-                                        url: `${serverUrl}/order/update_order_print_mobile/` +
-                                            res.data.order_table_code,
-                                        method: "get",
-                                        success: function(res_print_mobile) {
-                                            // การสำเร็จ
+                                        printPDF(res.message_name, res.message_printer);
 
-                                        },
-                                        error: function(error) {
-                                            // เกิดข้อผิดพลาด
-                                        },
-                                    });
-                                },
-                                error: function(error) {
-                                    // เกิดข้อผิดพลาด
-                                },
-                            });
-
+                                        $.ajax({
+                                            url: `${serverUrl}/order/update_order_print_log`,
+                                            method: "post",
+                                            data: {
+                                                data: array_print_log
+                                            },
+                                            success: function(res) {
+                                                // การสำเร็จ
+                                            },
+                                            error: function(error) {
+                                                // เกิดข้อผิดพลาด
+                                            },
+                                        });
+                                    },
+                                    error: function(error) {
+                                        // เกิดข้อผิดพลาด
+                                    },
+                                });
+                            }
                         },
                         error: function(error) {
                             // เกิดข้อผิดพลาด
