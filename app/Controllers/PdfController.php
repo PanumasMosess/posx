@@ -100,7 +100,7 @@ class PdfController extends BaseController
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
 
-        $pdf->SetFont('thsarabun', '', 13, '', true);
+        $pdf->SetFont('boonlight', '', 13, '', true);
 
         // Add a page
         $pdf->AddPage();
@@ -206,7 +206,7 @@ class PdfController extends BaseController
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
 
-        $pdf->SetFont('thsarabun', '', 13, '', true);
+        $pdf->SetFont('boonlight', '', 13, '', true);
 
         // Add a page
         $pdf->AddPage();
@@ -295,7 +295,7 @@ class PdfController extends BaseController
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
 
-        // $pdf->SetFont('thsarabun', '', 13, '', true);
+        // $pdf->SetFont('boonlight', '', 13, '', true);
 
         // Add a page
         $pdf->AddPage();
@@ -305,7 +305,7 @@ class PdfController extends BaseController
         $pdf->Rotate(45, 40, 50); // Rotate by 45 degrees
 
         // สร้างลายน้ำเป็นตัวหนังสือ
-        $pdf->SetFont('thsarabun', 'B', 60);
+        $pdf->SetFont('boonlight', 'B', 60);
         $pdf->SetTextColor(220, 220, 220); // สีเทาหรือสีลายน้ำ
         $pdf->Text(5, 40, 'Cancelled'); // ลายน้ำ
 
@@ -313,7 +313,7 @@ class PdfController extends BaseController
         $pdf->StopTransform();
 
         // สร้างข้อมูลและเปลี่ยนสีข้อมูล
-        $pdf->SetFont('thsarabun', '', 13, true);
+        $pdf->SetFont('boonlight', '', 13, true);
         $pdf->SetTextColor(0, 0, 0); // สีข้อมูล
         // $pdf->Text(25, 80, 'ข้อมูลที่คุณต้องการแสดง'); // ข้อมูล
 
@@ -415,7 +415,7 @@ class PdfController extends BaseController
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
 
-        $pdf->SetFont('thsarabun', '', 13, '', true);
+        $pdf->SetFont('boonlight', '', 13, '', true);
 
         // Add a page
         $pdf->AddPage();
