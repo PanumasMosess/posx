@@ -856,13 +856,13 @@
                         </div>
                         <div class="white_card_body">
                           <input id='id_printer' type="hidden" />
-                          <div class="input-group mb-3">
+                          <!-- <div class="input-group mb-3">
                             <div class="input-group-text">
                               <div class="">Printer Order</div>
                             </div>
                             <input type="text" class="form-control" id="printer_order" placeholder="printer name for print order">
                             <button type="button" class="btn btn-primary f_s_14" onclick="printer_order();"><i class="ti-plus"></i> Add</button>
-                          </div>
+                          </div> -->
                           <div class="input-group mb-3">
                             <div class="input-group-text">
                               <div class="">Printer Bill</div>
