@@ -100,7 +100,7 @@ class PdfController extends BaseController
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
 
-        $pdf->SetFont('boonlight', '', 13, '', true);
+        $pdf->SetFont('boonlight', '', 11, '', true);
 
         // Add a page
         $pdf->AddPage();
@@ -206,7 +206,7 @@ class PdfController extends BaseController
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
 
-        $pdf->SetFont('boonlight', '', 13, '', true);
+        $pdf->SetFont('boonlight', '', 11, '', true);
 
         // Add a page
         $pdf->AddPage();
@@ -313,7 +313,7 @@ class PdfController extends BaseController
         $pdf->StopTransform();
 
         // สร้างข้อมูลและเปลี่ยนสีข้อมูล
-        $pdf->SetFont('boonlight', '', 13, true);
+        $pdf->SetFont('boonlight', '', 11, true);
         $pdf->SetTextColor(0, 0, 0); // สีข้อมูล
         // $pdf->Text(25, 80, 'ข้อมูลที่คุณต้องการแสดง'); // ข้อมูล
 
@@ -415,7 +415,7 @@ class PdfController extends BaseController
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
 
-        $pdf->SetFont('boonlight', '', 13, '', true);
+        $pdf->SetFont('boonlight', '', 11, '', true);
 
         // Add a page
         $pdf->AddPage();

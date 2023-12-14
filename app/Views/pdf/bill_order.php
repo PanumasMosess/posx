@@ -12,23 +12,23 @@
             <th width="90%"><?php echo session()->get('username'); ?></th>
         </tr>
         <tr>
+            <th style="font-size: 2px;"></th>
+        </tr>
+        <tr>
+            <th width="99%" style="text-align: center;font-size: 23px;font-weight: bold;"><?php echo $table->table_name ?></th>
+        </tr>
+        <tr>
+            <th width="99%" style="font-size: 2px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
+        </tr>
+        <tr>
             <th style="font-size: 3px;"></th>
-        </tr>
-        <tr>
-            <th width="99%" style="text-align: center;font-size: 25px;font-weight: bold;"><?php echo $table->table_name ?></th>
-        </tr>
-        <tr>
-            <th width="99%" style="font-size: 3px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
-        </tr>
-        <tr>
-            <th style="font-size: 5px;"></th>
         </tr>
         <?php foreach ($oeders as $oeder) {
             if ($oeder->order_comment != '') {
                 $comment = '<tr>
                             <th width="10%"></th>
-                            <th width="3%" style="font-size: 18px;">-</th>
-                            <th width="86%" style="font-size: 18px;">' . $oeder->order_comment . '</th>
+                            <th width="3%" style="font-size: 16px;">-</th>
+                            <th width="86%" style="font-size: 16px;">' . $oeder->order_comment . '</th>
                         </tr>';
             } else {
                 $comment = '';
@@ -36,8 +36,8 @@
         ?>
 
             <tr>
-                <th width="10%" style="text-align: center;font-size: 20px;"><?php echo $oeder->order_customer_pcs ?></th>
-                <th width="89%" style="font-size: 20px;"><?php echo $oeder->order_customer_ordername ?></th>
+                <th width="10%" style="text-align: center;font-size: 18px;"><?php echo $oeder->order_customer_pcs ?></th>
+                <th width="89%" style="font-size: 18px;"><?php echo $oeder->order_customer_ordername ?></th>
             </tr>
             <?php echo $comment ?>
         <?php } ?>
@@ -63,7 +63,7 @@
             <th width="89%" style="font-size: 20px;">น้ำแข็ง(แก้ว)</th>
         </tr> -->
         <tr>
-            <th width="99%" style="font-size: 5px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
+            <th width="99%" style="font-size: 3px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
         </tr>
     </table>
 </body>

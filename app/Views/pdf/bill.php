@@ -10,7 +10,7 @@
             </th>
         </tr>
         <tr>
-            <th style="font-size: 3px;"></th>
+            <th style="font-size: 2px;"></th>
         </tr>
         <tr>
             <th width="15%">Date : </th>
@@ -21,16 +21,16 @@
             <th width="80%"><?php echo session()->get('username'); ?></th>
         </tr>
         <tr>
-            <th style="font-size: 3px;"></th>
+            <th style="font-size: 2px;"></th>
         </tr>
         <tr>
-            <th width="99%" style="text-align: center;font-size: 15px;">**** PREVIEW ****</th>
+            <th width="99%" style="text-align: center;font-size: 13px;">**** PREVIEW ****</th>
         </tr>
         <tr>
-            <th width="99%" style="text-align: center;font-size: 20px;font-weight: bold;"><?php echo $table->table_name ?></th>
+            <th width="99%" style="text-align: center;font-size: 18px;font-weight: bold;"><?php echo $table->table_name ?></th>
         </tr>
         <tr>
-            <th style="font-size: 3px;"></th>
+            <th style="font-size: 2px;"></th>
         </tr>
         <tr>
             <th width="10%"></th>
@@ -38,10 +38,10 @@
             <th width="29%" style="text-align: right;">Price</th>
         </tr>
         <tr>
-            <th width="99%" style="font-size: 3px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
+            <th width="99%" style="font-size: 2px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
         </tr>
         <tr>
-            <th style="font-size: 4px;"></th>
+            <th style="font-size: 3px;"></th>
         </tr>
         <?php foreach ($orderlists as $orderlist) {
             $price = $orderlist->order_customer_pcs * $orderlist->order_price; ?>
@@ -65,41 +65,41 @@
             <th width="99%" style="font-size: 1px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
         </tr>
         <tr>
-            <th style="font-size: 3px;"></th>
+            <th style="font-size: 2px;"></th>
         </tr>
         <tr>
             <th width="99%"><?php echo $summary->order_pcs_sum ?> Items</th>
         </tr>
         <tr>
-            <th width="70%" style="font-size: 20px;font-weight: bold;">Grand Total</th>
-            <th width="29%" style="text-align: right;font-size: 20px;font-weight: bold;"><?php echo number_format($summary->order_price_sum, 2) ?></th>
+            <th width="70%" style="font-size: 18px;font-weight: bold;">Grand Total</th>
+            <th width="29%" style="text-align: right;font-size: 18px;font-weight: bold;"><?php echo number_format($summary->order_price_sum, 2) ?></th>
         </tr>
         <tr>
-            <th width="99%" style="font-size: 3px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
+            <th width="99%" style="font-size: 2px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
         </tr>
         <tr>
             <th width="99%" style="font-size: 1px; border-bottom-style: solid;border-bottom-color: #BEBEBE"></th>
         </tr>
         <tr>
-            <th style="font-size: 5px;"></th>
+            <th style="font-size: 3px;"></th>
         </tr>
         <tr>
-            <th width="99%" style="text-align: center;font-size: 15px;">**** PREVIEW ****</th>
+            <th width="99%" style="text-align: center;font-size: 13px;">**** PREVIEW ****</th>
         </tr>
         <tr>
-            <th style="font-size: 5px;"></th>
+            <th style="font-size: 3px;"></th>
         </tr>
         <tr>
             <th width="99%" style="text-align: center;">Thank you</th>
         </tr>
         <tr>
-            <th style="font-size: 5px;"></th>
+            <th style="font-size: 3px;"></th>
         </tr>
         <tr>
             <th width="99%" style="text-align: center;">Please Comeback again</th>
         </tr>
         <tr>
-            <th style="font-size: 15px;"></th>
+            <th style="font-size: 13px;"></th>
         </tr>
         <tr>
             <th width="100%" style="text-align:center;">
