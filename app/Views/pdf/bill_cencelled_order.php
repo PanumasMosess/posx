@@ -12,13 +12,13 @@
         <tr>
             <th style="font-size: 3px;"></th>
         </tr>
-        <tr>
-            <th width="14%">Date : </th>
-            <th width="85%"><?php echo date('d/m/Y H:i:s') ?></th>
+    <tr>
+            <th width="17%">Date : </th>
+            <th width="82%"><?php echo date('d/m/Y H:i:s') ?></th>
         </tr>
         <tr>
-            <th width="9%">by : </th>
-            <th width="90%"><?php echo session()->get('username'); ?></th>
+            <th width="11%">by : </th>
+            <th width="88%"><?php echo session()->get('username'); ?></th>
         </tr>
         <tr>
             <th style="font-size: 2px;"></th>
