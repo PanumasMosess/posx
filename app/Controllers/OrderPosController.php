@@ -460,6 +460,7 @@ class OrderPosController extends BaseController
             'recordsTotal' => count($filter),
             'recordsFiltered' => count($filter),
             "data" => $datas_card,
+            "data_all" => $filter,
         ]);
     }
 
