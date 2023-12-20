@@ -319,10 +319,10 @@ function getOrderCard() {
         },
       ],
       columnDefs: [
-        {
-          targets: 2,
-          className: "text-left",
-        },
+        // {
+        //   targets: 2,
+        //   className: "text-left",
+        // },
       ],
       responsive: true,
       searching: true,
@@ -377,6 +377,7 @@ function getOrderCard() {
       },
 
       initComplete: function () {
+        var that = this;
         this.api()
           .columns([2])
           .every(function () {
@@ -386,17 +387,35 @@ function getOrderCard() {
             )
               .appendTo($("#search"))
               .on("change", function () {
-                var val = DataTable.util.escapeRegex($(this).val());
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
                 column.search(val).draw();
               });
 
-            column
-              .data()
-              .unique()
-              .sort()
-              .each(function (d, j) {
-                select.append('<option value="' + d + '">' + d + "</option>");
-              });
+            // column
+            //   .data()
+            //   .unique()
+            //   .sort()
+            //   .each(function (d, j) {
+            //     select.append('<option value="' + d + '">' + d + "</option>");
+            //   });
+
+            ajax_data = that.api().ajax.json().data;
+            arr_data = [];
+            for (i = 0; i < ajax_data.length; i++) {
+              if (arr_data.indexOf(ajax_data[i].name) === -1) {
+                arr_data.push(ajax_data[i].name);
+              }
+            }
+            for (index_ = 0; index_ < arr_data.length; index_++) {
+              select.append(
+                '<option value="' +
+                  arr_data[index_] +
+                  '">' +
+                  arr_data[index_] +
+                  "</option>"
+              );
+            }
+           
           });
       },
     });
