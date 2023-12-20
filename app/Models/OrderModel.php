@@ -610,7 +610,8 @@ class OrderModel
         c.printer_name
         from `order` a 
         left join group_product c on  
-        a.group_id = c.id
+        a.group_id = c.id 
+        WHERE a.order_status != 'CANCEL_ORDER'
         ";
 
         $builder = $this->db->query($sql);
