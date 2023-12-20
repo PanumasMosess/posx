@@ -386,7 +386,7 @@ function getOrderCard() {
             )
               .appendTo($("#search"))
               .on("change", function () {
-                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                var val = DataTable.util.escapeRegex($(this).val());
                 column.search(val).draw();
               });
 
