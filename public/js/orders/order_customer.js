@@ -399,7 +399,7 @@ function getOrderCard() {
             //     select.append('<option value="' + d + '">' + d + "</option>");
             //   });
 
-            ajax_data = that.api().ajax.json().data;
+            ajax_data = that.api().ajax.json().data_all;
             arr_data = [];
             for (i = 0; i < ajax_data.length; i++) {
               if (arr_data.indexOf(ajax_data[i].name) === -1) {
