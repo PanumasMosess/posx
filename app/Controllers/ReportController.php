@@ -217,7 +217,7 @@ class ReportController extends BaseController
             ];
 
             foreach($getSalesByOrder as $data) {
-                
+
                 $data->type = '';
                 $data->shift = '';
                 $data->grandTotal = $data->order_price_sum - $data->order_discount;
@@ -273,11 +273,74 @@ class ReportController extends BaseController
         $data['title'] = ' สินค้า';
         $data['css_critical'] = '';
         $data['js_critical'] = '
+            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        ';
+        $data['js_critical'] = '
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
             <script src="' . base_url('/js/report/index.js') . '"></script>
             <script src="' . base_url('/js/report/Product.js') . '"></script>
         ';
 
         echo view('/app', $data);
+    }
+
+    public function SumOrderItems() 
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+            $businessMode = $requestPayload->businessMode;
+            $customerId = $requestPayload->customerId;
+            $customerMode = $requestPayload->customerMode;
+            $from = $requestPayload->from;
+            $pattern = $requestPayload->pattern;
+            $shopname = $requestPayload->shopname;
+            $to = $requestPayload->to;
+
+            $companyID = 1;
+
+            // $getSumOrderItems = $this->ReportModel->getSumOrderItemsByDate($from, $to, $companyID);
+
+            // px($getSumOrderItems);
+
+            $bundle = [];
+            $all = [
+                'Amount' => 0,
+                'Catalogs' => [],
+                'DeletedMenu' => [],
+                'From' => $from,
+                'ItemLines' => [],
+                'Quantity' => 0,
+                'SummaryType' => [
+                    'DeletedMenu' => 0,
+                    'Drink' => 0,
+                    'Food' => 0,
+                    'Other' => 1200
+                ],
+                'To' => $to,
+                'ToppingGroups' => []
+            ];
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data'] = $all;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
     }
 
     public function OrderTotal()

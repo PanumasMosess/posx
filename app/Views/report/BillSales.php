@@ -40,7 +40,7 @@
                                         <select id="query-type" class="form-control">
                                             <option value="Sales">ยอดขาย</option>
                                             <option value="BillSales" selected>บิลขาย</option>
-                                            <option value="Product" disabled>สินค้า</option>
+                                            <option value="Product">สินค้า</option>
                                             <option value="OrderTotal" disabled>ยอดสั่ง ตามช่วงเวลา</option>
                                             <option value="Expenses" disabled>รายจ่าย</option>
                                             <option value="Stock" disabled>สต็อก</option>
