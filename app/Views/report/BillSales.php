@@ -55,7 +55,7 @@
                                             <div class="input-group-text">
                                                 <div class=""><i class="fa fa-calendar"></i></div>
                                             </div>
-                                            <input type="text" class="form-control" id="datepickerFrom" placeholder="เลือกวัน">
+                                            <input type="text" class="form-control" id="datepickerFrom" placeholder="* เลือกวัน">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -86,7 +86,7 @@
                                 <thead>
                                     <tr>
                                         <th id="thTotalTitleSum" class="border-top-0">TOTAL</th>
-                                        <th id="thTotalSum" class="border-top-0">4,555.00</th>
+                                        <th id="thTotalSum" class="border-top-0">0.00</th>
                                     </tr>
                                     <tr>
                                         <th id="thTotalTitleSum" class="border-top-0">ITEM DISCOUNT</th>
