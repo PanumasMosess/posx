@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="<?php echo base_url('vendors/font_awesome/css/all.min.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('vendors/tagsinput/tagsinput.css'); ?>" />
 
-    <link rel="stylesheet" href="<?php echo base_url('vendors/datepicker/date-picker.css'); ?>" />
+    <!-- <link rel="stylesheet" href="<?php echo base_url('vendors/datepicker/date-picker.css'); ?>" /> -->
     <link rel="stylesheet" href="<?php echo base_url('vendors/vectormap-home/vectormap-2.0.2.css'); ?>" />
 
     <link rel="stylesheet" href="<?php echo base_url('vendors/scroll/scrollable.css'); ?>" />

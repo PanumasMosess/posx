@@ -300,7 +300,8 @@ $routes->group('report', ['filter' => 'employeeAuth'], function ($routes) {
     */
 
     $routes->get('BillSales', 'ReportController::BillSales');
-
+    $routes->post('SalesByOrder', 'ReportController::SalesByOrder');
+    
     /*
     * --------------------------------------------------------------------
     * Product

@@ -180,4 +180,18 @@ class ReportModel
 
         return $builder->getResult();
     }
+
+    public function getSalesByOrderByDate($date, $companyID)
+    {
+        $sql = "
+            SELECT *
+            FROM order_summary
+            WHERE created_at BETWEEN '$date 00:00:00' AND '$date 23:59:59' AND companies_id = $companyID 
+            ORDER BY created_at DESC
+        ";
+
+        $builder = $this->db->query($sql);
+
+        return $builder->getResult();
+    }
 }

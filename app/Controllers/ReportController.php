@@ -164,13 +164,107 @@ class ReportController extends BaseController
     {
         $data['content'] = 'report/BillSales';
         $data['title'] = ' บิลขาย';
-        $data['css_critical'] = '';
+        $data['css_critical'] = '
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+        ';
         $data['js_critical'] = '
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
             <script src="' . base_url('/js/report/index.js') . '"></script>
             <script src="' . base_url('/js/report/BillSales.js') . '"></script>
         ';
 
         echo view('/app', $data);
+    }
+
+    public function SalesByOrder() 
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+            $from = $requestPayload->from;
+            $to = $requestPayload->to;
+
+            $date = $from;
+
+            $companyID = 1;
+            $getSalesByOrder = $this->ReportModel->getSalesByOrderByDate($date, $companyID);
+
+            $bundle = [
+                'CardCharge' => 0,
+                'Change' => 0,
+                'CustomerCount' => 0,
+                'DeletedGrandTotal' => 0,
+                'DeletedOrders' => 0,
+                'Discount' => 0,
+                'GrandTotal' => 0,
+                'ItemDiscount' => 0,
+                'Orders' => $getSalesByOrder,
+                'PaymentMethod' => 0,
+                'Received' => 0,
+                'ReportDate' => 0,
+                'Rounding' => 0,
+                'ServiceCharge' => 0,
+                'ServiceChargeIncluded' => 0,
+                'SubTotal' => 0,
+                'SummaryPaymentType' => [],
+                'Vat' => 0
+            ];
+
+            foreach($getSalesByOrder as $data) {
+                
+                $data->type = '';
+                $data->shift = '';
+                $data->grandTotal = $data->order_price_sum - $data->order_discount;
+                $data->remark = '';
+
+                $bundle['CardCharge'] += $data->order_card_charge;
+                $bundle['Change'] += 0; // $data->order_card_charge;
+                $bundle['CustomerCount'] += 0; // $data->CustomerCount;
+                $bundle['DeletedGrandTotal'] += 0; // $data->DeletedGrandTotal;
+                $bundle['DeletedOrders'] += 0; // $data->DeletedOrders;
+                $bundle['Discount'] += $data->order_discount;
+                $bundle['GrandTotal'] += $data->order_price_sum - $data->order_discount;
+                // $bundle['ItemDiscount'] += $data->ItemDiscount;
+                // $bundle['PaymentMethod'] += $data->PaymentMethod;
+                // $bundle['Received'] += $data->Received;
+                // $bundle['ReportDate'] += $data->ReportDate;
+                // $bundle['Rounding'] += $data->Rounding;
+                $bundle['ServiceCharge'] += $data->order_service;
+                $bundle['ServiceChargeIncluded'] += 0; // $data->ServiceChargeIncluded;
+                $bundle['SubTotal'] += 0; //$data->SubTotal;
+                $bundle['Vat'] += $data->order_vat;
+            }
+
+            $payments = $this->ReportModel->getIncomeSummaryPaymentByDate($date, $companyID);
+            foreach($payments as $payment) {
+                $paymentName = $payment->name;
+                $bundle['SummaryPaymentType'][$paymentName] = $payment;
+                $bundle['SummaryPaymentType'][$paymentName] = [
+                    'name' => $payment->name,
+                    'bills' => $payment->bills,
+                    'amount' => $payment->amount,
+                    'amount_free' => $payment->amount_free,
+                ];
+            }
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data'] = $bundle;
+
+        } catch (\Exception $e) {
+            px($e->getMessage());
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
     }
 
     public function Product()
