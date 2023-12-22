@@ -48,10 +48,11 @@
 <script src="<?php echo base_url('vendors/datatable/js/vfs_fonts.js'); ?>"></script>
 <script src="<?php echo base_url('vendors/datatable/js/buttons.html5.min.js'); ?>"></script>
 <script src="<?php echo base_url('vendors/datatable/js/buttons.print.min.js'); ?>"></script>
-
+<!--
 <script src="<?php echo base_url('vendors/datepicker/datepicker.js'); ?>"></script>
 <script src="<?php echo base_url('vendors/datepicker/datepicker.en.js'); ?>"></script>
 <script src="<?php echo base_url('vendors/datepicker/datepicker.custom.js'); ?>"></script>
+-->
 <script src="<?php echo base_url('js/chart.min.js'); ?>"></script>
 <script src="<?php echo base_url('vendors/chartjs/roundedBar.min.js'); ?>"></script>
 
