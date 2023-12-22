@@ -38,29 +38,28 @@
                                 <div class="row mb-3">
                                     <div class=" col-md-4">
                                         <select id="query-type" class="form-control">
-
-                                            <!-- <option value="0">ยอดขาย</option>
-                                            <option value="1">บิลขาย</option>
-                                            <option value="2">สินค้า</option>
-                                            <option value="11">ยอดสั่ง ตามช่วงเวลา</option>
-                                            <option value="6">รายจ่าย</option>
-                                            <option value="8">สต็อก</option>
-                                            <option value="10">ยกเลิกสินค้า</option>
-                                            <option value="12">Activity (ประวัติการใช้งาน POS) </option>
-                                            <option value="13">รายงานแก้ราคาสินค้า </option>
-                                            <option value="14">OpenMenu </option> -->
-
                                             <option value="Sales">ยอดขาย</option>
                                             <option value="BillSales">บิลขาย</option>
                                             <option value="Product">สินค้า</option>
-                                            <option value="OrderTotal">ยอดสั่ง ตามช่วงเวลา</option>
-                                            <option value="Expenses">รายจ่าย</option>
+                                            <option value="OrderTotal" disabled>ยอดสั่ง ตามช่วงเวลา</option>
+                                            <option value="Expenses" disabled>รายจ่าย</option>
                                             <option value="Stock">สต็อก</option>
                                             <option value="Cancel" selected>ยกเลิกสินค้า</option>
-                                            <option value="Activity">Activity (ประวัติการใช้งาน POS) </option>
-                                            <option value="ProductPriceCorrectionReport">รายงานแก้ราคาสินค้า </option>
-                                            <option value="OpenMenu">OpenMenu </option>
+                                            <option value="Activity">Activity (ประวัติการใช้งาน POSX) </option>
+                                            <!-- <option value="ProductPriceCorrectionReport" disabled>รายงานแก้ราคาสินค้า </option> -->
+                                            <!-- <option value="OpenMenu" disabled>OpenMenu </option> -->
                                         </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-text">
+                                                <div class=""><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                            <input type="text" class="form-control" id="datepickerFrom" placeholder="* เลือกวัน">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-primary" id="btnSearch"><img src="http://localhost:8080/img/icon/icon_search.svg" alt=""> ค้นหา</button>
                                     </div>
                                 </div>
                             </form>
@@ -69,57 +68,43 @@
                 </div>
             </div>
 
-            <div id="vue-report-activity-container" class="row " style="display: block;">
-                <div class="col-md-12">
-                    <div class="portlet solid bordered light-grey">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <p style="vertical-align: top; margin-top: 10px; margin-left: 12px; display: inline-block;">Activity : Pick Date</p>
-                                <div style="margin-left: 18px; width: 220px; display: inline-block;">
-                                    <div class="input-group"><input id="report-activity-datepicker" type="text" placeholder="Date" class="form-control"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span></div>
-                                </div> <button class="report-activity-buttom btn btn-primary">Submit</button>
-                                <div style="margin-left: 18px; width: 220px; display: inline-block;">
-                                    <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span> <input type="text" placeholder="Fitler table EX: T4" class="form-control"></div>
-                                </div>
-                            </div>
-                            <div class="tools"><button class="report-activity-buttom">&lt;&lt; Previous</button>
-                                <p style="vertical-align: top; font-size: 1.4em; margin-top: 3px; margin-left: 12px; margin-right: 12px; display: inline-block;">
-                                    0
-                                </p> <button class="report-activity-buttom">Next &gt;&gt;</button>
-                            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="white_card mb_30">
+                        <div class="white_card_header">
+                            <h3 data-bind="visible: displayData" style="">
+                                <span>วันที่</span> <span id="displayDateQuery"></span><br>
+                                <span>จำนวนสินค้า</span> <span id="displayTotalPrice"></span>
+                                <span>ยอดรวมยกเลิก</span> <span id="displayTotalPcs"></span>
+                            </h3>
                         </div>
-                        <div class="portlet-body">
-                            <div class="table-responsive">
-                                <table class="table table-condensed table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Time
-                                            </th>
-                                            <th>
-                                                Table
-                                            </th>
-                                            <th>
-                                                Action
-                                            </th>
-                                            <th>
-                                                Message
-                                            </th>
-                                            <th>
-                                                Value
-                                            </th>
-                                            <th>
-                                                By
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                        <div class="white_card_body" id="print-section">
+                            <div id="wrapperQuantity" class="QA_section">
+                                <div class="QA_table mb_30">
+                                    <table id="tblCancel" class="table table-striped QA_table">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>No.</th>
+                                                <th>Time</th>
+                                                <th>Refer</th>
+                                                <th>Approve by</th>
+                                                <th>Qty</th>
+                                                <th>Items</th>
+                                                <th>Price</th>
+                                                <th>Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>

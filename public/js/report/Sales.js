@@ -352,7 +352,7 @@ $(document).ready(function () {
     },
     handleSearch() {
       $("#btnSearch").on("click", function () {
-        let $startDate = $selectDate.data("daterangepicker").startDate,
+        let $startDate = $selectDate.data("daterangepicker").startDate, 
           $endDate = $selectDate.data("daterangepicker").endDate;
 
         let dataObj = {

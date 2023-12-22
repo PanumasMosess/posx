@@ -38,28 +38,14 @@
                                 <div class="row mb-3">
                                     <div class=" col-md-4">
                                         <select id="query-type" class="form-control">
-
-                                            <!-- <option value="0">ยอดขาย</option>
-                                            <option value="1">บิลขาย</option>
-                                            <option value="2">สินค้า</option>
-                                            <option value="11">ยอดสั่ง ตามช่วงเวลา</option>
-                                            <option value="6">รายจ่าย</option>
-                                            <option value="8">สต็อก</option>
-                                            <option value="10">ยกเลิกสินค้า</option>
-                                            <option value="12">Activity (ประวัติการใช้งาน POS) </option>
-                                            <option value="13">รายงานแก้ราคาสินค้า </option>
-                                            <option value="14">OpenMenu </option> -->
-
                                             <option value="Sales">ยอดขาย</option>
                                             <option value="BillSales">บิลขาย</option>
                                             <option value="Product">สินค้า</option>
-                                            <option value="OrderTotal">ยอดสั่ง ตามช่วงเวลา</option>
-                                            <option value="Expenses">รายจ่าย</option>
+                                            <option value="OrderTotal" disabled>ยอดสั่ง ตามช่วงเวลา</option>
+                                            <option value="Expenses" disabled>รายจ่าย</option>
                                             <option value="Stock" selected>สต็อก</option>
                                             <option value="Cancel">ยกเลิกสินค้า</option>
                                             <option value="Activity">Activity (ประวัติการใช้งาน POS) </option>
-                                            <option value="ProductPriceCorrectionReport">รายงานแก้ราคาสินค้า </option>
-                                            <option value="OpenMenu">OpenMenu </option>
                                         </select>
                                     </div>
                                 </div>
