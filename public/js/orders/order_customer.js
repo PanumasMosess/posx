@@ -47,34 +47,35 @@ function deleteFilePdf(file_name) {
 }
 
 function printPDF(file_name, printer) {
-  console.log(file_name + "/", printer);
-  qz.websocket
-    .connect()
-    .then(function () {
-      return qz.printers.find(printer);
-    })
-    .then((found) => {
-      var config = qz.configs.create(printer);
-      var path = serverUrl + "uploads/temp_pdf/" + file_name;
-      var data = [
-        {
-          type: "pixel",
-          format: "pdf",
-          flavor: "file",
-          data: path,
-        },
-      ];
-      return qz.print(config, data);
-    })
-    .then((event) => {
-      return qz.websocket.disconnect();
-    })
-    .then((event) => {
-      return deleteFilePdf(file_name);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+  return new Promise(async (resolve, reject) => {
+    qz.websocket
+      .connect()
+      .then(function () {
+        return qz.printers.find(printer);
+      })
+      .then((found) => {
+        var config = qz.configs.create(printer);
+        var path = serverUrl + "uploads/temp_pdf/" + file_name;
+        var data = [
+          {
+            type: "pixel",
+            format: "pdf",
+            flavor: "file",
+            data: path,
+          },
+        ];
+        return qz.print(config, data);
+      })
+      .then((event) => {
+        return resolve(qz.websocket.disconnect());
+      })
+      .then((event) => {
+        return resolve(deleteFilePdf(file_name));
+      })
+      .catch((e) => {
+        reject(console.log(e));
+      });
+  });
 }
 
 function loadTableOrderCustomer() {
