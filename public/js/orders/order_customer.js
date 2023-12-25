@@ -47,7 +47,7 @@ function deleteFilePdf(file_name) {
 }
 
 function printPDF(file_name, printer) {
-  return new Promise(async (resolve, reject) => {
+  // return new Promise(async (resolve, reject) => {
     qz.websocket
       .connect()
       .then(function () {
@@ -67,15 +67,15 @@ function printPDF(file_name, printer) {
         return qz.print(config, data);
       })
       .then((event) => {
-        return resolve(qz.websocket.disconnect());
+        return qz.websocket.disconnect();
       })
       .then((event) => {
-        return resolve(deleteFilePdf(file_name));
+        return deleteFilePdf(file_name);
       })
       .catch((e) => {
-        reject(console.log(e));
+        console.log(e);
       });
-  });
+  // });
 }
 
 function loadTableOrderCustomer() {
