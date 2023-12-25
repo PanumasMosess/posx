@@ -47,6 +47,7 @@ function deleteFilePdf(file_name) {
 }
 
 function printPDF(file_name, printer) {
+  console.log(file_name + "/", printer);
   qz.websocket
     .connect()
     .then(function () {
