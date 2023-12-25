@@ -213,44 +213,51 @@
     setInterval(load_mobile_print, 2000);
 
     function deleteFilePdf(file_name) {
-        $.ajax({
-            url: `${serverUrl}/unlink_pdf/` + file_name,
-            method: "get",
-            success: function(res) {
-                // การสำเร็จ
-            },
-            error: function(error) {
-                // เกิดข้อผิดพลาด
-            },
+        return new Promise(async (resolve, reject) => {
+            $.ajax({
+                url: `${serverUrl}/unlink_pdf/` + file_name,
+                method: "get",
+                success: function(res) {
+                    // การสำเร็จ
+                    resolve(res);
+                },
+                error: function(error) {
+                    // เกิดข้อผิดพลาด
+                    reject(error);
+                },
+            });
         });
     }
 
     function printPDF(file_name, printer) {
-        qz.websocket
-            .connect()
-            .then(function() {
-                return qz.printers.find(printer);
-            })
-            .then((found) => {
-                var config = qz.configs.create(printer);
-                var path = serverUrl + "uploads/temp_pdf/" + file_name;
-                var data = [{
-                    type: "pixel",
-                    format: "pdf",
-                    flavor: "file",
-                    data: path,
-                }, ];
-                return qz.print(config, data);
-            })
-            .then((event) => {
-                return qz.websocket.disconnect();
-            })
-            .then((event) => {
-                return deleteFilePdf(file_name);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        return new Promise(async (resolve, reject) => {
+            qz.websocket
+                .connect()
+                .then(function() {
+                    return qz.printers.find(printer);
+                })
+                .then((found) => {
+                    var config = qz.configs.create(printer);
+                    var path = serverUrl + "uploads/temp_pdf/" + file_name;
+                    var data = [{
+                        type: "pixel",
+                        format: "pdf",
+                        flavor: "file",
+                        data: path,
+                    }, ];
+                    return qz.print(config, data);
+                })
+                .then((event) => {
+                    return qz.websocket.disconnect();
+                })
+                .then(async (event) => {
+                    await deleteFilePdf(file_name);
+                    resolve();
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        });
     }
 
     function load_mobile_print() {
@@ -260,47 +267,25 @@
             method: "get",
             success: function(res) {
                 if (res.data) {
-                    // console.log(res.data.order_customer_code);
                     $.ajax({
                         url: `${serverUrl}/order/check_printer_order/` +
                             res.data.order_customer_code,
                         method: "get",
-                        success: function(res_print_log) {
+                        success: async function(res_print_log) {
                             for (var i = 0; i < res_print_log.data.length; i++) {
                                 array_print_log = [{
                                     customer_code: res.data.order_customer_code,
                                     printer_name: res_print_log.data[i].printer_name,
                                 }, ];
 
-                                $.ajax({
-                                    url: `${serverUrl}/pdf_BillOrder`,
-                                    method: "post",
-                                    data: {
-                                        data: array_print_log,
-                                    },
-                                    success: function(res) {
-                                        localStorage.setItem("isCallNewOrder", "yes");
-
-                                        printPDF(res.message_name, res.message_printer);
-
-                                        $.ajax({
-                                            url: `${serverUrl}/order/update_order_print_log`,
-                                            method: "post",
-                                            data: {
-                                                data: array_print_log
-                                            },
-                                            success: function(res) {
-                                                // การสำเร็จ
-                                            },
-                                            error: function(error) {
-                                                // เกิดข้อผิดพลาด
-                                            },
-                                        });
-                                    },
-                                    error: function(error) {
-                                        // เกิดข้อผิดพลาด
-                                    },
-                                });
+                                try {
+                                    const res_print = await callPDFBillOrder(array_print_log);
+                                    localStorage.setItem("isCallNewOrder", "yes");
+                                    await printPDF(res_print.message_name, res_print.message_printer);
+                                    await callUpdateOrderPrintLog(array_print_log);
+                                } catch (error) {
+                                    // เกิดข้อผิดพลาด
+                                }
                             }
                         },
                         error: function(error) {
@@ -313,31 +298,46 @@
                 // เกิดข้อผิดพลาด
             },
         });
+    }
 
+    function callPDFBillOrder(data) {
+        return new Promise(async (resolve, reject) => {
+            $.ajax({
+                url: `${serverUrl}/pdf_BillOrder`,
+                method: "post",
+                data: {
+                    data: data,
+                },
+                success: function(res) {
+                    // การสำเร็จ
+                    resolve(res);
+                },
+                error: function(error) {
+                    // เกิดข้อผิดพลาด
+                    reject(error);
+                },
+            });
+        });
+    }
 
-        // $.ajax({
-        //     url: `${serverUrl}/pdf_bill/` + table_code,
-        //     method: "get",
-        //     success: function(res) {
-        //         printPDF(res.message_name, res.message_printer);
-        //     },
-        //     error: function(error) {
-        //         // เกิดข้อผิดพลาด
-        //     },
-        // });
-
-
-        // $.ajax({
-        //     url: `${serverUrl}/order/update_order_print_log/` +
-        //         response.order_customer_code,
-        //     method: "get",
-        //     success: function(res) {
-        //         // การสำเร็จ
-        //     },
-        //     error: function(error) {
-        //         // เกิดข้อผิดพลาด
-        //     },
-        // });
+    function callUpdateOrderPrintLog(data) {
+        return new Promise(async (resolve, reject) => {
+            $.ajax({
+                url: `${serverUrl}/order/update_order_print_log`,
+                method: "post",
+                data: {
+                    data: data
+                },
+                success: function(res) {
+                    // การสำเร็จ
+                    resolve(res);
+                },
+                error: function(error) {
+                    // เกิดข้อผิดพลาด
+                    reject(error);
+                },
+            });
+        });
     }
 </script>
 
