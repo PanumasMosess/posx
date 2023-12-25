@@ -34,20 +34,22 @@ var vat_total = 0;
 })(jQuery);
 
 function deleteFilePdf(file_name) {
-  $.ajax({
-    url: `${serverUrl}/unlink_pdf/` + file_name,
-    method: "get",
-    success: function (res) {
-      // การสำเร็จ
-    },
-    error: function (error) {
-      // เกิดข้อผิดพลาด
-    },
+  return new Promise(async (resolve, reject) => {
+    $.ajax({
+      url: `${serverUrl}/unlink_pdf/` + file_name,
+      method: "get",
+      success: function (res) {
+        // การสำเร็จ
+      },
+      error: function (error) {
+        // เกิดข้อผิดพลาด
+      },
+    });
   });
 }
 
 function printPDF(file_name, printer) {
-  // return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     qz.websocket
       .connect()
       .then(function () {
@@ -69,13 +71,14 @@ function printPDF(file_name, printer) {
       .then((event) => {
         return qz.websocket.disconnect();
       })
-      .then((event) => {
-        return deleteFilePdf(file_name);
+      .then(async (event) => {
+        return await deleteFilePdf(file_name);
+        resolve();
       })
       .catch((e) => {
         console.log(e);
       });
-  // });
+  });
 }
 
 function loadTableOrderCustomer() {
@@ -632,9 +635,8 @@ function orderConfirm() {
                         cancleAllTable();
                         localStorage.setItem("isCallNewOrder", "yes");
 
-                        printPDF(res.message_name, res.message_printer);
-
-                        callUpdateOrderPrintLog(array_print_log)
+                        await printPDF(res.message_name, res.message_printer);
+                        await callUpdateOrderPrintLog(array_print_log)
                           .then((res) => {
                             // การสำเร็จ
                           })
