@@ -72,7 +72,7 @@ function printPDF(file_name, printer) {
         return qz.websocket.disconnect();
       })
       .then(async (event) => {
-        return await deleteFilePdf(file_name);
+        await deleteFilePdf(file_name);
         resolve();
       })
       .catch((e) => {
@@ -636,13 +636,7 @@ function orderConfirm() {
                         localStorage.setItem("isCallNewOrder", "yes");
 
                         await printPDF(res.message_name, res.message_printer);
-                        await callUpdateOrderPrintLog(array_print_log)
-                          .then((res) => {
-                            // การสำเร็จ
-                          })
-                          .catch((error) => {
-                            // เกิดข้อผิดพลาด
-                          });
+                        await callUpdateOrderPrintLog(array_print_log);
                       } catch (error) {
                         // เกิดข้อผิดพลาด
                       }
