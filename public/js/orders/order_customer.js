@@ -623,38 +623,40 @@ function orderConfirm() {
                         },
                       ];
 
-                      $.ajax({
-                        url: `${serverUrl}/pdf_BillOrder`,
-                        method: "post",
-                        data: {
-                          data: array_print_log,
-                        },
-                        success: function (res) {
-                          // การสำเร็จ
-                          //clear after add
-                          array_customer_order = [];
-                          array_select_confirm = [];
-                          cancleAllTable();
-                          localStorage.setItem("isCallNewOrder", "yes");
+                      console.log(array_print_log);
 
-                          printPDF(res.message_name, res.message_printer);
+                      // $.ajax({
+                      //   url: `${serverUrl}/pdf_BillOrder`,
+                      //   method: "post",
+                      //   data: {
+                      //     data: array_print_log,
+                      //   },
+                      //   success: function (res) {
+                      //     // การสำเร็จ
+                      //     //clear after add
+                      //     array_customer_order = [];
+                      //     array_select_confirm = [];
+                      //     cancleAllTable();
+                      //     localStorage.setItem("isCallNewOrder", "yes");
 
-                          $.ajax({
-                            url: `${serverUrl}/order/update_order_print_log`,
-                            method: "post",
-                            data: { data: array_print_log },
-                            success: function (res) {
-                              // การสำเร็จ
-                            },
-                            error: function (error) {
-                              // เกิดข้อผิดพลาด
-                            },
-                          });
-                        },
-                        error: function (error) {
-                          // เกิดข้อผิดพลาด
-                        },
-                      });
+                      //     printPDF(res.message_name, res.message_printer);
+
+                      //     $.ajax({
+                      //       url: `${serverUrl}/order/update_order_print_log`,
+                      //       method: "post",
+                      //       data: { data: array_print_log },
+                      //       success: function (res) {
+                      //         // การสำเร็จ
+                      //       },
+                      //       error: function (error) {
+                      //         // เกิดข้อผิดพลาด
+                      //       },
+                      //     });
+                      //   },
+                      //   error: function (error) {
+                      //     // เกิดข้อผิดพลาด
+                      //   },
+                      // });
                     }
                   },
                   error: function (error) {
