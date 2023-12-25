@@ -40,9 +40,11 @@ function deleteFilePdf(file_name) {
       method: "get",
       success: function (res) {
         // การสำเร็จ
+        resolve(res);
       },
       error: function (error) {
         // เกิดข้อผิดพลาด
+        reject(error);
       },
     });
   });
@@ -77,6 +79,7 @@ function printPDF(file_name, printer) {
       })
       .catch((e) => {
         console.log(e);
+        reject();
       });
   });
 }
