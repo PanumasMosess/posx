@@ -415,7 +415,6 @@ function getOrderCard() {
                   "</option>"
               );
             }
-           
           });
       },
     });
@@ -614,10 +613,8 @@ function orderConfirm() {
                     `${serverUrl}/order/check_printer_order/` +
                     response.order_customer_code,
                   method: "get",
-                  success: function (res_print_log) {
+                  success: async function (res_print_log) {
                     for (var i = 0; i < res_print_log.data.length; i++) {
-
-
                       array_print_log = [
                         {
                           customer_code: response.order_customer_code,
@@ -625,43 +622,27 @@ function orderConfirm() {
                         },
                       ];
 
-                      $.ajax({
-                        url: `${serverUrl}/pdf_BillOrder`,
-                        method: "post",
-                        data: {
-                          data: array_print_log,
-                        },
-                        async: false,
-                        success: function (res) {
-                          // การสำเร็จ
-                          //clear after add
-                          array_customer_order = [];
-                          array_select_confirm = [];
-                          cancleAllTable();
-                          localStorage.setItem("isCallNewOrder", "yes");
+                      try {
+                        const res = await callPDFBillOrder(array_print_log);
+                        //clear after add
+                        array_customer_order = [];
+                        array_select_confirm = [];
+                        cancleAllTable();
+                        localStorage.setItem("isCallNewOrder", "yes");
 
-                          printPDF(res.message_name, res.message_printer);
+                        printPDF(res.message_name, res.message_printer);
 
-                          $.ajax({
-                            url: `${serverUrl}/order/update_order_print_log`,
-                            method: "post",
-                            async: false,
-                            data: { data: array_print_log },
-                            success: function (res) {
-                              // การสำเร็จ
-                            },
-                            error: function (error) {
-                              // เกิดข้อผิดพลาด
-                            },
+                        callUpdateOrderPrintLog(array_print_log)
+                          .then((res) => {
+                            // การสำเร็จ
+                          })
+                          .catch((error) => {
+                            // เกิดข้อผิดพลาด
                           });
-                        },
-                        error: function (error) {
-                          // เกิดข้อผิดพลาด
-                        },
-                      });
-
-                      
-                    } // end for
+                      } catch (error) {
+                        // เกิดข้อผิดพลาด
+                      }
+                    }
                   },
                   error: function (error) {
                     // เกิดข้อผิดพลาด
@@ -1102,3 +1083,41 @@ function add_discount_order(id) {
 
 function minus(data) {}
 function plus(data) {}
+
+function callPDFBillOrder(data) {
+  return new Promise(async (resolve, reject) => {
+    $.ajax({
+      url: `${serverUrl}/pdf_BillOrder`,
+      method: "post",
+      data: {
+        data: data,
+      },
+      success: function (res) {
+        // การสำเร็จ
+        resolve(res);
+      },
+      error: function (error) {
+        // เกิดข้อผิดพลาด
+        reject(error);
+      },
+    });
+  });
+}
+
+function callUpdateOrderPrintLog(data) {
+  return new Promise(async (resolve, reject) => {
+    $.ajax({
+      url: `${serverUrl}/order/update_order_print_log`,
+      method: "post",
+      data: { data: data },
+      success: function (res) {
+        // การสำเร็จ
+        resolve(res);
+      },
+      error: function (error) {
+        // เกิดข้อผิดพลาด
+        reject(error);
+      },
+    });
+  });
+}
