@@ -616,6 +616,8 @@ function orderConfirm() {
                   method: "get",
                   success: function (res_print_log) {
                     for (var i = 0; i < res_print_log.data.length; i++) {
+
+
                       array_print_log = [
                         {
                           customer_code: response.order_customer_code,
@@ -629,6 +631,7 @@ function orderConfirm() {
                         data: {
                           data: array_print_log,
                         },
+                        async: false,
                         success: function (res) {
                           // การสำเร็จ
                           //clear after add
@@ -642,6 +645,7 @@ function orderConfirm() {
                           $.ajax({
                             url: `${serverUrl}/order/update_order_print_log`,
                             method: "post",
+                            async: false,
                             data: { data: array_print_log },
                             success: function (res) {
                               // การสำเร็จ
@@ -655,7 +659,9 @@ function orderConfirm() {
                           // เกิดข้อผิดพลาด
                         },
                       });
-                    }
+
+                      
+                    } // end for
                   },
                   error: function (error) {
                     // เกิดข้อผิดพลาด
