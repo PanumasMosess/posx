@@ -342,6 +342,7 @@ $routes->group('report', ['filter' => 'employeeAuth'], function ($routes) {
     */
 
     $routes->get('Cancel', 'ReportController::Cancel');
+    $routes->post('CancelItem', 'ReportController::CancelItem');
 
     /*
     * --------------------------------------------------------------------
@@ -350,6 +351,7 @@ $routes->group('report', ['filter' => 'employeeAuth'], function ($routes) {
     */
 
     $routes->get('Activity', 'ReportController::Activity');
+    $routes->post('ActivityLogs', 'ReportController::ActivityLogs');
 
     /*
     * --------------------------------------------------------------------

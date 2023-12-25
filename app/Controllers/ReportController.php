@@ -386,8 +386,12 @@ class ReportController extends BaseController
     {
         $data['content'] = 'report/Cancel';
         $data['title'] = ' รายงาน';
-        $data['css_critical'] = '';
+        $data['css_critical'] = '
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+        ';
         $data['js_critical'] = '
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
             <script src="' . base_url('/js/report/index.js') . '"></script>
             <script src="' . base_url('/js/report/Cancel.js') . '"></script>
         ';
@@ -395,17 +399,102 @@ class ReportController extends BaseController
         echo view('/app', $data);
     }
 
+    public function CancelItem() 
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+            $from = $requestPayload->from;
+            $to = $requestPayload->to;
+
+            $date = $from;
+            $companyID = 1;
+
+            $getCancelItems = $this->ReportModel->getCancelItemsByDate($date, $companyID);
+
+            $bundle = [
+                'date' => $date,
+                'totalPrice' => 0,
+                'totalPcs' => 0,
+                'data' => $getCancelItems,
+            ];
+            
+            foreach ($getCancelItems as $data) {
+                $bundle['totalPrice'] += $data->order_customer_pcs * $data->order_customer_price;
+                $bundle['totalPcs'] += $data->order_customer_pcs;
+            }
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data'] = $bundle;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
+    }
+
     public function Activity()
     {
         $data['content'] = 'report/Activity';
         $data['title'] = ' Activity';
-        $data['css_critical'] = '';
+        $data['css_critical'] = '
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+        ';
         $data['js_critical'] = '
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
             <script src="' . base_url('/js/report/index.js') . '"></script>
             <script src="' . base_url('/js/report/Activity.js') . '"></script>
         ';
 
         echo view('/app', $data);
+    }
+
+    public function ActivityLogs() 
+    {
+        $status = 500;
+        $response['success'] = 0;
+        $response['message'] = '';
+
+        try {
+
+            // HANDLE REQUEST
+            $requestPayload = $this->request->getJSON();
+            $from = $requestPayload->from;
+            $to = $requestPayload->to;
+
+            $date = $from;
+            $companyID = 1;
+
+            $getActivityLogs = $this->ReportModel->ActivityLogByDate($date, $companyID);
+
+            $bundle = [
+                'date' => $date,
+                'data' => $getActivityLogs,
+            ];
+
+            $status = 200;
+            $response['success'] = 1;
+            $response['data'] = $bundle;
+
+        } catch (\Exception $e) {
+            
+        }
+
+        return $this->response
+            ->setStatusCode($status)
+            ->setContentType('application/json')
+            ->setJSON($response);
     }
 
     public function ProductPriceCorrectionReport()

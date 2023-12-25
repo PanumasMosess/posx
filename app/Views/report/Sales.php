@@ -43,11 +43,11 @@
                                             <option value="Product">สินค้า</option>
                                             <option value="OrderTotal" disabled>ยอดสั่ง ตามช่วงเวลา</option>
                                             <option value="Expenses" disabled>รายจ่าย</option>
-                                            <option value="Stock" disabled>สต็อก</option>
-                                            <option value="Cancel" disabled>ยกเลิกสินค้า</option>
-                                            <option value="Activity" disabled>Activity (ประวัติการใช้งาน POS) </option>
-                                            <option value="ProductPriceCorrectionReport" disabled>รายงานแก้ราคาสินค้า </option>
-                                            <option value="OpenMenu" disabled>OpenMenu </option>
+                                            <option value="Stock">สต็อก</option>
+                                            <option value="Cancel">ยกเลิกสินค้า</option>
+                                            <option value="Activity">Activity (ประวัติการใช้งาน POSX) </option>
+                                            <!-- <option value="ProductPriceCorrectionReport" disabled>รายงานแก้ราคาสินค้า </option> -->
+                                            <!-- <option value="OpenMenu" disabled>OpenMenu </option> -->
                                         </select>
                                     </div>
                                     <div class="col-md-3">
