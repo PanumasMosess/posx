@@ -1123,7 +1123,7 @@ class OrderModel
         ";
 
         $builder = $this->db->query($sql);
-        return $builder->getRow();
+        return $builder->getResult();
     }
 
     public function updateWaitPrintMobile($data, $table_code)
