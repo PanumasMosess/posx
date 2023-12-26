@@ -283,6 +283,7 @@
                                     localStorage.setItem("isCallNewOrder", "yes");
                                     await printPDF(res_print.message_name, res_print.message_printer);
                                     await callUpdateOrderPrintLog(array_print_log);
+                                    await updateMobileStatus(res.data.order_customer_table_code);
                                 } catch (error) {
                                     // เกิดข้อผิดพลาด
                                 }
@@ -328,6 +329,24 @@
                 data: {
                     data: data
                 },
+                success: function(res) {
+                    // การสำเร็จ
+                    resolve(res);
+                },
+                error: function(error) {
+                    // เกิดข้อผิดพลาด
+                    reject(error);
+                },
+            });
+        });
+    }
+
+    function updateMobileStatus(code) {
+        return new Promise(async (resolve, reject) => {
+            $.ajax({
+                url: `${serverUrl}/order/update_order_print_mobile/` +
+                    code,
+                method: "get",
                 success: function(res) {
                     // การสำเร็จ
                     resolve(res);
