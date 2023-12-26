@@ -268,13 +268,13 @@
             success: function(res) {
                 if (res.data) {
                     $.ajax({
-                        url: `${serverUrl}/order/check_printer_order/` +
-                            res.data.order_customer_code,
+                        url: `${serverUrl}/order/check_printer_order_by_table/` +
+                            res.data.order_customer_table_code,
                         method: "get",
                         success: async function(res_print_log) {
                             for (var i = 0; i < res_print_log.data.length; i++) {
                                 array_print_log = [{
-                                    customer_code: res.data.order_customer_code,
+                                    customer_code: res_print_log.data[i].order_customer_code,
                                     printer_name: res_print_log.data[i].printer_name,
                                 }, ];
 

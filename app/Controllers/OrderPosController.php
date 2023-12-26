@@ -1290,4 +1290,15 @@ class OrderPosController extends BaseController
             'data' => $printer_data
         ]);
     }
+
+    public function fetchLogPrinterByTable($table_code = null)
+    {
+        $printer_data = $this->OrderModel->getPrintBuyTableCode($table_code);
+
+        return $this->response->setJSON([
+            'status' => 200,
+            'error' => false,
+            'data' => $printer_data
+        ]);
+    }
 }
