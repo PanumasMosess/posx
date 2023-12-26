@@ -459,7 +459,7 @@ class PdfController extends BaseController
         $this->OrderModel = new \App\Models\OrderModel();
 
         $data = $this->OrderModel->getStatusPrintMoblie();
-        $data = "";
+        // $data = "";
         // if ($table_name) {
         //     $data = $this->OrderModel->getPrintBuyTableCode($table_name->order_customer_table_code);
         // }
