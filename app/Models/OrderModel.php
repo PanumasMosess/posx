@@ -1120,7 +1120,6 @@ class OrderModel
 
         $sql = "SELECT * FROM order_print_log
         WHERE order_table_code = '$table_code' and companies_id = '$companies_id' and order_print_status = 'WAIT_PRINT'
-        ORDER BY id ASC LIMIT 1
         ";
 
         $builder = $this->db->query($sql);
