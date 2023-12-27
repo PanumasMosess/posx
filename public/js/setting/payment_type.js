@@ -307,7 +307,7 @@ function loadTablePaymentType() {
         // "autoWidth": true,
         "stripeClasses": [],
         "pageLength": 5,
-        "lengthMenu": [[5, 15, 25, -1], [5, 15, 25, "ทั้งหมด"]],
+        "lengthMenu": [[5, 15, 25, 10000], [5, 15, 25, "ทั้งหมด"]],
         "columnDefs": [
             {
                 'className': 'text-center',
