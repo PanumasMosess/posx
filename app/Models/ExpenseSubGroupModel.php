@@ -34,6 +34,14 @@ class ExpenseSubGroupModel
             ->getRow();
     }
 
+    public function getExpenseSubGroupByGroupID($id)
+    {
+        $companies_id = session()->get('companies_id');
+        $sql = "SELECT * FROM sub_expense_group WHERE companies_id = $companies_id AND expense_group_id = $id;";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
     public function getExpenseSubGroupByID($id)
     {
         $builder = $this->db->table('sub_expense_group');

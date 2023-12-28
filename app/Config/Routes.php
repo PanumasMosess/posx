@@ -116,6 +116,14 @@ $routes->group('expense', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('editSubExpense/(:num)', 'ExpenseController::editSubExpense/$1');
     $routes->post('updateSubExpense', 'ExpenseController::updateSubExpense');
     $routes->get('deleteSubExpense/(:num)', 'ExpenseController::deleteSubExpense/$1');
+
+    $routes->post('addExpenseDate', 'ExpenseController::addExpenseDate');
+    $routes->get('getSubGroup/(:num)', 'ExpenseController::getSubGroup/$1');
+    $routes->get('getGroup', 'ExpenseController::getGroup');
+    $routes->post('ajax-datatableExpense', 'ExpenseController::ajaxDataTablesExpense');
+    $routes->get('ajax-totalexpenses', 'ExpenseController::ajaxTotalExpenses');
+    $routes->get('deleteExpenseList/(:num)', 'ExpenseController::deleteExpenseList/$1');
+    $routes->get('ajax-expenses', 'ExpenseController::ajaxExpenses');
 });
 
 $routes->group('employee', ['filter' => 'employeeAuth'], function ($routes) {
