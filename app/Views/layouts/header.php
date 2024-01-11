@@ -76,6 +76,8 @@
         var companies_id = '<?php echo session()->get('companies_id'); ?>'
         var valueMoney = '<?php echo getValueMoney()->valueMoney; ?>'
         var symbolValueMoney = '<?php echo getValueMoney()->symbolValueMoney; ?>'
+        var pusher_key = '<?php echo getenv('pusher_Key'); ?>'
+        var pusher_cluster = '<?php echo getenv('pusher_cluster'); ?>'
     </script>
     <script src="<?php echo base_url('/js/QZ_cer/sign-message' . session()->get('companies_id') . '.js?v=' . time()); ?>"></script>
     <style>

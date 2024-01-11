@@ -86,6 +86,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
 <script src="<?php echo base_url('/js/qz-tray.js'); ?>"></script>
 <script src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
+<script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
 <script src="<?php echo base_url('/js/QZ_cer/sign-message' . session()->get('companies_id') . '.js?v=' . time()); ?>"></script>
 
 <script>
@@ -169,6 +170,17 @@
 
         document.getElementById("tv_board").href = link_tv;
 
+        var pusher = new Pusher(pusher_key, {
+            cluster: pusher_cluster,
+        });
+
+        var channel = pusher.subscribe("order-mobile-channel");
+
+        channel.bind("order-mobile-to-server", (data) => {
+            load_mobile_print();
+        });
+
+
     });
     // // เรียกใช้ Bootstrap Dropdown
     // $(document).ready(function() {
@@ -210,7 +222,7 @@
         }
     });
 
-    setInterval(load_mobile_print, 2000);
+    // setInterval(load_mobile_print, 2000);
 
     function deleteFilePdf(file_name) {
         return new Promise(async (resolve, reject) => {
