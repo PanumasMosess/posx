@@ -23,6 +23,18 @@ class OrderController extends BaseController
         $this->s3_endpoint = getenv('ENDPOINT');
         $this->s3_region = getenv('REGION');
         $this->s3_cdn_img = getenv('CDN_IMG');
+
+        function generateRandomString($length = 7)
+        {
+            $characters = '0123456789';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            return $randomString;
+        }
+
     }
 
     public function index()
@@ -70,10 +82,13 @@ class OrderController extends BaseController
             // var_dump($type_real[1]);
             // exit;
 
-            file_put_contents('uploads/temps_order/' . $order_running_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+            $generateRandomString = generateRandomString();
 
-            $file_Path_re = 'uploads/temps_order/' . $order_running_code . '.' . $type_real[1];
-            $file_name = $order_running_code . '.' . $type_real[1];
+
+            file_put_contents('uploads/temps_order/' . $order_running_code . '_'. $generateRandomString . '.' . $type_real[1], base64_decode($new_file_move[1]));
+
+            $file_Path_re = 'uploads/temps_order/' . $order_running_code . '_'. $generateRandomString .  '.' . $type_real[1];
+            $file_name = $order_running_code . '_'. $generateRandomString .'.' . $type_real[1];
 
             $s3Client = new S3Client([
                 'version' => 'latest',
@@ -105,7 +120,7 @@ class OrderController extends BaseController
                 'order_price' => $data[0]['order_price'],
                 'order_pcs' => '',
                 'order_status' => 'IN_ORDER',
-                'src_order_picture' =>  $order_running_code . '.' . $type_real[1],
+                'src_order_picture' =>  $order_running_code .  '_'. $generateRandomString .'.'. $type_real[1],
                 'group_id' => $data[0]['group_id'],
                 'created_by'  => session()->get('username'),
                 'companies_id'  => session()->get('companies_id'),
@@ -209,23 +224,25 @@ class OrderController extends BaseController
                 $type = $new_file[0];
                 $type_real = explode("/", $type);
 
+                $generateRandomString = generateRandomString();
+
                 //data stock table
                 $data_order = [
                     'order_name' => $data[0]['order_name'],
                     'order_des' => $data[0]['order_des'],
                     'order_price' => $data[0]['order_price'],
                     'order_status' => 'IN_ORDER',
-                    'src_order_picture' =>  $order_running_code->order_code . '.' . $type_real[1],
+                    'src_order_picture' =>  $order_running_code->order_code .  '_'. $generateRandomString. '.' . $type_real[1],
                     'group_id' => $data[0]['group_id'],
                     'updated_by' => session()->get('username'),
                     'updated_at' => $buffer_datetime
                 ];
 
                 // unlink('uploads/temps_order/'. $data[0]['old_src_order_picture']);
-                file_put_contents('uploads/temps_order/' . $order_running_code->order_code . '.' . $type_real[1], base64_decode($new_file_move[1]));
+                file_put_contents('uploads/temps_order/' . $order_running_code->order_code . '_'. $generateRandomString. '.' . $type_real[1], base64_decode($new_file_move[1]));
 
-                $file_Path_re = 'uploads/temps_order/' . $order_running_code->order_code  . '.' . $type_real[1];
-                $file_name = $order_running_code->order_code  . '.' . $type_real[1];
+                $file_Path_re = 'uploads/temps_order/' . $order_running_code->order_code  . '_'. $generateRandomString .'.' . $type_real[1];
+                $file_name = $order_running_code->order_code  . '_'. $generateRandomString. '.' . $type_real[1];
     
                 $s3Client = new S3Client([
                     'version' => 'latest',
@@ -238,11 +255,7 @@ class OrderController extends BaseController
                     ]
                 ]);
 
-                $result_img_old = $s3Client->deleteObject([
-                    'Bucket' => $this->s3_bucket,
-                    'Key'    => 'uploads/temps_order/' . $file_name,
-                ]);
-    
+ 
                 $result_re = $s3Client->putObject([
                     'Bucket' => $this->s3_bucket,
                     'Key'    => 'uploads/temps_order/' . $file_name,
