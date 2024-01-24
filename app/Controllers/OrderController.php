@@ -237,6 +237,11 @@ class OrderController extends BaseController
                         'secret' => $this->s3_secret_key
                     ]
                 ]);
+
+                $result_img_old = $s3Client->deleteObject([
+                    'Bucket' => $this->s3_bucket,
+                    'Key'    => 'uploads/temps_order/' . $file_name,
+                ]);
     
                 $result_re = $s3Client->putObject([
                     'Bucket' => $this->s3_bucket,
