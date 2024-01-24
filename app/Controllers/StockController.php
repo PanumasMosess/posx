@@ -249,7 +249,7 @@ class StockController extends BaseController
                 'deleted_at' => $buffer_datetime
             ];
 
-            unlink('uploads/temps_stock/' . $stock_data->src_picture);
+            unlink($stock_data->src_picture);
             $update_new = $this->StockModel->deleteStock($data_stock, $data[0]['id']);
 
             if ($update_new) {
