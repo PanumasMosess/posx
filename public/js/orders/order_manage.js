@@ -238,6 +238,7 @@ function closeModalAddOrder() {
   $("#addOrder").parsley().reset();
   $("#nameForm").html("<h3>เพิ่มรายการสินค้า</h3>");
   $("#addOrder .parsley-required").hide();
+  $("input:checkbox").removeAttr("checked");
 }
 
 $("#addOrder").submit(function (e) {
@@ -255,6 +256,13 @@ $("#addOrder").submit(function (e) {
   ) {
     isOnline = window.navigator.onLine;
 
+    var dataRecomendCheck;
+    if ($("#recommendedMenu").is(":checked")) {
+      dataRecomendCheck = 1;
+    } else {
+      dataRecomendCheck = 0;
+    }
+
     arr_order = [
       {
         id: "",
@@ -269,6 +277,7 @@ $("#addOrder").submit(function (e) {
         updated_at: "",
         group_name: "",
         unit: "",
+        recommended: dataRecomendCheck,
       },
     ];
 
@@ -283,6 +292,7 @@ $("#addOrder").submit(function (e) {
       localStorage.setItem("ordersNew", JSON.stringify(itemsArrayOrderOffline));
 
       orderNew = JSON.parse(localStorage.ordersNew);
+      console.log(orderNew);
 
       $.ajax({
         url: serverUrl + "order/insertOrder",
@@ -307,6 +317,7 @@ $("#addOrder").submit(function (e) {
             $("#addOrder")[0].reset();
             $("#addOrder").parsley().reset();
             $("#addOrder .parsley-required").hide();
+            $("input:checkbox").removeAttr("checked");
             loadTableOrder();
           } else {
           }
@@ -326,6 +337,7 @@ $("#addOrder").submit(function (e) {
       $("#addOrder")[0].reset();
       $("#addOrder").parsley().reset();
       $("#addOrder .parsley-required").hide();
+      $("input:checkbox").removeAttr("checked");
 
       notif({
         type: "success",
@@ -364,6 +376,9 @@ function updateOrderData(data) {
         $("#price").val(response.data.order_price);
         $("#file_old_name_order").val(response.data.src_order_picture);
         $("#id_db_order").val(response.data.id);
+        if (response.data.order_menu_recommended == 1) {
+          $("#recommendedMenu").attr("checked", true);
+        }
       },
     });
   } else {
@@ -381,6 +396,9 @@ function updateOrderData(data) {
         $("#file_old_name_order").val(
           array_temp_update[i_temp]["src_order_picture"]
         );
+        if (array_temp_update[i_temp]["order_menu_recommended"] === 1) {
+          $("#recommendedMenu").attr("checked", true);
+        }
         $("#id_db_order").val(data);
       }
     }
@@ -389,6 +407,13 @@ function updateOrderData(data) {
 
 function submitDataUpdateOrder() {
   isOnline = window.navigator.onLine;
+
+  var dataRecomendCheck;
+  if ($("#recommendedMenu").is(":checked")) {
+    dataRecomendCheck = 1;
+  } else {
+    dataRecomendCheck = 0;
+  }
 
   arr_product_update = [
     {
@@ -405,6 +430,7 @@ function submitDataUpdateOrder() {
       updated_at: "",
       group_name: "",
       unit: "",
+      recommended: dataRecomendCheck,
     },
   ];
 
@@ -435,6 +461,7 @@ function submitDataUpdateOrder() {
           $("#addOrder").parsley().reset();
           $("#nameForm").html("<h3>เพิ่มสต็อก</h3>");
           $("#addOrder .parsley-required").hide();
+          $("input:checkbox").removeAttr("checked");
 
           loadTableOrder();
         } else {
@@ -459,6 +486,7 @@ function submitDataUpdateOrder() {
     $("#addOrder").parsley().reset();
     $("#nameForm").html("<h3>เพิ่มรายการสินค้า</h3>");
     $("#addOrder .parsley-required").hide();
+    $("input:checkbox").removeAttr("checked");
     loadTableOrder();
   }
 }

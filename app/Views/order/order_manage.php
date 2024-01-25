@@ -110,7 +110,7 @@
                                     <div class="input-group-text">
                                         <span class="">รายละเอียดสินค้า</span>
                                     </div>
-                                    <textarea class="form-control" id="des_order" name="des_order" rows="4" ></textarea>
+                                    <textarea class="form-control" id="des_order" name="des_order" rows="4"></textarea>
                                 </div>
                             </div>
                             <div class="row g-12">
@@ -119,6 +119,14 @@
                                     <label class="input-group-text" for="file_order">เลือกรูปภาพ</label>
                                     <input type="hidden" id="file_order_base64" name="file_order_base64" />
                                     <input type="hidden" id="file_old_name_order" name="file_old_name_order" />
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="recommendedMenu" id="recommendedMenu">
+                                    <label class="form-label form-check-label" for="recommendedMenu">
+                                        เมนูแนะนำ
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-auto justify-content-end" style="display: flex;">
