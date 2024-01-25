@@ -122,6 +122,7 @@ class OrderController extends BaseController
                 'order_status' => 'IN_ORDER',
                 'src_order_picture' =>  $order_running_code .  '_'. $generateRandomString .'.'. $type_real[1],
                 'group_id' => $data[0]['group_id'],
+                'order_menu_recommended' => $data[0]['recommended'],
                 'created_by'  => session()->get('username'),
                 'companies_id'  => session()->get('companies_id'),
                 'created_at' => $buffer_datetime   
@@ -234,6 +235,7 @@ class OrderController extends BaseController
                     'order_status' => 'IN_ORDER',
                     'src_order_picture' =>  $order_running_code->order_code .  '_'. $generateRandomString. '.' . $type_real[1],
                     'group_id' => $data[0]['group_id'],
+                    'order_menu_recommended' => $data[0]['recommended'],
                     'updated_by' => session()->get('username'),
                     'updated_at' => $buffer_datetime
                 ];
