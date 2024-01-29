@@ -177,6 +177,7 @@
         var channel = pusher.subscribe("order-mobile-channel");
 
         channel.bind("order-mobile-to-server", (data) => {
+            console.log(data);
             load_mobile_print();
         });
 
