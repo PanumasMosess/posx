@@ -363,7 +363,7 @@ class StockModel
     public function getOrder()
     {
         $companie = session()->get('companies_id');
-        $sql = "SELECT * FROM `order` where  companies_id = $companie   ORDER by order_name DESC";
+        $sql = "SELECT * FROM `order` where  companies_id = $companie and order_status != 'CANCEL_ORDER'   ORDER by order_name DESC";
 
         $builder = $this->db->query($sql);
         return $builder->getResult();
