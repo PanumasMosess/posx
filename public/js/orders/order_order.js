@@ -1154,3 +1154,8 @@ function openArea() {
 
   drowTableLoad("");
 }
+
+function bookingTable()
+{
+  
+}
