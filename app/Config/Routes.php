@@ -241,6 +241,8 @@ $routes->group(
         $routes->get('update_order_print_mobile/(:any)', 'OrderPosController::update_order_print_mobile/$1');  
         $routes->get('check_printer_order/(:any)', 'OrderPosController::fetchLogPrinter/$1');
         $routes->get('check_printer_order_by_table/(:any)', 'OrderPosController::fetchLogPrinterByTable/$1');
+        $routes->get('CancelBookingTable/(:any)', 'OrderPosController::CancelBookingTable/$1');
+        $routes->get('bookingTable/(:any)', 'OrderPosController::bookingTable/$1');
 
     /*
     * --------------------------------------------------------------------

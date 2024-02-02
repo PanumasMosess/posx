@@ -18,7 +18,9 @@ var price_sum_total_payment = 0;
   $("#void_order_btn").addClass("disable-click");
   $("#discount_order_btn").addClass("disable-click");
   $("#split_order_btn").addClass("disable-click");
+  $("#booking_table_btn").addClass("disable-click");
   $("#parmentButtonId").hide();
+  $("#cancel_booking_table_btn").hide();
   selectArea();
   interact(".resize-drag,.resize-drag-b")
     .on("tap", function (event) {
@@ -41,8 +43,10 @@ var price_sum_total_payment = 0;
         $("#move_order_btn").addClass("disable-click");
         $("#void_order_btn").addClass("disable-click");
         $("#discount_order_btn").addClass("disable-click");
+        $("#booking_table_btn").removeClass("disable-click");
         $("#parmentButtonId").hide();
-
+        $('#booking_table_btn').show();
+        $('#cancel_booking_table_btn').hide();
         clear_detail_summary();
       } else {
         $("#addOrderCusBtn").removeClass("disable-click");
@@ -50,6 +54,8 @@ var price_sum_total_payment = 0;
         $("#void_order_btn").removeClass("disable-click");
         $("#discount_order_btn").removeClass("disable-click");
         $("#split_order_btn").addClass("disable-click");
+        $('#booking_table_btn').hide();
+        $('#cancel_booking_table_btn').show();
         detail_summary(target.getAttribute("data-code"));
         $("#parmentButtonId").show();
       }
@@ -1157,5 +1163,32 @@ function openArea() {
 
 function bookingTable()
 {
-  
+
+  $.ajax({
+    url: serverUrl + "order/bookingTable/" + table_code,
+    method: "get",
+    cache: false,
+    success: function (response) {
+      $('#cancel_booking_table_btn').show();
+      $('#booking_table_btn').hide();
+      drowTableLoad(table_array_code);
+    },
+  });
+ 
+}
+
+function cancelBookingTable()
+{
+
+  $.ajax({
+    url: serverUrl + "order/CancelBookingTable/" + table_code,
+    method: "get",
+    cache: false,
+    success: function (response) {
+      $('#booking_table_btn').show();
+      $('#cancel_booking_table_btn').hide();
+      drowTableLoad(table_array_code);
+    },
+  });
+
 }
