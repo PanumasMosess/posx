@@ -1153,4 +1153,32 @@ class OrderModel
         return $builder->getResult();
     }
 
+    public function bookingTable($data, $table_code)
+    {
+        $companies_id = session()->get('companies_id');
+
+        $builder = $this->db->table('table_dynamic');
+
+        $builder->where('table_code', $table_code);
+        $builder->where('table_status', 'FINISH'); 
+        $builder->where('companies_id', $companies_id);
+
+        // ทำการอัปเดตข้อมูล
+        return $builder->update($data);
+    }
+
+    public function CancelBookingTable($data, $table_code)
+    {
+        $companies_id = session()->get('companies_id');
+
+        $builder = $this->db->table('table_dynamic');
+
+        $builder->where('table_code', $table_code);
+        $builder->where('table_status', 'USE'); 
+        $builder->where('companies_id', $companies_id);
+
+        // ทำการอัปเดตข้อมูล
+        return $builder->update($data);
+    }
+
 }

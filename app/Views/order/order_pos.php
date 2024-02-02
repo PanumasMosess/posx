@@ -206,6 +206,7 @@
                                                                             <a class="btn btn-outline-secondary mb-2" style="margin-right: 9px; line-height:1.3;" id="split_order_btn" href="javascript:void(0);"><i class="ti-split-h"></i> SpitBill</a>
                                                                             <a class="btn btn-outline-danger mb-2" style="margin-right: 9px; line-height:1.3;" id="void_order_btn" href="javascript:void(0);" onclick="voidItem();"><i class="ti-trash"></i> Void Item</a>
                                                                             <a class="btn btn-outline-success mb-2" style="margin-right: 9px; line-height:1.3;" id="booking_table_btn" href="javascript:void(0);" onclick="bookingTable();"><i class="ti-marker"></i> Booking</a>
+                                                                            <a class="btn btn-outline-danger mb-2" style="margin-right: 9px; line-height:1.3;" id="cancel_booking_table_btn" href="javascript:void(0);" onclick="cancelBookingTable();"><i class="ti-marker"></i>Cancel Booking</a>
                                                                         </div>
                                                                         <div class="QA_section">
                                                                             <div class="QA_table mb_30">

@@ -1301,4 +1301,52 @@ class OrderPosController extends BaseController
             'data' => $printer_data
         ]);
     }
+
+    public function CancelBookingTable($table_code = null)
+    {
+        $data = [
+            'table_status' => 'FINISH',
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        
+        $update_booking_new = $this->OrderModel->CancelBookingTable($data, $table_code);
+
+        if ($update_booking_new) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'สำเร็จ'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'ไม่สำเร็จ'
+            ]);
+        }
+    }
+
+    public function bookingTable($table_code = null)
+    {
+        $data = [
+            'table_status' => 'USE',
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        
+        $update_booking_new = $this->OrderModel->bookingTable($data, $table_code);
+
+        if ($update_booking_new) {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'สำเร็จ'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 200,
+                'error' => true,
+                'message' => 'ไม่สำเร็จ'
+            ]);
+        }
+    }
 }
