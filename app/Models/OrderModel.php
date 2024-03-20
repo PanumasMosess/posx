@@ -1181,4 +1181,14 @@ class OrderModel
         return $builder->update($data);
     }
 
+    public function getOrderListByTableCode($table_code = null)
+    {
+        $sql = "SELECT * FROM order_customer as a
+        where order_customer_table_code = '$table_code' and a.order_customer_status = 'IN_KITCHEN'
+        ORDER BY a.order_code DESC
+        ";
+        $builder = $this->db->query($sql);
+        return $builder->getResult();
+    }
+
 }
