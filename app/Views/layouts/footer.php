@@ -170,16 +170,16 @@
 
         document.getElementById("tv_board").href = link_tv;
 
-        var pusher = new Pusher(pusher_key, {
-            cluster: pusher_cluster,
-        });
+        // var pusher = new Pusher(pusher_key, {
+        //     cluster: pusher_cluster,
+        // });
 
-        var channel = pusher.subscribe("order-mobile-channel");
+        // var channel = pusher.subscribe("order-mobile-channel");
 
-        channel.bind("order-mobile-to-server", (data) => {
-            console.log(data);
-            load_mobile_print();
-        });
+        // channel.bind("order-mobile-to-server", (data) => {
+        //     console.log(data);
+        //     load_mobile_print();
+        // });
 
 
     });
@@ -223,7 +223,7 @@
         }
     });
 
-    // setInterval(load_mobile_print, 2000);
+    setInterval(load_mobile_print, 2000);
 
     function deleteFilePdf(file_name) {
         return new Promise(async (resolve, reject) => {
