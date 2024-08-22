@@ -448,3 +448,13 @@ function getValueMoney()
 
     return $data;
 }
+
+function getCompanies()
+{
+        $CompaniesModel = new \App\Models\CompaniesModel();
+        $data['companies'] = $CompaniesModel->getCompaniesByID(session()->get('companies_id'));
+
+        $PackageModel = new \App\Models\PackageModel();
+        $data['packet'] = $PackageModel->getPackageModelByID($data['companies']->packet_id);
+	return $data;
+}

@@ -110,27 +110,48 @@ $('body').on('click', '#EditInformation', function () {
     })
 });
 
+let maxEmails = 0;
+
+if (accountType === '1') {
+    maxEmails = 3; 
+} else if (accountType === '2') {
+    maxEmails = 5;
+} else {
+    maxEmails = 10;
+}
+
+const emailContainer = document.querySelector('.email-container');
+
+function checkEmailLimit() {
+    const emailCount = emailContainer.querySelectorAll('.email-row').length;
+    return emailCount < maxEmails; // ใช้ค่าของ maxEmails ที่ถูกกำหนดจาก if-else block
+}
+
 //When click add Email
 $('body').on('click', '#AddEmail', function () {
-    var emailInput = document.querySelector(".add-input");
-    var email = emailInput.value;
-    if (email.trim() !== "") {
-        // console.log(email);
-        $.ajax({
-            type: "POST",
-            url: "/setting/addEmail", // Replace with the actual URL
-            data: { email: email },
-            success: function (data) {
-                if ($('.email-container').css('display') === 'none') {
-                    $('.email-container').css('display', 'block'); // ถ้า email-container มี style display: none ให้ลบ style ออก
+    if (checkEmailLimit()) {
+        var emailInput = document.querySelector(".add-input");
+        var email = emailInput.value;
+        if (email.trim() !== "") {
+            // console.log(email);
+            $.ajax({
+                type: "POST",
+                url: "/setting/addEmail", // Replace with the actual URL
+                data: { email: email },
+                success: function (data) {
+                    if ($('.email-container').css('display') === 'none') {
+                        $('.email-container').css('display', 'block'); // ถ้า email-container มี style display: none ให้ลบ style ออก
+                    }
+                    // console.log(data.EmailReportIdID.id);
+                    addEmail(data.EmailReportIdID.id);
+                },
+                error: function () {
+                    alert("An error occurred while adding the email.");
                 }
-                // console.log(data.EmailReportIdID.id);
-                addEmail(data.EmailReportIdID.id);
-            },
-            error: function () {
-                alert("An error occurred while adding the email.");
-            }
-        });
+            });
+        }
+    } else {
+        alert(`คุณไม่สามารถเพิ่มอีเมลได้มากกว่า ${maxEmails} อีเมล`);
     }
 });
 

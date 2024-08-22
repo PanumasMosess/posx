@@ -1315,3 +1315,6 @@
     </div>
   </div>
 </div>
+<script>
+  const accountType = "<?php echo getCompanies()['companies']->packet_id; ?>"; // ตัวแปรนี้ถูกส่งมาจาก PHP
+</script>

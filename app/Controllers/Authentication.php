@@ -41,6 +41,11 @@ class Authentication extends BaseController
                                 'employee_id' => $employee->id
                             ]);
 
+                            if($employee->roles == 1){
+                                $roles = 'Admin';
+                            }else{
+                                $roles = 'Custom User';
+                            }
 
                             // $EmployeeSettingStatusModel = new EmployeeSettingStatusModel();
                             $PositionModel = new \App\Models\PositionModel();
@@ -202,7 +207,9 @@ class Authentication extends BaseController
                                 'thumbnail' => $employee->thumbnail,
                                 'isEmployeeLoggedIn' => true,
                                 'login_detail_id' => $employeeloginDetailID,
-                                'companies_id' => $employee->companies_id
+                                'companies_id' => $employee->companies_id,
+                                'name' => $employee->name, // ชื่อพนักงาน
+                                'role' => $roles,
                                 // 'status_document' => $employee_setting_status_document,
                                 // 'status_report' => $employee_setting_status_report,
                                 // 'status_setting' => $employee_setting_status_setting,

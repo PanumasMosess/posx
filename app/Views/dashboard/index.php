@@ -55,7 +55,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="common_input mb_15">
-                                            <input type="text" placeholder="UserName / Email" value="<?php echo session()->get('username'); ?>">
+                                            <input type="text" placeholder="UserName / Email" value="<?php echo session()->get('username'); ?>" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -105,8 +105,26 @@
                                                 <img src="img/icon2/2.svg" alt="">
                                             </div>
                                             <div>
-                                                <h5>-</h5>
-                                                <span>หมดอายุ</span>
+                                                <h5><?php echo dateThai(getCompanies()['companies']->packet_exp_date)  ?></h5>
+                                                <?php
+                                                $expiryDateTime  = new DateTime(getCompanies()['companies']->packet_exp_date);
+                                                $currentDateTime  = new DateTime();
+                                                $interval = $currentDateTime->diff($expiryDateTime);
+                                                // ตรวจสอบว่าหมดอายุแล้วหรือไม่
+                                                if ($expiryDateTime < $currentDateTime) {
+                                                    // วันที่หมดอายุแล้ว
+                                                    $exp =  "กรุณาเพิ่มวัน";
+                                                    $disabled = 'disabled';
+                                                } else {
+                                                    // วันที่ยังไม่หมดอายุ
+                                                    $days = $interval->days;
+                                                    $hours = $interval->h;
+                                                    $minutes = $interval->i; 
+                                                    $exp = "$days วัน, $hours ชั่วโมง, $minutes นาที";
+                                                    $disabled = '';
+                                                }
+                                                ?>
+                                                <span>หมดอายุ <?php echo $exp ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +136,7 @@
                                                 <img src="img/icon2/1.svg" alt="">
                                             </div>
                                             <div>
-                                                <h5><?php echo session()->get('packet_it'); ?></h5>
+                                                <h5><?php echo getCompanies()['packet']->package_name ?></h5>
                                                 <span>Package</span>
                                             </div>
                                         </div>
@@ -132,7 +150,7 @@
 
             <!-- ขวา -->
             <div class="col-xl-4">
-                <div class="white_card mb_30 user_crm_wrapper">
+                <div class="white_card mb_30 user_crm_wrapper <?php echo $disabled?>">
                     <div class="crm_reports_bnner">
                         <div class="row justify-content-end">
                             <div class="col-lg-6">
@@ -144,7 +162,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="white_card mb_30 user_crm_wrapper disabled">
+                <div class="white_card mb_30 user_crm_wrapper">
                     <div class="crm_reports_bnner">
                         <div class="row justify-content-end">
                             <div class="col-lg-6">
@@ -156,7 +174,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="white_card mb_30 user_crm_wrapper">
+                <div class="white_card mb_30 user_crm_wrapper <?php echo $disabled?>">
                     <div class="crm_reports_bnner">
                         <div class="row justify-content-end">
                             <div class="col-lg-6">
@@ -168,7 +186,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="white_card mb_30 user_crm_wrapper">
+                <div class="white_card mb_30 user_crm_wrapper <?php echo $disabled?>">
                     <div class="crm_reports_bnner" style="background-image: url('https://preview.keenthemes.com/metronic8/demo2/assets/media/patterns/header-bg.jpg');">
                         <div class="row justify-content-end">
                             <div class="col-lg-6">

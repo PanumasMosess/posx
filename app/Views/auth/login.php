@@ -62,7 +62,7 @@
             <div class="container d-flex flex-column h-100">
               <div class="row g-0">
                 <div class="col-11 col-lg-9 mx-auto">
-                  <div class="logo mt-5 mb-5"> <a class="d-flex" href="index.html" title="Oxyy"><img src="https://app.posx.co/img/POSX_2.png" alt="" style="height: 32px;"></a> </div>
+                  <div class="logo mt-5 mb-5"> <a class="d-flex" href="/" title="Oxyy"><img src="https://app.posx.co/img/POSX_2.png" alt="" style="height: 32px;"></a> </div>
                 </div>
               </div>
               <div class="row g-0 mt-3">
@@ -82,7 +82,7 @@
         <div class="container my-auto py-5">
           <div class="row g-0">
             <div class="col-11 col-md-8 col-lg-7 col-xl-6 mx-auto">
-              <p class="text-2 text-light">Not a member? <a class="fw-500" href="#">สมัครใช้งาน</a></p>
+              <p class="text-2 text-light">Not a member? <a class="fw-500" href="/register">สมัครใช้งาน</a></p>
               <h3 class="text-white mb-4">เข้าสู่ระบบ</h3>
 
               <form id="loginForm" class="form-dark" method="post">

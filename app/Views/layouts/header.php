@@ -106,7 +106,19 @@
             margin-right: 25px;
         }
     </style>
-
+    <?php
+    $expiryDateTime  = new DateTime(getCompanies()['companies']->packet_exp_date);
+    $currentDateTime  = new DateTime();
+    $interval = $currentDateTime->diff($expiryDateTime);
+    // ตรวจสอบว่าหมดอายุแล้วหรือไม่
+    if ($expiryDateTime < $currentDateTime) {
+        // วันที่หมดอายุแล้ว
+        $disabled = 'disabled';
+    } else {
+        // วันที่ยังไม่หมดอายุ
+        $disabled = '';
+    }
+    ?>
 </head>
 
 <body class="crm_body_bg">
@@ -151,7 +163,7 @@
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'order') {
                                 echo 'active';
                             } ?>">
-                <a class="has-arrow" href="#" aria-expanded="false">
+                <a class="has-arrow <?php echo $disabled?>" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
@@ -160,15 +172,15 @@
                     </div>
                 </a>
                 <ul>
-                    <li><a href="<?php echo base_url('/order/order_manage'); ?>">Manage Orders</a></li>
+                    <li><a href="<?php echo base_url('/order/order_manage'); ?>" class="<?php echo $disabled?>">Manage Orders</a></li>
                 </ul>
                 <ul>
-                    <li><a href="<?php echo base_url('/order/order_pos'); ?>">Orders POS</a></li>
+                    <li><a href="<?php echo base_url('/order/order_pos'); ?>" class="<?php echo $disabled?>" >Orders POS</a></li>
                 </ul>
             </li>
 
             <li class="">
-                <a href="<?php echo base_url('/expense/index'); ?>" aria-expanded="false">
+                <a href="<?php echo base_url('/expense/index'); ?>" aria-expanded="false" class="<?php echo $disabled?>">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
@@ -179,7 +191,7 @@
             </li>
 
             <li class="">
-                <a href="<?php echo base_url('/stock/index'); ?>" aria-expanded="false">
+                <a href="<?php echo base_url('/stock/index'); ?>" aria-expanded="false" class="<?php echo $disabled?>">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/13.svg'); ?>" alt="">
                     </div>
@@ -192,7 +204,7 @@
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'report') {
                                 echo 'active';
                             } ?>">
-                <a href="<?php echo base_url('/report'); ?>" aria-expanded="false">
+                <a href="<?php echo base_url('/report'); ?>" aria-expanded="false" class="<?php echo $disabled?>">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/11.svg'); ?>" alt="">
                     </div>
@@ -205,7 +217,7 @@
             <li class="mm-<?php if (service('uri')->getSegment(1) == 'manager') {
                                 echo 'active';
                             } ?>">
-                <a class="has-arrow" href="#" aria-expanded="false">
+                <a class="has-arrow <?php echo $disabled?>" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
@@ -213,13 +225,13 @@
                         <span class="lang" key='MANAGER'>ผู้จัดการ</span>
                     </div>
                 </a>
-                <ul>
+                <ul class="<?php echo $disabled?>">
                     <li><a href="<?php echo base_url('/manager/index'); ?>" class="lang" key='MENU'>เมนู</a></li>
                 </ul>
                 <ul class="disabled">
                     <li><a href="<?php echo base_url('/manager/edit_bill'); ?>" class="lang" key='BIIL_UPDATE'>แก้ไขบิล</a></li>
                 </ul>
-                <ul>
+                <ul class="<?php echo $disabled?>">
                     <li><a href="<?php echo base_url('/manager/setting_tv'); ?>" class="lang" key='SETTING_TY'>ตั้งค่า TV</a></li>
                 </ul>
             </li>
@@ -400,7 +412,7 @@
                                         <h5><?php echo session()->get('username'); ?></h5>
                                     </div>
                                     <div class="profile_info_details">
-                                        <a href="<?php echo base_url('/setting/index'); ?>"><i class="fas fa-cog"></i>
+                                        <a href="<?php echo base_url('/setting/index'); ?>" class="<?php echo $disabled?>"><i class="fas fa-cog"></i>
                                             <front class='lang' key='SETTING'>ตั้งค่า</front>
                                         </a>
                                         <a href="#" class="disabled"><i class="fas fa-plus-circle"></i>
@@ -409,7 +421,7 @@
                                         <a href="#" class="disabled"><i class="fas fa-laptop"></i>
                                             <front class='lang' key='REMOTE_SUPPORT'>Remote Support</front>
                                         </a>
-                                        <a id="tv_board" target="_blank"><i class="fas fa-laptop"></i>
+                                        <a id="tv_board" target="_blank" class="<?php echo $disabled?>"><i class="fas fa-laptop"></i>
                                             <front class='lang' key='TV_POSX'>TV Board</front>
                                         </a>
                                         <a href="#" class="disabled"><i class="fas fa-question-circle"></i>

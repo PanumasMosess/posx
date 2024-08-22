@@ -32,8 +32,10 @@ $routes->set404Override();
 
 // Authentication
 $routes->get('/', 'Home::index', ['filter' => 'employeeNoAuth']);
+$routes->get('register', 'Home::Register', ['filter' => 'employeeNoAuth']);
 $routes->match(['get', 'post'], 'login', 'Authentication::login', ['filter' => 'employeeNoAuth']);
 $routes->get('logout', 'Authentication::logout', ['filter' => 'employeeAuth']);
+$routes->post('user-register', 'Register::UserRegister', ['filter' => 'employeeNoAuth']);
 
 // $routes->get('/', 'Home::index');
 // $routes->get('/', 'Dashboard::index', ['filter' => 'employeeNoAuth']);
