@@ -140,7 +140,10 @@
                       <input type="password" class="form-control" name="ConfirmPassword" id="ConfirmPassword" required placeholder="ยืนยันรหัสผ่าน">
                       <span toggle="#ConfirmPassword" class="fa fa-fw fa-eye eye-icon toggle-password tx-primary"></span>
                     </div>
-                    <button id="btn-next-page2" class="btn btn-primary my-2" type="button">Signup</button>
+                    <div class="d-flex justify-content-between my-4">
+                      <a class="btn btn-primary" style="width: 145px;" type="button" href="<?php echo base_url(); ?>index.php/">Login</a>
+                      <button id="btn-next-page2" class="btn btn-primary" style="width: 145px;" type="button">Signup</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -206,13 +209,18 @@
                     </label>
                   </div>
                   <div class="pull-right" style="margin-top: 20px; color: white">
-                    <button id="btn-next-page3" class="btn btn-primary mx-5" type="button" disabled>Next</button>
+                    <div class="d-flex justify-content-between my-4 mx-5">
+                      <a class="btn btn-primary" id="btn-back-page1" style="width: 145px;" type="button">Back</a>
+                      <button id="btn-next-page3" class="btn btn-primary" style="width: 145px;" type="button" disabled>Next</button>
+                    </div>
+                    <!-- <button id="btn-next-page3" class="btn btn-primary " type="button" disabled>Next</button> -->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        
         <!-- Page 3 (Form Step 3) -->
         <div class="col-md-8" id="page3">
           <div class="d-flex flex-column align-items-center bg-dark" style="min-height: 100vh;">
@@ -234,14 +242,16 @@
                         <option value="3">1390/เดือน</option>
                       </select>
                     </div>
-                    <button id="btn-summit" class="btn btn-primary my-2" type="button">Signup</button>
+                    <div class="d-flex justify-content-between my-4">
+                      <a class="btn btn-primary" id="btn-back-page2" style="width: 145px;" type="button">Back</a>
+                      <button id="btn-summit" class="btn btn-primary" style="width: 145px;" type="button">Signup</button>
+                    </div>
                   </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -290,6 +300,7 @@
         setTimeout(function() {
           page1.style.display = "none"; // ซ่อนอย่างสมบูรณ์
           page2.style.display = "block"; // แสดง Page 2
+          page2.classList.remove("hide");
           page2.classList.add("show"); // เพิ่มการแสดงผลอย่างนุ่มนวล
         }, 0); // เท่ากับค่า transition: 0.5s
       }
@@ -304,7 +315,36 @@
       setTimeout(function() {
         page2.style.display = "none";
         page3.style.display = "block";
+        page3.classList.remove("hide");
         page3.classList.add("show");
+      }, 0); // Adjust this time to match your CSS transition
+    });
+
+    document.getElementById("btn-back-page2").addEventListener("click", function() {
+      var page2 = document.getElementById("page2");
+      var page3 = document.getElementById("page3");
+
+      // Hide Page 2
+      page3.classList.add("hide");
+      setTimeout(function() {
+        page3.style.display = "none";
+        page2.style.display = "block";
+        page2.classList.remove("hide");
+        page2.classList.add("show");
+      }, 0); // Adjust this time to match your CSS transition
+    });
+
+    document.getElementById("btn-back-page1").addEventListener("click", function() {
+      var page1 = document.getElementById("page1");
+      var page2 = document.getElementById("page2");
+
+      // Hide Page 2
+      page2.classList.add("hide");
+      setTimeout(function() {
+        page2.style.display = "none";
+        page1.style.display = "block";
+        page1.classList.remove("hide");
+        page1.classList.add("show");
       }, 0); // Adjust this time to match your CSS transition
     });
   </script>
