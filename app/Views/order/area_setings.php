@@ -135,6 +135,10 @@
         </div>
     </div>
 
+    <script>
+        const accountType = "<?php echo getCompanies()['companies']->packet_id; ?>"; // ตัวแปรนี้ถูกส่งมาจาก PHP
+        const tableCount = "<?php echo getCompanies()['table_count']->table_count; ?>";
+    </script>
 
     <script src="<?php echo base_url('js/jquery1-3.4.1.min.js'); ?>"></script>
 

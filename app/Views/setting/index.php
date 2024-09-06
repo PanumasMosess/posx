@@ -62,6 +62,20 @@
     text-overflow: ellipsis;
   }
 </style>
+<?php if(getCompanies()['companies']->packet_id == 1){
+  $PIN = '';
+  $Payment = '';
+}else{
+  $PIN = '<li class="nav-item">
+            <a class="nav-link" id="pos-pin-tab" data-bs-toggle="tab" href="#pos_pin" role="tab" aria-controls="pos_pin" aria-selected="false">POS Employees PIN</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="stock-pin-tab" data-bs-toggle="tab" href="#stock_pin" role="tab" aria-controls="stock_pin" aria-selected="false">Stock Employees PIN</a>
+          </li>';
+  $Payment = '<li class="nav-item">
+                <a class="nav-link" id="payment-type-tab" data-bs-toggle="tab" href="#payment_type" role="tab" aria-controls="payment_type" aria-selected="false">Payment Type</a>
+              </li>';
+}?>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
     <div class="row justify-content-center">
@@ -82,18 +96,11 @@
                 <li class="nav-item">
                   <a class="nav-link" id="user-accounts-tab" data-bs-toggle="tab" href="#user_accounts" role="tab" aria-controls="user_accounts" aria-selected="false">User Accounts</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="pos-pin-tab" data-bs-toggle="tab" href="#pos_pin" role="tab" aria-controls="pos_pin" aria-selected="false">POS Employees PIN</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="stock-pin-tab" data-bs-toggle="tab" href="#stock_pin" role="tab" aria-controls="stock_pin" aria-selected="false">Stock Employees PIN</a>
-                </li>
+                <?php echo $PIN;?>
                 <li class="nav-item">
                   <a class="nav-link" id="mobile-tab" data-bs-toggle="tab" href="#mobile" role="tab" aria-controls="mobile" aria-selected="false">Mobile</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="payment-type-tab" data-bs-toggle="tab" href="#payment_type" role="tab" aria-controls="payment_type" aria-selected="false">Payment Type</a>
-                </li>
+                <?php echo $Payment;?>
                 <li class="nav-item">
                   <a class="nav-link" id="printer-seting-tab" data-bs-toggle="tab" href="#printer_seting" role="tab" aria-controls="printer_seting" aria-selected="false">Printer Seting</a>
                 </li>
@@ -545,6 +552,11 @@
                                 <span class="help-inline">ชื่อจะแสดงตอนพิมพ์ใบเสร็จ</span>
                               </div>
                             </div>
+                            <?php if (getCompanies()['companies']->packet_id == 1) {
+                              $Custom_User = 'disabled';
+                            } else {
+                              $Custom_User = '';
+                            } ?>
                             <div class="input-group mb-3">
                               <div class="input-group-text col-md-3">
                                 <span>Role</span>
@@ -552,7 +564,7 @@
                               <div class="col-md-9">
                                 <select class="form-select" name="roles" id="roles">
                                   <option value="1">Admin</option>
-                                  <option value="0">Custom User</option>
+                                  <option value="0" <?php echo $Custom_User?>>Custom User</option>
                                 </select>
                               </div>
                               <div class="col-md-3">
@@ -649,7 +661,7 @@
                               <div class="col-md-9">
                                 <select class="form-select" name="edit_roles" id="edit_roles">
                                   <option value="1">Admin</option>
-                                  <option value="0">Custom User</option>
+                                  <option value="0" <?php echo $Custom_User?>>Custom User</option>
                                 </select>
                               </div>
                               <div class="col-md-3">

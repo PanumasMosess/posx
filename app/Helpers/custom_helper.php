@@ -456,5 +456,8 @@ function getCompanies()
 
         $PackageModel = new \App\Models\PackageModel();
         $data['packet'] = $PackageModel->getPackageModelByID($data['companies']->packet_id);
+
+        $TableModel = new \App\Models\TableModel();
+        $data['table_count'] = $TableModel->getTableCount();
 	return $data;
 }
