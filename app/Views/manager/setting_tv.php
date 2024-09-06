@@ -23,6 +23,13 @@
     /* เพิ่มขนาดของปุ่มเมื่อ hover */
   }
 </style>
+<?php if(getCompanies()['companies']->packet_id == 1){
+  $Barcode = '';
+}else{
+  $Barcode = '<li class="nav-item">
+                <a class="nav-link " id="setting-barcode-tab" data-bs-toggle="tab" href="#setting_barcode" role="tab" aria-controls="setting_barcode" aria-selected="true">Barcode</a>
+              </li>';
+}?>
 <div class="main_content_iner">
   <div class="container-fluid p-0">
     <div class="row justify-content-center">
@@ -34,9 +41,7 @@
                 <li class="nav-item">
                   <a class="nav-link active" id="setting-tv-tab" data-bs-toggle="tab" href="#setting_tv" role="tab" aria-controls="setting_tv" aria-selected="true">Setting TV</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link " id="setting-barcode-tab" data-bs-toggle="tab" href="#setting_barcode" role="tab" aria-controls="setting_barcode" aria-selected="true">Barcode</a>
-                </li>
+                <?php echo $Barcode;?>
               </ul>
             </div>
           </div>

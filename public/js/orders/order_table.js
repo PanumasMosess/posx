@@ -134,32 +134,46 @@ function reset() {
 // }
 
 function addTable() {
-  var tablename = $("#table_name").parsley();
-  var table_size = $("#table_size").parsley();
+  let maxTable = 0;
 
-  if (tablename.isValid() && table_size.isValid()) {
-    $(".canva").append(
-      '<div class="resize-drag ' +
-        ($("#table_round").prop("checked") ? "circle" : "") +
-        '" id="' +
-        Math.floor(Math.random() * 10000 + 1) +
-        '" data-rounded="' +
-        ($("#table_round").prop("checked") ? "yes" : "no") +
-        '" data-name="' +
-        $("#table_name").val() +
-        '" data-size="' +
-        $("#table_size").val() +
-        '"  data-x="0" data-y="0" class="resize-drag"><p>' +
-        $("#table_name").val() +
-        "</p><span>" +
-        $("#table_size").val() +
-        "ที่นั่ง" +
-        "</span></div>"
-    );
-    reset();
+  if (accountType === "1") {
+    maxTable = 30;
+  } else if (accountType === "2") {
+    maxTable = 60;
   } else {
-    tablename.validate();
-    table_size.validate();
+    maxTable = Infinity;
+  }
+
+  if (tableCount >= maxTable) {
+    alert(`คุณไม่สามารถเพิ่มโต๊ะได้มากกว่า ${maxTable} โต๊ะ`);
+  } else {
+    var tablename = $("#table_name").parsley();
+    var table_size = $("#table_size").parsley();
+
+    if (tablename.isValid() && table_size.isValid()) {
+      $(".canva").append(
+        '<div class="resize-drag ' +
+          ($("#table_round").prop("checked") ? "circle" : "") +
+          '" id="' +
+          Math.floor(Math.random() * 10000 + 1) +
+          '" data-rounded="' +
+          ($("#table_round").prop("checked") ? "yes" : "no") +
+          '" data-name="' +
+          $("#table_name").val() +
+          '" data-size="' +
+          $("#table_size").val() +
+          '"  data-x="0" data-y="0" class="resize-drag"><p>' +
+          $("#table_name").val() +
+          "</p><span>" +
+          $("#table_size").val() +
+          "ที่นั่ง" +
+          "</span></div>"
+      );
+      reset();
+    } else {
+      tablename.validate();
+      table_size.validate();
+    }
   }
 }
 
