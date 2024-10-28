@@ -168,7 +168,7 @@
                             <div class="col-lg-6">
                                 <h4>เพิ่มวัน</h4>
                                 <p>เพิ่มวันการใช้งานระบบ POSX</p>
-                                <a href="#">คลิก <i class="fas fa-arrow-right"></i>
+                                <a href="<?php echo base_url('payment/index'); ?>">คลิก <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>

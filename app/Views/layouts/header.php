@@ -415,7 +415,7 @@
                                         <a href="<?php echo base_url('/setting/index'); ?>" class="<?php echo $disabled?>"><i class="fas fa-cog"></i>
                                             <front class='lang' key='SETTING'>ตั้งค่า</front>
                                         </a>
-                                        <a href="#" class="disabled"><i class="fas fa-plus-circle"></i>
+                                        <a href="<?php echo base_url('/payment/index'); ?>" class="<?php echo $disabled?>"><i class="fas fa-plus-circle"></i>
                                             <front class='lang' key='ADD_DATE'>เพิ่มวัน</front>
                                         </a>
                                         <a href="#" class="disabled"><i class="fas fa-laptop"></i>

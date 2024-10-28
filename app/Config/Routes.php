@@ -107,6 +107,11 @@ $routes->group('setting', ['filter' => 'employeeAuth'],  function ($routes) {
     $routes->post('file_setting', 'SettingController::file_setting');
 });
  
+$routes->group('payment', ['filter' => 'employeeAuth'] ,function ($routes) {
+    $routes->get('index', 'PaymentController::index');
+    $routes->post('addPayment', 'PaymentController::addPayment');
+});
+
 $routes->group('expense', ['filter' => 'employeeAuth'] ,function ($routes) {
     $routes->get('index', 'ExpenseController::index');
     $routes->post('addExpense', 'ExpenseController::addExpense');
