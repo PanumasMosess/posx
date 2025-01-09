@@ -140,7 +140,7 @@
                                                                 <div class="Activity_timeline">
                                                                     <div class="QA_section">
                                                                         <div class="QA_table mb_30">
-                                                                           <font class="lang"  key='IF_SALE_PRODUCT_FORMULAR'>หากขายสินค้ารายการนี้</font> 
+                                                                            <font class="lang"  key='IF_SALE_PRODUCT_FORMULAR'>หากขายสินค้ารายการนี้</font>
                                                                             <table class="table lms_table_active" id="table_fomular_order">
                                                                                 <thead>
                                                                                     <tr>
@@ -157,7 +157,7 @@
                                                                     </div>
                                                                     <div class="QA_section">
                                                                         <div class="QA_table mb_30">
-                                                                           <font class="lang" key="STOCK_CUT_CONFIRM_PRODUCT">จะตัดสต็อกดังนี้</font> 
+                                                                            <font class="lang" key="STOCK_CUT_CONFIRM_PRODUCT">จะตัดสต็อกดังนี้</font>
                                                                             <table class="table lms_table_active" id="table_fomular_stock_cut">
                                                                                 <thead>
                                                                                     <tr>
@@ -176,10 +176,10 @@
                                                                     </div>
                                                                     <div class="col-auto justify-content-end" style="display: flex;">
                                                                         <button type="button" onclick="cancleFormular();" class="btn btn-outline-danger rounded-pill m-1">
-                                                                        <front class="lang" key='CANCEL'>ยกเลิก</front>
+                                                                            <front class="lang" key='CANCEL'>ยกเลิก</front>
                                                                         </button>
                                                                         <button type="button" id="save_stock_btn" onclick="formularConfirm();" class="btn btn-outline-success rounded-pill m-1">
-                                                                        <front class="lang" key='CONFIRM'>ยืนยัน</front>
+                                                                            <front class="lang" key='CONFIRM'>ยืนยัน</front>
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -381,7 +381,7 @@
                                         <div class="input-group-text">
                                             <div class="">ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>)</div>
                                         </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
+                                        <input type="text" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -389,7 +389,7 @@
                                         <div class="input-group-text">
                                             <div class="">จำนวน</div>
                                         </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="pcs" name="pcs" placeholder="pcs" required>
+                                        <input type="text" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;"  id="pcs" name="pcs" placeholder="pcs" required>
                                     </div>
                                 </div>
                             </div>
@@ -399,7 +399,7 @@
                                         <div class="input-group-text">
                                             <div class="">ค่า MAX</div>
                                         </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="max" name="max" placeholder="MAX" required>
+                                        <input type="text" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="max" name="max" placeholder="MAX" required>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -407,7 +407,7 @@
                                         <div class="input-group-text">
                                             <div class="">ค่า MIN</div>
                                         </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="min" name="min" placeholder="MIN" required>
+                                        <input type="text" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="min" name="min" placeholder="MIN" required>
                                     </div>
                                 </div>
                             </div>
@@ -493,7 +493,7 @@
                                     <span class="lang" key='CANCEL'> ยกเลิก </span>
                                 </button>
                                 <button type="submit" id='save_adjust_btn' class="btn btn-outline-success m-1">
-                                <span class="lang" key='CONFIRM'> ยืนยัน </span>
+                                    <span class="lang" key='CONFIRM'> ยืนยัน </span>
                                 </button>
                             </div>
                         </div>

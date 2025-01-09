@@ -101,7 +101,7 @@
                                         <div class="input-group-text">
                                             <div class="">ราคา</div>
                                         </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
+                                        <input type="text" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="price" nane="price" placeholder="price" required>
                                     </div>
                                 </div>
                             </div>
