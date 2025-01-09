@@ -686,7 +686,7 @@
                                 <div class="row col-12">
                                     <div class="col-12">
                                         <div class="input-group mb-3">
-                                            <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_price_payment" name="num_price_payment" placeholder="รับเงิน" required>
+                                            <input type="text" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="num_price_payment" name="num_price_payment" placeholder="รับเงิน" required>
                                             <div class="input-group-text">
                                                 <div class=""><i class="fab fa-btc"></i></div>
                                             </div>
