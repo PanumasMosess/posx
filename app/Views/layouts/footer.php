@@ -1,3 +1,25 @@
+<div id="chat-container">
+  <!-- ปุ่มไอคอน -->
+  <div id="chat-icon">
+    <i class="fas fa-comments"></i>
+  </div>
+
+  <!-- หน้าต่างแชท -->
+  <div id="chat-window">
+    <div id="chat-header">
+      <span>แชทกับเรา</span>
+      <button id="close-chat">✖</button>
+    </div>
+    <div id="chat-body">
+      <p>สวัสดี! มีอะไรให้ช่วยไหม?</p>
+    </div>
+    <div id="chat-footer">
+      <input type="text" id="chat-input" placeholder="พิมพ์ข้อความ...">
+      <button id="send-message">ส่ง</button>
+    </div>
+  </div>
+</div>
+
 <div class="footer_part">
     <div class="container-fluid">
         <div class="row">
@@ -373,6 +395,28 @@
     }
 </script>
 
+<script>
+// เปิด-ปิดหน้าต่างแชท
+document.getElementById("chat-icon").addEventListener("click", function () {
+  const chatWindow = document.getElementById("chat-window");
+  chatWindow.style.display = chatWindow.style.display === "none" || !chatWindow.style.display ? "flex" : "none";
+});
+
+// ปิดหน้าต่างแชท
+document.getElementById("close-chat").addEventListener("click", function () {
+  document.getElementById("chat-window").style.display = "none";
+});
+
+// ส่งข้อความ (ตัวอย่าง)
+document.getElementById("send-message").addEventListener("click", function () {
+  const chatInput = document.getElementById("chat-input");
+  if (chatInput.value.trim() !== "") {
+    alert("ส่งข้อความ: " + chatInput.value);
+    chatInput.value = ""; // ล้างข้อความ
+  }
+});
+
+</script>
 </body>
 
 </html>

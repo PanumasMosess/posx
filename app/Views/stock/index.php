@@ -483,7 +483,7 @@
                                         <div class="input-group-text">
                                             <div class="lang" key='ADJUST-PCS-STOCK'>จำนวนที่ต้องการ</div>
                                         </div>
-                                        <input type="number" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="pcs_adjust" name="pcs_adjust" placeholder="pcs" required>
+                                        <input type="text" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" id="pcs_adjust" name="pcs_adjust" placeholder="pcs" required>
                                         <input type="hidden" id="id_adjust" name="id_adjust" />
                                     </div>
                                 </div>
