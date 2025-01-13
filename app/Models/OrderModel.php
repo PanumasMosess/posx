@@ -101,6 +101,7 @@ class OrderModel
 
     private function DataOrderQuery($post_data)
     {
+        $companies_id = session()->get('companies_id');
 
         $builder = $this->db->table('order');
 
@@ -127,6 +128,7 @@ class OrderModel
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         $builder->where("order.order_status not in ('CANCEL_ORDER')");
+        $builder->where("order.companies_id",  $companies_id);
 
         $i = 0;
         // loop searchable columns
@@ -174,6 +176,7 @@ class OrderModel
 
     public function getAllDataOrderFilter()
     {
+        $companies_id = session()->get('companies_id');
 
         $sql = "            
         SELECT
@@ -196,7 +199,7 @@ class OrderModel
         FROM `order`
         left join group_product
         on group_product.id = `order`.group_id
-        where `order`.order_status not in ('CANCEL_ORDER')
+        where `order`.order_status not in ('CANCEL_ORDER') AND `order`.companies_id = $companies_id
         ORDER BY `order`.order_code DESC
         ";
 
@@ -687,13 +690,9 @@ class OrderModel
         return $builder->getRow();
     }
 
-    public function getFormulaTransectionByOrder()
-    {
-    }
+    public function getFormulaTransectionByOrder() {}
 
-    public function getStockTransectionByOrder()
-    {
-    }
+    public function getStockTransectionByOrder() {}
 
     public function insertOrderCustomer($data, $running, $datacount = null, $status)
     {
@@ -1160,7 +1159,7 @@ class OrderModel
         $builder = $this->db->table('table_dynamic');
 
         $builder->where('table_code', $table_code);
-        $builder->where('table_status', 'FINISH'); 
+        $builder->where('table_status', 'FINISH');
         $builder->where('companies_id', $companies_id);
 
         // ทำการอัปเดตข้อมูล
@@ -1174,7 +1173,7 @@ class OrderModel
         $builder = $this->db->table('table_dynamic');
 
         $builder->where('table_code', $table_code);
-        $builder->where('table_status', 'USE'); 
+        $builder->where('table_status', 'USE');
         $builder->where('companies_id', $companies_id);
 
         // ทำการอัปเดตข้อมูล
@@ -1190,5 +1189,4 @@ class OrderModel
         $builder = $this->db->query($sql);
         return $builder->getResult();
     }
-
 }
