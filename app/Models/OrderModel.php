@@ -268,6 +268,7 @@ class OrderModel
 
     private function DataAreaQuery($post_data)
     {
+        $companies_id = session()->get('companies_id');
 
         $builder = $this->db->table('area_table');
 
@@ -287,6 +288,7 @@ class OrderModel
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         $builder->where("area_table.deleted_at is null");
+        $builder->where("area_table.companies_id",  $companies_id);
 
         $i = 0;
         // loop searchable columns
@@ -334,7 +336,8 @@ class OrderModel
 
     public function getAllDataAreaFilter()
     {
-
+        $companies_id = session()->get('companies_id');
+        
         $sql = "            
         SELECT 
          area_table.id, 
@@ -347,7 +350,7 @@ class OrderModel
          area_table.deleted_at,  
          area_table.companies_id
          FROM area_table
-         WHERE area_table.deleted_at is null
+         WHERE area_table.deleted_at is null AND area_table.companies_id = $companies_id
         ";
 
         $builder = $this->db->query($sql);
@@ -481,6 +484,7 @@ class OrderModel
 
     private function DataOrderCustomerQuery($post_data)
     {
+        $companies_id = session()->get('companies_id');
 
         $builder = $this->db->table('order');
 
@@ -504,7 +508,8 @@ class OrderModel
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         // $builder->groupBy("stock_formula.order_code");
         $builder->where('order_status !=', 'CANCEL_ORDER');
-
+        $builder->where("order_status.companies_id",  $companies_id);
+        
         $i = 0;
         $i2 = 0;
         // loop searchable columns
@@ -575,7 +580,7 @@ class OrderModel
 
     public function getAllDataOrderCustomerFilter()
     {
-
+        $companies_id = session()->get('companies_id');
         // $sql = "            
         // select
         // a.id, 
@@ -614,7 +619,7 @@ class OrderModel
         from `order` a 
         left join group_product c on  
         a.group_id = c.id 
-        WHERE a.order_status != 'CANCEL_ORDER'
+        WHERE a.order_status != 'CANCEL_ORDER' AND a.companies_id = $companies_id
         ";
 
         $builder = $this->db->query($sql);
