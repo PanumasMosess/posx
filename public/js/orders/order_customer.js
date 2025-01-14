@@ -384,6 +384,47 @@ function getOrderCard() {
         }
       },
 
+      // initComplete: function () {
+      //   var that = this;
+      //   this.api()
+      //     .columns([2])
+      //     .every(function () {
+      //       var column = this;
+      //       var select = $(
+      //         '<select><option value="">เลือกหมวดหมู่</option></select>'
+      //       )
+      //         .appendTo($("#search"))
+      //         .on("change", function () {
+      //           var val = $.fn.dataTable.util.escapeRegex($(this).val());
+      //           column.search(val).draw();
+      //         });
+
+      //       // column
+      //       //   .data()
+      //       //   .unique()
+      //       //   .sort()
+      //       //   .each(function (d, j) {
+      //       //     select.append('<option value="' + d + '">' + d + "</option>");
+      //       //   });
+
+      //       ajax_data = that.api().ajax.json().data_all;
+      //       arr_data = [];
+      //       for (i = 0; i < ajax_data.length; i++) {
+      //         if (arr_data.indexOf(ajax_data[i].name) === -1) {
+      //           arr_data.push(ajax_data[i].name);
+      //         }
+      //       }
+      //       for (index_ = 0; index_ < arr_data.length; index_++) {
+      //         select.append(
+      //           '<option value="' +
+      //             arr_data[index_] +
+      //             '">' +
+      //             arr_data[index_] +
+      //             "</option>"
+      //         );
+      //       }
+      //     });
+      // },
       initComplete: function () {
         var that = this;
         this.api()
@@ -395,36 +436,19 @@ function getOrderCard() {
             )
               .appendTo($("#search"))
               .on("change", function () {
-                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                column.search(val).draw();
+                var val = $(this).val();
+                // ส่งค่าที่ไม่ได้ escape
+                column.search(val, false, false).draw(); 
               });
-
-            // column
-            //   .data()
-            //   .unique()
-            //   .sort()
-            //   .each(function (d, j) {
-            //     select.append('<option value="' + d + '">' + d + "</option>");
-            //   });
-
+      
+            // สร้างตัวเลือกใน dropdown
             ajax_data = that.api().ajax.json().data_all;
-            arr_data = [];
-            for (i = 0; i < ajax_data.length; i++) {
-              if (arr_data.indexOf(ajax_data[i].name) === -1) {
-                arr_data.push(ajax_data[i].name);
-              }
-            }
-            for (index_ = 0; index_ < arr_data.length; index_++) {
-              select.append(
-                '<option value="' +
-                  arr_data[index_] +
-                  '">' +
-                  arr_data[index_] +
-                  "</option>"
-              );
-            }
+            let arr_data = [...new Set(ajax_data.map(item => item.name))];
+            arr_data.forEach(name => {
+              select.append('<option value="' + name + '">' + name + "</option>");
+            });
           });
-      },
+      }      
     });
 
     $("#orderListCustomerCard tbody")
