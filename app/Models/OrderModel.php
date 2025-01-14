@@ -508,7 +508,7 @@ class OrderModel
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         // $builder->groupBy("stock_formula.order_code");
         $builder->where('order_status !=', 'CANCEL_ORDER');
-        $builder->where("order_status.companies_id",  $companies_id);
+        $builder->where("order.companies_id",  $companies_id);
         
         $i = 0;
         $i2 = 0;
