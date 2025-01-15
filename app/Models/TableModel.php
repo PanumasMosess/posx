@@ -52,10 +52,11 @@ class TableModel
 
     public function getCounterTableAvailable()
     {
+        $companies_id = session()->get('companies_id');
         $sql = "
             SELECT COUNT(id) AS counter
             FROM table_dynamic
-            WHERE table_status = 'USE'
+            WHERE table_status = 'USE' AND companies_id = $companies_id
         ";
 
         $builder = $this->db->query($sql);

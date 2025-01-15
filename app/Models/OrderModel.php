@@ -120,8 +120,7 @@ class OrderModel
         order.created_at, 
         order.updated_at, 
         order.deleted_at,
-        group_product.name as group_name,
-        group_product.unit
+        group_product.name as group_name
        ");
 
         $builder->join('group_product', 'group_product.id = order.group_id', 'left');
@@ -194,8 +193,7 @@ class OrderModel
         `order`.updated_at, 
         `order`.deleted_at,
         `order`.group_id,
-        group_product.name as group_name,
-        group_product.unit
+        group_product.name as group_name
         FROM `order`
         left join group_product
         on group_product.id = `order`.group_id
@@ -657,6 +655,7 @@ class OrderModel
 
     public function getOrderCustomersSummaryTodayByOrderStatus($orderStatus)
     {
+        $companies_id = session()->get('companies_id');
         $condition = " AND order_status != 'CANCEL'";
 
         if ($orderStatus != NULL) {
@@ -666,7 +665,7 @@ class OrderModel
         $sql = "
             SELECT *
             FROM `order_summary` 
-            WHERE DATE(created_at) = CURDATE() $condition
+            WHERE DATE(created_at) = CURDATE() AND companies_id = $companies_id $condition 
             ORDER BY created_at DESC
         ";
 
@@ -677,6 +676,7 @@ class OrderModel
 
     public function getDataSummaryToday()
     {
+        $companies_id = session()->get('companies_id');
         $sql = "
             SELECT 
                 SUM(order_price_sum) AS TOTAL,
@@ -686,7 +686,7 @@ class OrderModel
                 SUM(order_card_charge) AS CREDITCARD_CHARGE,
                 SUM(order_vat) AS VAT
             FROM `order_summary` 
-            WHERE DATE(created_at) = CURDATE()
+            WHERE DATE(created_at) = CURDATE() AND companies_id = $companies_id
             ORDER BY created_at DESC
         ";
 
@@ -958,13 +958,14 @@ class OrderModel
 
     public function getOrderByType($type)
     {
+        $companies_id = session()->get('companies_id');
 
         switch ($type) {
             case 'NORMAL':
                 $sql = "
                     SELECT *
                     FROM `order_summary` 
-                    WHERE DATE(created_at) = CURDATE() AND order_status != 'CANCEL'
+                    WHERE DATE(created_at) = CURDATE() AND order_status != 'CANCEL' AND companies_id = $companies_id
                     ORDER BY created_at DESC
                 ";
                 break;
@@ -973,7 +974,7 @@ class OrderModel
                 $sql = "
                     SELECT *
                     FROM `order_summary` 
-                    WHERE DATE(created_at) = CURDATE() AND order_status = 'CANCEL'
+                    WHERE DATE(created_at) = CURDATE() AND order_status = 'CANCEL' AND companies_id = $companies_id
                     ORDER BY created_at DESC
                 ";
                 break;

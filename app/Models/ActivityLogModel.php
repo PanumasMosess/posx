@@ -52,10 +52,11 @@ class ActivityLogModel
 
     public function getActivityLogToday()
     {
+        $companies_id = session()->get('companies_id');
         $sql = "
             SELECT *
             FROM activity_logs
-            WHERE DATE(created_at) = CURDATE()
+            WHERE DATE(created_at) = CURDATE() AND companies_id = $companies_id
             ORDER BY created_at DESC
         ";
 

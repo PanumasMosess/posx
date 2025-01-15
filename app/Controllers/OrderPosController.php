@@ -498,6 +498,7 @@ class OrderPosController extends BaseController
                         'order_customer_code'  => $order_for_update->order_customer_code,
                         'order_customer_ordername'  => $data[0]['order_customer_ordername'],
                         'order_customer_des'   =>  $data[0]['order_des'],
+                        'order_customer_price'   =>  $data[0]['order_customer_price'],
                         'order_customer_pcs'  => $data[0]['order_customer_pcs'],
                         'order_code'   => $data[0]['order_code'],
                         'order_customer_status'   => $data[0]['order_status'],
@@ -514,7 +515,7 @@ class OrderPosController extends BaseController
 
                     $data_print_log = [
                         'order_customer_code'  => $order_for_update->order_customer_code,
-                        'order_code'  => $data[0]['order_customer_ordername'],
+                        'order_code'  => $data[0]['order_code'],
                         'order_table_code' => $data[0]['order_customer_table_code'],
                         'order_customer_ordername' => $data[0]['order_customer_ordername'],
                         'order_customer_pcs'  => $data[0]['order_customer_pcs'],
@@ -676,6 +677,7 @@ class OrderPosController extends BaseController
                     'order_customer_code'  => $order_running_code,
                     'order_customer_ordername'  => $data[0]['order_customer_ordername'],
                     'order_customer_des'   =>  $data[0]['order_des'],
+                    'order_customer_price'   =>  $data[0]['order_customer_price'],
                     'order_customer_pcs'  => $data[0]['order_customer_pcs'],
                     'order_code'   => $data[0]['order_code'],
                     'order_customer_status'   => $data[0]['order_status'],

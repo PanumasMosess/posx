@@ -54,7 +54,7 @@ function loadTableOrder() {
           data: null,
           render: function (data, type, row, meta) {
             return (
-              "<font>" + data["order_price"] + "/" + data["unit"] + "</font>"
+              "<font>" + data["order_price"] + "</font>"
             );
           },
         },
@@ -125,7 +125,7 @@ function loadTableOrder() {
           data: null,
           render: function (data, type, row, meta) {
             return (
-              "<font>" + data["order_price"] + "/" + data["unit"] + "</font>"
+              "<font>" + data["order_price"] + "</font>"
             );
           },
         },
@@ -213,7 +213,7 @@ function offlineTemp() {
             group_id: response.data[index].group_id,
             updated_at: response.data[index].updated_at,
             group_name: response.data[index].group_name,
-            unit: response.data[index].unit,
+            // unit: response.data[index].unit,
           },
         ];
 
@@ -276,7 +276,7 @@ $("#addOrder").submit(function (e) {
         group_id: $("#category_order").val(),
         updated_at: "",
         group_name: "",
-        unit: "",
+        // unit: "",
         recommended: dataRecomendCheck,
       },
     ];
@@ -429,7 +429,7 @@ function submitDataUpdateOrder() {
       group_id: $("#category_order").val(),
       updated_at: "",
       group_name: "",
-      unit: "",
+      // unit: "",
       recommended: dataRecomendCheck,
     },
   ];

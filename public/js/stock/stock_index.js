@@ -62,7 +62,7 @@ $("#addStock").submit(function (e) {
       {
         id: "",
         name: $("#productname").val(),
-        group_id: $("#category").val(),
+        stock_unit: $("#category").val(),
         supplier_id: $("#supplier").val(),
         price: $("#price").val(),
         pcs: $("#pcs").val(),
@@ -192,7 +192,7 @@ function loadTableStock() {
           data: "name",
         },
         {
-          data: "group_name",
+          data: "stock_unit",
         },
         {
           data: "pcs",
@@ -282,7 +282,7 @@ function loadTableStock() {
           data: "name",
         },
         {
-          data: "group_name",
+          data: "stock_unit",
         },
         {
           data: "pcs",
@@ -362,7 +362,7 @@ function offlineTemp() {
           {
             id: response.data[index].id,
             name: response.data[index].name,
-            group_id: response.data[index].group_id,
+            stock_unit: response.data[index].stock_unit,
             supplier_id: response.data[index].supplier_id,
             price: response.data[index].price,
             pcs: response.data[index].pcs,
@@ -380,21 +380,21 @@ function offlineTemp() {
     },
   });
 
-  $.ajax({
-    url: serverUrl + "/stock/groupData",
-    method: "get",
-    success: function (response) {
-      var category = $("#category");
-      category.html('<option value="">category</option>');
-      $.each(response.data, function (index, item) {
-        category.append(
-          $('<option style="color: #000;"></option>')
-            .val(item.id)
-            .html(item.name)
-        );
-      });
-    },
-  });
+  // $.ajax({
+  //   url: serverUrl + "/stock/groupData",
+  //   method: "get",
+  //   success: function (response) {
+  //     var category = $("#category");
+  //     category.html('<option value="">category</option>');
+  //     $.each(response.data, function (index, item) {
+  //       category.append(
+  //         $('<option style="color: #000;"></option>')
+  //           .val(item.id)
+  //           .html(item.name)
+  //       );
+  //     });
+  //   },
+  // });
 
   $.ajax({
     url: serverUrl + "/stock/supplierData",
@@ -425,7 +425,7 @@ function updateStockData(data) {
         $(".bd-add-product").modal("show");
         $("#nameForm").html("<h3>แก้ไขข้อมูล</h3>");
         $("#productname").val(response.data.name);
-        $("#category").val(response.data.group_id);   
+        $("#category").val(response.data.stock_unit);   
         $("#supplier").val(response.data.supplier_id);
         $("#price").val(response.data.price);
         $("#pcs").val(response.data.pcs);
@@ -445,7 +445,7 @@ function updateStockData(data) {
     for (i_temp = 0; i_temp < array_temp_update.length; i_temp++) {
       if (array_temp_update[i_temp]["id"] == data) {
         $("#productname").val(array_temp_update[i_temp]["name"]);
-        $("#category").val(array_temp_update[i_temp]["group_id"]);
+        $("#category").val(array_temp_update[i_temp]["stock_unit"]);
         $("#supplier").val(array_temp_update[i_temp]["supplier_id"]);
         $("#price").val(array_temp_update[i_temp]["price"]);
         $("#pcs").val(array_temp_update[i_temp]["pcs"]);
@@ -466,7 +466,7 @@ function submitDataUpdate() {
     {
       id: $("#id_db").val(),
       name: $("#productname").val(),
-      group_id: $("#category").val(),
+      stock_unit: $("#category").val(),
       price: $("#price").val(),
       supplier_id: $("#supplier").val(),
       pcs: $("#pcs").val(),

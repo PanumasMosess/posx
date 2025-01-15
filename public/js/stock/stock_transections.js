@@ -28,7 +28,7 @@
             "<font >" +
             data["name_product"] +
             " (" +
-            data["name_group"] +
+            data["stock_unit"] +
             ")</font>"
           );
         },

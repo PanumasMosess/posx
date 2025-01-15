@@ -30,7 +30,7 @@
                                                     <tr>
                                                         <th>No.</th>
                                                         <th>สินค้า</th>
-                                                        <th>หมวดหมู่สินค้า</th>
+                                                        <th>หน่วยสินค้า</th>
                                                         <th>จำนวน (Balance)</th>
                                                         <th>Minimum</th>
                                                         <th>ราคา (<?php echo getValueMoney()->symbolValueMoney; ?>) / หน่วย</th>
@@ -345,16 +345,16 @@
                                 <div class="col-2">
                                     <div class="input-group mb-3">
                                         <div class="input-group-text">
-                                            <span class id="basic-addon1">หมวดหมู่สินค้า</span>
+                                            <span class id="basic-addon1">หน่วยสินค้า</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-10">
                                     <div class="input-group mb-3">
-                                        <!-- <input type="text" class="form-control" placeholder="category" aria-label="category" id="category" name="category" required /> -->
-                                        <select class="form-select" id="category" name="category" required>
+                                        <input type="text" class="form-control" placeholder="unit" aria-label="category" id="category" name="category" required />
+                                        <!-- <select class="form-select" id="category" name="category" required>
                                             <option value="">category</option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                 </div>
                             </div>

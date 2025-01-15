@@ -264,7 +264,7 @@ function tableCut() {
             "<div class='input-group'>" +
             "<input type='number' class='form-control' value='1' pattern='/^-?d+.?d*$/' onKeyPress='if(this.value.length==10) return false;' id='pcs_cut' name='pcs_cut' placeholder='กรอกจำนวน' required>" +
             "<div class='input-group-text'><span class id='basic-addon1'>" +
-            data["unit"] +
+            data["stock_unit"] +
             "</span></div></div>"
           );
         },
