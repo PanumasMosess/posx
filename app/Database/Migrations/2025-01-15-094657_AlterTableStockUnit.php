@@ -10,7 +10,7 @@ class AlterTableStockUnit extends Migration
     {
         //
         $db = \Config\Database::connect();
-        $sql = "ALTER TABLE `stock_posx` CHANGE `group_id` `stock_unit` TEXT NULL DEFAULT NULL";
+        $sql = "ALTER TABLE `stock_posx` CHANGE `group_id` `stock_unit` VARCHAR(255) NULL DEFAULT NULL";
         $db->query($sql);
     }
 
