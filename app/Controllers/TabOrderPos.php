@@ -608,7 +608,7 @@ class TabOrderPos extends BaseController
                                         </div>
                                         <div>
                                             <h5>GrandTotal</h5>
-                                            <span>' . (($orderSummary->order_price_sum + $orderSummary->order_price_sum + $orderSummary->order_card_charge + $orderSummary->order_vat) - $orderSummary->order_discount) - 0 . '</span>
+                                            <span>' . (($orderSummary->order_price_sum + $orderSummary->order_service + $orderSummary->order_card_charge + $orderSummary->order_vat) - $orderSummary->order_discount) - 0 . '</span>
                                         </div>
                                     </div>
                                 </div>

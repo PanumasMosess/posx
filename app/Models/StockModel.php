@@ -16,7 +16,7 @@ class StockModel
         $this->column_order = [
             'stock_posx.stock_code',
             'stock_posx.name',
-            'group_product.name',
+            'stock_posx.stock_unit',
             'stock_posx.pcs',
             'stock_posx.MIN',
             'stock_posx.price',
@@ -29,7 +29,7 @@ class StockModel
         $this->column_search = [
             'stock_posx.stock_code',
             'stock_posx.name',
-            'group_product.name',
+            'stock_posx.stock_unit',
             'stock_posx.pcs',
             'stock_posx.MIN',
             'stock_posx.price',
@@ -159,7 +159,7 @@ class StockModel
         stock_posx.id,
         stock_posx.stock_code, 
         stock_posx.name, 
-        stock_posx.group_id, 
+        stock_posx.stock_unit, 
         stock_posx.MAX, 
         stock_posx.MIN, 
         stock_posx.price,
@@ -173,11 +173,9 @@ class StockModel
         stock_posx.created_at, 
         stock_posx.updated_at, 
         stock_posx.deleted_at,
-        group_product.name as group_name,
-        group_product.unit
+        stock_posx.stock_unit as group_name
        ");
-
-        $builder->join('group_product', 'group_product.id = stock_posx.group_id', 'left');
+       
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         $builder->where("status_stock not in ('CANCEL_STOCK')");
@@ -236,7 +234,7 @@ class StockModel
         stock_posx.id,
         stock_posx.stock_code, 
         stock_posx.name, 
-        stock_posx.group_id, 
+        stock_posx.stock_unit, 
         stock_posx.MAX, 
         stock_posx.MIN, 
         stock_posx.price,
@@ -250,11 +248,8 @@ class StockModel
         stock_posx.created_at, 
         stock_posx.updated_at, 
         stock_posx.deleted_at,
-        group_product.name as group_name,
-        group_product.unit
+        stock_posx.stock_unit as group_name
         FROM stock_posx
-        left join group_product on 
-        group_product.id = stock_posx.group_id
         where stock_posx.status_stock not in ('CANCEL_STOCK') and stock_posx.companies_id = $companie
         ORDER BY stock_posx.stock_code DESC
         ";
@@ -269,10 +264,8 @@ class StockModel
         $sql = "
         SELECT COUNT(a.id) 
         AS count_data
-       FROM stock_posx  a  
-       left join group_product b 
-       on  b.id = a.group_id
-       where a.status_stock not in ('CANCEL_STOCK') and stock_posx.companies_id = $companie
+       FROM stock_posx  a 
+       where a.status_stock not in ('CANCEL_STOCK') and a.companies_id = $companie
        ORDER BY a.stock_code DESC
         ";
 
@@ -348,12 +341,10 @@ class StockModel
         a.balance, 
         a.created_at, 
         b.name as name_product,
-        c.name as name_group
+        b.stock_unit
         FROM stock_transaction  a 
         left join stock_posx b 
-        on a.stock_code = b.stock_code  
-        left join group_product c 
-        on b.group_id = c.id
+        on a.stock_code = b.stock_code
         where a.stock_code = '$code'";
 
         $builder = $this->db->query($sql);
@@ -397,7 +388,7 @@ class StockModel
         stock_posx.id,
         stock_posx.stock_code, 
         stock_posx.name, 
-        stock_posx.group_id, 
+        stock_posx.stock_unit, 
         stock_posx.MAX, 
         stock_posx.MIN, 
         stock_posx.price,
@@ -411,11 +402,9 @@ class StockModel
         stock_posx.created_at, 
         stock_posx.updated_at, 
         stock_posx.deleted_at,
-        group_product.name as group_name,
-        group_product.unit
+        stock_posx.stock_unit as group_name
        ");
-
-        $builder->join('group_product', 'group_product.id = stock_posx.group_id', 'left');
+    
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         $builder->where("status_stock not in ('CANCEL_STOCK')");
@@ -473,7 +462,7 @@ class StockModel
         stock_posx.id,
         stock_posx.stock_code, 
         stock_posx.name, 
-        stock_posx.group_id, 
+        stock_posx.stock_unit, 
         stock_posx.MAX, 
         stock_posx.MIN, 
         stock_posx.price,
@@ -487,11 +476,8 @@ class StockModel
         stock_posx.created_at, 
         stock_posx.updated_at, 
         stock_posx.deleted_at,
-        group_product.name as group_name,
-        group_product.unit
+        stock_posx.stock_unit as group_name
         FROM stock_posx
-        left join group_product on 
-        group_product.id = stock_posx.group_id
         where stock_posx.status_stock not in ('CANCEL_STOCK') and stock_posx.companies_id = $companie
         ORDER BY stock_posx.stock_code DESC
         ";
@@ -608,14 +594,12 @@ class StockModel
     public function getTitemListFormularByCode($code)
     {
         $sql = "SELECT a.order_code,a.id as formular_id, a.stock_code, a.formula_pcs, 
-        a.created_by, a.created_at, c.order_name, b.name, d.unit as name_unit
+        a.created_by, a.created_at, c.order_name, b.name, b.stock_unit as name_unit
         FROM stock_formula a
         left join stock_posx b 
         on b.stock_code = a.stock_code 
         left join `order` c
         on c.order_code = a.order_code
-        left join group_product d
-        on b.group_id = d.id
         where c.order_code = '$code'";
 
         $builder = $this->db->query($sql);
@@ -658,11 +642,10 @@ class StockModel
         stock_transaction.balance, 
         stock_transaction.created_at, 
         stock_posx.name as name_product,
-        group_product.name as name_group
+        stock_posx.stock_unit
         ");
 
         $builder->join('stock_posx', 'stock_posx.stock_code = stock_transaction.stock_code', 'left');
-        $builder->join('group_product', 'stock_posx.group_id = group_product.id', 'left');
         // $builder->join('car_stock_owner', 'car_stock_owner.car_stock_owner_code = car_stock.car_stock_code', 'left');
         // $builder->join('car_stock_finance', 'car_stock_finance.car_stock_finance_code = car_stock.car_stock_code', 'left');
         $builder->where("stock_posx.companies_id", $companie);
@@ -727,12 +710,10 @@ class StockModel
         a.balance, 
         a.created_at, 
         b.name as name_product,
-        c.name as name_group
+        b.stock_unit
         FROM stock_transaction  a 
         left join stock_posx b 
         on a.stock_code = b.stock_code  
-        left join group_product c 
-        on b.group_id = c.id
         where b.companies_id = $companie
         ";
 
