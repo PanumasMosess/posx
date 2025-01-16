@@ -35,7 +35,7 @@
                           <tr>
                             <th style="width: 50px;" scope="col">#</th>
                             <th style="width: 200px;" scope="col">หมวดสินค้า</th>
-                            <th style="width: 200px;" scope="col">หน่วยสินค้า</th>
+                            <!-- <th style="width: 200px;" scope="col">หน่วยสินค้า</th> -->
                             <th style="width: 100px;" scope="col">Printer Name</th>
                             <th style="width: 150px;" scope="col">สร้างขึ้นเมื่อ</th>
                             <th style="width: 150px;" scope="col">แก้ไขล่าสุด</th>
@@ -104,12 +104,12 @@
                 </div>
                 <input type="text" class="form-control" placeholder="หมวดหมู่สินค้า" aria-label="category_name" id="category_name" name="category_name" required />
               </div>
-              <div class="input-group mb-3">
+              <!-- <div class="input-group mb-3">
                 <div class="input-group-text">
                   <span class id="basic-addon1">หน่วยสินค้า</span>
                 </div>
                 <input type="text" class="form-control" placeholder="หน่วยสินค้า" aria-label="product unit" id="productunit" name="productunit" required />
-              </div>
+              </div> -->
               <div class="input-group mb-3">
                 <div class="input-group-text">
                   <span class id="basic-addon1">Printer Name</span>
@@ -156,12 +156,12 @@
                 </div>
                 <input type="text" class="form-control" placeholder="หมวดหมู่สินค้า" aria-label="category_name" id="category_name" name="category_name" required />
               </div>
-              <div class="input-group mb-3">
+              <!-- <div class="input-group mb-3">
                 <div class="input-group-text">
                   <span class id="basic-addon1">หน่วยสินค้า</span>
                 </div>
                 <input type="text" class="form-control" placeholder="หน่วยสินค้า" aria-label="product unit" id="productunit" name="productunit" required />
-              </div>
+              </div> -->
               <div class="input-group mb-3">
                 <div class="input-group-text">
                   <span class id="basic-addon1">Printer Name</span>

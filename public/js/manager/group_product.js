@@ -26,10 +26,11 @@ $formAddGroupProduct
         if ($formAddGroupProduct.find('input[name=category_name]').val() == '') {
             alert('กรุณาระบุชื่อหมวดหมู่สินค้า')
             return false;
-        } else if ($formAddGroupProduct.find('input[name=productunit]').val() == '') {
-            alert('กรุณาระบุชื่อหน่วยสินค้า')
-            return false;
-        }
+        } 
+        // else if ($formAddGroupProduct.find('input[name=productunit]').val() == '') {
+        //     alert('กรุณาระบุชื่อหน่วยสินค้า')
+        //     return false;
+        // }
         // ผ่าน
         else {
 
@@ -125,7 +126,7 @@ $('body').on('click', '.btnEditGroupProduct', function () {
             $('.bd-edit-group-product').modal('show');
             $('#editGroupProduct #GroupProductId').val(res.data.id);
             $('#editGroupProduct #category_name').val(res.data.name);
-            $('#editGroupProduct #productunit').val(res.data.unit);
+            // $('#editGroupProduct #productunit').val(res.data.unit);
             $('#editGroupProduct #printer_name').val(res.data.printer_name);
             // console.log(res.data.GroupProduct_name)
         },
@@ -146,10 +147,11 @@ $formEditGroupProduct
         if ($formEditGroupProduct.find('input[name=category_name]').val() == '') {
             alert('กรุณาระบุชื่อหมวดหมู่สินค้า')
             return false;
-        } else if ($formEditGroupProduct.find('input[name=productunit]').val() == '') {
-            alert('กรุณาระบุชื่อหน่วยสินค้า')
-            return false;
-        }
+        } 
+        // else if ($formEditGroupProduct.find('input[name=productunit]').val() == '') {
+        //     alert('กรุณาระบุชื่อหน่วยสินค้า')
+        //     return false;
+        // }
         // ผ่าน
         else {
             let $me = $(this)
@@ -292,7 +294,7 @@ function loadTableGroupProduct() {
                 "targets": [1],
             },
             {
-                'className': 'text-left',
+                'className': 'text-center',
                 "targets": [2],
             },
             {
@@ -306,11 +308,11 @@ function loadTableGroupProduct() {
             {
                 'className': 'text-center',
                 "targets": [5],
-            },
-            {
-                'className': 'text-center',
-                "targets": [6],
             }
+            // {
+            //     'className': 'text-center',
+            //     "targets": [6],
+            // }
         ],
         "processing": true,
         "serverSide": true,
@@ -329,9 +331,9 @@ function loadTableGroupProduct() {
         {
             data: "name"
         },
-        {
-            data: "unit"
-        },
+        // {
+        //     data: "unit"
+        // },
         {
             data: "printer_name"
         },
