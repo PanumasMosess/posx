@@ -96,7 +96,7 @@ class ManagerController extends BaseController
             // HANDLE REQUEST
             $create = $this->GroupProductModel->insertGroupProduct([
                 'name' => $this->request->getVar('category_name'),
-                'unit' => $this->request->getVar('productunit'),
+                // 'unit' => $this->request->getVar('productunit'),
                 'printer_name' => $this->request->getVar('printer_name'),
                 'updated_by' => '',
                 'created_by' => session()->get('username'),
@@ -160,7 +160,7 @@ class ManagerController extends BaseController
             // HANDLE REQUEST
             $update = $this->GroupProductModel->updateGroupProductByID($id, [
                 'name' => $this->request->getVar('category_name'),
-                'unit' => $this->request->getVar('productunit'),
+                // 'unit' => $this->request->getVar('productunit'),
                 'printer_name' => $this->request->getVar('printer_name'),
                 'updated_by' => session()->get('username'),
                 'updated_at' => date('Y-m-d H:i:s')
