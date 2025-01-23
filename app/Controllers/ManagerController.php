@@ -47,6 +47,9 @@ class ManagerController extends BaseController
         $data['js_critical'] = '
         <script src="' . base_url('/js/manager/group_product.js?v=' . time()) . '"></script>
         <script src="' . base_url('/js/manager/supplier.js?v=' . time()) . '"></script>
+        <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script>
+        <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>
+        <script src="' . base_url('/js/orders/order_manage.js?v=' . time()) . '"></script>    
         ';
 
         echo view('/app', $data);

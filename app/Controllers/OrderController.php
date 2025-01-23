@@ -37,18 +37,18 @@ class OrderController extends BaseController
 
     }
 
-    public function index()
-    {
-        $data['content'] = 'order/order_manage';
-        $data['title'] = ' รายการสินค้า';
-        $data['css_critical'] = '<link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />';
-        $data['js_critical'] = ' 
-            <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script>
-            <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>
-            <script src="' . base_url('/js/orders/order_manage.js?v=' . time()) . '"></script>    
-        ';
-        echo view('/app', $data);
-    }
+    // public function index()
+    // {
+    //     $data['content'] = 'order/order_manage';
+    //     $data['title'] = ' รายการสินค้า';
+    //     $data['css_critical'] = '<link rel="stylesheet" href="' . base_url('css/err_style.css') . '" />';
+    //     $data['js_critical'] = ' 
+    //         <script src="' . base_url('/js/notify/js/notifIt.js') . '"></script>
+    //         <script src="' . base_url('/js/base64/jquery.base64.min.js') . '"></script>
+    //         <script src="' . base_url('/js/orders/order_manage.js?v=' . time()) . '"></script>    
+    //     ';
+    //     echo view('/app', $data);
+    // }
 
     public function insertproduct()
     {
