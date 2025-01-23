@@ -249,24 +249,37 @@
                     <li><a href="javascript:void(0);" onclick="themesChangeLight();return false;">เมนูสว่าง</a></li>
                 </ul>
             </li> -->
-
-            <li class="mm-<?php if (service('uri')->getSegment(1) == 'order') {
+<!-- 
+            <li class="mm-<php if (service('uri')->getSegment(1) == 'order') {
                                 echo 'active';
                             } ?>">
-                <a class="has-arrow <?php echo $disabled ?>" href="#" aria-expanded="false">
+                <a class="has-arrow <php echo $disabled ?>" href="#" aria-expanded="false">
                     <div class="nav_icon_small">
-                        <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
+                        <img src="<php echo base_url('img/menu-icon/20.svg'); ?>" alt />
                     </div>
                     <div class="nav_title">
                         <span class="lang" key='SALE'>การขาย</span>
                     </div>
                 </a>
                 <ul>
-                    <li><a href="<?php echo base_url('/order/order_manage'); ?>" class="<?php echo $disabled ?>">Manage Orders</a></li>
+                    <li><a href="<php echo base_url('/order/order_manage'); ?>" class="<php echo $disabled ?>">Manage Orders</a></li>
                 </ul>
                 <ul>
-                    <li><a href="<?php echo base_url('/order/order_pos'); ?>" class="<?php echo $disabled ?>">Orders POS</a></li>
+                    <li><a href="<php echo base_url('/order/order_pos'); ?>" class="<php echo $disabled ?>">Orders POS</a></li>
                 </ul>
+            </li> -->
+
+            <li class="mm-<?php if (service('uri')->getSegment(1) == 'order') {
+                                echo 'active';
+                            } ?>">
+                <a href="<?php echo base_url('/order/order_pos'); ?>" aria-expanded="false" class="<?php echo $disabled ?>">
+                <div class="nav_icon_small">
+                        <img src="<?php echo base_url('img/menu-icon/20.svg'); ?>" alt />
+                    </div>
+                    <div class="nav_title">
+                        <span class="lang" key='SALE'>การขาย</span>
+                    </div>
+                </a>
             </li>
 
             <li class="">
